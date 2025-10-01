@@ -27,10 +27,13 @@ public class DatabaseConfiguration {
     public DataSource hikariDataSource() {
         HikariConfig config = new HikariConfig();
 
-        // 🔧 Ajusta URL caso venha em formato "postgres://"
         String jdbcUrl = url;
-        if (jdbcUrl != null && jdbcUrl.startsWith("postgres://")) {
-            jdbcUrl = jdbcUrl.replace("postgres://", "jdbc:postgresql://");
+        if (jdbcUrl != null) {
+            if (jdbcUrl.startsWith("postgres://")) {
+                jdbcUrl = jdbcUrl.replace("postgres://", "jdbc:postgresql://");
+            } else if (jdbcUrl.startsWith("postgresql://")) {
+                jdbcUrl = jdbcUrl.replace("postgresql://", "jdbc:postgresql://");
+            }
         }
 
         config.setJdbcUrl(jdbcUrl);
