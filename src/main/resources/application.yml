@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: healthsystemapi
+  datasource:
+    url: jdbc:postgresql://localhost:5432/healthsystem
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
