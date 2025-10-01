@@ -12,28 +12,38 @@ import javax.sql.DataSource;
 public class DatabaseConfiguration {
 
     @Value("${spring.datasource.url}")
-    String url;
-    @Value("${spring.datasource.username}")
-    String username;
-    @Value("${spring.datasource.password}")
-    String password;
-    @Value("${spring.datasource.driverClassName}")
-    String driver;
+    private String url;
+
+    @Value("${spring.datasource.username:}")
+    private String username;
+
+    @Value("${spring.datasource.password:}")
+    private String password;
+
+    @Value("${spring.datasource.driverClassName:org.postgresql.Driver}")
+    private String driver;
 
     @Bean
-    public DataSource hikariDataSource(){
+    public DataSource hikariDataSource() {
         HikariConfig config = new HikariConfig();
+
+        // 🔧 Ajusta URL caso venha em formato "postgres://"
+        String jdbcUrl = url;
+        if (jdbcUrl != null && jdbcUrl.startsWith("postgres://")) {
+            jdbcUrl = jdbcUrl.replace("postgres://", "jdbc:postgresql://");
+        }
+
+        config.setJdbcUrl(jdbcUrl);
         config.setUsername(username);
         config.setPassword(password);
         config.setDriverClassName(driver);
-        config.setJdbcUrl(url);
 
-        config.setMaximumPoolSize(10); // Configurado para 10 conexões no máximo
-        config.setMinimumIdle(1); // Tamanho mínimo do pool
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(1);
         config.setPoolName("healthsystem-db-pool");
-        config.setMaxLifetime(600000); // 10 min máximo para conexão
-        config.setConnectionTimeout(100000); // Tempo máximo para conectar
-        config.setConnectionTestQuery("select 1"); // Testar conexão com o banco
+        config.setMaxLifetime(600000);
+        config.setConnectionTimeout(100000);
+        config.setConnectionTestQuery("select 1");
 
         return new HikariDataSource(config);
     }
