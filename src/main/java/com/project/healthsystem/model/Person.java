@@ -33,12 +33,14 @@ public class Person extends UserBasicAbstraction {
     @OneToOne(mappedBy = "person")
     private Login login;
     @OneToMany(mappedBy = "person")
-    private List<Consultation> consultations;
+    private List<Appointment> appointments;
 
-    @Column(name = "cns", nullable = false)
+    @Column(name = "cns")
     private String cns;
     @Column(name = "mother_name")
     private String motherName;
+    @Column(name = "sus_id")
+    private String susId;
 
     public void coppingFromPersonDto(PersonDTO personDto){
 
@@ -50,6 +52,7 @@ public class Person extends UserBasicAbstraction {
         this.motherName = personDto.getMotherName();
         this.name = personDto.getName();
         this.cns = personDto.getCns();
+        this.susId = personDto.getSusId();
         this.email = personDto.getEmail();
     }
 

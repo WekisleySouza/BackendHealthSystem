@@ -18,7 +18,7 @@ import java.util.List;
 public class CategoryGroup extends IDAbstraction {
 
     @OneToMany(mappedBy = "categoryGroup")
-    private List<Speciality> speciality;
+    private List<ServiceType> serviceTypes;
     @Column(name = "name")
     private String name;
 

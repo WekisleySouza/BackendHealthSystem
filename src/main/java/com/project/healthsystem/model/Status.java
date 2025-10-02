@@ -3,7 +3,6 @@ package com.project.healthsystem.model;
 import com.project.healthsystem.controller.dto.StatusDTO;
 import com.project.healthsystem.model.abstractions.IDAbstraction;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,7 @@ public class Status extends IDAbstraction {
     private String specification;
 
     @OneToMany(mappedBy = "status")
-    private List<Consultation> consultation;
+    private List<Appointment> appointment;
 
     public Status(String specification){
         this.specification = specification;

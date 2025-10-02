@@ -22,7 +22,7 @@ import java.util.List;
 public class Professional extends UserBasicAbstraction {
 
     @OneToMany(mappedBy = "professional")
-    List<Consultation> consultation;
+    List<Appointment> appointment;
 
     public void coppingFromProfessionalDTO(ProfessionalDTO professionalDto){
         this.cpf = professionalDto.getCpf();

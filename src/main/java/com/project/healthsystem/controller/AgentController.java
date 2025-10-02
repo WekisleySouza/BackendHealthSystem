@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.service.AgentService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,7 +25,7 @@ public class AgentController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody AgentDTO agentDTO){
+    public ResponseEntity<Object> save(@RequestBody @Valid AgentDTO agentDTO){
         try{
             Agent agentEntity = agentDTO.mappingToAgent();
             agentService.save(agentEntity);

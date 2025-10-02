@@ -17,23 +17,20 @@ public class Login extends IDAbstraction {
     @OneToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
-    @Column(name = "name")
-    private String name;
+
     @Column(name = "password", nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Roles role;
 
-    public Login(String name, String password, Roles role){
-        this.name = name;
+    public Login(String password, Roles role){
         this.password = password;
         this.role = role;
     }
 
     public void coppingFromLoginDTO(LoginDTO loginDTO){
-        this.name = loginDTO.getName();
-        this.password = loginDTO.getName();
+        this.password = loginDTO.getPassword();
         this.role = Roles.fromString(loginDTO.getRole());
     }
 
