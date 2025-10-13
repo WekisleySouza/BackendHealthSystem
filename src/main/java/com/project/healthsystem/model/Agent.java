@@ -25,10 +25,7 @@ public class Agent extends UserBasicAbstraction {
         this.name = agentDTO.getName();
         this.cpf = agentDTO.getCpf();
         this.phone = agentDTO.getPhone();
-        this.birthday = LocalDate.parse(
-                agentDTO.getBirthday(),
-                DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        );
+        this.birthday = agentDTO.getBirthday();
         this.email = agentDTO.getEmail();
     }
 }

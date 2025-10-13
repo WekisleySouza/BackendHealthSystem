@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "tb_surgery")
@@ -68,14 +67,14 @@ public class Surgery extends IDAbstraction {
         }
 
         public void coppingFromSurgeryDTO(SurgeryDTO surgeryDTO){
-            this.dateTime = LocalDateTime.parse(surgeryDTO.getDateTime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+            this.dateTime = surgeryDTO.getDateTime();
             this.personName = surgeryDTO.getPersonName();
             this.surgeryRisk = surgeryDTO.getSurgeryRisk();
             this.location = surgeryDTO.getLocation();
             this.conclusion = surgeryDTO.getConclusion();
             this.susEasy = surgeryDTO.getSusEasy();
             this.sesap = surgeryDTO.getSesap();
-            this.procedureDate = LocalDate.parse(surgeryDTO.getProcedureDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            this.procedureDate = surgeryDTO.getProcedureDate();
             this.anesthesicRisk = surgeryDTO.getAnesthesicRisk();
             this.observation = surgeryDTO.getObservation();
         }

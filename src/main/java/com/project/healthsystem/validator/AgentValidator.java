@@ -19,7 +19,17 @@ public class AgentValidator {
         }
     }
 
+    public void validate(long id){
+        if(exists(id)){
+            throw new DuplicatedRegisterException("Agent não encontrado!");
+        }
+    }
+
     private boolean isDuplicatedAgent(Agent agent){
         return true;
+    }
+
+    private boolean exists(long id){
+        return repository.existsById(id);
     }
 }

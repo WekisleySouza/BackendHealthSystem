@@ -29,7 +29,7 @@ public class EmployeeDTO {
     private String cpf;
 
     @NotBlank(message = "A data de nascimento é obrigatória!")
-    private String birthday;
+    private LocalDate birthday;
 
     @Email(message = "Formato de e-mail inválido!")
     @Size(max = 320, message = "O e-mail não pode ultrapassar 320 caracteres!")
@@ -42,7 +42,7 @@ public class EmployeeDTO {
         this.name = employee.getName();
         this.cpf = employee.getCpf();
         this.phone = employee.getPhone();
-        this.birthday = employee.getBirthday().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.birthday = employee.getBirthday();
         this.email = employee.getEmail();
     }
 
@@ -50,7 +50,7 @@ public class EmployeeDTO {
         Employee employee = new Employee();
 
         employee.setEmail(this.email);
-        employee.setBirthday(LocalDate.parse(this.birthday, DateTimeFormatter.ofPattern("dd/MM/yyy")));
+        employee.setBirthday(this.birthday);
         employee.setCpf(this.cpf);
         employee.setPhone(this.phone);
         employee.setName(this.name);

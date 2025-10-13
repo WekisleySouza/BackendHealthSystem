@@ -27,10 +27,7 @@ public class Employee extends UserBasicAbstraction {
         this.name = employeeDTO.getName();
         this.cpf = employeeDTO.getCpf();
         this.phone = employeeDTO.getPhone();
-        this.birthday = LocalDate.parse(
-                employeeDTO.getBirthday(),
-                DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        );
+        this.birthday = employeeDTO.getBirthday();
         this.email = employeeDTO.getEmail();
     }
 }

@@ -2,6 +2,8 @@ package com.project.healthsystem.controller.dto;
 
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.model.ServiceType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -15,9 +17,15 @@ public class ServiceTypeDTO {
     private long id;
     private long categoryGroupId;
 
+    @NotBlank(message = "O nome é obrigatório!")
     private String name;
+
+    @NotNull(message = "O valor é obrigatório!")
     private BigDecimal value;
+
+    @NotBlank(message = "O tipo é obrigatório!")
     private String type;
+
 
     public ServiceTypeDTO(ServiceType serviceType){
         this.id = serviceType.getId();

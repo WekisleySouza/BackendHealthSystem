@@ -18,6 +18,7 @@ public class AppointmentService {
     private final AppointmentRepository repository;
     private final StatusRepository statusRepository;
     private final ProfessionalRepository professionalRepository;
+    private final EmployeeRepository employeeRepository;
     private final PersonRepository personRepository;
     private final ServiceTypeRepository specialityRepository;
     private final AppointmentValidator appointmentValidator;
@@ -25,23 +26,25 @@ public class AppointmentService {
     public Appointment save(AppointmentDTO appointmentDTO){
         Optional<Status> statusOptional = statusRepository.findById(appointmentDTO.getStatusId());
         Optional<Professional> professionalOptional = professionalRepository.findById(appointmentDTO.getProfessionalId());
+        Optional<Employee> employeeOptional = employeeRepository.findById(appointmentDTO.getEmployeeId());
         Optional<Person> personOptional = personRepository.findById(appointmentDTO.getPersonId());
         Optional<ServiceType> serviceTypeOptional = specialityRepository.findById(appointmentDTO.getServiceTypeId());
 
-        if(statusOptional.isPresent() && personOptional.isPresent() && serviceTypeOptional.isPresent()){
-            if(professionalOptional.isPresent()){
-                return repository.save(appointmentDTO.mappingToConsultation(
-                        statusOptional.get(),
-                        serviceTypeOptional.get(),
-                        professionalOptional.get(),
-                        personOptional.get()
-                ));
-            }
-            return repository.save(appointmentDTO.mappingToConsultation(
+        if(statusOptional.isPresent() && personOptional.isPresent() && serviceTypeOptional.isPresent() && employeeOptional.isPresent()){
+            Appointment appointment = appointmentDTO.mappingToConsultation(
                     statusOptional.get(),
                     serviceTypeOptional.get(),
-                    personOptional.get()
-            ));
+                    personOptional.get(),
+                    employeeOptional.get()
+            );
+
+            appointment.createdNow();
+
+            if(professionalOptional.isPresent()){
+                appointment.setProfessional(professionalOptional.get());
+            }
+
+            return appointment;
         }
 
         return null;
@@ -52,6 +55,7 @@ public class AppointmentService {
         Optional<Appointment> consultationOptional = repository.findById(id);
         Optional<Status> statusOptional = statusRepository.findById(appointmentDTO.getStatusId());
         Optional<Professional> professionalOptional = professionalRepository.findById(appointmentDTO.getProfessionalId());
+        Optional<Employee> employeeOptional = employeeRepository.findById(appointmentDTO.getEmployeeId());
         Optional<Person> personOptional = personRepository.findById(appointmentDTO.getPersonId());
         Optional<ServiceType> serviceTypeOptional = specialityRepository.findById(appointmentDTO.getServiceTypeId());
 
@@ -59,7 +63,8 @@ public class AppointmentService {
             consultationOptional.isEmpty() ||
             statusOptional.isEmpty() ||
             personOptional.isEmpty() ||
-            serviceTypeOptional.isEmpty()
+            serviceTypeOptional.isEmpty() ||
+            employeeOptional.isEmpty()
         ){
             return false;
         }
@@ -69,6 +74,7 @@ public class AppointmentService {
         appointment.coppingFromConsultationDTO(appointmentDTO);
         appointment.setStatus(statusOptional.get());
         appointment.setPerson(personOptional.get());
+        appointment.setEmployee(employeeOptional.get());
         appointment.setServiceType(serviceTypeOptional.get());
 
         if(professionalOptional.isPresent()){

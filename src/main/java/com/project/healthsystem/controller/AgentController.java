@@ -3,6 +3,7 @@ package com.project.healthsystem.controller;
 import com.project.healthsystem.controller.dto.AgentDTO;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
+import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.service.AgentService;
 import jakarta.validation.Valid;
@@ -44,54 +45,39 @@ public class AgentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") long id, @RequestBody AgentDTO agentDTO){
-        Optional<Agent> agentOptional = agentService.findById(id);
-
-        if(agentOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody AgentDTO agentDTO){
+        try{
+            agentService.update(agentDTO, id);
+            return ResponseEntity.noContent().build();
+        } catch (NotFoundException err){
+            var errorDTO = ErrorResponseDTO.notFound(err.getMessage());
+            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
         }
-
-        var agent = agentOptional.get();
-
-        agent.mappingFromAgentDTO(agentDTO);
-
-        agentService.update(agent);
-
-        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AgentDTO> read(@PathVariable("id") long id){
-        Optional<Agent> agentOptional = agentService.findById(id);
-
-        if(agentOptional.isPresent()){
-            Agent agent = agentOptional.get();
-            AgentDTO agentDto = new AgentDTO(agent);
-            return ResponseEntity.ok(agentDto);
-        }
-        return ResponseEntity.notFound().build();
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Object> read(@PathVariable("id") long id){
+//        try{
+//            return ResponseEntity.ok(agentService.findById(id));
+//        } catch (NotFoundException err){
+//            var errorDTO = ErrorResponseDTO.notFound(err.getMessage());
+//            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
+//        }
+//    }
 
     @GetMapping
     public ResponseEntity<List<AgentDTO>> readAll(){
-        List<Agent> agents = agentService.getAll();
-
-        List<AgentDTO> agentDTOS = agents.stream().map(
-                agent -> new AgentDTO(agent)
-        ).collect(Collectors.toList());
-
-        return ResponseEntity.ok(agentDTOS);
+        return ResponseEntity.ok(agentService.getAll());
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") long id){
-        Optional<Agent> agentOptional = agentService.findById(id);
-
-        if(agentOptional.isPresent()){
-            agentService.delete(agentOptional.get());
+    public ResponseEntity<Object> delete(@PathVariable("id") long id){
+        try{
+            agentService.delete(id);
             return ResponseEntity.noContent().build();
+        } catch (NotFoundException err){
+            var errorDTO = ErrorResponseDTO.notFound(err.getMessage());
+            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
         }
-
-        return ResponseEntity.notFound().build();
     }
 }

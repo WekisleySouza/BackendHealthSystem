@@ -20,7 +20,7 @@ public class Appointment extends IDAbstraction {
     @Column(name="scheduled_at")
     private LocalDateTime scheduledAt;
     @Column(name="created_at")
-    private LocalDateTime createddAt;
+    private LocalDateTime createdAt;
     @Column(name="priorit")
     private String priorit;
 
@@ -43,8 +43,14 @@ public class Appointment extends IDAbstraction {
 
     public void coppingFromConsultationDTO(AppointmentDTO appointmentDTO){
         this.notes = appointmentDTO.getNotes();
-        this.scheduledAt = LocalDateTime.parse(appointmentDTO.getScheduledAt() , DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        this.priorit = appointmentDTO.getPriorit();
+        this.scheduledAt = appointmentDTO.getScheduledAt();
+        this.priorit = appointmentDTO.getPriority();
+    }
+
+    public void createdNow(){
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 
     public long getStatusId(){

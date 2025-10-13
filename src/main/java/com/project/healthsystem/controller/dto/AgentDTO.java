@@ -28,7 +28,7 @@ public class AgentDTO {
     private String phone;
 
     @NotBlank(message = "A data de nascimento é obrigatória!")
-    private String birthday;
+    private LocalDate birthday;
 
     @NotBlank(message = "O e-mail é obrigatório!")
     @Size(
@@ -43,7 +43,7 @@ public class AgentDTO {
         this.name = agent.getName();
         this.cpf = agent.getCpf();
         this.phone = agent.getPhone();
-        this.birthday = agent.getBirthday().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.birthday = agent.getBirthday();
         this.email = agent.getEmail();
     }
 
@@ -51,7 +51,7 @@ public class AgentDTO {
         Agent agent = new Agent();
 
         agent.setEmail(this.email);
-        agent.setBirthday(LocalDate.parse(this.birthday, DateTimeFormatter.ofPattern("dd/MM/yyy")));
+        agent.setBirthday(this.birthday);
         agent.setCpf(this.cpf);
         agent.setPhone(this.phone);
         agent.setName(this.name);

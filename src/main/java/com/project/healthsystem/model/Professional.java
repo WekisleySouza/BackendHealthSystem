@@ -26,10 +26,7 @@ public class Professional extends UserBasicAbstraction {
 
     public void coppingFromProfessionalDTO(ProfessionalDTO professionalDto){
         this.cpf = professionalDto.getCpf();
-        this.birthday = LocalDate.parse(
-                professionalDto.getBirthday(),
-                DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        );
+        this.birthday = professionalDto.getBirthday();
         this.name = professionalDto.getName();
         this.email = professionalDto.getEmail();
         this.phone = professionalDto.getPhone();

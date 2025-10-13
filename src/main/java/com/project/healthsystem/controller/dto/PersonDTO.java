@@ -34,7 +34,7 @@ public class PersonDTO {
     private String motherName;
 
     @NotNull(message = "A data de nascimento é obrigatória!")
-    private String birthday;
+    private LocalDate birthday;
 
     @NotNull(message = "O CNS é obrigatório!")
     private String cns;
@@ -53,7 +53,7 @@ public class PersonDTO {
 
     public PersonDTO(String name, LocalDate birthday, String cns, String cpf){
         this.name = name;
-        this.birthday = birthday.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.birthday = birthday;
         this.cns = cns;
         this.cpf = cpf;
     }
@@ -65,7 +65,7 @@ public class PersonDTO {
         this.agentId = person.getAgentId();
 
         this.name = person.getName();
-        this.birthday = person.getBirthday().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.birthday = person.getBirthday();
         this.cns = person.getCns();
         this.susId = person.getSusId();
         this.cpf = person.getCpf();
@@ -77,7 +77,7 @@ public class PersonDTO {
         Person person = new Person();
 
         person.setName(this.name);
-        person.setBirthday(LocalDate.parse(this.birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        person.setBirthday(this.birthday);
         person.setCns(this.cns);
         person.setSusId(this.susId);
         person.setCpf(this.cpf);
@@ -92,7 +92,7 @@ public class PersonDTO {
         Person person = new Person();
 
         person.setName(this.name);
-        person.setBirthday(LocalDate.parse(this.birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        person.setBirthday(this.birthday);
         person.setCns(this.cns);
         person.setSusId(this.susId);
         person.setCpf(this.cpf);

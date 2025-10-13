@@ -45,10 +45,7 @@ public class Person extends UserBasicAbstraction {
     public void coppingFromPersonDto(PersonDTO personDto){
 
         this.cpf = personDto.getCpf();
-        this.birthday = LocalDate.parse(
-                personDto.getBirthday(),
-                DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        );
+        this.birthday = personDto.getBirthday();
         this.motherName = personDto.getMotherName();
         this.name = personDto.getName();
         this.cns = personDto.getCns();

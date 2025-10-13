@@ -17,19 +17,26 @@ import java.time.format.DateTimeFormatter;
 public class AppointmentDTO {
 
     private long id;
-    @NotNull
-    private long statusId;
-    private long professionalId;
-    @NotNull
-    private long employeeId;
-    @NotNull
-    private long personId;
-    private long serviceTypeId;
+    @NotNull(message = "O status é obrigatório!")
+    private Long statusId;
+
+    private Long professionalId;
+
+    @NotNull(message = "O funcionário responsável é obrigatório!")
+    private Long employeeId;
+
+    @NotNull(message = "A pessoa é obrigatória!")
+    private Long personId;
+
+    private Long serviceTypeId;
 
     private String notes;
-    private String scheduledAt;
-    private String createdAt;
-    private String priorit;
+
+    private LocalDateTime scheduledAt;
+
+    private LocalDateTime createdAt;
+
+    private String priority;
 
     public AppointmentDTO(Appointment appointment){
         this.id = appointment.getId();
@@ -39,59 +46,19 @@ public class AppointmentDTO {
         this.serviceTypeId = appointment.getServiceTypeId();
 
         this.notes = appointment.getNotes();
-        this.scheduledAt = appointment.getScheduledAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        this.priorit = appointment.getPriorit();
+        this.scheduledAt = appointment.getScheduledAt();
+        this.priority = appointment.getPriorit();
     }
 
-    public Appointment mappingToConsultation(Status status, ServiceType specialty){
+    public Appointment mappingToConsultation(Status status, ServiceType specialty, Person person, Employee employee){
         Appointment appointment = new Appointment(
                 this.notes,
-                LocalDateTime.parse(this.scheduledAt, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
-                this.priorit
-        );
-        appointment.setStatus(status);
-        appointment.setServiceType(specialty);
-        return appointment;
-    }
-
-    public Appointment mappingToConsultation(Status status, ServiceType specialty, Professional professional){
-        Appointment appointment = new Appointment(
-                this.notes,
-                LocalDateTime.parse(this.scheduledAt, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
-                this.priorit
-        );
-        appointment.setStatus(status);
-        appointment.setProfessional(professional);
-        appointment.setServiceType(specialty);
-        return appointment;
-    }
-
-    public Appointment mappingToConsultation(Status status, ServiceType specialty, Person person){
-        Appointment appointment = new Appointment(
-                this.notes,
-                LocalDateTime.parse(this.scheduledAt, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
-                this.priorit
+                this.scheduledAt,
+                this.priority
         );
         appointment.setStatus(status);
         appointment.setPerson(person);
-        appointment.setServiceType(specialty);
-        return appointment;
-    }
-
-    public Appointment mappingToConsultation(
-            Status status,
-            ServiceType specialty,
-            Professional professional,
-            Person person
-    ){
-        Appointment appointment = new Appointment(
-                this.notes,
-                LocalDateTime.parse(this.scheduledAt, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
-                this.priorit
-        );
-        appointment.setStatus(status);
-        appointment.setProfessional(professional);
-        appointment.setPerson(person);
+        appointment.setEmployee(employee);
         appointment.setServiceType(specialty);
         return appointment;
     }
