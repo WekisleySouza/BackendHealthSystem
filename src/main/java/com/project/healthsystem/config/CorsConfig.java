@@ -14,9 +14,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // libera todos os endpoints
-                        .allowedOrigins("http://localhost:5173") // libera só o seu front do Vite
+                        .allowedOriginPatterns("*") // permite qualquer origem (Brasil e mundo)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
+                        .allowedHeaders("*")
+                        .allowCredentials(false); // se quiser permitir cookies, mude para true
             }
         };
     }
