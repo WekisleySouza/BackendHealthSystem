@@ -28,21 +28,21 @@ public class AgentService {
     public void update(AgentDTO agentDTO, long id){
         agentValidator.validate(id);
         Optional<Agent> agentOptional = repository.findById(id);
-        Agent agent = agentMapper.toEntity(agentDTO);
-
-
+        Agent agent = agentMapper.toEntityWhenHasId(agentOptional.get(), agentDTO);
+        agentValidator.validate(agent);
+        this.repository.save(agent);
     }
 
-//    public Optional<AgentDTO> findById(long id){
-//        agentValidator.validate(id);
-//        return agentMapper.toDto(repository.findById(id).get());
-//    }
+    public AgentDTO findById(long id){
+        agentValidator.validate(id);
+        return agentMapper.toDto(repository.findById(id).get());
+    }
 
     public List<AgentDTO> getAll(){
         return repository
                 .findAll()
                 .stream()
-                .map(AgentDTO::new)
+                .map(agentMapper::toDto)
                 .collect(Collectors.toList());
     }
 

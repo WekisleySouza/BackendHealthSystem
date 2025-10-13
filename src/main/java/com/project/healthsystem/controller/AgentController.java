@@ -2,11 +2,13 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.dto.AgentDTO;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
+import com.project.healthsystem.controller.mappers.AgentMapper;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.service.AgentService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,17 +20,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/agents")
+@RequiredArgsConstructor
 public class AgentController {
     private final AgentService agentService;
-
-    public AgentController(AgentService agentService){
-        this.agentService = agentService;
-    }
+    private final AgentMapper agentMapper;
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid AgentDTO agentDTO){
         try{
-            Agent agentEntity = agentDTO.mappingToAgent();
+            Agent agentEntity = agentMapper.toEntity(agentDTO);
             agentService.save(agentEntity);
 
             URI location = ServletUriComponentsBuilder
@@ -55,15 +55,15 @@ public class AgentController {
         }
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Object> read(@PathVariable("id") long id){
-//        try{
-//            return ResponseEntity.ok(agentService.findById(id));
-//        } catch (NotFoundException err){
-//            var errorDTO = ErrorResponseDTO.notFound(err.getMessage());
-//            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-//        }
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> read(@PathVariable("id") long id){
+        try{
+            return ResponseEntity.ok(agentService.findById(id));
+        } catch (NotFoundException err){
+            var errorDTO = ErrorResponseDTO.notFound(err.getMessage());
+            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<AgentDTO>> readAll(){

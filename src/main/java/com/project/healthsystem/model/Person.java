@@ -1,12 +1,9 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.controller.dto.PersonDTO;
 import com.project.healthsystem.model.abstractions.UserBasicAbstraction;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,17 +38,6 @@ public class Person extends UserBasicAbstraction {
     private String motherName;
     @Column(name = "sus_id")
     private String susId;
-
-    public void coppingFromPersonDto(PersonDTO personDto){
-
-        this.cpf = personDto.getCpf();
-        this.birthday = personDto.getBirthday();
-        this.motherName = personDto.getMotherName();
-        this.name = personDto.getName();
-        this.cns = personDto.getCns();
-        this.susId = personDto.getSusId();
-        this.email = personDto.getEmail();
-    }
 
     public long getAgentId(){
         if(agent != null){

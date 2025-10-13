@@ -5,9 +5,15 @@ import com.project.healthsystem.model.Agent;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface AgentMapper {
+public abstract class AgentMapper {
 
-    Agent toEntity(AgentDTO dto);
+    public abstract Agent toEntity(AgentDTO dto);
 
-    AgentDTO toDto(Agent agent);
+    public abstract AgentDTO toDto(Agent agent);
+
+    public Agent toEntityWhenHasId(Agent agent, AgentDTO agentDTO){
+        Agent newAgent = toEntity(agentDTO);
+        agent.setId(agent.getId());
+        return newAgent;
+    }
 }

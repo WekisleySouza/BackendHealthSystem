@@ -3,7 +3,6 @@ package com.project.healthsystem.validator;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.repository.AgentRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +19,13 @@ public class AgentValidator {
     }
 
     public void validate(long id){
-        if(exists(id)){
+        if(!exists(id)){
             throw new DuplicatedRegisterException("Agent não encontrado!");
         }
     }
 
     private boolean isDuplicatedAgent(Agent agent){
-        return true;
+        return false;
     }
 
     private boolean exists(long id){

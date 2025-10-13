@@ -20,12 +20,4 @@ public class Agent extends UserBasicAbstraction {
 
     @OneToMany(mappedBy = "agent")
     private List<Person> persons;
-
-    public void mappingFromAgentDTO(AgentDTO agentDTO){
-        this.name = agentDTO.getName();
-        this.cpf = agentDTO.getCpf();
-        this.phone = agentDTO.getPhone();
-        this.birthday = agentDTO.getBirthday();
-        this.email = agentDTO.getEmail();
-    }
 }
