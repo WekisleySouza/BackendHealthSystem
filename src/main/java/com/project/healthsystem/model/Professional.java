@@ -1,7 +1,6 @@
 package com.project.healthsystem.model;
 
 
-import com.project.healthsystem.controller.dto.ProfessionalDTO;
 import com.project.healthsystem.model.abstractions.UserBasicAbstraction;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -10,8 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -23,12 +20,4 @@ public class Professional extends UserBasicAbstraction {
 
     @OneToMany(mappedBy = "professional")
     List<Appointment> appointment;
-
-    public void coppingFromProfessionalDTO(ProfessionalDTO professionalDto){
-        this.cpf = professionalDto.getCpf();
-        this.birthday = professionalDto.getBirthday();
-        this.name = professionalDto.getName();
-        this.email = professionalDto.getEmail();
-        this.phone = professionalDto.getPhone();
-    }
 }

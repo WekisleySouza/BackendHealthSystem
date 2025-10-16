@@ -1,15 +1,14 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ProfessionalDTO;
+import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.repository.ProfessionalRepository;
 import com.project.healthsystem.validator.ProfessionalValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,36 +17,30 @@ public class ProfessionalService {
 
     private final ProfessionalRepository repository;
     private final ProfessionalValidator professionalValidator;
+    private final ProfessionalMapper professionalMapper;
 
-    public Professional save(Professional professional){
-        return repository.save(professional);
+    public Professional save(ProfessionalDTO professionalDTO){
+        return repository.save(professionalValidator.validateSave(professionalDTO));
     }
 
     public void update(ProfessionalDTO professionalDTO, long id){
-        professionalValidator.validate(id);
-        Optional<Professional> professionalOptional = repository.findById(id);
-        var professional = professionalOptional.get();
-        professional.coppingFromProfessionalDTO(professionalDTO);
-
-        professionalValidator.validate(professional);
+        Professional professional = professionalValidator.validateUpdate(professionalDTO, id);
         repository.save(professional);
     }
 
     public List<ProfessionalDTO> getAll(){
         List<Professional> professionals = repository.findAll();
         return  professionals.stream()
-            .map(ProfessionalDTO::new)
+            .map(professionalMapper::toDto)
             .collect(Collectors.toList());
     }
 
-    public Optional<Professional> findById(long id){
-        professionalValidator.validate(id);
-        return this.repository.findById(id);
+    public Professional findById(long id){
+        return professionalValidator.validateFindById(id);
     }
 
     public void delete(long id){
-        professionalValidator.validate(id);
-        Optional<Professional> professionalOptional = repository.findById(id);
-        repository.delete(professionalOptional.get());
+        Professional professional = professionalValidator.validateDelete(id);
+        repository.delete(professional);
     }
 }

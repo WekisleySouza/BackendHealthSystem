@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ConditionDTO;
+import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.repository.ConditionRepository;
 import com.project.healthsystem.validator.ConditionValidator;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,50 +18,40 @@ public class ConditionService {
 
     private final ConditionRepository repository;
     private final ConditionValidator conditionValidator;
+    private final ConditionMapper conditionMapper;
 
-    public Condition save(Condition condition){
-        this.conditionValidator.validate(condition);
+    public Condition save(ConditionDTO conditionDTO){
+        Condition condition = this.conditionValidator.validateSave(conditionDTO);
         return repository.save(condition);
     }
 
     public void update(ConditionDTO conditionDTO, long id){
-        this.conditionValidator.validate(id);
-
-        Optional<Condition> conditionOptional = repository.findById(id);
-
-        var condition = conditionOptional.get();
-
-        condition.coppingFromConditionDTO(conditionDTO);
-
+        Condition condition = this.conditionValidator.validateUpdate(conditionDTO, id);
         repository.save(condition);
     }
 
     public List<ConditionDTO> getAll(){
         List<Condition> conditions = repository.findAll();
         return conditions.stream()
-                .map(ConditionDTO::new)
+                .map(conditionMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public Optional<Condition> findById(long id){
-        this.conditionValidator.validate(id);
-
-        return this.repository.findById(id);
+    public Condition findById(long id){
+        return this.conditionValidator.validateFindById(id);
     }
 
     public List<Condition> findByIds(List<Long> ids){
         List<Condition> conditions = new ArrayList<>();
         for(long id : ids){
-            conditionValidator.validate(id);
-            Optional<Condition> condition = repository.findById(id);
-            conditions.add(condition.get());
+            Condition condition = this.findById(id);
+            conditions.add(condition);
         }
         return conditions;
     }
 
     public void delete(long id){
-        conditionValidator.validate(id);
-        Optional<Condition> conditionOptional = repository.findById(id);
-        repository.delete(conditionOptional.get());
+        Condition condition = conditionValidator.validateDelete(id);
+        repository.delete(condition);
     }
 }

@@ -42,47 +42,10 @@ public class Surgery extends IDAbstraction {
     @ManyToOne
     private SurgeryType surgeryType;
 
-    public Surgery(
-                LocalDateTime dateTime,
-                String personName,
-                String surgeryRisk,
-                String location,
-                String conclusion,
-                String susEasy,
-                String sesap,
-                LocalDate procedureDate,
-                String anesthesicRisk,
-                String observation
-        ) {
-            this.dateTime = dateTime;
-            this.personName = personName;
-            this.surgeryRisk = surgeryRisk;
-            this.location = location;
-            this.conclusion = conclusion;
-            this.susEasy = susEasy;
-            this.sesap = sesap;
-            this.procedureDate = procedureDate;
-            this.anesthesicRisk = anesthesicRisk;
-            this.observation = observation;
+    public long getSurgeryTypeId(){
+        if(this.surgeryType != null){
+            return this.surgeryType.getId();
         }
-
-        public void coppingFromSurgeryDTO(SurgeryDTO surgeryDTO){
-            this.dateTime = surgeryDTO.getDateTime();
-            this.personName = surgeryDTO.getPersonName();
-            this.surgeryRisk = surgeryDTO.getSurgeryRisk();
-            this.location = surgeryDTO.getLocation();
-            this.conclusion = surgeryDTO.getConclusion();
-            this.susEasy = surgeryDTO.getSusEasy();
-            this.sesap = surgeryDTO.getSesap();
-            this.procedureDate = surgeryDTO.getProcedureDate();
-            this.anesthesicRisk = surgeryDTO.getAnesthesicRisk();
-            this.observation = surgeryDTO.getObservation();
-        }
-
-        public long getSurgeryTypeId(){
-            if(this.surgeryType != null){
-                return this.surgeryType.getId();
-            }
-            return -1;
-        }
+        return -1;
     }
+}

@@ -17,4 +17,8 @@ public record ErrorResponseDTO(int status, String message, List<FieldErrorDTO> e
     public static ErrorResponseDTO notFound(String message){
         return new ErrorResponseDTO(HttpStatus.NOT_FOUND.value(), message, List.of());
     }
+
+    public static ErrorResponseDTO invalidData(String message){
+        return new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), message, List.of());
+    }
 }

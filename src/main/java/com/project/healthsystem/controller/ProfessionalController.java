@@ -1,10 +1,9 @@
 package com.project.healthsystem.controller;
 
-import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.ProfessionalDTO;
-import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.service.ProfessionalService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/professionals")
@@ -23,9 +20,8 @@ public class ProfessionalController {
     private final ProfessionalService professionalService;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody ProfessionalDTO professionalDto){
-        Professional professionalEntity = professionalDto.mappingToProfessional();
-        professionalService.save(professionalEntity);
+    public ResponseEntity<Void> save(@RequestBody @Valid ProfessionalDTO professionalDto){
+        Professional professionalEntity = professionalService.save(professionalDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -37,14 +33,9 @@ public class ProfessionalController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody ProfessionalDTO professionalDto){
-        try{
-            professionalService.update(professionalDto, id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
+    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid ProfessionalDTO professionalDto){
+        professionalService.update(professionalDto, id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
@@ -55,12 +46,7 @@ public class ProfessionalController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
-        try{
-            professionalService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
+        professionalService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

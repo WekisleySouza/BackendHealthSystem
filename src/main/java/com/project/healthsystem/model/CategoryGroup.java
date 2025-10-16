@@ -1,6 +1,5 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.controller.dto.CategoryGroupDTO;
 import com.project.healthsystem.model.abstractions.IDAbstraction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,11 +21,4 @@ public class CategoryGroup extends IDAbstraction {
     @Column(name = "name")
     private String name;
 
-    public CategoryGroup(String name){
-        this.name = name;
-    }
-
-    public void coppingFromCategoryGroupDTO(CategoryGroupDTO categoryGroupDTO){
-        this.name = categoryGroupDTO.getName();
-    }
 }

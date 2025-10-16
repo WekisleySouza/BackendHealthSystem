@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.SurgeryTypeDTO;
+import com.project.healthsystem.controller.mappers.SurgeryTypeMapper;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.repository.SurgeryTypeRepository;
 import com.project.healthsystem.validator.SurgeryTypeValidator;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class SurgeryTypeService {
     private final SurgeryTypeRepository repository;
     private final SurgeryTypeValidator surgeryTypeValidator;
+    private final SurgeryTypeMapper surgeryTypeMapper;
 
     public SurgeryType save(SurgeryType surgeryType){
         return repository.save(surgeryType);
@@ -25,8 +27,7 @@ public class SurgeryTypeService {
         surgeryTypeValidator.validate(id);
 
         Optional<SurgeryType> surgeryTypeOptional = repository.findById(id);
-        var surgeryType = surgeryTypeOptional.get();
-        surgeryType.coppingFromSurgeryTypeDTO(surgeryTypeDTO);
+        var surgeryType = surgeryTypeMapper.toEntityWhenHasId(surgeryTypeOptional.get(), surgeryTypeDTO);
 
         surgeryTypeValidator.validate(surgeryType);
         repository.save(surgeryType);
@@ -36,7 +37,7 @@ public class SurgeryTypeService {
         return repository
             .findAll()
             .stream()
-            .map(SurgeryTypeDTO::new)
+            .map(surgeryTypeMapper::toDto)
             .collect(Collectors.toList());
     }
 

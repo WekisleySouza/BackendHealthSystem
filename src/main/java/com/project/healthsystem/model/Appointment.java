@@ -1,13 +1,11 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.controller.dto.AppointmentDTO;
 import com.project.healthsystem.model.abstractions.IDAbstraction;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "consultation")
@@ -35,18 +33,6 @@ public class Appointment extends IDAbstraction {
     @ManyToOne
     private Status status;
 
-    public Appointment(String notes, LocalDateTime scheduledAt, String priorit) {
-        this.notes = notes;
-        this.scheduledAt = scheduledAt;
-        this.priorit = priorit;
-    }
-
-    public void coppingFromConsultationDTO(AppointmentDTO appointmentDTO){
-        this.notes = appointmentDTO.getNotes();
-        this.scheduledAt = appointmentDTO.getScheduledAt();
-        this.priorit = appointmentDTO.getPriority();
-    }
-
     public void createdNow(){
         if (this.createdAt == null) {
             this.createdAt = LocalDateTime.now();
@@ -63,6 +49,13 @@ public class Appointment extends IDAbstraction {
     public long getProfessionalId(){
         if(this.professional != null){
             return professional.getId();
+        }
+        return -1;
+    }
+
+    public long getEmployeeId(){
+        if(this.employee != null){
+            return this.employee.getId();
         }
         return -1;
     }

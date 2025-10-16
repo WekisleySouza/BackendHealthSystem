@@ -22,12 +22,4 @@ public class Employee extends UserBasicAbstraction {
     private Login login;
     @OneToMany(mappedBy = "employee")
     private List<Appointment> appointments;
-
-    public void mappingFromEmployeeDTO(EmployeeDTO employeeDTO){
-        this.name = employeeDTO.getName();
-        this.cpf = employeeDTO.getCpf();
-        this.phone = employeeDTO.getPhone();
-        this.birthday = employeeDTO.getBirthday();
-        this.email = employeeDTO.getEmail();
-    }
 }

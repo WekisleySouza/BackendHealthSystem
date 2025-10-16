@@ -1,6 +1,5 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.controller.dto.LoginDTO;
 import com.project.healthsystem.model.abstractions.IDAbstraction;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,16 +22,6 @@ public class Login extends IDAbstraction {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Roles role;
-
-    public Login(String password, Roles role){
-        this.password = password;
-        this.role = role;
-    }
-
-    public void coppingFromLoginDTO(LoginDTO loginDTO){
-        this.password = loginDTO.getPassword();
-        this.role = Roles.fromString(loginDTO.getRole());
-    }
 
     public long getPersonId(){
         if(this.person != null){

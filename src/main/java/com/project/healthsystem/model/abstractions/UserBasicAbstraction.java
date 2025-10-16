@@ -11,7 +11,7 @@ public abstract class UserBasicAbstraction extends IDAbstraction{
 
     @Column(name = "name", length = 100, nullable = false)
     protected String name;
-    @Column(name = "cpf", nullable = false, length = 11)
+    @Column(name = "cpf", nullable = false, length = 15)
     protected String cpf;
     @Column(name = "phone")
     protected String phone;

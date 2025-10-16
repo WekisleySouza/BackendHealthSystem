@@ -1,10 +1,9 @@
 package com.project.healthsystem.controller;
 
-import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.ServiceTypeDTO;
-import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.ServiceType;
 import com.project.healthsystem.service.ServiceTypeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +13,14 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/service-type")
+@RequestMapping("/service-types")
 @RequiredArgsConstructor
 public class ServiceTypeController {
 
     private final ServiceTypeService serviceTypeService;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody ServiceTypeDTO serviceTypeDTO){
+    public ResponseEntity<Void> save(@RequestBody @Valid ServiceTypeDTO serviceTypeDTO){
         ServiceType serviceType = serviceTypeService.save(serviceTypeDTO);
 
         URI location = ServletUriComponentsBuilder
@@ -34,14 +33,9 @@ public class ServiceTypeController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody ServiceTypeDTO serviceTypeDTO){
-        try{
-            serviceTypeService.update(serviceTypeDTO, id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
+    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid ServiceTypeDTO serviceTypeDTO){
+        serviceTypeService.update(serviceTypeDTO, id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
@@ -52,13 +46,7 @@ public class ServiceTypeController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
-        try{
-            serviceTypeService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
-
+        serviceTypeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

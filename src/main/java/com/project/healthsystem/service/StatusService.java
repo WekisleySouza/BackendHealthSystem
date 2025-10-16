@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.StatusDTO;
+import com.project.healthsystem.controller.mappers.StatusMapper;
 import com.project.healthsystem.model.Status;
 import com.project.healthsystem.repository.StatusRepository;
 import com.project.healthsystem.validator.StatusValidator;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,35 +17,31 @@ public class StatusService {
 
     private final StatusRepository repository;
     private final StatusValidator statusValidator;
+    private final StatusMapper statusMapper;
 
-    public Status save(Status status){
+    public Status save(StatusDTO statusDTO){
+        Status status = statusValidator.validateSave(statusDTO);
         return repository.save(status);
     }
 
     public void update(StatusDTO statusDTO, long id){
-        statusValidator.validate(id);
-        Optional<Status> statusOptional = repository.findById(id);
-        var status = statusOptional.get();
-        status.coppingFromStatusDTO(statusDTO);
-        statusValidator.validate(id);
+        Status status = statusValidator.validateUpdate(statusDTO, id);
         repository.save(status);
     }
 
     public List<StatusDTO> getAll(){
         return repository.findAll()
             .stream()
-            .map(StatusDTO::new)
+            .map(statusMapper::toDto)
             .collect(Collectors.toList());
     }
 
-    public Optional<Status> findById(long id){
-        statusValidator.validate(id);
-        return this.repository.findById(id);
+    public Status findById(long id){
+        return this.statusValidator.validateFindById(id);
     }
 
     public void delete(long id){
-        statusValidator.validate(id);
-        Optional<Status> statusOptional = repository.findById(id);
-        repository.delete(statusOptional.get());
+        Status status = statusValidator.validateDelete(id);
+        repository.delete(status);
     }
 }

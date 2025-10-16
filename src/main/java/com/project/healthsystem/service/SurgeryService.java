@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.SurgeryDTO;
+import com.project.healthsystem.controller.mappers.SurgeryMapper;
 import com.project.healthsystem.model.Surgery;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.repository.SurgeryRepository;
@@ -20,6 +21,7 @@ public class SurgeryService {
     private final SurgeryRepository repository;
     private final SurgeryTypeRepository surgeryTypeRepository;
     private final SurgeryValidator surgeryValidator;
+    private final SurgeryMapper surgeryMapper;
 
     public Surgery save(SurgeryDTO surgeryDTO){
         Optional<SurgeryType> surgeryTypeOptional = surgeryTypeRepository.findById(surgeryDTO.getSurgeryTypeId());
@@ -28,7 +30,10 @@ public class SurgeryService {
             return null;
         }
 
-        return repository.save(surgeryDTO.mappingToSurgery(surgeryTypeOptional.get()));
+        Surgery surgery = surgeryMapper.toEntity(surgeryDTO);
+        surgery.setSurgeryType(surgeryTypeOptional.get());
+
+        return repository.save(surgery);
     }
 
     public void update(SurgeryDTO surgeryDTO, long id){
@@ -36,8 +41,7 @@ public class SurgeryService {
         Optional<Surgery> surgeryOptional = repository.findById(id);
         Optional<SurgeryType> surgeryTypeOptional = surgeryTypeRepository.findById(surgeryDTO.getSurgeryTypeId());
 
-        var surgery = surgeryOptional.get();
-        surgery.coppingFromSurgeryDTO(surgeryDTO);
+        var surgery = surgeryMapper.toEntityWhenHasId(surgeryOptional.get(), surgeryDTO);
         surgery.setSurgeryType(surgeryTypeOptional.get());
 
         surgeryValidator.validate(surgery);
@@ -48,7 +52,7 @@ public class SurgeryService {
         return repository
             .findAll()
             .stream()
-            .map(SurgeryDTO::new)
+            .map(surgeryMapper::toDto)
             .collect(Collectors.toList());
     }
 

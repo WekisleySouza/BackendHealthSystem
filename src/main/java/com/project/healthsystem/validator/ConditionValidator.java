@@ -1,28 +1,38 @@
 package com.project.healthsystem.validator;
 
+import com.project.healthsystem.controller.dto.ConditionDTO;
+import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.repository.ConditionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ConditionValidator {
 
-    @Autowired
-    private ConditionRepository repository;
+    private final ConditionRepository conditionRepository;
+    private final ConditionMapper conditionMapper;
 
-    public void validate(Condition condition){
-
+    public Condition validateSave(ConditionDTO conditionDTO){
+        return conditionMapper.toEntity(conditionDTO);
     }
 
-    public void validate(long id){
-        if(!exists(id)){
-            throw new NotFoundException("Não existe condição com este id!");
-        }
+    public Condition validateUpdate(ConditionDTO conditionDTO, long id){
+        Condition condition = conditionRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Condition não encontrada!"));
+        condition = conditionMapper.toEntityWhenHasId(condition, conditionDTO);
+        return condition;
     }
 
-    private boolean exists(long id){
-        return this.repository.existsById(id);
+    public Condition validateFindById(long id){
+        return conditionRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Condition não encontrada!"));
+    }
+
+    public Condition validateDelete(long id){
+        return conditionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Condition não encontrada!"));
     }
 }

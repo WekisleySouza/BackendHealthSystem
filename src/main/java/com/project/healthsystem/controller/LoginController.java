@@ -1,10 +1,8 @@
 package com.project.healthsystem.controller;
 
-import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.LoginDTO;
-import com.project.healthsystem.exceptions.NotFoundException;
-import com.project.healthsystem.model.Login;
 import com.project.healthsystem.service.LoginService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +10,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/login")
@@ -22,8 +18,8 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody LoginDTO loginDTO){
-        Login login = loginService.save(loginDTO);
+    public ResponseEntity<Void> save(@RequestBody @Valid LoginDTO loginDTO){
+        LoginDTO login = loginService.save(loginDTO);
 
         URI location = ServletUriComponentsBuilder
             .fromCurrentRequest()
@@ -35,14 +31,9 @@ public class LoginController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody LoginDTO loginDTO){
-        try {
-            loginService.update(loginDTO, id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
+    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid LoginDTO loginDTO){
+        loginService.update(loginDTO, id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
@@ -53,12 +44,7 @@ public class LoginController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
-        try{
-            loginService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
+        loginService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

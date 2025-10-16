@@ -1,7 +1,6 @@
 package com.project.healthsystem.validator;
 
 import com.project.healthsystem.exceptions.NotFoundException;
-import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.repository.SurgeryTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,27 +1,38 @@
 package com.project.healthsystem.validator;
 
+import com.project.healthsystem.controller.dto.StatusDTO;
+import com.project.healthsystem.controller.mappers.StatusMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Status;
 import com.project.healthsystem.repository.StatusRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class StatusValidator {
-    @Autowired
-    private StatusRepository statusRepository;
 
-    public void validate(Status status){
+    private final StatusRepository statusRepository;
+    private final StatusMapper statusMapper;
 
+    public Status validateSave(StatusDTO statusDTO){
+        return statusMapper.toEntity(statusDTO);
     }
 
-    public void validate(long id){
-        if(!exists(id)){
-            throw new NotFoundException("Não foi encontrado status com este id!");
-        }
+    public Status validateUpdate(StatusDTO statusDTO, long id){
+        Status status = statusRepository.findById(id)
+            .orElseThrow(()  -> new NotFoundException("Status não encontrado!"));
+        status = statusMapper.toEntityWhenHasId(status, statusDTO);
+        return status;
     }
 
-    public boolean exists(long id){
-        return statusRepository.existsById(id);
+    public Status validateFindById(long id){
+        return statusRepository.findById(id)
+            .orElseThrow(()  -> new NotFoundException("Status não encontrado!"));
+    }
+
+    public Status validateDelete(long id){
+        return statusRepository.findById(id)
+            .orElseThrow(()  -> new NotFoundException("Status não encontrado!"));
     }
 }

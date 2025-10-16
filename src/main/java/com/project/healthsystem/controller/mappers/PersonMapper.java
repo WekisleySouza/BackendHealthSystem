@@ -12,6 +12,7 @@ public abstract class PersonMapper {
 
     @Mapping(target = "agentId", expression = "java(entity.getAgentId())")
     @Mapping(target = "conditionsId", expression = "java(entity.getConditionsId())")
+    @Mapping(target = "responsibleId", expression = "java(entity.getResponsibleId())")
     public abstract PersonDTO toDto(Person entity);
 
     public Person toEntityWhenHasId(Person entity, PersonDTO dto){

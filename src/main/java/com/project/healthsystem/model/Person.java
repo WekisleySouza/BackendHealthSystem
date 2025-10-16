@@ -46,6 +46,13 @@ public class Person extends UserBasicAbstraction {
         return -1;
     }
 
+    public long getResponsibleId(){
+        if(this.responsible != null){
+            return  this.responsible.getId();
+        }
+        return -1;
+    }
+
     public List<Long> getConditionsId(){
         if(this.conditions != null){
             List<Long> ids = new ArrayList<>();

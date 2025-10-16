@@ -1,8 +1,8 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.controller.dto.StatusDTO;
 import com.project.healthsystem.model.abstractions.IDAbstraction;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,17 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Status extends IDAbstraction {
 
+    @NotBlank(message = "A especificação é obrigatória!")
     @Column(name="specification")
     private String specification;
 
     @OneToMany(mappedBy = "status")
     private List<Appointment> appointment;
-
-    public Status(String specification){
-        this.specification = specification;
-    }
-
-    public void coppingFromStatusDTO(StatusDTO statusDTO){
-        this.specification = statusDTO.getSpecification();
-    }
 }

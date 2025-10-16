@@ -1,16 +1,15 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.LoginDTO;
+import com.project.healthsystem.controller.mappers.LoginMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Login;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.EmployeeRepository;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.repository.PersonRepository;
-import com.project.healthsystem.validator.EmployeeValidator;
 import com.project.healthsystem.validator.LoginValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,26 +24,28 @@ public class LoginService {
     private final PersonRepository personRepository;
     private final EmployeeRepository employeeRepository;
     private final LoginValidator loginValidator;
+    private final LoginMapper loginMapper;
 
-    public Login save(LoginDTO loginDTO){
-        Optional<Person> person = personRepository.findById(loginDTO.getPersonId());
-        Optional<Employee> employee = employeeRepository.findById(loginDTO.getEmployeeId());
+    public LoginDTO save(LoginDTO loginDTO){
+        Optional<Person> person = personRepository.findById(loginDTO.getUserId());
+        Optional<Employee> employee = employeeRepository.findById(loginDTO.getUserId());
 
-        if(person.isEmpty() && employee.isEmpty()){
-            return this.repository.save(loginDTO.mappingToLogin());
-        } else if(person.isPresent()){
-            return repository.save(loginDTO.mappingToLogin(person.get()));
+        Login login = loginMapper.toEntity(loginDTO);
+
+        if(person.isPresent()){
+            login.setPerson(person.get());
+        } else if(employee.isPresent()){
+            login.setEmployee(employee.get());
         }
 
-        return repository.save(loginDTO.mappingToLogin(employee.get()));
+        return loginMapper.toDto(repository.save(login));
     }
 
     public void update(LoginDTO loginDTO, long id){
         loginValidator.validate(id);
         Optional<Login> loginOptional = repository.findById(id);
 
-        Login login = loginOptional.get();
-        login.coppingFromLoginDTO(loginDTO);
+        Login login = loginMapper.toEntityWhenHasId(loginOptional.get(), loginDTO);
 
         loginValidator.validate(login);
         repository.save(login);
@@ -53,7 +54,7 @@ public class LoginService {
     public List<LoginDTO> getAll(){
         List<Login> logins = repository.findAll();
         return logins.stream()
-            .map(LoginDTO::new)
+            .map(loginMapper::toDto)
             .collect(Collectors.toList());
     }
 

@@ -1,10 +1,9 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.dto.ConditionDTO;
-import com.project.healthsystem.controller.dto.ErrorResponseDTO;
-import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.service.ConditionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/conditions")
@@ -23,10 +20,8 @@ public class ConditionController {
     private final ConditionService conditionService;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody ConditionDTO conditionDTO){
-        Condition conditionEntity = conditionDTO.mappingToCondition();
-
-        conditionService.save(conditionEntity);
+    public ResponseEntity<Void> save(@RequestBody @Valid ConditionDTO conditionDTO){
+        Condition conditionEntity = conditionService.save(conditionDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -38,15 +33,9 @@ public class ConditionController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody ConditionDTO conditionDTO){
-        try{
+    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid ConditionDTO conditionDTO){
             conditionService.update(conditionDTO, id);
-
             return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-        }
     }
 
     @GetMapping
@@ -57,12 +46,7 @@ public class ConditionController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
-        try{
-            conditionService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorDTO.status()).body(errorDTO);
-        }
+        conditionService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

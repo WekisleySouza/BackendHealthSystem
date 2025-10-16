@@ -16,15 +16,4 @@ public class StatusDTO {
     private long id;
     @NotBlank(message = "A especificação é obrigatória!")
     private String specification;
-
-
-    public StatusDTO(Status status){
-        this.id = status.getId();
-        this.specification = status.getSpecification();
-    }
-
-    public Status mappingToStatus(){
-        return new Status(this.specification);
-    }
-
 }

@@ -1,8 +1,7 @@
 package com.project.healthsystem.controller;
 
-import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.SurgeryTypeDTO;
-import com.project.healthsystem.exceptions.NotFoundException;
+import com.project.healthsystem.controller.mappers.SurgeryTypeMapper;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.service.SurgeryTypeService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SurgeryTypeController {
     private final SurgeryTypeService surgeryTypeService;
+    private final SurgeryTypeMapper surgeryTypeMapper;
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody SurgeryTypeDTO surgeryTypeDTO){
-        SurgeryType surgeryTypeEntity = surgeryTypeDTO.mappingToSurgeryType();
+        SurgeryType surgeryTypeEntity = surgeryTypeMapper.toEntity(surgeryTypeDTO);
         surgeryTypeService.save(surgeryTypeEntity);
 
         URI location = ServletUriComponentsBuilder
@@ -35,13 +35,8 @@ public class SurgeryTypeController {
 
     @PutMapping("{id}")
     public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody SurgeryTypeDTO surgeryTypeDTO){
-        try{
-            surgeryTypeService.update(surgeryTypeDTO, id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
+        surgeryTypeService.update(surgeryTypeDTO, id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
@@ -52,12 +47,7 @@ public class SurgeryTypeController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
-        try{
-            surgeryTypeService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException err){
-            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.notFound(err.getMessage());
-            return ResponseEntity.status(errorResponseDTO.status()).body(errorResponseDTO);
-        }
+        surgeryTypeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

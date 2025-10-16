@@ -1,6 +1,5 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.controller.dto.SurgeryTypeDTO;
 import com.project.healthsystem.model.abstractions.IDAbstraction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,11 +22,4 @@ public class SurgeryType extends IDAbstraction {
     @OneToMany(mappedBy = "surgeryType")
     private List<Surgery> surgeries;
 
-    public SurgeryType(String type){
-        this.type = type;
-    }
-
-    public void coppingFromSurgeryTypeDTO(SurgeryTypeDTO surgeryTypeDTO){
-        this.type = surgeryTypeDTO.getType();
-    }
 }

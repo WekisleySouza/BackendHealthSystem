@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,22 +19,19 @@ public class AgentService {
     private final AgentValidator agentValidator;
     private final AgentMapper agentMapper;
 
-    public Agent save(Agent agent){
-        agentValidator.validate(agent);
+    public Agent save(AgentDTO agentDTO){
+        Agent agent = agentValidator.validateSave(agentDTO);
         return this.repository.save(agent);
     }
 
     public void update(AgentDTO agentDTO, long id){
-        agentValidator.validate(id);
-        Optional<Agent> agentOptional = repository.findById(id);
-        Agent agent = agentMapper.toEntityWhenHasId(agentOptional.get(), agentDTO);
-        agentValidator.validate(agent);
+        Agent agent = agentValidator.validateUpdate(agentDTO, id);
         this.repository.save(agent);
     }
 
     public AgentDTO findById(long id){
-        agentValidator.validate(id);
-        return agentMapper.toDto(repository.findById(id).get());
+        Agent agent = agentValidator.validateFindById(id);
+        return agentMapper.toDto(agent);
     }
 
     public List<AgentDTO> getAll(){
@@ -47,9 +43,7 @@ public class AgentService {
     }
 
     public void delete(long id){
-        agentValidator.validate(id);
-        Optional<Agent> agentOptional = repository.findById(id);
-        repository.delete(agentOptional.get());
+        Agent agent = agentValidator.validateDelete(id);
+        repository.delete(agent);
     }
-
 }

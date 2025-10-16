@@ -11,5 +11,5 @@ public abstract class IDAbstraction {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    public long id;
 }

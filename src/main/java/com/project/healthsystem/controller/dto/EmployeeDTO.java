@@ -3,6 +3,7 @@ package com.project.healthsystem.controller.dto;
 import com.project.healthsystem.model.Employee;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -28,7 +28,7 @@ public class EmployeeDTO {
     @CPF(message = "CPF inválido!")
     private String cpf;
 
-    @NotBlank(message = "A data de nascimento é obrigatória!")
+    @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;
 
     @Email(message = "Formato de e-mail inválido!")
@@ -36,25 +36,4 @@ public class EmployeeDTO {
     private String email;
 
     private String phone;
-
-    public EmployeeDTO(Employee employee){
-        this.id = employee.getId();
-        this.name = employee.getName();
-        this.cpf = employee.getCpf();
-        this.phone = employee.getPhone();
-        this.birthday = employee.getBirthday();
-        this.email = employee.getEmail();
-    }
-
-    public Employee mappingToEmployee(){
-        Employee employee = new Employee();
-
-        employee.setEmail(this.email);
-        employee.setBirthday(this.birthday);
-        employee.setCpf(this.cpf);
-        employee.setPhone(this.phone);
-        employee.setName(this.name);
-
-        return employee;
-    }
 }
