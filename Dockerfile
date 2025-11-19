@@ -1,12 +1,12 @@
 # ---------- STAGE 1: build ----------
-FROM eclipse-temurin:17-jdk-jammy AS build
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 
 WORKDIR /build
 
 COPY pom.xml .
 COPY src ./src
 
-RUN ./mvnw -q -e -DskipTests package
+RUN mvn -q -DskipTests package
 
 # ---------- STAGE 2: runtime ----------
 FROM eclipse-temurin:17-jre-jammy
