@@ -1,10 +1,8 @@
 package com.project.healthsystem.validator;
 
 import com.project.healthsystem.controller.dto.StatusDTO;
-import com.project.healthsystem.controller.mappers.StatusMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Status;
-import com.project.healthsystem.repository.StatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
