@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.PersonDTO;
+import com.project.healthsystem.controller.dto.PersonRequestDTO;
 import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
@@ -25,37 +25,44 @@ public class PersonValidator {
 
     private final PersonMapper personMapper;
 
-    public Person validateSave(PersonDTO personDTO){
-        Agent agent = agentRepository.findById(personDTO.getAgentId())
+    public Person validateSave(PersonRequestDTO personRequestDTO){
+        Agent agent = agentRepository.findById(personRequestDTO.getAgentId())
             .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
-        Person responsible = personRepository.findById(personDTO.getResponsibleId())
-            .orElse(null);
-        List<Condition> conditions = conditionService.findByIds(personDTO.getConditionsId());
 
-        Person person = personMapper.toEntity(personDTO);
+        Person person = personMapper.toEntity(personRequestDTO);
         person.setAgent(agent);
-        person.setResponsible(responsible);
 
-        if(!conditions.isEmpty()){
+        if(personRequestDTO.getResponsibleId() != null){
+            Person responsible = personRepository.findById(personRequestDTO.getResponsibleId())
+                .orElse(null);
+            person.setResponsible(responsible);
+        }
+        if(personRequestDTO.getConditionsId() != null && !personRequestDTO.getConditionsId().isEmpty()){
+            List<Condition> conditions = conditionService.findByIds(personRequestDTO.getConditionsId());
             person.setConditions(conditions);
         }
 
         return person;
     }
 
-    public Person validateUpdate(PersonDTO personDTO, long id){
+    public Person validateUpdate(PersonRequestDTO personRequestDTO, long id){
         Person person = personRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Person não encontrada!"));
-        Person responsible = personRepository.findById(personDTO.getResponsibleId())
-            .orElse(null);
-        Agent agent = agentRepository.findById(personDTO.getAgentId())
+        Agent agent = agentRepository.findById(personRequestDTO.getAgentId())
                 .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
-        List<Condition> conditions = conditionService.findByIds(personDTO.getConditionsId());
 
-        person = personMapper.toEntityWhenHasId(person, personDTO);
+        person = personMapper.toEntityWhenHasId(person, personRequestDTO);
         person.setAgent(agent);
-        person.setResponsible(responsible);
-        person.setConditions(conditions);
+
+        if(personRequestDTO.getResponsibleId() != null){
+            Person responsible = personRepository.findById(personRequestDTO.getResponsibleId())
+                    .orElse(null);
+            person.setResponsible(responsible);
+        }
+        if(personRequestDTO.getConditionsId() != null && !personRequestDTO.getConditionsId().isEmpty()){
+            List<Condition> conditions = conditionService.findByIds(personRequestDTO.getConditionsId());
+            person.setConditions(conditions);
+        }
 
         return person;
     }

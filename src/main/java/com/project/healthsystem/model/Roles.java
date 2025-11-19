@@ -1,16 +1,27 @@
 package com.project.healthsystem.model;
 
-import java.util.Arrays;
-
 public enum Roles {
-    ADMIN,
-    MANAGER,
-    USER;
+    ADMIN("Administrador"),
+    MANAGER("Gerente"),
+    EMPLOYEE("Funcionário"),
+    USER("Paciente");
 
-    public static Roles fromString(String value) {
-        return Arrays.stream(values())
-                .filter(r -> r.name().equalsIgnoreCase(value))
-                .findFirst()
-                .orElse(USER);
+    private final String label;
+
+    Roles(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public static Roles fromLabel(String label) {
+        for (Roles r : values()) {
+            if (r.getLabel().equalsIgnoreCase(label)) {
+                return r;
+            }
+        }
+        throw new IllegalArgumentException("Status inválido: " + label);
     }
 }

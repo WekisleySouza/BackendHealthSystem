@@ -16,9 +16,9 @@ public class LoginValidator {
     }
 
     public void validate(long id){
-        if(exists(id)){
-            throw new NotFoundException("Não foi encontrado o login com este id!");
-        }
+//        if(exists(id)){
+//            throw new NotFoundException("Não foi encontrado o login com este id!");
+//        }
     }
 
     private boolean exists(long id){

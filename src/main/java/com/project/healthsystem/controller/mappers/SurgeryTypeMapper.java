@@ -1,17 +1,17 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.SurgeryTypeDTO;
+import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
 import com.project.healthsystem.model.SurgeryType;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public abstract class SurgeryTypeMapper {
 
-    public abstract SurgeryType toEntity(SurgeryTypeDTO dto);
+    public abstract SurgeryType toEntity(SurgeryTypeRequestDTO dto);
 
-    public abstract SurgeryTypeDTO toDto(SurgeryType entity);
+    public abstract SurgeryTypeRequestDTO toDto(SurgeryType entity);
 
-    public SurgeryType toEntityWhenHasId(SurgeryType entity, SurgeryTypeDTO dto){
+    public SurgeryType toEntityWhenHasId(SurgeryType entity, SurgeryTypeRequestDTO dto){
         SurgeryType newEntity = toEntity(dto);
         newEntity.setId(entity.getId());
         return newEntity;

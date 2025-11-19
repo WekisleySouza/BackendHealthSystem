@@ -1,11 +1,14 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.CategoryGroupDTO;
+import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
 import com.project.healthsystem.controller.mappers.CategoryGroupMapper;
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.repository.CategoryGroupRepository;
 import com.project.healthsystem.validator.CategoryGroupValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,20 +22,20 @@ public class CategoryGroupService {
     private final CategoryGroupValidator categoryGroupValidator;
     private final CategoryGroupMapper categoryGroupMapper;
 
-    public CategoryGroup save(CategoryGroupDTO categoryGroupDTO){
-        return repository.save(categoryGroupValidator.validateSave(categoryGroupDTO));
+    public CategoryGroup save(CategoryGroupRequestDTO categoryGroupRequestDTO){
+        return repository.save(categoryGroupValidator.validateSave(categoryGroupRequestDTO));
     }
 
-    public void update(CategoryGroupDTO categoryGroupDTO, long id){
-        CategoryGroup categoryGroup = categoryGroupValidator.validateUpdate(categoryGroupDTO, id);
+    public void update(CategoryGroupRequestDTO categoryGroupRequestDTO, long id){
+        CategoryGroup categoryGroup = categoryGroupValidator.validateUpdate(categoryGroupRequestDTO, id);
         repository.save(categoryGroup);
     }
 
-    public List<CategoryGroupDTO> getAll(){
-        List<CategoryGroup> categoryGroups = repository.findAll();
-        return categoryGroups.stream()
-            .map(categoryGroupMapper::toDto)
-            .collect(Collectors.toList());
+    public Page<CategoryGroupRequestDTO> getAll(Integer pageNumber, Integer pageLength){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        return repository
+            .findAll(pageRequest)
+            .map(categoryGroupMapper::toDto);
     }
 
     public CategoryGroup findById(long id){

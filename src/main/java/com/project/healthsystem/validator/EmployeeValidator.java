@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.EmployeeDTO;
+import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Employee;
@@ -14,14 +14,14 @@ public class EmployeeValidator {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
 
-    public Employee validateSave(EmployeeDTO employeeDTO){
-        return employeeMapper.toEntity(employeeDTO);
+    public Employee validateSave(EmployeeRequestDTO employeeRequestDTO){
+        return employeeMapper.toEntity(employeeRequestDTO);
     }
 
-    public Employee validateUpdate(EmployeeDTO employeeDTO, long id){
+    public Employee validateUpdate(EmployeeRequestDTO employeeRequestDTO, long id){
         Employee employee = employeeRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Funcionário não encontrado!"));
-        employee = employeeMapper.toEntityWhenHasId(employee, employeeDTO);
+        employee = employeeMapper.toEntityWhenHasId(employee, employeeRequestDTO);
         return employee;
     }
 

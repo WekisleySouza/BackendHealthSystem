@@ -36,8 +36,6 @@ public class Person extends UserBasicAbstraction {
     private String cns;
     @Column(name = "mother_name")
     private String motherName;
-    @Column(name = "sus_id")
-    private String susId;
 
     public long getAgentId(){
         if(agent != null){

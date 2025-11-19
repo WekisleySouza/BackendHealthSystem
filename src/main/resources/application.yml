@@ -11,3 +11,8 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+app:
+  default-admin:
+    username: ${DEFAULT_ADMIN_USERNAME}
+    password: ${DEFAULT_ADMIN_PASSWORD}
+  default-user-password: ${DEFAULT_USER_PASSWORD}

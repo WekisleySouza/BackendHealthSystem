@@ -1,8 +1,9 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.EmployeeDTO;
+import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
 import com.project.healthsystem.model.Employee;
+import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.EmployeeRepository;
 import com.project.healthsystem.validator.EmployeeValidator;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +16,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository repository;
+    private final LoginService loginService;
     private final EmployeeValidator employeeValidator;
     private final EmployeeMapper employeeMapper;
 
-    public Employee save(EmployeeDTO employeeDTO){
-        Employee employee = employeeValidator.validateSave(employeeDTO);
-        return repository.save(employee);
+    public Employee save(EmployeeRequestDTO employeeRequestDTO){
+        Employee employee = employeeValidator.validateSave(employeeRequestDTO);
+        employee = repository.save(employee);
+        loginService.createDefaultLoginTo(employee, Roles.fromLabel(employeeRequestDTO.getRole()));
+        return employee;
     }
 
-    public void update(EmployeeDTO employeeDTO, long id){
-        var employee = employeeValidator.validateUpdate(employeeDTO, id);
+    public void update(EmployeeRequestDTO employeeRequestDTO, long id){
+        var employee = employeeValidator.validateUpdate(employeeRequestDTO, id);
         repository.save(employee);
     }
 
@@ -32,7 +36,7 @@ public class EmployeeService {
         return employeeValidator.validateFindById(id);
     }
 
-    public List<EmployeeDTO> getAll(){
+    public List<EmployeeRequestDTO> getAll(){
         List<Employee> employees = repository.findAll();
         return employees.stream()
             .map(employeeMapper::toDto)

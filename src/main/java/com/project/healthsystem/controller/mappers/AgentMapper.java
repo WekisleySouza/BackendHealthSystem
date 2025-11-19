@@ -1,18 +1,18 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.AgentDTO;
+import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.model.Agent;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public abstract class AgentMapper {
 
-    public abstract Agent toEntity(AgentDTO dto);
+    public abstract Agent toEntity(AgentRequestDTO dto);
 
-    public abstract AgentDTO toDto(Agent agent);
+    public abstract AgentRequestDTO toDto(Agent agent);
 
-    public Agent toEntityWhenHasId(Agent agent, AgentDTO agentDTO){
-        Agent newAgent = toEntity(agentDTO);
+    public Agent toEntityWhenHasId(Agent agent, AgentRequestDTO agentRequestDTO){
+        Agent newAgent = toEntity(agentRequestDTO);
         agent.setId(agent.getId());
         return newAgent;
     }

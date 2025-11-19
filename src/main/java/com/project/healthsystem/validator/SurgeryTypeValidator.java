@@ -1,27 +1,40 @@
 package com.project.healthsystem.validator;
 
+import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
+import com.project.healthsystem.controller.mappers.SurgeryTypeMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.repository.SurgeryTypeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class SurgeryTypeValidator {
-    @Autowired
-    private SurgeryTypeRepository surgeryTypeRepository;
+    private final SurgeryTypeRepository surgeryTypeRepository;
+    private final SurgeryTypeMapper surgeryTypeMapper;
 
-    public void validate(SurgeryType surgeryType){
-
+    public SurgeryType validateSave(SurgeryTypeRequestDTO surgeryTypeRequestDTO){
+        return surgeryTypeMapper.toEntity(surgeryTypeRequestDTO);
     }
 
-    public void validate(long id){
-        if(!exists(id)){
-            throw new NotFoundException("Não foi encontrado surgeryType com este id!");
-        }
+    public SurgeryType validateUpdate(SurgeryTypeRequestDTO surgeryTypeRequestDTO, long id){
+        SurgeryType surgeryType = surgeryTypeRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("Tipo de cirurgia não encontrado!"));
+        surgeryType = surgeryTypeMapper.toEntityWhenHasId(surgeryType, surgeryTypeRequestDTO);
+        return surgeryType;
     }
 
-    public boolean exists(long id){
-        return surgeryTypeRepository.existsById(id);
+    public SurgeryType validateFindById(long id){
+        return surgeryTypeRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("Tipo de cirurgia não encontrado!"));
+    }
+
+    public SurgeryType validateDelete(long id){
+        return surgeryTypeRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("Tipo de cirurgia não encontrado!"));
     }
 }

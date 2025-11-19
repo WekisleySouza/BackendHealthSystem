@@ -1,16 +1,18 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.ConditionDTO;
+import com.project.healthsystem.controller.dto.ConditionRequestDTO;
 import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.repository.ConditionRepository;
 import com.project.healthsystem.validator.ConditionValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,21 +22,21 @@ public class ConditionService {
     private final ConditionValidator conditionValidator;
     private final ConditionMapper conditionMapper;
 
-    public Condition save(ConditionDTO conditionDTO){
-        Condition condition = this.conditionValidator.validateSave(conditionDTO);
+    public Condition save(ConditionRequestDTO conditionRequestDTO){
+        Condition condition = this.conditionValidator.validateSave(conditionRequestDTO);
         return repository.save(condition);
     }
 
-    public void update(ConditionDTO conditionDTO, long id){
-        Condition condition = this.conditionValidator.validateUpdate(conditionDTO, id);
+    public void update(ConditionRequestDTO conditionRequestDTO, long id){
+        Condition condition = this.conditionValidator.validateUpdate(conditionRequestDTO, id);
         repository.save(condition);
     }
 
-    public List<ConditionDTO> getAll(){
-        List<Condition> conditions = repository.findAll();
-        return conditions.stream()
-                .map(conditionMapper::toDto)
-                .collect(Collectors.toList());
+    public Page<ConditionRequestDTO> getAll(Integer pageNumber, Integer pageLength){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        return repository
+            .findAll(pageRequest)
+            .map(conditionMapper::toDto);
     }
 
     public Condition findById(long id){

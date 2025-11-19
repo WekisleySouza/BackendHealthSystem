@@ -21,6 +21,9 @@ public class Appointment extends IDAbstraction {
     private LocalDateTime createdAt;
     @Column(name="priorit")
     private String priorit;
+    @Enumerated(EnumType.STRING)
+    @Column(name="status")
+    private Status status;
 
     @ManyToOne
     private ServiceType serviceType;
@@ -30,20 +33,11 @@ public class Appointment extends IDAbstraction {
     private Employee employee;
     @ManyToOne
     private Person person;
-    @ManyToOne
-    private Status status;
 
     public void createdNow(){
         if (this.createdAt == null) {
             this.createdAt = LocalDateTime.now();
         }
-    }
-
-    public long getStatusId(){
-        if(this.status != null){
-            return status.getId();
-        }
-        return -1;
     }
 
     public long getProfessionalId(){

@@ -17,6 +17,8 @@ public class Login extends IDAbstraction {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    @Column(name = "login", nullable = false, unique = true)
+    private  String login;
     @Column(name = "password", nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
@@ -28,6 +30,13 @@ public class Login extends IDAbstraction {
             return  this.person.getId();
         }
         return -1;
+    }
+
+    public String getPersonCPF(){
+        if(this.person != null){
+            return  this.person.getCpf();
+        }
+        return "";
     }
 
     public long getEmployeeId(){

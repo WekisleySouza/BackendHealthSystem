@@ -1,16 +1,15 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.SurgeryTypeDTO;
+import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
 import com.project.healthsystem.controller.mappers.SurgeryTypeMapper;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.repository.SurgeryTypeRepository;
 import com.project.healthsystem.validator.SurgeryTypeValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,36 +18,29 @@ public class SurgeryTypeService {
     private final SurgeryTypeValidator surgeryTypeValidator;
     private final SurgeryTypeMapper surgeryTypeMapper;
 
-    public SurgeryType save(SurgeryType surgeryType){
+    public SurgeryType save(SurgeryTypeRequestDTO surgeryTypeRequestDTO){
+        SurgeryType surgeryType = surgeryTypeValidator.validateSave(surgeryTypeRequestDTO);
         return repository.save(surgeryType);
     }
 
-    public void update(SurgeryTypeDTO surgeryTypeDTO, long id){
-        surgeryTypeValidator.validate(id);
-
-        Optional<SurgeryType> surgeryTypeOptional = repository.findById(id);
-        var surgeryType = surgeryTypeMapper.toEntityWhenHasId(surgeryTypeOptional.get(), surgeryTypeDTO);
-
-        surgeryTypeValidator.validate(surgeryType);
+    public void update(SurgeryTypeRequestDTO surgeryTypeRequestDTO, long id){
+        SurgeryType surgeryType = this.surgeryTypeValidator.validateUpdate(surgeryTypeRequestDTO, id);
         repository.save(surgeryType);
     }
 
-    public List<SurgeryTypeDTO> getAll(){
+    public Page<SurgeryTypeRequestDTO> getAll(Integer pageNumber, Integer pageLength){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         return repository
-            .findAll()
-            .stream()
-            .map(surgeryTypeMapper::toDto)
-            .collect(Collectors.toList());
+            .findAll(pageRequest)
+            .map(surgeryTypeMapper::toDto);
     }
 
-    public Optional<SurgeryType> findById(long id){
-        surgeryTypeValidator.validate(id);
-        return this.repository.findById(id);
+    public SurgeryType findById(long id){
+        return this.surgeryTypeValidator.validateFindById(id);
     }
 
     public void delete(long id){
-        surgeryTypeValidator.validate(id);
-        Optional<SurgeryType> surgeryTypeOptional = repository.findById(id);
-        repository.delete(surgeryTypeOptional.get());
+        SurgeryType surgeryType = surgeryTypeValidator.validateDelete(id);
+        repository.delete(surgeryType);
     }
 }

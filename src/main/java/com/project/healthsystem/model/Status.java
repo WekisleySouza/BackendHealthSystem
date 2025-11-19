@@ -1,23 +1,25 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.IDAbstraction;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public enum Status {
+    COMPLETED("completo"),
+    CREATED("Criado");
 
-import java.util.List;
+    private final String label;
 
-@Entity
-@Table(name="tb_status")
-@Data
-@NoArgsConstructor
-public class Status extends IDAbstraction {
+    Status(String label) {
+        this.label = label;
+    }
 
-    @NotBlank(message = "A especificação é obrigatória!")
-    @Column(name="specification")
-    private String specification;
+    public String getLabel() {
+        return label;
+    }
 
-    @OneToMany(mappedBy = "status")
-    private List<Appointment> appointment;
+    public static Status fromLabel(String label) {
+        for (Status s : values()) {
+            if (s.getLabel().equalsIgnoreCase(label)) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("Status inválido: " + label);
+    }
 }

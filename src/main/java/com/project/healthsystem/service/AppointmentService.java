@@ -1,11 +1,14 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.AppointmentDTO;
+import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
 import com.project.healthsystem.validator.AppointmentValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,22 +23,21 @@ public class AppointmentService {
     private final AppointmentValidator appointmentValidator;
     private final AppointmentsMapper appointmentsMapper;
 
-    public Appointment save(AppointmentDTO appointmentDTO){
-        Appointment appointment = appointmentValidator.validateSave(appointmentDTO);
+    public Appointment save(AppointmentRequestDTO appointmentRequestDTO){
+        Appointment appointment = appointmentValidator.validateSave(appointmentRequestDTO);
         return this.repository.save(appointment);
     }
 
-    public Appointment update(AppointmentDTO appointmentDTO, long id){
-        Appointment appointment = appointmentValidator.validateUpdate(appointmentDTO, id);
+    public Appointment update(AppointmentRequestDTO appointmentRequestDTO, long id){
+        Appointment appointment = appointmentValidator.validateUpdate(appointmentRequestDTO, id);
         return repository.save(appointment);
     }
 
-    public List<AppointmentDTO> getAll(){
+    public Page<AppointmentRequestDTO> getAll(Integer pageNumber, Integer pageLength){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         return repository
-            .findAll()
-            .stream()
-            .map(appointmentsMapper::toDto)
-            .collect(Collectors.toList());
+            .findAll(pageRequest)
+            .map(appointmentsMapper::toDto);
     }
 
     public Appointment findById(long id){

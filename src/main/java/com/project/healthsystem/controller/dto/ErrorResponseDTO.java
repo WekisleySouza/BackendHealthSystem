@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-public record ErrorResponseDTO(int status, String message, List<FieldErrorDTO> errors) {
+public record ErrorResponseDTO(int status, String message, List<FieldErrorResponseDTO> errors) {
 
     public static ErrorResponseDTO defaultResponse(String message){
         return new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), message, List.of());

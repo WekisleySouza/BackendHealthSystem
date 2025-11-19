@@ -1,8 +1,7 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.AgentDTO;
+import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.mappers.AgentMapper;
-import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.repository.AgentRepository;
@@ -20,14 +19,14 @@ public class AgentValidator {
     private AgentRepository repository;
     private final AgentMapper agentMapper;
 
-    public Agent validateSave(AgentDTO agentDTO){
-        return agentMapper.toEntity(agentDTO);
+    public Agent validateSave(AgentRequestDTO agentRequestDTO){
+        return agentMapper.toEntity(agentRequestDTO);
     }
 
-    public Agent validateUpdate(AgentDTO agentDTO, long id){
+    public Agent validateUpdate(AgentRequestDTO agentRequestDTO, long id){
         Agent agent = repository.findById(id)
             .orElseThrow(() -> new NotFoundException("Não foi encontrado um agent com este id!"));
-        return agentMapper.toEntityWhenHasId(agent, agentDTO);
+        return agentMapper.toEntityWhenHasId(agent, agentRequestDTO);
     }
 
     public Agent validateFindById(long id){

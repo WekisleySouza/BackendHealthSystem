@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.ServiceTypeDTO;
+import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.mappers.ServiceTypeMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.CategoryGroup;
@@ -19,23 +19,23 @@ public class ServiceTypeValidator {
 
     private final ServiceTypeMapper serviceTypeMapper;
 
-    public ServiceType validateSave(ServiceTypeDTO serviceTypeDTO){
-        ServiceType serviceType = serviceTypeMapper.toEntity(serviceTypeDTO);
+    public ServiceType validateSave(ServiceTypeRequestDTO serviceTypeRequestDTO){
+        ServiceType serviceType = serviceTypeMapper.toEntity(serviceTypeRequestDTO);
         CategoryGroup categoryGroup = categoryGroupRepository
-            .findById(serviceTypeDTO.getCategoryGroupId())
+            .findById(serviceTypeRequestDTO.getCategoryGroupId())
             .orElse(null);
         serviceType.setCategoryGroup(categoryGroup);
         return serviceType;
     }
 
-    public ServiceType validateUpdate(ServiceTypeDTO serviceTypeDTO, long id){
+    public ServiceType validateUpdate(ServiceTypeRequestDTO serviceTypeRequestDTO, long id){
         ServiceType serviceType = serviceTypesRepository
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Tipo de serviço não encontrado!"));
         CategoryGroup categoryGroup = categoryGroupRepository
-            .findById(serviceTypeDTO.getCategoryGroupId())
+            .findById(serviceTypeRequestDTO.getCategoryGroupId())
             .orElse(null);
-        serviceType = serviceTypeMapper.toEntityWhenHasId(serviceType, serviceTypeDTO);
+        serviceType = serviceTypeMapper.toEntityWhenHasId(serviceType, serviceTypeRequestDTO);
         serviceType.setCategoryGroup(categoryGroup);
         return serviceType;
     }

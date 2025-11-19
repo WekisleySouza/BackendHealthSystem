@@ -1,7 +1,7 @@
 package com.project.healthsystem.controller.common;
 
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
-import com.project.healthsystem.controller.dto.FieldErrorDTO;
+import com.project.healthsystem.controller.dto.FieldErrorResponseDTO;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestControllerAdvice
@@ -21,10 +22,10 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponseDTO handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
         List<FieldError> fieldErrors = e.getFieldErrors();
-        List<FieldErrorDTO> fieldErrorDTOS = fieldErrors
+        List<FieldErrorResponseDTO> fieldErrorResponseDTOS = fieldErrors
             .stream()
             .map(
-                fe -> new FieldErrorDTO(
+                fe -> new FieldErrorResponseDTO(
                     fe.getField(),
                     fe.getDefaultMessage()
                 )
@@ -33,7 +34,7 @@ public class GlobalExceptionHandler {
         return new ErrorResponseDTO(
             HttpStatus.UNPROCESSABLE_ENTITY.value(),
             "Erro ao validar campo!",
-            fieldErrorDTOS
+                fieldErrorResponseDTOS
         );
     }
 
@@ -53,5 +54,24 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponseDTO handleNotFoundException(NotFoundException e){
         return ErrorResponseDTO.notFound(e.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponseDTO handleAccesDeniedException(NotFoundException e){
+        return new ErrorResponseDTO(
+            HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "Você não tem permissão para executar esta operação!",
+            List.of());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponseDTO handleUnhandledErrorException(RuntimeException e){
+        System.out.println("Erro inesperado: " + e.getMessage());
+        return new ErrorResponseDTO(
+            HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "Ops! Houve um erro inesperado. Entre em contato com nossa equipe.",
+            List.of());
     }
 }

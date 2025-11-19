@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.ConditionDTO;
+import com.project.healthsystem.controller.dto.ConditionRequestDTO;
 import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Condition;
@@ -15,14 +15,14 @@ public class ConditionValidator {
     private final ConditionRepository conditionRepository;
     private final ConditionMapper conditionMapper;
 
-    public Condition validateSave(ConditionDTO conditionDTO){
-        return conditionMapper.toEntity(conditionDTO);
+    public Condition validateSave(ConditionRequestDTO conditionRequestDTO){
+        return conditionMapper.toEntity(conditionRequestDTO);
     }
 
-    public Condition validateUpdate(ConditionDTO conditionDTO, long id){
+    public Condition validateUpdate(ConditionRequestDTO conditionRequestDTO, long id){
         Condition condition = conditionRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Condition não encontrada!"));
-        condition = conditionMapper.toEntityWhenHasId(condition, conditionDTO);
+        condition = conditionMapper.toEntityWhenHasId(condition, conditionRequestDTO);
         return condition;
     }
 

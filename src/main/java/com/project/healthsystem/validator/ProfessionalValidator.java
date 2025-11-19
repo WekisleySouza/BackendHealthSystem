@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.ProfessionalDTO;
+import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Professional;
@@ -14,14 +14,14 @@ public class ProfessionalValidator {
     private final ProfessionalRepository professionalRepository;
     private final ProfessionalMapper professionalMapper;
 
-    public Professional validateSave(ProfessionalDTO professionalDTO){
-        return professionalMapper.toEntity(professionalDTO);
+    public Professional validateSave(ProfessionalRequestDTO professionalRequestDTO){
+        return professionalMapper.toEntity(professionalRequestDTO);
     }
 
-    public Professional validateUpdate(ProfessionalDTO professionalDTO, long id){
+    public Professional validateUpdate(ProfessionalRequestDTO professionalRequestDTO, long id){
         Professional professional = professionalRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Profissional não encontrado!"));
-        return professionalMapper.toEntityWhenHasId(professional, professionalDTO);
+        return professionalMapper.toEntityWhenHasId(professional, professionalRequestDTO);
     }
 
 

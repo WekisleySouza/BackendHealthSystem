@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.AppointmentDTO;
+import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 public class AppointmentValidator {
 
     private final AppointmentRepository appointmentRepository;
-    private final StatusRepository statusRepository;
     private final PersonRepository personRepository;
     private final ServiceTypeRepository serviceTypeRepository;
     private final EmployeeRepository employeeRepository;
@@ -22,20 +21,17 @@ public class AppointmentValidator {
 
     private final AppointmentsMapper appointmentsMapper;
 
-    public Appointment validateSave(AppointmentDTO appointmentDTO){
-        Status status = statusRepository.findById(appointmentDTO.getStatusId())
-            .orElseThrow(() -> new InvalidDataException("Status inválido!"));
-        Person person = personRepository.findById(appointmentDTO.getPersonId())
+    public Appointment validateSave(AppointmentRequestDTO appointmentRequestDTO){
+        Person person = personRepository.findById(appointmentRequestDTO.getPersonId())
             .orElseThrow(() -> new InvalidDataException("Person inválido!"));
-        ServiceType serviceType = serviceTypeRepository.findById(appointmentDTO.getServiceTypeId())
+        ServiceType serviceType = serviceTypeRepository.findById(appointmentRequestDTO.getServiceTypeId())
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
-        Employee employee = employeeRepository.findById(appointmentDTO.getEmployeeId())
+        Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
-        Professional professional = professionalRepository.findById(appointmentDTO.getProfessionalId())
+        Professional professional = professionalRepository.findById(appointmentRequestDTO.getProfessionalId())
         .orElse(null);
 
-        Appointment appointment = appointmentsMapper.toEntity(appointmentDTO);
-        appointment.setStatus(status);
+        Appointment appointment = appointmentsMapper.toEntity(appointmentRequestDTO);
         appointment.setServiceType(serviceType);
         appointment.setPerson(person);
         appointment.setEmployee(employee);
@@ -45,22 +41,19 @@ public class AppointmentValidator {
         return appointment;
     }
 
-    public Appointment validateUpdate(AppointmentDTO appointmentDTO, long id){
+    public Appointment validateUpdate(AppointmentRequestDTO appointmentRequestDTO, long id){
         Appointment appointment = appointmentRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Não foi encontrado um agent com este id!"));
-        Status status = statusRepository.findById(appointmentDTO.getStatusId())
-            .orElseThrow(() -> new InvalidDataException("Status inválido!"));
-        Person person = personRepository.findById(appointmentDTO.getPersonId())
+        Person person = personRepository.findById(appointmentRequestDTO.getPersonId())
             .orElseThrow(() -> new InvalidDataException("Person inválido!"));
-        ServiceType serviceType = serviceTypeRepository.findById(appointmentDTO.getServiceTypeId())
+        ServiceType serviceType = serviceTypeRepository.findById(appointmentRequestDTO.getServiceTypeId())
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
-        Employee employee = employeeRepository.findById(appointmentDTO.getEmployeeId())
+        Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
-        Professional professional = professionalRepository.findById(appointmentDTO.getProfessionalId())
+        Professional professional = professionalRepository.findById(appointmentRequestDTO.getProfessionalId())
             .orElse(null);
 
-        appointment = appointmentsMapper.toEntityWhenHasId(appointment, appointmentDTO);
-        appointment.setStatus(status);
+        appointment = appointmentsMapper.toEntityWhenHasId(appointment, appointmentRequestDTO);
         appointment.setServiceType(serviceType);
         appointment.setPerson(person);
         appointment.setEmployee(employee);
