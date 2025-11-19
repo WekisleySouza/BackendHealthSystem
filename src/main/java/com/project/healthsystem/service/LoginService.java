@@ -27,6 +27,15 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final Environment environment;
 
+    public void createDefaultAdmin(Employee employee){
+        Login login = new Login();
+        login.setLogin(this.environment.getProperty("app.default-admin.username"));
+        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-admin.password")));
+        login.setRole(Roles.ADMIN);
+        login.setEmployee(employee);
+        repository.save(login);
+    }
+
     public void createDefaultLoginTo(Employee employee, Roles role){
         Login login = new Login();
         login.setLogin(employee.getCpf());

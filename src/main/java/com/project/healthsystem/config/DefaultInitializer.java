@@ -25,8 +25,6 @@ public class DefaultInitializer implements ApplicationRunner {
 
     @Value("${app.default-admin.username}")
     private String DEFAULT_ADMIN_USERNAME;
-    @Value("${app.default-admin.password}")
-    private String DEFAULT_ADMIN_PASSWORD;
 
     private final String name = "ADMIN";
     private final String cpf = "12345678909";
@@ -43,7 +41,7 @@ public class DefaultInitializer implements ApplicationRunner {
             employee.setEmail(this.email);
             employeeRepository.save(employee);
 
-            loginService.createDefaultLoginTo(employee, Roles.ADMIN);
+            loginService.createDefaultAdmin(employee);
 
             System.out.println("Usuário padrão criado com sucesso!");
         }

@@ -15,6 +15,6 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 app:
   default-admin:
-    username: ${DEFAULT_ADMIN_USERNAME}
-    password: ${DEFAULT_ADMIN_PASSWORD}
+    username: ${DEFAULT_ADMIN_USERNAME:admin}
+    password: ${DEFAULT_ADMIN_PASSWORD:admin}
   default-user-password: ${DEFAULT_USER_PASSWORD}
