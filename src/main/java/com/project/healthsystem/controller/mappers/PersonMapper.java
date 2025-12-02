@@ -16,8 +16,13 @@ public abstract class PersonMapper {
     public abstract PersonRequestDTO toDto(Person entity);
 
     public Person toEntityWhenHasId(Person entity, PersonRequestDTO dto){
-        Person newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setName(dto.getName());
+        entity.setMotherName(dto.getMotherName());
+        entity.setBirthday(dto.getBirthday());
+        entity.setCns(dto.getCns());
+        entity.setCpf(dto.getCpf());
+        entity.setPhone(dto.getPhone());
+        entity.setEmail(dto.getEmail());
+        return entity;
     }
 }

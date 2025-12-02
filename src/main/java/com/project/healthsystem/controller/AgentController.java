@@ -1,6 +1,8 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.AgentRequestDTO;
+import com.project.healthsystem.controller.dto.AgentResponseDTO;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.service.AgentService;
 import jakarta.validation.Valid;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/agents")
@@ -21,8 +24,12 @@ public class AgentController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Object> save(@RequestBody @Valid AgentRequestDTO agentRequestDTO){
-        Agent agentEntity = agentService.save(agentRequestDTO);
+    public ResponseEntity<Object> save(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody @Valid AgentRequestDTO agentRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        Agent agentEntity = agentService.save(agentRequestDTO, accessToken);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -35,8 +42,13 @@ public class AgentController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid AgentRequestDTO agentRequestDTO){
-        agentService.update(agentRequestDTO, id);
+    public ResponseEntity<Object> update(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable("id") long id,
+        @RequestBody @Valid AgentRequestDTO agentRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        agentService.update(agentRequestDTO, id, accessToken);
         return ResponseEntity.noContent().build();
     }
 
@@ -48,11 +60,24 @@ public class AgentController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<Page<AgentRequestDTO>> readAll(
+    public ResponseEntity<Page<AgentResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+        @RequestParam(value = "name", required = false) String name,
+        @RequestParam(value = "cpf", required = false) String cpf,
+        @RequestParam(value = "phone", required = false) String phone,
+        @RequestParam(value = "birthday", required = false) LocalDate birthday,
+        @RequestParam(value = "email", required = false) String email
     ){
-        return ResponseEntity.ok(agentService.getAll(pageNumber, pageLength));
+        return ResponseEntity.ok(agentService.getAll(
+            pageNumber,
+            pageLength,
+            name,
+            cpf,
+            phone,
+            birthday,
+            email
+        ));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")

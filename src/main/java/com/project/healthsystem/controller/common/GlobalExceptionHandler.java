@@ -6,6 +6,9 @@ import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -65,10 +68,38 @@ public class GlobalExceptionHandler {
             List.of());
     }
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponseDTO handleAuthorizationDenied(AuthorizationDeniedException e){
+        return new ErrorResponseDTO(
+            HttpStatus.UNAUTHORIZED.value(),
+            "Autorização negada!",
+            List.of()
+        );
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponseDTO handleInvalidCredentials(BadCredentialsException e){
+        return new ErrorResponseDTO(
+            HttpStatus.UNAUTHORIZED.value(),
+            "Credenciais inválidas, verifique se seu login e senha estão corretos!",
+            List.of());
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponseDTO handleUnhandledErrorException(InternalAuthenticationServiceException e){
+        return new ErrorResponseDTO(
+                HttpStatus.FORBIDDEN.value(),
+                "Credenciais inválidas, verifique se seu login e senha estão corretos!",
+                List.of());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponseDTO handleUnhandledErrorException(RuntimeException e){
-        System.out.println("Erro inesperado: " + e.getMessage());
+        System.out.println("Erro inesperado: " + e);
         return new ErrorResponseDTO(
             HttpStatus.INTERNAL_SERVER_ERROR.value(),
             "Ops! Houve um erro inesperado. Entre em contato com nossa equipe.",

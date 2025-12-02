@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.service.CategoryGroupService;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/category-groups")
@@ -23,8 +23,12 @@ public class CategoryGroupController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Void> save(@RequestBody @Valid CategoryGroupRequestDTO categoryGroupRequestDTO){
-        CategoryGroup categoryGroup = categoryGroupService.save(categoryGroupRequestDTO);
+    public ResponseEntity<Void> save(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody @Valid CategoryGroupRequestDTO categoryGroupRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        CategoryGroup categoryGroup = categoryGroupService.save(categoryGroupRequestDTO, accessToken);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -37,8 +41,13 @@ public class CategoryGroupController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid CategoryGroupRequestDTO categoryGroupRequestDTO){
-        categoryGroupService.update(categoryGroupRequestDTO, id);
+    public ResponseEntity<Object> update(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable("id") long id,
+        @RequestBody @Valid CategoryGroupRequestDTO categoryGroupRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        categoryGroupService.update(categoryGroupRequestDTO, id, accessToken);
         return ResponseEntity.noContent().build();
     }
 
@@ -46,9 +55,10 @@ public class CategoryGroupController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public ResponseEntity<Page<CategoryGroupRequestDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+        @RequestParam(value = "name", required = false) String name
     ){
-        return ResponseEntity.ok(categoryGroupService.getAll(pageNumber, pageLength));
+        return ResponseEntity.ok(categoryGroupService.getAll(pageNumber, pageLength, name));
     }
 
     @DeleteMapping("{id}")

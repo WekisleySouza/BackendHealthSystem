@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @MappedSuperclass
 @Data
-public abstract class UserBasicAbstraction extends IDAbstraction{
+public abstract class UserBasicAbstraction extends BasicEntityAbstraction {
 
     @Column(name = "name", length = 100, nullable = false)
     protected String name;

@@ -12,8 +12,7 @@ public abstract class ConditionMapper {
     public abstract ConditionRequestDTO toDto(Condition entity);
 
     public Condition toEntityWhenHasId(Condition entity, ConditionRequestDTO dto){
-        Condition newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setSpecification(dto.getSpecification());
+        return entity;
     }
 }

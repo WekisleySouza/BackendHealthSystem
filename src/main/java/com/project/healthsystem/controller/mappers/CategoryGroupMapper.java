@@ -12,8 +12,7 @@ public abstract class CategoryGroupMapper {
     public abstract CategoryGroupRequestDTO toDto(CategoryGroup entity);
 
     public CategoryGroup toEntityWhenHasId(CategoryGroup entity, CategoryGroupRequestDTO dto){
-        CategoryGroup newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setName(dto.getName());
+        return entity;
     }
 }

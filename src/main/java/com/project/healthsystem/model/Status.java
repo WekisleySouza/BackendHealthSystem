@@ -1,5 +1,7 @@
 package com.project.healthsystem.model;
 
+import com.project.healthsystem.exceptions.InvalidDataException;
+
 public enum Status {
     COMPLETED("completo"),
     CREATED("Criado");
@@ -20,6 +22,6 @@ public enum Status {
                 return s;
             }
         }
-        throw new IllegalArgumentException("Status inválido: " + label);
+        throw new InvalidDataException("Status inválido: " + label);
     }
 }

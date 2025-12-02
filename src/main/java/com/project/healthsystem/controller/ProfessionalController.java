@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.service.ProfessionalService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/professionals")
@@ -21,8 +23,12 @@ public class ProfessionalController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Void> save(@RequestBody @Valid ProfessionalRequestDTO professionalRequestDto){
-        Professional professionalEntity = professionalService.save(professionalRequestDto);
+    public ResponseEntity<Void> save(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody @Valid ProfessionalRequestDTO professionalRequestDto
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        Professional professionalEntity = professionalService.save(professionalRequestDto, accessToken);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -35,8 +41,13 @@ public class ProfessionalController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid ProfessionalRequestDTO professionalRequestDto){
-        professionalService.update(professionalRequestDto, id);
+    public ResponseEntity<Object> update(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable("id") long id,
+        @RequestBody @Valid ProfessionalRequestDTO professionalRequestDto
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        professionalService.update(professionalRequestDto, id, accessToken);
         return ResponseEntity.noContent().build();
     }
 
@@ -44,9 +55,23 @@ public class ProfessionalController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public ResponseEntity<Page<ProfessionalRequestDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+        @RequestParam(value = "name", required = false) String name,
+        @RequestParam(value = "cpf", required = false) String cpf,
+        @RequestParam(value = "phone", required = false) String phone,
+        @RequestParam(value = "birthday", required = false) LocalDate birthday,
+        @RequestParam(value = "email", required = false) String email
+
     ){
-        return ResponseEntity.ok(professionalService.getAll(pageNumber, pageLength));
+        return ResponseEntity.ok(professionalService.getAll(
+            pageNumber,
+            pageLength,
+            name,
+            cpf,
+            phone,
+            birthday,
+            email
+        ));
     }
 
     @DeleteMapping("{id}")

@@ -14,8 +14,9 @@ public abstract class ServiceTypeMapper {
     public abstract ServiceTypeRequestDTO toDto(ServiceType entity);
 
     public ServiceType toEntityWhenHasId(ServiceType entity, ServiceTypeRequestDTO dto){
-        ServiceType newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setType(dto.getType());
+        entity.setName(dto.getName());
+        entity.setValue(dto.getValue());
+        return entity;
     }
 }

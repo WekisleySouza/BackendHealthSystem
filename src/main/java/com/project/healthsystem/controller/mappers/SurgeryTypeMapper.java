@@ -12,8 +12,7 @@ public abstract class SurgeryTypeMapper {
     public abstract SurgeryTypeRequestDTO toDto(SurgeryType entity);
 
     public SurgeryType toEntityWhenHasId(SurgeryType entity, SurgeryTypeRequestDTO dto){
-        SurgeryType newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setType(dto.getType());
+        return entity;
     }
 }

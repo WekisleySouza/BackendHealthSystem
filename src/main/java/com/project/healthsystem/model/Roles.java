@@ -1,10 +1,10 @@
 package com.project.healthsystem.model;
 
 public enum Roles {
-    ADMIN("Administrador"),
-    MANAGER("Gerente"),
-    EMPLOYEE("Funcionário"),
-    USER("Paciente");
+    ADMIN("ADMIN"),
+    MANAGER("MANAGER"),
+    EMPLOYEE("EMPLOYEE"),
+    USER("PATIENT");
 
     private final String label;
 

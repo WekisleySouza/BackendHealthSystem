@@ -14,8 +14,16 @@ public abstract class SurgeryMapper {
     public abstract SurgeryRequestDTO toDto(Surgery entity);
 
     public Surgery toEntityWhenHasId(Surgery entity, SurgeryRequestDTO dto){
-        Surgery newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setDateTime(dto.getDateTime());
+        entity.setPersonName(dto.getPersonName());
+        entity.setSurgeryRisk(dto.getSurgeryRisk());
+        entity.setLocation(dto.getLocation());
+        entity.setConclusion(dto.getConclusion());
+        entity.setSusEasy(dto.getSusEasy());
+        entity.setSesap(dto.getSesap());
+        entity.setProcedureDate(dto.getProcedureDate());
+        entity.setAnesthesicRisk(dto.getAnesthesicRisk());
+        entity.setObservation(dto.getObservation());
+        return entity;
     }
 }

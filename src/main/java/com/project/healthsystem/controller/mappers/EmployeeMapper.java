@@ -12,8 +12,11 @@ public abstract class EmployeeMapper {
     public abstract EmployeeRequestDTO toDto(Employee entity);
 
     public Employee toEntityWhenHasId(Employee entity, EmployeeRequestDTO dto){
-        Employee newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setName(dto.getName());
+        entity.setCpf(dto.getCpf());
+        entity.setBirthday(dto.getBirthday());
+        entity.setEmail(dto.getEmail());
+        entity.setPhone(dto.getPhone());
+        return entity;
     }
 }

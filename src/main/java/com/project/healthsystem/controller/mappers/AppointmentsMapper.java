@@ -2,6 +2,7 @@ package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.model.Appointment;
+import com.project.healthsystem.model.Status;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -19,8 +20,9 @@ public abstract class AppointmentsMapper {
     public abstract AppointmentRequestDTO toDto(Appointment entity);
 
     public Appointment toEntityWhenHasId(Appointment entity, AppointmentRequestDTO dto) {
-        Appointment newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setStatus(Status.fromLabel(dto.getStatus()));
+        entity.setNotes(dto.getNotes());
+        entity.setScheduledAt(dto.getScheduledAt());
+        return entity;
     }
 }

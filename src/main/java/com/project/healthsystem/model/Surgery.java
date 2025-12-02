@@ -1,6 +1,6 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.IDAbstraction;
+import com.project.healthsystem.model.abstractions.BasicEntityAbstraction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "tb_surgery")
 @Data
 @NoArgsConstructor
-public class Surgery extends IDAbstraction {
+public class Surgery extends BasicEntityAbstraction {
 
     @Column(name = "date_time")
     private LocalDateTime dateTime;

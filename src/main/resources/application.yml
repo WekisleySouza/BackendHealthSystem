@@ -18,3 +18,11 @@ app:
     username: ${DEFAULT_ADMIN_USERNAME:admin}
     password: ${DEFAULT_ADMIN_PASSWORD:admin}
   default-user-password: ${DEFAULT_USER_PASSWORD}
+  default-employee-password: ${DEFAULT_EMPLOYEE_PASSWORD}
+security:
+  refresh:
+    expiration: 604800000
+#    expiration: 60000
+  access:
+    expiration: 900000
+#    expiration: 30000

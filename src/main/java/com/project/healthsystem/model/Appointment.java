@@ -1,6 +1,6 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.IDAbstraction;
+import com.project.healthsystem.model.abstractions.BasicEntityAbstraction;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,19 +11,17 @@ import java.time.LocalDateTime;
 @Table(name = "consultation")
 @Data
 @NoArgsConstructor
-public class Appointment extends IDAbstraction {
+public class Appointment extends BasicEntityAbstraction {
 
     @Column(name = "notes")
     private String notes;
-    @Column(name="scheduled_at")
-    private LocalDateTime scheduledAt;
-    @Column(name="created_at")
-    private LocalDateTime createdAt;
     @Column(name="priorit")
     private String priorit;
     @Enumerated(EnumType.STRING)
     @Column(name="status")
     private Status status;
+    @Column(name="scheduled_at")
+    private LocalDateTime scheduledAt;
 
     @ManyToOne
     private ServiceType serviceType;
@@ -33,12 +31,6 @@ public class Appointment extends IDAbstraction {
     private Employee employee;
     @ManyToOne
     private Person person;
-
-    public void createdNow(){
-        if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
-        }
-    }
 
     public long getProfessionalId(){
         if(this.professional != null){

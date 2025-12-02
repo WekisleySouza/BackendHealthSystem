@@ -1,6 +1,6 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.IDAbstraction;
+import com.project.healthsystem.model.abstractions.BasicEntityAbstraction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "tb_surgery_type")
 @Data
 @NoArgsConstructor
-public class SurgeryType extends IDAbstraction {
+public class SurgeryType extends BasicEntityAbstraction {
 
     @Column(name = "type")
     private String type;

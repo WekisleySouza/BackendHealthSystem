@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.service.SurgeryTypeService;
@@ -21,8 +22,12 @@ public class SurgeryTypeController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Void> save(@RequestBody @Valid SurgeryTypeRequestDTO surgeryTypeRequestDTO){
-        SurgeryType surgeryTypeEntity = surgeryTypeService.save(surgeryTypeRequestDTO);
+    public ResponseEntity<Void> save(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody @Valid SurgeryTypeRequestDTO surgeryTypeRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        SurgeryType surgeryTypeEntity = surgeryTypeService.save(surgeryTypeRequestDTO, accessToken);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -35,8 +40,13 @@ public class SurgeryTypeController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid SurgeryTypeRequestDTO surgeryTypeRequestDTO){
-        surgeryTypeService.update(surgeryTypeRequestDTO, id);
+    public ResponseEntity<Object> update(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable("id") long id,
+        @RequestBody @Valid SurgeryTypeRequestDTO surgeryTypeRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        surgeryTypeService.update(surgeryTypeRequestDTO, id, accessToken);
         return ResponseEntity.noContent().build();
     }
 
@@ -44,9 +54,10 @@ public class SurgeryTypeController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public ResponseEntity<Page<SurgeryTypeRequestDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+        @RequestParam(value = "type", required = false) String type
     ){
-        return ResponseEntity.ok(surgeryTypeService.getAll(pageNumber, pageLength));
+        return ResponseEntity.ok(surgeryTypeService.getAll(pageNumber, pageLength, type));
     }
 
     @DeleteMapping("{id}")

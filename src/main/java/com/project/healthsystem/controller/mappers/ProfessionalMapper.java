@@ -12,8 +12,11 @@ public abstract class ProfessionalMapper {
     public abstract ProfessionalRequestDTO toDto(Professional entity);
 
     public Professional toEntityWhenHasId(Professional entity, ProfessionalRequestDTO dto){
-        Professional newEntity = toEntity(dto);
-        newEntity.setId(entity.getId());
-        return newEntity;
+        entity.setName(dto.getName());
+        entity.setBirthday(dto.getBirthday());
+        entity.setCpf(dto.getCpf());
+        entity.setPhone(dto.getPhone());
+        entity.setEmail(dto.getEmail());
+        return entity;
     }
 }

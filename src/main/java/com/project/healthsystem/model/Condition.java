@@ -1,6 +1,6 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.IDAbstraction;
+import com.project.healthsystem.model.abstractions.BasicEntityAbstraction;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name="tb_condition")
 @Data
 @NoArgsConstructor
-public class Condition extends IDAbstraction {
+public class Condition extends BasicEntityAbstraction {
 
     @Column(name="specification")
     private String specification;

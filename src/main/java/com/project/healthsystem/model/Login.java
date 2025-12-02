@@ -1,6 +1,6 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.IDAbstraction;
+import com.project.healthsystem.model.abstractions.BasicEntityAbstraction;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "login")
 @Data
 @NoArgsConstructor
-public class Login extends IDAbstraction {
+public class Login extends BasicEntityAbstraction {
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;

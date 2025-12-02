@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.PersonRequestDTO;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.service.PersonService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/patients")
@@ -21,8 +23,12 @@ public class PersonController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<Void> save(@RequestBody @Valid PersonRequestDTO person){
-        Person personEntity = personService.save(person);
+    public ResponseEntity<Void> save(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody @Valid PersonRequestDTO person
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        Person personEntity = personService.save(person, accessToken);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -35,8 +41,13 @@ public class PersonController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<Object> update(@PathVariable("id") long id, @RequestBody @Valid PersonRequestDTO personRequestDTO){
-        personService.update(personRequestDTO, id);
+    public ResponseEntity<Object> update(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable("id") long id,
+        @RequestBody @Valid PersonRequestDTO personRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        personService.update(personRequestDTO, id, accessToken);
         return ResponseEntity.noContent().build();
     }
 
@@ -50,13 +61,27 @@ public class PersonController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public ResponseEntity<Page<PersonRequestDTO>> readAll(
-            // Caso não for usar, retirar estes parâmetros futuramente
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+        @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+        @RequestParam(value = "name", required = false) String name,
+        @RequestParam(value = "cpf", required = false) String cpf,
+        @RequestParam(value = "phone", required = false) String phone,
+        @RequestParam(value = "birthday", required = false) LocalDate birthday,
+        @RequestParam(value = "email", required = false) String email,
+        @RequestParam(value = "cns", required = false) String cns,
+        @RequestParam(value = "mother-name", required = false) String motherName
     ){
-        Page<PersonRequestDTO> personsDTO = personService.search(pageNumber, pageLength);
-        return ResponseEntity.ok(personsDTO);
+        return ResponseEntity.ok(personService.getAll(
+            pageNumber,
+            pageLength,
+            name,
+            cpf,
+            phone,
+            birthday,
+            email,
+            cns,
+            motherName
+        ));
     }
 
     @DeleteMapping("{id}")

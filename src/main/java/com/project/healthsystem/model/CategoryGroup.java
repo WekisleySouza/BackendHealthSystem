@@ -1,6 +1,6 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.IDAbstraction;
+import com.project.healthsystem.model.abstractions.BasicEntityAbstraction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "tb_category_group")
 @Data
 @NoArgsConstructor
-public class CategoryGroup extends IDAbstraction {
+public class CategoryGroup extends BasicEntityAbstraction {
 
     @OneToMany(mappedBy = "categoryGroup")
     private List<ServiceType> serviceTypes;
