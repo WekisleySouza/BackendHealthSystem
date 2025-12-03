@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ConditionRequestDTO;
+import com.project.healthsystem.controller.dto.ConditionResponseDTO;
 import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.model.Employee;
@@ -46,7 +47,7 @@ public class ConditionService {
         repository.save(condition);
     }
 
-    public Page<ConditionRequestDTO> getAll(Integer pageNumber, Integer pageLength, String specification){
+    public Page<ConditionResponseDTO> getAll(Integer pageNumber, Integer pageLength, String specification){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Condition> specs = null;
         specs = SpecsCommon.addSpec(specs, ConditionSpecs.specificationEqual(specification));

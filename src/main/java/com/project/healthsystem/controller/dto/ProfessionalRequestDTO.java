@@ -18,8 +18,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ProfessionalRequestDTO {
 
-    private long id;
-
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
 

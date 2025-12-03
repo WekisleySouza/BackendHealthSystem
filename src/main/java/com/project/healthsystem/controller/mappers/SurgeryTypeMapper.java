@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
+import com.project.healthsystem.controller.dto.SurgeryTypeResponseDTO;
 import com.project.healthsystem.model.SurgeryType;
 import org.mapstruct.Mapper;
 
@@ -9,7 +10,7 @@ public abstract class SurgeryTypeMapper {
 
     public abstract SurgeryType toEntity(SurgeryTypeRequestDTO dto);
 
-    public abstract SurgeryTypeRequestDTO toDto(SurgeryType entity);
+    public abstract SurgeryTypeResponseDTO toDto(SurgeryType entity);
 
     public SurgeryType toEntityWhenHasId(SurgeryType entity, SurgeryTypeRequestDTO dto){
         entity.setType(dto.getType());

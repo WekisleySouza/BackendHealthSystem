@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SurgeryTypeRequestDTO {
 
-    private long id;
     @NotBlank(message = "O tipo não pode estar em branco!")
     private String type;
 

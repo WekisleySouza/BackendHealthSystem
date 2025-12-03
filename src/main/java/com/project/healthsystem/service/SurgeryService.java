@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.SurgeryRequestDTO;
+import com.project.healthsystem.controller.dto.SurgeryResponseDTO;
 import com.project.healthsystem.controller.mappers.SurgeryMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Surgery;
@@ -46,7 +47,7 @@ public class SurgeryService {
         repository.save(surgery);
     }
 
-    public Page<SurgeryRequestDTO> getAll(
+    public Page<SurgeryResponseDTO> getAll(
             Integer pageNumber,
             Integer pageLength,
             LocalDateTime dateTime,

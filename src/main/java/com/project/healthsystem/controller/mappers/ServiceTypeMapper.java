@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
+import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
 import com.project.healthsystem.model.ServiceType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,7 +12,7 @@ public abstract class ServiceTypeMapper {
     public abstract ServiceType toEntity(ServiceTypeRequestDTO dto);
 
     @Mapping(target = "categoryGroupId", expression = "java(entity.getCategoryGroupId())")
-    public abstract ServiceTypeRequestDTO toDto(ServiceType entity);
+    public abstract ServiceTypeResponseDTO toDto(ServiceType entity);
 
     public ServiceType toEntityWhenHasId(ServiceType entity, ServiceTypeRequestDTO dto){
         entity.setType(dto.getType());

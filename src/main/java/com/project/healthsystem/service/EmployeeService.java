@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
+import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Roles;
@@ -51,7 +52,7 @@ public class EmployeeService {
         return employeeValidator.validateFindById(id);
     }
 
-    public Page<EmployeeRequestDTO> getAll(
+    public Page<EmployeeResponseDTO> getAll(
             Integer pageNumber,
             Integer pageLength,
             String name,

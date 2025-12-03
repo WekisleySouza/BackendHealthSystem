@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
+import com.project.healthsystem.controller.dto.SurgeryTypeResponseDTO;
 import com.project.healthsystem.controller.mappers.SurgeryTypeMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.SurgeryType;
@@ -42,7 +43,7 @@ public class SurgeryTypeService {
         repository.save(surgeryType);
     }
 
-    public Page<SurgeryTypeRequestDTO> getAll(Integer pageNumber, Integer pageLength, String type){
+    public Page<SurgeryTypeResponseDTO> getAll(Integer pageNumber, Integer pageLength, String type){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<SurgeryType> specs = null;
         specs = SpecsCommon.addSpec(specs, SurgeryTypeSpecs.typeEqual(type));

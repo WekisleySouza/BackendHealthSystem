@@ -4,16 +4,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-public class AgentResponseDTO {
+public class ServiceTypeResponseDTO {
     private long id;
+    private long categoryGroupId;
+
     private String name;
-    private String cpf;
-    private String phone;
-    private LocalDate birthday;
-    private String email;
+    private BigDecimal value;
+    private String type;
 }

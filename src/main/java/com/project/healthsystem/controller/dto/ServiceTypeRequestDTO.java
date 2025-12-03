@@ -11,8 +11,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceTypeRequestDTO {
-
-    private long id;
     private long categoryGroupId;
 
     @NotBlank(message = "O nome é obrigatório!")

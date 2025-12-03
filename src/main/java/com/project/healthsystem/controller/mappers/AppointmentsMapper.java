@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.model.Status;
 import org.mapstruct.Mapper;
@@ -17,7 +18,7 @@ public abstract class AppointmentsMapper {
     @Mapping(target = "personId", expression = "java(entity.getPersonId())")
     @Mapping(target = "serviceTypeId", expression = "java(entity.getServiceTypeId())")
     @Mapping(target = "status", expression = "java(entity.getStatus().getLabel())")
-    public abstract AppointmentRequestDTO toDto(Appointment entity);
+    public abstract AppointmentResponseDTO toDto(Appointment entity);
 
     public Appointment toEntityWhenHasId(Appointment entity, AppointmentRequestDTO dto) {
         entity.setStatus(Status.fromLabel(dto.getStatus()));

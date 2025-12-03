@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
+import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
 import com.project.healthsystem.controller.mappers.ServiceTypeMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.ServiceType;
@@ -45,7 +46,7 @@ public class ServiceTypeService {
         repository.save(serviceType);
     }
 
-    public Page<ServiceTypeRequestDTO> getAll(
+    public Page<ServiceTypeResponseDTO> getAll(
         Integer pageNumber,
         Integer pageLength,
         String name,

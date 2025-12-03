@@ -2,6 +2,7 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.SurgeryRequestDTO;
+import com.project.healthsystem.controller.dto.SurgeryResponseDTO;
 import com.project.healthsystem.model.Surgery;
 import com.project.healthsystem.service.SurgeryService;
 import jakarta.validation.Valid;
@@ -55,7 +56,7 @@ public class SurgeryController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<Page<SurgeryRequestDTO>> readAll(
+    public ResponseEntity<Page<SurgeryResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
 

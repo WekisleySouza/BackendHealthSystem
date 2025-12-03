@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
+import com.project.healthsystem.controller.dto.CategoryGroupResponseDTO;
 import com.project.healthsystem.controller.mappers.CategoryGroupMapper;
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.model.Employee;
@@ -46,7 +47,7 @@ public class CategoryGroupService {
         repository.save(categoryGroup);
     }
 
-    public Page<CategoryGroupRequestDTO> getAll(
+    public Page<CategoryGroupResponseDTO> getAll(
         Integer pageNumber,
         Integer pageLength,
         String name

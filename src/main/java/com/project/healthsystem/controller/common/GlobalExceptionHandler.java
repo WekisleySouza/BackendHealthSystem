@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.file.AccessDeniedException;
+import java.security.SignatureException;
 import java.util.List;
 
 @RestControllerAdvice
@@ -61,7 +62,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponseDTO handleAccesDeniedException(NotFoundException e){
+    public ErrorResponseDTO handleAccesDeniedException(AccessDeniedException e){
         return new ErrorResponseDTO(
             HttpStatus.INTERNAL_SERVER_ERROR.value(),
             "Você não tem permissão para executar esta operação!",
@@ -75,6 +76,16 @@ public class GlobalExceptionHandler {
             HttpStatus.UNAUTHORIZED.value(),
             "Autorização negada!",
             List.of()
+        );
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponseDTO handleAuthorizationDenied(SignatureException e){
+        return new ErrorResponseDTO(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Autorização negada!",
+                List.of()
         );
     }
 

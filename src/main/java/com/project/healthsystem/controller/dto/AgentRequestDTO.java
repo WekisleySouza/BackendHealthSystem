@@ -11,12 +11,11 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 public class AgentRequestDTO {
 
-    private long id;
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
 

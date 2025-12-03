@@ -81,7 +81,7 @@ public class AgentController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         agentService.delete(id);
         return ResponseEntity.noContent().build();

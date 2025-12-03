@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.PersonRequestDTO;
+import com.project.healthsystem.controller.dto.PersonResponseDTO;
 import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Person;
@@ -49,11 +50,11 @@ public class PersonService {
         repository.save(person);
     }
 
-    public PersonRequestDTO findById(long id){
+    public PersonResponseDTO findById(long id){
         return personMapper.toDto(personValidator.validateFindById(id));
     }
 
-    public Page<PersonRequestDTO> getAll(
+    public Page<PersonResponseDTO> getAll(
             Integer pageNumber,
             Integer pageLength,
             String name,

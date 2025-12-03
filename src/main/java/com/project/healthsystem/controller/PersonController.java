@@ -2,6 +2,7 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.PersonRequestDTO;
+import com.project.healthsystem.controller.dto.PersonResponseDTO;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.service.PersonService;
 import jakarta.validation.Valid;
@@ -54,13 +55,13 @@ public class PersonController {
     @GetMapping("{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public ResponseEntity<Object> read(@PathVariable("id") long id){
-        PersonRequestDTO personRequestDTO = personService.findById(id);
-        return ResponseEntity.ok(personRequestDTO);
+        PersonResponseDTO personResponseDTO = personService.findById(id);
+        return ResponseEntity.ok(personResponseDTO);
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<Page<PersonRequestDTO>> readAll(
+    public ResponseEntity<Page<PersonResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
         @RequestParam(value = "name", required = false) String name,

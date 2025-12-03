@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConditionRequestDTO {
-    private long id;
     @NotBlank(message = "A especificação não pode estar em branco!")
     private String specification;
 

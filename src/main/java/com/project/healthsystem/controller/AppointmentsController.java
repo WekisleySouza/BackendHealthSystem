@@ -2,6 +2,7 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.service.AppointmentService;
 import jakarta.validation.Valid;
@@ -54,7 +55,7 @@ public class AppointmentsController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<Page<AppointmentRequestDTO>> readAll(
+    public ResponseEntity<Page<AppointmentResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
         @RequestParam(value = "notes", required = false) String notes,
@@ -63,7 +64,7 @@ public class AppointmentsController {
         @RequestParam(value = "priorit", required = false) String priorit,
         @RequestParam(value = "status", required = false) String status
     ){
-        Page<AppointmentRequestDTO> appointmentRequestDTOS = appointmentService.getAll(
+        Page<AppointmentResponseDTO> AppointmentResponseDTOs = appointmentService.getAll(
             pageNumber,
             pageLength,
             notes,
@@ -72,7 +73,7 @@ public class AppointmentsController {
             priorit,
             status
         );
-        return ResponseEntity.ok(appointmentRequestDTOS);
+        return ResponseEntity.ok(AppointmentResponseDTOs);
     }
 
     @DeleteMapping("{id}")

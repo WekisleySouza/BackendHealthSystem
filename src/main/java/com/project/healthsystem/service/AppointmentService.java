@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
@@ -45,7 +46,7 @@ public class AppointmentService {
         return repository.save(appointment);
     }
 
-    public Page<AppointmentRequestDTO> getAll(
+    public Page<AppointmentResponseDTO> getAll(
             Integer pageNumber,
             Integer pageLength,
             String notes,

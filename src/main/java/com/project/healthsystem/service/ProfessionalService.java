@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
+import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Professional;
@@ -45,7 +46,7 @@ public class ProfessionalService {
         repository.save(professional);
     }
 
-    public Page<ProfessionalRequestDTO> getAll(
+    public Page<ProfessionalResponseDTO> getAll(
             Integer pageNumber,
             Integer pageLength,
             String name,

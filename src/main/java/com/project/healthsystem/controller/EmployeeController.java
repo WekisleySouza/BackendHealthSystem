@@ -2,6 +2,7 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
+import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -53,7 +54,7 @@ public class EmployeeController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Page<EmployeeRequestDTO>> readAll(
+    public ResponseEntity<Page<EmployeeResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
         @RequestParam(value = "name", required = false) String name,
@@ -62,7 +63,7 @@ public class EmployeeController {
         @RequestParam(value = "birthday", required = false) LocalDate birthday,
         @RequestParam(value = "email", required = false) String email
     ){
-        Page<EmployeeRequestDTO> employeeRequestDTOS = service.getAll(
+        Page<EmployeeResponseDTO> employeeRequestDTOS = service.getAll(
             pageNumber,
             pageLength,
             name,

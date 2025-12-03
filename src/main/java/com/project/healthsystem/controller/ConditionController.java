@@ -2,6 +2,7 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.dto.ConditionRequestDTO;
+import com.project.healthsystem.controller.dto.ConditionResponseDTO;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.service.ConditionService;
 import jakarta.validation.Valid;
@@ -52,7 +53,7 @@ public class ConditionController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<Page<ConditionRequestDTO>> readAll(
+    public ResponseEntity<Page<ConditionResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
         @RequestParam(value = "specification", required = false) String specification

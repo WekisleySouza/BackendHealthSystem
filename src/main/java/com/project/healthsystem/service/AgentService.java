@@ -48,7 +48,7 @@ public class AgentService {
 
     public AgentResponseDTO findById(long id){
         Agent agent = agentValidator.validateFindById(id);
-        return agentMapper.toResponseDto(agent);
+        return agentMapper.toDto(agent);
     }
 
     public Page<AgentResponseDTO> getAll(
@@ -69,7 +69,7 @@ public class AgentService {
         specs = SpecsCommon.addSpec(specs, AgentSpecs.emailEqual(email));
         return repository
             .findAll(specs, pageRequest)
-            .map(agentMapper::toResponseDto);
+            .map(agentMapper::toDto);
     }
 
     public void delete(long id){

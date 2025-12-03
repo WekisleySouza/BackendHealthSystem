@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AppointmentRequestDTO {
 
-    private long id;
     private Long professionalId;
     @NotNull(message = "O funcionário responsável é obrigatório!")
     private Long employeeId;
@@ -31,8 +30,6 @@ public class AppointmentRequestDTO {
     private String notes;
 
     private LocalDateTime scheduledAt;
-
-    private LocalDateTime createdAt;
 
     private String priority;
 

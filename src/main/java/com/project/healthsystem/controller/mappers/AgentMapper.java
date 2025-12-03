@@ -10,9 +10,7 @@ public abstract class AgentMapper {
 
     public abstract Agent toEntity(AgentRequestDTO dto);
 
-    public abstract AgentResponseDTO toResponseDto(Agent agent);
-
-    public abstract AgentRequestDTO toRequestDto(Agent agent);
+    public abstract AgentResponseDTO toDto(Agent agent);
 
     public Agent toEntityWhenHasId(Agent agent, AgentRequestDTO agentRequestDTO){
         agent.setCpf(agentRequestDTO.getCpf());

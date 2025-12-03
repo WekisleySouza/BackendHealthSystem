@@ -11,8 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryGroupRequestDTO {
-    private long id;
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
-
 }

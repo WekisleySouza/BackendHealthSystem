@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
+import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
 import com.project.healthsystem.model.Professional;
 import org.mapstruct.Mapper;
 
@@ -9,7 +10,7 @@ public abstract class ProfessionalMapper {
 
     public abstract Professional toEntity(ProfessionalRequestDTO dto);
 
-    public abstract ProfessionalRequestDTO toDto(Professional entity);
+    public abstract ProfessionalResponseDTO toDto(Professional entity);
 
     public Professional toEntityWhenHasId(Professional entity, ProfessionalRequestDTO dto){
         entity.setName(dto.getName());

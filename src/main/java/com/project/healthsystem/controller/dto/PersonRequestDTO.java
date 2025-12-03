@@ -16,8 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PersonRequestDTO {
-    private long id;
-
     @NotNull(message = "O usuário deve estar atribuído a um agente!")
     private Long agentId;
 

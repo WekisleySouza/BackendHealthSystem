@@ -6,14 +6,15 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-public class AgentResponseDTO {
+public class ProfessionalResponseDTO {
     private long id;
+
     private String name;
+    private LocalDate birthday;
     private String cpf;
     private String phone;
-    private LocalDate birthday;
     private String email;
 }
