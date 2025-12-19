@@ -53,6 +53,12 @@ public class AppointmentsController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    public ResponseEntity<Object> read(@PathVariable("id") long id){
+        return ResponseEntity.ok(appointmentService.findById(id));
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public ResponseEntity<Page<AppointmentResponseDTO>> readAll(

@@ -1,0 +1,234 @@
+[
+  {
+    "name": "Ana Paula Ribeiro",
+    "cpf": "742.816.930-41",
+    "birthday": "1985-03-12",
+    "email": "ana.ribeiro@health.com",
+    "phone": "(11) 98765-1111",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Bruno Martins",
+    "cpf": "681.254.970-62",
+    "birthday": "1988-07-25",
+    "email": "bruno.martins@health.com",
+    "phone": "(11) 98888-2222",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Carla Souza",
+    "cpf": "914.603.820-15",
+    "birthday": "1990-11-02",
+    "email": "carla.souza@health.com",
+    "phone": "(21) 97777-3333",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Diego Azevedo",
+    "cpf": "537.918.460-08",
+    "birthday": "1983-09-09",
+    "email": "diego.azevedo@health.com",
+    "phone": "(31) 98876-4444",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Eduarda Rocha",
+    "cpf": "268.709.540-93",
+    "birthday": "1992-01-14",
+    "email": "eduarda.rocha@health.com",
+    "phone": "(41) 98712-5555",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Felipe Pires",
+    "cpf": "805.134.690-27",
+    "birthday": "1987-04-21",
+    "email": "felipe.pires@health.com",
+    "phone": "(19) 97654-6666",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Gabriela Farias",
+    "cpf": "419.580.360-44",
+    "birthday": "1980-12-30",
+    "email": "gabriela.farias@health.com",
+    "phone": "(51) 98444-7777",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Henrique Guimarães",
+    "cpf": "392.847.510-66",
+    "birthday": "1991-08-05",
+    "email": "henrique.guimaraes@health.com",
+    "phone": "(11) 95555-8888",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Isabela Cardoso",
+    "cpf": "671.930.280-59",
+    "birthday": "1993-10-11",
+    "email": "isabela.cardoso@health.com",
+    "phone": "(62) 98777-9999",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "João Batista",
+    "cpf": "508.261.940-73",
+    "birthday": "1984-02-17",
+    "email": "joao.batista@health.com",
+    "phone": "(13) 98812-1010",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Karina Moreira",
+    "cpf": "146.782.390-84",
+    "birthday": "1989-05-09",
+    "email": "karina.moreira@health.com",
+    "phone": "(11) 99123-2020",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Lucas Freitas",
+    "cpf": "930.475.820-11",
+    "birthday": "1986-09-27",
+    "email": "lucas.freitas@health.com",
+    "phone": "(27) 98877-3030",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Marina Teixeira",
+    "cpf": "287.650.910-58",
+    "birthday": "1990-12-03",
+    "email": "marina.teixeira@health.com",
+    "phone": "(85) 98765-4040",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Nicolas Costa",
+    "cpf": "654.093.870-20",
+    "birthday": "1987-11-20",
+    "email": "nicolas.costa@health.com",
+    "phone": "(48) 99654-5050",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Olivia Ribeiro",
+    "cpf": "318.907.640-95",
+    "birthday": "1994-06-01",
+    "email": "olivia.ribeiro@health.com",
+    "phone": "(92) 98712-6060",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Paulo Martins",
+    "cpf": "790.261.830-04",
+    "birthday": "1981-02-08",
+    "email": "paulo.martins@health.com",
+    "phone": "(11) 99333-7070",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Renata Guedes",
+    "cpf": "471.629.580-36",
+    "birthday": "1979-10-29",
+    "email": "renata.guedes@health.com",
+    "phone": "(34) 98845-8080",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Samuel Torres",
+    "cpf": "825.370.940-17",
+    "birthday": "1992-07-13",
+    "email": "samuel.torres@health.com",
+    "phone": "(21) 98744-9090",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Tatiana Falcão",
+    "cpf": "902.148.630-72",
+    "birthday": "1985-01-05",
+    "email": "tatiana.falcao@health.com",
+    "phone": "(65) 98811-1112",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Victor Prado",
+    "cpf": "368.514.790-61",
+    "birthday": "1996-03-18",
+    "email": "victor.prado@health.com",
+    "phone": "(71) 98765-1313",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "William Cunha",
+    "cpf": "594.870.231-49",
+    "birthday": "1976-08-26",
+    "email": "william.cunha@health.com",
+    "phone": "(12) 98890-1414",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Yasmin Rangel",
+    "cpf": "237.945.680-90",
+    "birthday": "1991-12-11",
+    "email": "yasmin.rangel@health.com",
+    "phone": "(98) 98777-1515",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Zeca Pimentel",
+    "cpf": "681.590.374-26",
+    "birthday": "1983-04-07",
+    "email": "zeca.pimentel@health.com",
+    "phone": "(44) 98866-1616",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Amanda Furtado",
+    "cpf": "740.183.965-52",
+    "birthday": "1997-06-30",
+    "email": "amanda.furtado@health.com",
+    "phone": "(11) 99900-1717",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Breno Cunha",
+    "cpf": "259.830.471-88",
+    "birthday": "1970-02-19",
+    "email": "breno.cunha@health.com",
+    "phone": "(83) 98855-1818",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Camila Brandão",
+    "cpf": "814.067.329-10",
+    "birthday": "1992-09-08",
+    "email": "camila.brandao@health.com",
+    "phone": "(61) 98712-1919",
+    "role": "MANAGER"
+  },
+  {
+    "name": "Douglas Mendonça",
+    "cpf": "936.405.281-67",
+    "birthday": "1988-01-16",
+    "email": "douglas.mendonca@health.com",
+    "phone": "(11) 98888-2021",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Elisa Peixoto",
+    "cpf": "507.938.642-19",
+    "birthday": "1977-05-24",
+    "email": "elisa.peixoto@health.com",
+    "phone": "(63) 98765-2122",
+    "role": "EMPLOYEE"
+  },
+  {
+    "name": "Fernando Meireles",
+    "cpf": "683.249.705-34",
+    "birthday": "1984-10-02",
+    "email": "fernando.meireles@health.com",
+    "phone": "(84) 98877-2323",
+    "role": "EMPLOYEE"
+  }
+]

@@ -3,8 +3,12 @@ package com.project.healthsystem.model;
 import com.project.healthsystem.exceptions.InvalidDataException;
 
 public enum Status {
-    COMPLETED("completo"),
-    CREATED("Criado");
+    PENDING_SCHEDULING("Sem agendamento"),
+    SCHEDULED("Agendado"),
+    COMPLETED("Completo"),
+    CANCELED("Cancelado"),
+    NO_SHOW("Paciente faltou"),
+    OVERDUE("Atrasado");
 
     private final String label;
 

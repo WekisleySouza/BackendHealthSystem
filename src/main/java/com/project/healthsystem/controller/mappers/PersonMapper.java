@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public abstract class PersonMapper {
 
+    @Mapping(target = "cpf", expression = "java(dto.getCpfNormalized())")
     public abstract Person toEntity(PersonRequestDTO dto);
 
     @Mapping(target = "agentId", expression = "java(entity.getAgentId())")

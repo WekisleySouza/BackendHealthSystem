@@ -2,6 +2,7 @@ package com.project.healthsystem.validator;
 
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
+import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.repository.ProfessionalRepository;
@@ -15,6 +16,9 @@ public class ProfessionalValidator {
     private final ProfessionalMapper professionalMapper;
 
     public Professional validateSave(ProfessionalRequestDTO professionalRequestDTO){
+        if (professionalRepository.existsByCpf(professionalRequestDTO.getCpfNormalized())) {
+            throw new DuplicatedRegisterException("Cpf já cadastrado!");
+        }
         return professionalMapper.toEntity(professionalRequestDTO);
     }
 

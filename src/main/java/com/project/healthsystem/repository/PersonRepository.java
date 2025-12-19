@@ -14,4 +14,5 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
 
     List<Person> findByName(String name);
 
+    boolean existsByCpf(String cpf);
 }

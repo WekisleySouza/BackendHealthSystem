@@ -32,5 +32,4 @@ public class AppointmentRequestDTO {
     private LocalDateTime scheduledAt;
 
     private String priority;
-
 }

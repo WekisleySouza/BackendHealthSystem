@@ -2,6 +2,7 @@ package com.project.healthsystem.validator;
 
 import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
+import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.repository.EmployeeRepository;
@@ -15,6 +16,9 @@ public class EmployeeValidator {
     private final EmployeeMapper employeeMapper;
 
     public Employee validateSave(EmployeeRequestDTO employeeRequestDTO){
+        if (employeeRepository.existsByCpf(employeeRequestDTO.getCpfNormalized())){
+            throw new DuplicatedRegisterException("Cpf já cadastrado!");
+        }
         return employeeMapper.toEntity(employeeRequestDTO);
     }
 

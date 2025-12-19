@@ -1,9 +1,6 @@
 package com.project.healthsystem.controller.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +19,6 @@ public class AgentRequestDTO {
     @NotBlank(message = "O CPF é obrigatório!")
     @CPF(message = "CPF inválido!")
     private String cpf;
-
     private String phone;
 
     @NotNull(message = "A data de nascimento é obrigatória!")
@@ -30,10 +26,13 @@ public class AgentRequestDTO {
 
     @NotBlank(message = "O e-mail é obrigatório!")
     @Size(
-            max = 320,
-            message = "O e-mail não pode ultrapassar 320 caracteres!"
+        max = 320,
+        message = "O e-mail não pode ultrapassar 320 caracteres!"
     )
     @Email(message = "Formato de e-mail inválido!")
     private String email;
 
+    public String getCpfNormalized() {
+        return cpf == null ? null : cpf.replaceAll("\\D", "");
+    }
 }

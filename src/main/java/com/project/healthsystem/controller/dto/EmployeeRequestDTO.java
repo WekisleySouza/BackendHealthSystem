@@ -35,4 +35,8 @@ public class EmployeeRequestDTO {
 
     @NotBlank(message = "O papel do usuário deve ser informado!")
     private String role;
+
+    public String getCpfNormalized() {
+        return cpf == null ? null : cpf.replaceAll("\\D", "");
+    }
 }

@@ -42,4 +42,8 @@ public class PersonRequestDTO {
 
     @Email(message = "Formato de e-mail inválido!")
     private String email;
+
+    public String getCpfNormalized() {
+        return cpf == null ? null : cpf.replaceAll("\\D", "");
+    }
 }

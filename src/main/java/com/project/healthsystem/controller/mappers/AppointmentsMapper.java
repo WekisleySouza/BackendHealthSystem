@@ -17,7 +17,7 @@ public abstract class AppointmentsMapper {
     @Mapping(target = "employeeId", expression = "java(entity.getEmployeeId())")
     @Mapping(target = "personId", expression = "java(entity.getPersonId())")
     @Mapping(target = "serviceTypeId", expression = "java(entity.getServiceTypeId())")
-    @Mapping(target = "status", expression = "java(entity.getStatus().getLabel())")
+    @Mapping(target = "status", expression = "java(entity.getStatus())")
     public abstract AppointmentResponseDTO toDto(Appointment entity);
 
     public Appointment toEntityWhenHasId(Appointment entity, AppointmentRequestDTO dto) {

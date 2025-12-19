@@ -2,6 +2,7 @@ package com.project.healthsystem.validator;
 
 import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.mappers.AgentMapper;
+import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.repository.AgentRepository;
@@ -20,6 +21,9 @@ public class AgentValidator {
     private final AgentMapper agentMapper;
 
     public Agent validateSave(AgentRequestDTO agentRequestDTO){
+        if (repository.existsByCpf(agentRequestDTO.getCpfNormalized())){
+            throw new DuplicatedRegisterException("Cpf já cadastrado!");
+        }
         return agentMapper.toEntity(agentRequestDTO);
     }
 

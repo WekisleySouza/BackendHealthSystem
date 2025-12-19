@@ -29,7 +29,7 @@ public class AppointmentValidator {
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
         Professional professional = professionalRepository.findById(appointmentRequestDTO.getProfessionalId())
-        .orElse(null);
+            .orElse(null);
 
         Appointment appointment = appointmentsMapper.toEntity(appointmentRequestDTO);
         appointment.setServiceType(serviceType);

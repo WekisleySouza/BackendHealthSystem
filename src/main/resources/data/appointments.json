@@ -1,0 +1,302 @@
+[
+  {
+    "professionalId": 1,
+    "employeeId": 2,
+    "personId": 1,
+    "status": "Agendado",
+    "serviceTypeId": 3,
+    "notes": "Consulta inicial",
+    "scheduledAt": "2025-01-20T09:00:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 2,
+    "employeeId": 3,
+    "personId": 2,
+    "status": "Agendado",
+    "serviceTypeId": 5,
+    "notes": "Retorno médico",
+    "scheduledAt": "2025-01-20T10:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 3,
+    "employeeId": 4,
+    "personId": 3,
+    "status": "Completo",
+    "serviceTypeId": 1,
+    "notes": "Exame de rotina",
+    "scheduledAt": "2025-01-21T08:30:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 4,
+    "employeeId": 5,
+    "personId": 4,
+    "status": "Completo",
+    "serviceTypeId": 7,
+    "notes": "Avaliação cardiológica",
+    "scheduledAt": "2025-01-21T09:30:00",
+    "priority": "HIGH"
+  },
+  {
+    "professionalId": 5,
+    "employeeId": 6,
+    "personId": 5,
+    "status": "Agendado",
+    "serviceTypeId": 4,
+    "notes": "Exame laboratorial",
+    "scheduledAt": "2025-01-21T10:30:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 6,
+    "employeeId": 7,
+    "personId": 6,
+    "status": "Completo",
+    "serviceTypeId": 9,
+    "notes": "Consulta especializada",
+    "scheduledAt": "2025-01-22T09:00:00",
+    "priority": "HIGH"
+  },
+  {
+    "professionalId": 7,
+    "employeeId": 8,
+    "personId": 7,
+    "status": "Agendado",
+    "serviceTypeId": 6,
+    "notes": "Exame de imagem",
+    "scheduledAt": "2025-01-22T10:00:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 8,
+    "employeeId": 9,
+    "personId": 8,
+    "status": "Paciente faltou",
+    "serviceTypeId": 2,
+    "notes": "Consulta clínica",
+    "scheduledAt": "2025-01-22T11:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 9,
+    "employeeId": 10,
+    "personId": 9,
+    "status": "Atrasado",
+    "serviceTypeId": 8,
+    "notes": "Acompanhamento",
+    "scheduledAt": "2025-01-23T08:00:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 10,
+    "employeeId": 1,
+    "personId": 10,
+    "status": "Completo",
+    "serviceTypeId": 10,
+    "notes": "Consulta preventiva",
+    "scheduledAt": "2025-01-23T09:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 1,
+    "employeeId": 2,
+    "personId": 11,
+    "status": "Agendado",
+    "serviceTypeId": 11,
+    "notes": "Exame neurológico",
+    "scheduledAt": "2025-01-23T10:00:00",
+    "priority": "HIGH"
+  },
+  {
+    "professionalId": 2,
+    "employeeId": 3,
+    "personId": 12,
+    "status": "Completo",
+    "serviceTypeId": 12,
+    "notes": "Consulta ortopédica",
+    "scheduledAt": "2025-01-24T08:30:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 3,
+    "employeeId": 4,
+    "personId": 13,
+    "status": "Completo",
+    "serviceTypeId": 13,
+    "notes": "Exame de sangue",
+    "scheduledAt": "2025-01-24T09:30:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 4,
+    "employeeId": 5,
+    "personId": 14,
+    "status": "Paciente faltou",
+    "serviceTypeId": 14,
+    "notes": "Consulta pediátrica",
+    "scheduledAt": "2025-01-24T10:30:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 5,
+    "employeeId": 6,
+    "personId": 15,
+    "status": "Agendado",
+    "serviceTypeId": 15,
+    "notes": "Avaliação clínica",
+    "scheduledAt": "2025-01-24T11:30:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 6,
+    "employeeId": 7,
+    "personId": 16,
+    "status": "Completo",
+    "serviceTypeId": 1,
+    "notes": "Consulta geral",
+    "scheduledAt": "2025-01-25T09:00:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 7,
+    "employeeId": 8,
+    "personId": 17,
+    "status": "Agendado",
+    "serviceTypeId": 2,
+    "notes": "Check-up",
+    "scheduledAt": "2025-01-25T10:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 8,
+    "employeeId": 9,
+    "personId": 18,
+    "status": "Completo",
+    "serviceTypeId": 3,
+    "notes": "Exame preventivo",
+    "scheduledAt": "2025-01-25T11:00:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 9,
+    "employeeId": 10,
+    "personId": 19,
+    "status": "Atrasado",
+    "serviceTypeId": 4,
+    "notes": "Avaliação de retorno",
+    "scheduledAt": "2025-01-26T08:30:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 10,
+    "employeeId": 1,
+    "personId": 20,
+    "status": "Completo",
+    "serviceTypeId": 5,
+    "notes": "Consulta especializada",
+    "scheduledAt": "2025-01-26T09:30:00",
+    "priority": "HIGH"
+  },
+  {
+    "professionalId": 1,
+    "employeeId": 2,
+    "personId": 21,
+    "status": "Agendado",
+    "serviceTypeId": 6,
+    "notes": "Exame complementar",
+    "scheduledAt": "2025-01-26T10:30:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 2,
+    "employeeId": 3,
+    "personId": 22,
+    "status": "Completo",
+    "serviceTypeId": 7,
+    "notes": "Avaliação clínica",
+    "scheduledAt": "2025-01-27T08:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 3,
+    "employeeId": 4,
+    "personId": 23,
+    "status": "Agendado",
+    "serviceTypeId": 8,
+    "notes": "Consulta de acompanhamento",
+    "scheduledAt": "2025-01-27T09:00:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 4,
+    "employeeId": 5,
+    "personId": 24,
+    "status": "Completo",
+    "serviceTypeId": 9,
+    "notes": "Exame específico",
+    "scheduledAt": "2025-01-27T10:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 5,
+    "employeeId": 6,
+    "personId": 25,
+    "status": "Agendado",
+    "serviceTypeId": 10,
+    "notes": "Consulta de rotina",
+    "scheduledAt": "2025-01-27T11:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 6,
+    "employeeId": 7,
+    "personId": 26,
+    "status": "Atrasado",
+    "serviceTypeId": 11,
+    "notes": "Avaliação urgente",
+    "scheduledAt": "2025-01-28T09:00:00",
+    "priority": "HIGH"
+  },
+  {
+    "professionalId": 7,
+    "employeeId": 8,
+    "personId": 27,
+    "status": "Agendado",
+    "serviceTypeId": 12,
+    "notes": "Exame de imagem",
+    "scheduledAt": "2025-01-28T10:00:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 8,
+    "employeeId": 9,
+    "personId": 28,
+    "status": "Completo",
+    "serviceTypeId": 13,
+    "notes": "Consulta técnica",
+    "scheduledAt": "2025-01-28T11:00:00",
+    "priority": "LOW"
+  },
+  {
+    "professionalId": 9,
+    "employeeId": 10,
+    "personId": 29,
+    "status": "Agendado",
+    "serviceTypeId": 14,
+    "notes": "Retorno pós-exame",
+    "scheduledAt": "2025-01-29T08:30:00",
+    "priority": "MEDIUM"
+  },
+  {
+    "professionalId": 10,
+    "employeeId": 1,
+    "personId": 29,
+    "status": "Completo",
+    "serviceTypeId": 15,
+    "notes": "Consulta final",
+    "scheduledAt": "2025-01-29T09:30:00",
+    "priority": "LOW"
+  }
+]

@@ -52,6 +52,12 @@ public class ServiceTypeController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    public ResponseEntity<Object> read(@PathVariable("id") long id){
+        return ResponseEntity.ok(serviceTypeService.findById(id));
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public ResponseEntity<Page<ServiceTypeResponseDTO>> readAll(

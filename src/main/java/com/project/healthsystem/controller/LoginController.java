@@ -18,7 +18,7 @@ public class LoginController {
     private final LoginService loginService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @PutMapping("{id}")
+    @PutMapping()
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE', 'USER')")
     public ResponseEntity<Object> updatePassword(
         @RequestHeader("Authorization") String authHeader,
