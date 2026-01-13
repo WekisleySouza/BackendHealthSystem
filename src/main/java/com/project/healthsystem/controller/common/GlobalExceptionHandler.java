@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.dto.FieldErrorResponseDTO;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -104,6 +105,16 @@ public class GlobalExceptionHandler {
         return new ErrorResponseDTO(
                 HttpStatus.FORBIDDEN.value(),
                 "Credenciais inválidas, verifique se seu login e senha estão corretos!",
+                List.of());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDTO handleUnhandledErrorException(ConstraintViolationException e){
+        System.out.println("Erro inesperado: " + e);
+        return new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                "Violação de restrição de dados!",
                 List.of());
     }
 

@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.dto.CategoryGroupResponseDTO;
 import com.project.healthsystem.controller.mappers.CategoryGroupMapper;
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.model.Employee;
+import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.CategoryGroupRepository;
 import com.project.healthsystem.repository.specs.CategoryGroupSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
@@ -32,7 +33,7 @@ public class CategoryGroupService {
 
     public CategoryGroup save(CategoryGroupRequestDTO categoryGroupRequestDTO, String token){
         CategoryGroup categoryGroup = categoryGroupValidator.validateSave(categoryGroupRequestDTO);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         categoryGroup.createdNow();
         categoryGroup.setCreatedBy(currentEditor);
         categoryGroup.setLastModifiedBy(currentEditor);
@@ -41,7 +42,7 @@ public class CategoryGroupService {
 
     public void update(CategoryGroupRequestDTO categoryGroupRequestDTO, long id, String token){
         CategoryGroup categoryGroup = categoryGroupValidator.validateUpdate(categoryGroupRequestDTO, id);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         categoryGroup.setLastModifiedBy(currentEditor);
         categoryGroup.updatedNow();
         repository.save(categoryGroup);

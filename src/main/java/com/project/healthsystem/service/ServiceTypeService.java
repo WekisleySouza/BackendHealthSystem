@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
 import com.project.healthsystem.controller.mappers.ServiceTypeMapper;
 import com.project.healthsystem.model.Employee;
+import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.ServiceType;
 import com.project.healthsystem.repository.ServiceTypeRepository;
 import com.project.healthsystem.repository.specs.ServiceTypeSpecs;
@@ -31,7 +32,7 @@ public class ServiceTypeService {
 
     public ServiceType save(ServiceTypeRequestDTO serviceTypeRequestDTO, String token){
         ServiceType serviceType = serviceTypeValidator.validateSave(serviceTypeRequestDTO);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         serviceType.createdNow();
         serviceType.setCreatedBy(currentEditor);
         serviceType.setLastModifiedBy(currentEditor);
@@ -40,7 +41,7 @@ public class ServiceTypeService {
 
     public void update(ServiceTypeRequestDTO serviceTypeRequestDTO, long id, String token){
         ServiceType serviceType = serviceTypeValidator.validateUpdate(serviceTypeRequestDTO, id);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         serviceType.setLastModifiedBy(currentEditor);
         serviceType.updatedNow();
         repository.save(serviceType);

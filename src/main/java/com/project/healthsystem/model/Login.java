@@ -10,39 +10,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Login extends BasicEntityAbstraction {
-    @OneToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
-    @OneToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
 
+    @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "person_id", nullable = false, unique = true)
+    private Person person;
     @Column(name = "login", nullable = false, unique = true)
     private  String login;
     @Column(name = "password", nullable = false)
     private String password;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private Roles role;
 
-    public long getPersonId(){
-        if(this.person != null){
-            return  this.person.getId();
-        }
-        return -1;
-    }
-
-    public String getPersonCPF(){
-        if(this.person != null){
-            return  this.person.getCpf();
-        }
-        return "";
-    }
-
-    public long getEmployeeId(){
-        if(this.employee != null){
-            return  this.employee.getId();
-        }
-        return -1;
-    }
+    @Column(nullable = false)
+    private boolean active;
 }

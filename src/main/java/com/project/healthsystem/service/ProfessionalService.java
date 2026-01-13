@@ -3,13 +3,13 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
-import com.project.healthsystem.model.Employee;
-import com.project.healthsystem.model.Professional;
+import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.ProfessionalRepository;
 import com.project.healthsystem.repository.specs.ProfessionalSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.ProfessionalValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,23 +26,64 @@ public class ProfessionalService {
     private final ProfessionalRepository repository;
     private final ProfessionalValidator professionalValidator;
     private final ProfessionalMapper professionalMapper;
+    private final PersonService personService;
+    private final RoleService roleService;
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     public Professional save(ProfessionalRequestDTO professionalRequestDTO, String token){
         Professional professional = professionalValidator.validateSave(professionalRequestDTO);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+
+        // Auditory data setting
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         professional.createdNow();
         professional.setCreatedBy(currentEditor);
         professional.setLastModifiedBy(currentEditor);
+
+        if(personService.existsPersonByCpf(professionalRequestDTO.getCpfNormalized())){
+
+            Person person = personService.getReferenceByCpf(professionalRequestDTO.getCpfNormalized());
+            professional.setPerson(person);
+        } else {
+            Person person = new Person();
+            person.setName(professionalRequestDTO.getName());
+            person.setCpf(professionalRequestDTO.getCpfNormalized());
+            person.setBirthday(professionalRequestDTO.getBirthday());
+            person.setEmail(professionalRequestDTO.getEmail());
+            person.setPhone(professionalRequestDTO.getPhone());
+            person.addRole(roleService.findByRole(Roles.USER));
+            person.setCreatedBy(currentEditor);
+            person.setLastModifiedBy(currentEditor);
+            person.createdNow();
+            Person savedPerson = personService.save(person);
+
+            professional.setPerson(savedPerson);
+        }
+
         return repository.save(professional);
     }
 
+    @Transactional
     public void update(ProfessionalRequestDTO professionalRequestDTO, long id, String token){
         Professional professional = professionalValidator.validateUpdate(professionalRequestDTO, id);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+
+        // Auditory
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         professional.setLastModifiedBy(currentEditor);
         professional.updatedNow();
+
+        // Saving Person
+        Person person = personService.findByCpf(professionalRequestDTO.getCpfNormalized());
+        person.setName(professionalRequestDTO.getName());
+        person.setBirthday(professionalRequestDTO.getBirthday());
+        person.setEmail(professionalRequestDTO.getEmail());
+        person.setPhone(professionalRequestDTO.getPhone());
+        person.updatedNow();
+        person.setLastModifiedBy(currentEditor);
+        person = personService.save(person);
+
+        professional.setPerson(person);
         repository.save(professional);
     }
 

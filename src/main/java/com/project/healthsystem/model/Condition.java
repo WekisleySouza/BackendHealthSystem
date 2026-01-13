@@ -17,6 +17,6 @@ public class Condition extends BasicEntityAbstraction {
     private String specification;
 
     @ManyToMany(mappedBy = "conditions")
-    private List<Person> persons;
+    private List<Patient> patients;
 
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class AppointmentValidator {
 
     private final AppointmentRepository appointmentRepository;
-    private final PersonRepository personRepository;
+    private final PatientRepository patientRepository;
     private final ServiceTypeRepository serviceTypeRepository;
     private final EmployeeRepository employeeRepository;
     private final ProfessionalRepository professionalRepository;
@@ -22,8 +22,8 @@ public class AppointmentValidator {
     private final AppointmentsMapper appointmentsMapper;
 
     public Appointment validateSave(AppointmentRequestDTO appointmentRequestDTO){
-        Person person = personRepository.findById(appointmentRequestDTO.getPersonId())
-            .orElseThrow(() -> new InvalidDataException("Person inválido!"));
+        Patient patient = patientRepository.findById(appointmentRequestDTO.getPatientId())
+            .orElseThrow(() -> new InvalidDataException("Patient inválido!"));
         ServiceType serviceType = serviceTypeRepository.findById(appointmentRequestDTO.getServiceTypeId())
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
@@ -33,7 +33,7 @@ public class AppointmentValidator {
 
         Appointment appointment = appointmentsMapper.toEntity(appointmentRequestDTO);
         appointment.setServiceType(serviceType);
-        appointment.setPerson(person);
+        appointment.setPatient(patient);
         appointment.setEmployee(employee);
         appointment.setProfessional(professional);
         appointment.createdNow();
@@ -44,8 +44,8 @@ public class AppointmentValidator {
     public Appointment validateUpdate(AppointmentRequestDTO appointmentRequestDTO, long id){
         Appointment appointment = appointmentRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Não foi encontrado um agent com este id!"));
-        Person person = personRepository.findById(appointmentRequestDTO.getPersonId())
-            .orElseThrow(() -> new InvalidDataException("Person inválido!"));
+        Patient patient = patientRepository.findById(appointmentRequestDTO.getPatientId())
+            .orElseThrow(() -> new InvalidDataException("Patient inválido!"));
         ServiceType serviceType = serviceTypeRepository.findById(appointmentRequestDTO.getServiceTypeId())
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
@@ -55,7 +55,7 @@ public class AppointmentValidator {
 
         appointment = appointmentsMapper.toEntityWhenHasId(appointment, appointmentRequestDTO);
         appointment.setServiceType(serviceType);
-        appointment.setPerson(person);
+        appointment.setPatient(patient);
         appointment.setEmployee(employee);
         appointment.setProfessional(professional);
 

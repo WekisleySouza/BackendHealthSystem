@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.dto.ConditionResponseDTO;
 import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.model.Employee;
+import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.ConditionRepository;
 import com.project.healthsystem.repository.specs.ConditionSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
@@ -32,7 +33,7 @@ public class ConditionService {
 
     public Condition save(ConditionRequestDTO conditionRequestDTO, String token){
         Condition condition = this.conditionValidator.validateSave(conditionRequestDTO);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         condition.createdNow();
         condition.setCreatedBy(currentEditor);
         condition.setLastModifiedBy(currentEditor);
@@ -41,7 +42,7 @@ public class ConditionService {
 
     public void update(ConditionRequestDTO conditionRequestDTO, long id, String token){
         Condition condition = this.conditionValidator.validateUpdate(conditionRequestDTO, id);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         condition.setLastModifiedBy(currentEditor);
         condition.updatedNow();
         repository.save(condition);

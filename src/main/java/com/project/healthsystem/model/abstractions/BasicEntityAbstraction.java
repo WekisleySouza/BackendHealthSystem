@@ -1,6 +1,7 @@
 package com.project.healthsystem.model.abstractions;
 
 import com.project.healthsystem.model.Employee;
+import com.project.healthsystem.model.Person;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +15,11 @@ public abstract class BasicEntityAbstraction extends IDAbstraction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="last_modified_by")
     @Setter
-    protected Employee lastModifiedBy;
+    protected Person lastModifiedBy;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="created_by")
     @Setter
-    protected Employee createdBy;
+    protected Person createdBy;
     @Column(name="created_at")
     protected LocalDateTime createdAt;
     @Column(name="updated_at")

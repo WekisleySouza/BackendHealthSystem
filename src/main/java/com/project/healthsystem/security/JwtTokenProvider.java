@@ -1,10 +1,6 @@
 package com.project.healthsystem.security;
 
-import com.project.healthsystem.model.Employee;
-import com.project.healthsystem.model.Login;
-import com.project.healthsystem.model.Person;
-import com.project.healthsystem.repository.LoginRepository;
-import com.project.healthsystem.service.EmployeeService;
+import com.project.healthsystem.model.*;
 import com.project.healthsystem.service.LoginService;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -16,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -27,10 +24,10 @@ public class JwtTokenProvider {
 
     private final LoginService loginService;
 
-    public String generateToken(String username, String role){
+    public String generateToken(String username, Set<Role> roles){
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
+                .claim("role", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + this.EXPIRATION_TIME))
                 .signWith(key)
@@ -55,12 +52,6 @@ public class JwtTokenProvider {
     public String getRole(String token){
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token).getBody().get("role", String.class);
-    }
-
-    public Employee getEmployee(String token){
-        String username = this.getUsername(token);
-        Login login = this.loginService.findByLogin(username);
-        return login.getEmployee();
     }
 
     public Person getPerson(String token){

@@ -31,16 +31,19 @@ public class AppointmentService {
 
     public Appointment save(AppointmentRequestDTO appointmentRequestDTO, String token){
         Appointment appointment = appointmentValidator.validateSave(appointmentRequestDTO);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+
+        // Auditory
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         appointment.createdNow();
         appointment.setCreatedBy(currentEditor);
         appointment.setLastModifiedBy(currentEditor);
+
         return this.repository.save(appointment);
     }
 
     public Appointment update(AppointmentRequestDTO appointmentRequestDTO, long id, String token){
         Appointment appointment = appointmentValidator.validateUpdate(appointmentRequestDTO, id);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         currentEditor.setLastModifiedBy(currentEditor);
         currentEditor.updatedNow();
         return repository.save(appointment);

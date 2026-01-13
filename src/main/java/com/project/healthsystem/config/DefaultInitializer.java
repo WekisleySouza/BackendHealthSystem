@@ -6,7 +6,7 @@ import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.EmployeeRepository;
 import com.project.healthsystem.repository.LoginRepository;
-import com.project.healthsystem.repository.PersonRepository;
+import com.project.healthsystem.repository.PatientRepository;
 import com.project.healthsystem.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,10 +37,11 @@ public class DefaultInitializer implements ApplicationRunner {
     private final ServiceTypeService serviceTypeService;
     private final ProfessionalService professionalService;
     private final EmployeeService employeeService;
-    private final PersonService personService;
+    private final PatientService patientService;
     private final AppointmentService appointmentService;
+    private final RoleService roleService;
 
-    private final PersonRepository personRepository;
+    private final PatientRepository patientRepository;
 
     @Value("${app.default-admin.username}")
     private String DEFAULT_ADMIN_USERNAME;
@@ -52,21 +53,28 @@ public class DefaultInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        // Inicialização dos roles
+        if(!roleService.hasAnyRole()){
+            for(Roles enumRole: Roles.values()){
+                Role role = new Role(enumRole);
+                this.roleService.save(role);
+            }
+        }
+
         if(!loginRepository.existsByLogin(this.DEFAULT_ADMIN_USERNAME)){
-            Employee employee = new Employee();
-            employee.setName(this.name);
-            employee.setCpf(this.cpf);
-            employee.setBirthday(this.birthday);
-            employee.setEmail(this.email);
-            employeeRepository.save(employee);
-
-            loginService.createDefaultAdmin(employee);
-
+            Person person = new Person();
+            person.setName(this.name);
+            person.setCpf(this.cpf);
+            person.setBirthday(this.birthday);
+            person.setEmail(this.email);
+//
+            loginService.createDefaultAdmin(person);
+//
             System.out.println("Usuário padrão criado com sucesso!");
         }
 
         // Adicionando dados para testes:
-        if(personRepository.count() > 0) return;
+        if(patientRepository.count() > 0) return;
 
         AuthRequestDTO authRequestDTO = new AuthRequestDTO();
         authRequestDTO.setLogin(
@@ -75,7 +83,7 @@ public class DefaultInitializer implements ApplicationRunner {
         authRequestDTO.setPassword(
             this.environment.getProperty("app.default-admin.password")
         );
-
+//
         String accesToken = authService.authenticateUser(authRequestDTO).access_token();
 
         this.fillAgents(accesToken);
@@ -84,7 +92,7 @@ public class DefaultInitializer implements ApplicationRunner {
         this.fillServiceTypes(accesToken);
         this.fillProfessionals(accesToken);
         this.fillEmployees(accesToken);
-        this.fillPersons(accesToken);
+        this.fillPatients(accesToken);
         this.fillAppointments(accesToken);
     }
 
@@ -93,8 +101,8 @@ public class DefaultInitializer implements ApplicationRunner {
             InputStream is = new ClassPathResource("data/agents.json").getInputStream();
 
             List<AgentRequestDTO> agents =
-                    objectMapper.readValue(is, new TypeReference<List<AgentRequestDTO>>() {
-                    });
+                objectMapper.readValue(is, new TypeReference<List<AgentRequestDTO>>() {
+                });
 
             for (AgentRequestDTO agentDTO : agents) {
                 agentService.save(agentDTO, accessToken);
@@ -190,18 +198,18 @@ public class DefaultInitializer implements ApplicationRunner {
         }
     }
 
-    private void fillPersons(String accessToken){
+    private void fillPatients(String accessToken){
         try {
-            InputStream is = new ClassPathResource("data/persons.json").getInputStream();
+            InputStream is = new ClassPathResource("data/patients.json").getInputStream();
 
-            List<PersonRequestDTO> persons =
-                    objectMapper.readValue(is, new TypeReference<List<PersonRequestDTO>>() {});
+            List<PatientRequestDTO> patients =
+                    objectMapper.readValue(is, new TypeReference<List<PatientRequestDTO>>() {});
 
-            for(PersonRequestDTO personDTO : persons){
-                personService.save(personDTO, accessToken);
+            for(PatientRequestDTO patientDTO : patients){
+                patientService.save(patientDTO, accessToken);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao carregar persons iniciais", e);
+            throw new RuntimeException("Erro ao carregar patients iniciais", e);
         }
     }
 

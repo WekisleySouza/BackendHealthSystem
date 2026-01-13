@@ -1,64 +1,50 @@
 package com.project.healthsystem.model;
 
-import com.project.healthsystem.model.abstractions.UserBasicAbstraction;
+import com.project.healthsystem.model.abstractions.BasicEntityAbstraction;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="tb_person")
+@Table(name = "tb_person")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Person extends UserBasicAbstraction {
+public class Person extends BasicEntityAbstraction {
 
-    @ManyToOne
-    @JoinColumn(name = "responsible_id")
-    private Person responsible;
-    @ManyToMany
+    @Column(name = "name", length = 100, nullable = false)
+    protected String name;
+    @Column(name = "cpf", nullable = false, unique = true, length = 15)
+    protected String cpf;
+    @Column(name = "phone")
+    protected String phone;
+    @Column(name="birthday", nullable = false)
+    protected LocalDate birthday;
+    @Column(name="email", length=320)
+    protected String email;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "person_condition",
+        name = "person_roles",
         joinColumns = @JoinColumn(name = "person_id"),
-        inverseJoinColumns = @JoinColumn(name = "condition_id")
+        inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Condition> conditions;
-    @ManyToOne
-    @JoinColumn(name = "agent_id")
-    private Agent agent;
-    @OneToOne(mappedBy = "person")
-    private Login login;
-    @OneToMany(mappedBy = "person")
-    private List<Appointment> appointments;
+    private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "cns")
-    private String cns;
-    @Column(name = "mother_name")
-    private String motherName;
-
-    public long getAgentId(){
-        if(agent != null){
-            return  agent.getId();
-        }
-        return -1;
+    public Person addRole(Role role){
+        roles.add(role);
+        return this;
     }
 
-    public long getResponsibleId(){
-        if(this.responsible != null){
-            return  this.responsible.getId();
-        }
-        return -1;
-    }
-
-    public List<Long> getConditionsId(){
-        if(this.conditions != null){
-            List<Long> ids = new ArrayList<>();
-            for(Condition condition : this.conditions){
-                ids.add(condition.getId());
-            }
-            return ids;
-        }
-        return null;
+    public Person removeRole(Roles roleLabel){
+        this.roles.removeIf(role ->
+            role.getRole() == roleLabel
+        );
+        return this;
     }
 }

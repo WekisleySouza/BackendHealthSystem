@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
 import com.project.healthsystem.controller.dto.SurgeryTypeResponseDTO;
 import com.project.healthsystem.controller.mappers.SurgeryTypeMapper;
 import com.project.healthsystem.model.Employee;
+import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.repository.SurgeryTypeRepository;
 import com.project.healthsystem.repository.specs.SpecsCommon;
@@ -28,7 +29,7 @@ public class SurgeryTypeService {
 
     public SurgeryType save(SurgeryTypeRequestDTO surgeryTypeRequestDTO, String token){
         SurgeryType surgeryType = surgeryTypeValidator.validateSave(surgeryTypeRequestDTO);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         surgeryType.createdNow();
         surgeryType.setCreatedBy(currentEditor);
         surgeryType.setLastModifiedBy(currentEditor);
@@ -37,7 +38,7 @@ public class SurgeryTypeService {
 
     public void update(SurgeryTypeRequestDTO surgeryTypeRequestDTO, long id, String token){
         SurgeryType surgeryType = this.surgeryTypeValidator.validateUpdate(surgeryTypeRequestDTO, id);
-        Employee currentEditor = jwtTokenProvider.getEmployee(token);
+        Person currentEditor = jwtTokenProvider.getPerson(token);
         surgeryType.setLastModifiedBy(currentEditor);
         surgeryType.updatedNow();
         repository.save(surgeryType);

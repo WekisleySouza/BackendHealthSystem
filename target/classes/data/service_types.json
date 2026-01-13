@@ -1,0 +1,202 @@
+[
+  {
+    "categoryGroupId": 1,
+    "name": "Hemograma completo",
+    "value": 35.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 1,
+    "name": "Contagem de plaquetas",
+    "value": 20.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 2,
+    "name": "Glicemia em jejum",
+    "value": 18.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 2,
+    "name": "Colesterol total",
+    "value": 22.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 3,
+    "name": "Teste de HIV",
+    "value": 45.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 3,
+    "name": "Sorologia para Hepatite B",
+    "value": 50.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 4,
+    "name": "Cultura bacteriana",
+    "value": 60.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 5,
+    "name": "Parasitológico de fezes",
+    "value": 25.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 6,
+    "name": "Urina tipo I",
+    "value": 15.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 7,
+    "name": "Tempo de protrombina (TP)",
+    "value": 30.00,
+    "type": "LABORATORIAL"
+  },
+
+  {
+    "categoryGroupId": 8,
+    "name": "Gasometria arterial",
+    "value": 80.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 9,
+    "name": "VDRL",
+    "value": 28.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 10,
+    "name": "TSH",
+    "value": 40.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 10,
+    "name": "T4 Livre",
+    "value": 45.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 11,
+    "name": "PSA total",
+    "value": 55.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 12,
+    "name": "Dosagem de drogas de abuso",
+    "value": 120.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 13,
+    "name": "Teste genético BRCA",
+    "value": 950.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 14,
+    "name": "Citologia oncótica",
+    "value": 35.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 15,
+    "name": "Biópsia histopatológica",
+    "value": 180.00,
+    "type": "LABORATORIAL"
+  },
+  {
+    "categoryGroupId": 16,
+    "name": "Análise anatomopatológica",
+    "value": 200.00,
+    "type": "LABORATORIAL"
+  },
+
+  {
+    "categoryGroupId": 17,
+    "name": "Raio-X de tórax",
+    "value": 90.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 18,
+    "name": "Ultrassonografia abdominal",
+    "value": 150.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 19,
+    "name": "Tomografia computadorizada de crânio",
+    "value": 350.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 20,
+    "name": "Ressonância magnética de joelho",
+    "value": 650.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 21,
+    "name": "Eletrocardiograma (ECG)",
+    "value": 70.00,
+    "type": "FUNCIONAL"
+  },
+  {
+    "categoryGroupId": 22,
+    "name": "Eletroencefalograma (EEG)",
+    "value": 180.00,
+    "type": "FUNCIONAL"
+  },
+  {
+    "categoryGroupId": 23,
+    "name": "Endoscopia digestiva alta",
+    "value": 400.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 24,
+    "name": "Colonoscopia",
+    "value": 500.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 25,
+    "name": "Espirometria",
+    "value": 120.00,
+    "type": "FUNCIONAL"
+  },
+  {
+    "categoryGroupId": 26,
+    "name": "Cintilografia óssea",
+    "value": 450.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 27,
+    "name": "Audiometria tonal",
+    "value": 85.00,
+    "type": "FUNCIONAL"
+  },
+  {
+    "categoryGroupId": 28,
+    "name": "Mapeamento de retina",
+    "value": 140.00,
+    "type": "IMAGEM"
+  },
+  {
+    "categoryGroupId": 29,
+    "name": "Ultrassonografia transvaginal",
+    "value": 160.00,
+    "type": "IMAGEM"
+  }
+]

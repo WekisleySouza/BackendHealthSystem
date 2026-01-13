@@ -18,8 +18,8 @@ public class AppointmentRequestDTO {
     @NotNull(message = "O funcionário responsável é obrigatório!")
     private Long employeeId;
 
-    @NotNull(message = "A pessoa é obrigatória!")
-    private Long personId;
+    @NotNull(message = "O paciente é obrigatório!")
+    private Long patientId;
 
     @NotNull(message = "O status é obrigatório!")
     private String status;

@@ -15,7 +15,7 @@ public class AppointmentResponseDTO {
 
     private Long professionalId;
     private Long employeeId;
-    private Long personId;
+    private Long patientId;
 
     private Status status;
     private Long serviceTypeId;

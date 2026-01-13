@@ -1,12 +1,26 @@
+server:
+  port: ${PORT:8080}
 spring:
   application:
     name: healthsystemapi
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/healthsystem}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driverClassName: org.postgresql.Driver
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+app:
+  default-admin:
+    username: ${DEFAULT_ADMIN_USERNAME:admin}
+    password: ${DEFAULT_ADMIN_PASSWORD:admin}
+  default-user-password: ${DEFAULT_USER_PASSWORD:user}
+  default-employee-password: ${DEFAULT_EMPLOYEE_PASSWORD:employee}
+security:
+  refresh:
+    expiration: ${DEFAULT_REFRESH_TOKEN_TIME_EXPIRATION:604800000}
+  access:
+    expiration: ${DEFAULT_ACCESS_TOKEN_TIME_EXPIRATION:900000}

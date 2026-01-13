@@ -12,7 +12,7 @@ import java.time.Instant;
 @Entity
 @Data
 public class RefreshToken extends IDAbstraction {
-    @Column(name = "token", nullable = false)
+    @Column(name = "token", nullable = false, unique = true, length = 512)
     private String token;
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
@@ -24,11 +24,4 @@ public class RefreshToken extends IDAbstraction {
     @ManyToOne(optional = false)
     @JoinColumn(name = "login_id")
     private Login login;
-
-    public long getLoginId(){
-        if(this.login != null){
-            return login.getId();
-        }
-        return -1;
-    }
 }

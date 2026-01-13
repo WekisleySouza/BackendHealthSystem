@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface AgentRepository extends JpaRepository<Agent, Long>, JpaSpecificationExecutor<Agent> {
 
-    boolean existsByCpf(String cpf);
+    boolean existsByPersonCpf(String cpf);
 }

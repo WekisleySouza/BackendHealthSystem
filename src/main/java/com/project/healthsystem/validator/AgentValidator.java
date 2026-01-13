@@ -21,8 +21,8 @@ public class AgentValidator {
     private final AgentMapper agentMapper;
 
     public Agent validateSave(AgentRequestDTO agentRequestDTO){
-        if (repository.existsByCpf(agentRequestDTO.getCpfNormalized())){
-            throw new DuplicatedRegisterException("Cpf já cadastrado!");
+        if (repository.existsByPersonCpf(agentRequestDTO.getCpfNormalized())){
+            throw new DuplicatedRegisterException("Cpf já cadastrado para um agent!");
         }
         return agentMapper.toEntity(agentRequestDTO);
     }

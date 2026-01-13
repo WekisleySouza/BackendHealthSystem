@@ -1,10 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.LoginRequestDTO;
-import com.project.healthsystem.model.Employee;
-import com.project.healthsystem.model.Login;
-import com.project.healthsystem.model.Person;
-import com.project.healthsystem.model.Roles;
+import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.validator.LoginValidator;
 import lombok.RequiredArgsConstructor;
@@ -17,35 +14,38 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     private final LoginRepository repository;
+    private final RoleService roleService;
     private final LoginValidator loginValidator;
     private final PasswordEncoder passwordEncoder;
     private final Environment environment;
 
-    public void createDefaultAdmin(Employee employee){
+    public void createDefaultAdmin(Person person){
         Login login = new Login();
         login.setLogin(this.environment.getProperty("app.default-admin.username"));
         login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-admin.password")));
-        login.setRole(Roles.ADMIN);
-        login.setEmployee(employee);
-        repository.save(login);
-    }
 
-    public void createDefaultLoginTo(Employee employee, Roles role){
-        Login login = new Login();
-        login.setLogin(employee.getCpf());
-        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-employee-password")));
-        login.setRole(role);
-        login.setEmployee(employee);
-        repository.save(login);
-    }
 
-    public void createDefaultLoginTo(Person person){
-        Login login = new Login();
+        Role role = roleService.findByRole(Roles.ADMIN);
+        person.getRoles().add(role);
 
-        login.setLogin(person.getCpf());
-        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-user-password")));
-        login.setRole(Roles.USER);
         login.setPerson(person);
+        repository.save(login);
+    }
+
+    public void createDefaultLoginTo(Employee employee){
+        Login login = new Login();
+        login.setLogin(employee.getPerson().getCpf());
+        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-employee-password")));
+        login.setPerson(employee.getPerson());
+
+        repository.save(login);
+    }
+
+    public void createDefaultLoginTo(Patient patient){
+        Login login = new Login();
+        login.setLogin(patient.getPerson().getCpf());
+        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-user-password")));
+        login.setPerson(patient.getPerson());
 
         repository.save(login);
     }

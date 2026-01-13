@@ -38,7 +38,7 @@ public class Appointment extends BasicEntityAbstraction {
     private Employee employee;
     @ManyToOne
     @Getter
-    private Person person;
+    private Patient patient;
 
     public Status getStatus(){
         if(scheduledAt == null) return Status.PENDING_SCHEDULING;
@@ -65,9 +65,9 @@ public class Appointment extends BasicEntityAbstraction {
         return -1;
     }
 
-    public long getPersonId(){
-        if(this.person != null){
-            return person.getId();
+    public long getPatientId(){
+        if(this.patient != null){
+            return patient.getId();
         }
         return -1;
     }

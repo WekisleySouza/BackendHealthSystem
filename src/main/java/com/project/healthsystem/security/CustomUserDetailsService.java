@@ -3,6 +3,7 @@ package com.project.healthsystem.security;
 import com.project.healthsystem.model.Login;
 import com.project.healthsystem.service.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +28,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(login.getLogin())
                 .password(login.getPassword())
-                .roles(String.valueOf(login.getRole()))
+                .authorities(
+                    login.getPerson()
+                    .getRoles()
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getRole().getLabel()))
+                    .toList()
+                )
                 .build();
     }
 }

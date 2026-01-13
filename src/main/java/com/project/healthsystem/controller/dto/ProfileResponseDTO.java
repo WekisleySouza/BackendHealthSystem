@@ -14,7 +14,7 @@ public class ProfileResponseDTO {
     private LocalDate birthday;
     private String email;
 
-    // Person atributes
+    // Patient atributes
     private String cns;
     private String motherName;
 }

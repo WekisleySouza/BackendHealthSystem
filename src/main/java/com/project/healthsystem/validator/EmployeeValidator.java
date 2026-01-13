@@ -16,7 +16,7 @@ public class EmployeeValidator {
     private final EmployeeMapper employeeMapper;
 
     public Employee validateSave(EmployeeRequestDTO employeeRequestDTO){
-        if (employeeRepository.existsByCpf(employeeRequestDTO.getCpfNormalized())){
+        if (employeeRepository.existsByPersonCpf(employeeRequestDTO.getCpfNormalized())){
             throw new DuplicatedRegisterException("Cpf já cadastrado!");
         }
         return employeeMapper.toEntity(employeeRequestDTO);
@@ -31,6 +31,11 @@ public class EmployeeValidator {
 
     public Employee validateFindById(long id){
         return employeeRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Funcionário não encontrado!"));
+    }
+
+    public Employee validateFindByCpf(String cpf){
+        return employeeRepository.findByPersonCpf(cpf)
             .orElseThrow(() -> new NotFoundException("Funcionário não encontrado!"));
     }
 
