@@ -16,6 +16,11 @@ public abstract class PatientMapper {
     @Mapping(target = "agentId", expression = "java(entity.getAgentId())")
     @Mapping(target = "conditionsId", expression = "java(entity.getConditionsId())")
     @Mapping(target = "responsibleId", expression = "java(entity.getResponsibleId())")
+    @Mapping(target = "name", expression = "java(entity.getPerson().getName())")
+    @Mapping(target = "birthday", expression = "java(entity.getPerson().getBirthday())")
+    @Mapping(target = "cpf", expression = "java(entity.getPerson().getCpf())")
+    @Mapping(target = "phone", expression = "java(entity.getPerson().getPhone())")
+    @Mapping(target = "email", expression = "java(entity.getPerson().getEmail())")
     public abstract PatientResponseDTO toDto(Patient entity);
 
     public Patient toEntityWhenHasId(Patient entity, PatientRequestDTO dto){
