@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.model.*;
-import com.project.healthsystem.repository.EmployeeRepository;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.repository.PatientRepository;
 import com.project.healthsystem.service.*;
@@ -23,7 +22,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class DefaultInitializer implements ApplicationRunner {
-    private final EmployeeRepository employeeRepository;
     private final LoginRepository loginRepository;
     private final LoginService loginService;
 
@@ -67,9 +65,9 @@ public class DefaultInitializer implements ApplicationRunner {
             person.setCpf(this.cpf);
             person.setBirthday(this.birthday);
             person.setEmail(this.email);
-//
+
             loginService.createDefaultAdmin(person);
-//
+
             System.out.println("Usuário padrão criado com sucesso!");
         }
 
@@ -83,7 +81,7 @@ public class DefaultInitializer implements ApplicationRunner {
         authRequestDTO.setPassword(
             this.environment.getProperty("app.default-admin.password")
         );
-//
+
         String accesToken = authService.authenticateUser(authRequestDTO).access_token();
 
         this.fillAgents(accesToken);
@@ -102,7 +100,7 @@ public class DefaultInitializer implements ApplicationRunner {
 
             List<AgentRequestDTO> agents =
                 objectMapper.readValue(is, new TypeReference<List<AgentRequestDTO>>() {
-                });
+            });
 
             for (AgentRequestDTO agentDTO : agents) {
                 agentService.save(agentDTO, accessToken);
@@ -118,8 +116,8 @@ public class DefaultInitializer implements ApplicationRunner {
             InputStream is = new ClassPathResource("data/conditions.json").getInputStream();
 
             List<ConditionRequestDTO> conditions =
-                    objectMapper.readValue(is, new TypeReference<List<ConditionRequestDTO>>() {
-                    });
+                objectMapper.readValue(is, new TypeReference<List<ConditionRequestDTO>>() {
+            });
 
             for (ConditionRequestDTO conditionDTO : conditions) {
                 conditionService.save(conditionDTO, accessToken);
@@ -136,7 +134,7 @@ public class DefaultInitializer implements ApplicationRunner {
 
             List<CategoryGroupRequestDTO> categoryGroups =
                 objectMapper.readValue(is, new TypeReference<List<CategoryGroupRequestDTO>>() {
-                });
+            });
 
             for (CategoryGroupRequestDTO categoryGroupsDTO : categoryGroups) {
                 categoryGroupService.save(categoryGroupsDTO, accessToken);
@@ -153,7 +151,7 @@ public class DefaultInitializer implements ApplicationRunner {
 
             List<ServiceTypeRequestDTO> serviceTypes =
                 objectMapper.readValue(is, new TypeReference<List<ServiceTypeRequestDTO>>() {
-                });
+            });
 
             for (ServiceTypeRequestDTO serviceTypeDTO : serviceTypes) {
                 serviceTypeService.save(serviceTypeDTO, accessToken);
@@ -203,7 +201,7 @@ public class DefaultInitializer implements ApplicationRunner {
             InputStream is = new ClassPathResource("data/patients.json").getInputStream();
 
             List<PatientRequestDTO> patients =
-                    objectMapper.readValue(is, new TypeReference<List<PatientRequestDTO>>() {});
+                objectMapper.readValue(is, new TypeReference<List<PatientRequestDTO>>() {});
 
             for(PatientRequestDTO patientDTO : patients){
                 patientService.save(patientDTO, accessToken);
@@ -218,7 +216,7 @@ public class DefaultInitializer implements ApplicationRunner {
             InputStream is = new ClassPathResource("data/appointments.json").getInputStream();
 
             List<AppointmentRequestDTO> appointments =
-                    objectMapper.readValue(is, new TypeReference<List<AppointmentRequestDTO>>() {});
+                objectMapper.readValue(is, new TypeReference<List<AppointmentRequestDTO>>() {});
 
             for(AppointmentRequestDTO appointmentDTO : appointments){
                 appointmentService.save(appointmentDTO, accessToken);

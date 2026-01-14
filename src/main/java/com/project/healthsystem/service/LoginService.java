@@ -5,7 +5,7 @@ import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.validator.LoginValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +17,20 @@ public class LoginService {
     private final RoleService roleService;
     private final LoginValidator loginValidator;
     private final PasswordEncoder passwordEncoder;
-    private final Environment environment;
+
+    @Value("${app.default-admin.username}")
+    private String DEFAULT_ADMIN_USERNAME;
+    @Value("${app.default-admin.password}")
+    private String DEFAULT_ADMIN_PASSWORD;
+    @Value("${app.default-employee-password}")
+    private String DEFAULT_EMPLOYEE_PASSWORD;
+    @Value("${app.default-user-password}")
+    private String DEFAULT_USER_PASSWORD;
 
     public void createDefaultAdmin(Person person){
         Login login = new Login();
-        login.setLogin(this.environment.getProperty("app.default-admin.username"));
-        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-admin.password")));
-
+        login.setLogin(DEFAULT_ADMIN_USERNAME);
+        login.setPassword(this.passwordEncoder.encode(DEFAULT_ADMIN_PASSWORD));
 
         Role role = roleService.findByRole(Roles.ADMIN);
         person.getRoles().add(role);
@@ -35,7 +42,7 @@ public class LoginService {
     public void createDefaultLoginTo(Employee employee){
         Login login = new Login();
         login.setLogin(employee.getPerson().getCpf());
-        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-employee-password")));
+        login.setPassword(this.passwordEncoder.encode(this.DEFAULT_EMPLOYEE_PASSWORD));
         login.setPerson(employee.getPerson());
 
         repository.save(login);
@@ -44,7 +51,7 @@ public class LoginService {
     public void createDefaultLoginTo(Patient patient){
         Login login = new Login();
         login.setLogin(patient.getPerson().getCpf());
-        login.setPassword(this.passwordEncoder.encode(this.environment.getProperty("app.default-user-password")));
+        login.setPassword(this.passwordEncoder.encode(this.DEFAULT_USER_PASSWORD));
         login.setPerson(patient.getPerson());
 
         repository.save(login);
