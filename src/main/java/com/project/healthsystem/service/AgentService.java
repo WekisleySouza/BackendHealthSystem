@@ -47,7 +47,7 @@ public class AgentService {
         // Save Person
         if(personService.existsPersonByCpf(agentRequestDTO.getCpfNormalized())){
             Person person = personService.getReferenceByCpf(agentRequestDTO.getCpfNormalized());
-            person.addRole(roleService.findByRole(Roles.USER));
+            person.addRole(roleService.findByRole(Roles.PATIENT));
             agent.setPerson(person);
         }
         else {
@@ -58,7 +58,7 @@ public class AgentService {
             person.setEmail(agentRequestDTO.getEmail());
             person.setPhone(agentRequestDTO.getPhone());
             person
-                .addRole(roleService.findByRole(Roles.USER));
+                .addRole(roleService.findByRole(Roles.PATIENT));
             person.setCreatedBy(currentEditor);
             person.setLastModifiedBy(currentEditor);
             person.createdNow();

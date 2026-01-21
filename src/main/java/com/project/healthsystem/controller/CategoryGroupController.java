@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
 import com.project.healthsystem.controller.dto.CategoryGroupResponseDTO;
 import com.project.healthsystem.model.CategoryGroup;
@@ -23,7 +24,7 @@ public class CategoryGroupController {
     private final CategoryGroupService categoryGroupService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Void> save(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid CategoryGroupRequestDTO categoryGroupRequestDTO
@@ -41,7 +42,7 @@ public class CategoryGroupController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable("id") long id,
@@ -53,13 +54,13 @@ public class CategoryGroupController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(categoryGroupService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<CategoryGroupResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -69,7 +70,7 @@ public class CategoryGroupController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         categoryGroupService.delete(id);
         return ResponseEntity.noContent().build();

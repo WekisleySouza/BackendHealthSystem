@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ConditionRequestDTO;
 import com.project.healthsystem.controller.dto.ConditionResponseDTO;
 import com.project.healthsystem.model.Condition;
@@ -22,7 +23,7 @@ public class ConditionController {
     private final ConditionService conditionService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Void> save(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid ConditionRequestDTO conditionRequestDTO
@@ -40,7 +41,7 @@ public class ConditionController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable("id") long id,
@@ -52,13 +53,13 @@ public class ConditionController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(conditionService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<ConditionResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -68,7 +69,7 @@ public class ConditionController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         conditionService.delete(id);
         return ResponseEntity.noContent().build();

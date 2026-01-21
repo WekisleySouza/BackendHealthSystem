@@ -57,7 +57,7 @@ public class EmployeeService {
             person.setEmail(employeeRequestDTO.getEmail());
             person.setPhone(employeeRequestDTO.getPhone());
             person
-                .addRole(roleService.findByRole(Roles.USER))
+                .addRole(roleService.findByRole(Roles.PATIENT))
                 .addRole(roleService.findByRole(Roles.fromLabel(employeeRequestDTO.getRole())));
             person.setCreatedBy(currentEditor);
             person.setLastModifiedBy(currentEditor);

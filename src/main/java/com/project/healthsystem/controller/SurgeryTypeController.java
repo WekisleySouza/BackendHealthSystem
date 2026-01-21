@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
 import com.project.healthsystem.controller.dto.SurgeryTypeResponseDTO;
 import com.project.healthsystem.model.SurgeryType;
@@ -22,7 +23,7 @@ public class SurgeryTypeController {
     private final SurgeryTypeService surgeryTypeService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Void> save(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid SurgeryTypeRequestDTO surgeryTypeRequestDTO
@@ -40,7 +41,7 @@ public class SurgeryTypeController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable("id") long id,
@@ -52,13 +53,13 @@ public class SurgeryTypeController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(surgeryTypeService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
     public ResponseEntity<Page<SurgeryTypeResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -68,7 +69,7 @@ public class SurgeryTypeController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         surgeryTypeService.delete(id);
         return ResponseEntity.noContent().build();

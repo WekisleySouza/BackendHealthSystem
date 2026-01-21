@@ -52,7 +52,7 @@ public class ProfessionalService {
             person.setBirthday(professionalRequestDTO.getBirthday());
             person.setEmail(professionalRequestDTO.getEmail());
             person.setPhone(professionalRequestDTO.getPhone());
-            person.addRole(roleService.findByRole(Roles.USER));
+            person.addRole(roleService.findByRole(Roles.PATIENT));
             person.setCreatedBy(currentEditor);
             person.setLastModifiedBy(currentEditor);
             person.createdNow();

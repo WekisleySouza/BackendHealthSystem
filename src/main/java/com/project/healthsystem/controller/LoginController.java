@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.LoginRequestDTO;
 import com.project.healthsystem.model.Login;
 import com.project.healthsystem.security.JwtTokenProvider;
@@ -19,7 +20,7 @@ public class LoginController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PutMapping()
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE', 'USER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
     public ResponseEntity<Object> updatePassword(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid LoginRequestDTO loginRequestDTO

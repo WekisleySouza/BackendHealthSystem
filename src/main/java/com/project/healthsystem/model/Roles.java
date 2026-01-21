@@ -4,7 +4,7 @@ public enum Roles {
     ADMIN("ADMIN"),
     MANAGER("MANAGER"),
     EMPLOYEE("EMPLOYEE"),
-    USER("PATIENT");
+    PATIENT("PATIENT");
 
     private final String label;
 

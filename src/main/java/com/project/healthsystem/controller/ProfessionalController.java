@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
 import com.project.healthsystem.model.Professional;
@@ -23,7 +24,7 @@ public class ProfessionalController {
     private final ProfessionalService professionalService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Void> save(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid ProfessionalRequestDTO professionalRequestDto
@@ -41,7 +42,7 @@ public class ProfessionalController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable("id") long id,
@@ -53,13 +54,13 @@ public class ProfessionalController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(professionalService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<ProfessionalResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -82,7 +83,7 @@ public class ProfessionalController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         professionalService.delete(id);
         return ResponseEntity.noContent().build();

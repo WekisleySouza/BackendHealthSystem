@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
 import com.project.healthsystem.model.ServiceType;
@@ -23,7 +24,7 @@ public class ServiceTypeController {
     private final ServiceTypeService serviceTypeService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Void> save(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid ServiceTypeRequestDTO serviceTypeRequestDTO
@@ -41,7 +42,7 @@ public class ServiceTypeController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable("id") long id,
@@ -53,13 +54,13 @@ public class ServiceTypeController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(serviceTypeService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<ServiceTypeResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -77,7 +78,7 @@ public class ServiceTypeController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         serviceTypeService.delete(id);
         return ResponseEntity.noContent().build();

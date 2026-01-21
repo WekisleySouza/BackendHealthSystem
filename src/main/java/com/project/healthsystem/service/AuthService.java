@@ -61,7 +61,7 @@ public class AuthService {
         Roles role = Roles.fromLabel(jwtTokenProvider.getRole(token));
         ProfileResponseDTO profileResponseDTO = new ProfileResponseDTO();
         Person person = jwtTokenProvider.getPerson(token);
-        if(role == Roles.USER){
+        if(role == Roles.PATIENT){
             Patient patient = patientService.getByCpf(person.getCpf());
             profileResponseDTO.setName(patient.getPerson().getName());
             profileResponseDTO.setCpf(patient.getPerson().getCpf());

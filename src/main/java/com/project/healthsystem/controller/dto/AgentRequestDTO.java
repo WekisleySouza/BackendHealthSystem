@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,11 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @NoArgsConstructor
+@Schema(name="Agente")
 public class AgentRequestDTO {
 
     @NotBlank(message = "O nome é obrigatório!")
+    @Schema(name = "name")
     private String name;
 
     @NotBlank(message = "O CPF é obrigatório!")
@@ -30,6 +33,11 @@ public class AgentRequestDTO {
         message = "O e-mail não pode ultrapassar 320 caracteres!"
     )
     @Email(message = "Formato de e-mail inválido!")
+    @Schema(
+        name = "email",
+        maxLength = 320,
+        description = "Email do agente."
+    )
     private String email;
 
     public String getCpfNormalized() {

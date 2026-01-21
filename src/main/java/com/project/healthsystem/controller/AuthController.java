@@ -1,6 +1,7 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.AuthRequestDTO;
 import com.project.healthsystem.controller.dto.AuthResponseDTO;
 import com.project.healthsystem.controller.dto.ProfileResponseDTO;
@@ -20,7 +21,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize(Permissions.PERMIT_ALL)
     public ResponseEntity<AuthResponseDTO> authenticateUser(
         @RequestBody @Valid AuthRequestDTO authRequestDTO
     ) {
@@ -29,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize(Permissions.PERMIT_ALL)
     public ResponseEntity<?> refreshToken(
         @RequestBody Map<String, String> request
     ){
@@ -39,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize(Permissions.PERMIT_ALL)
     public ResponseEntity<?> logout(@RequestBody Map<String, String> request){
         String refreshToken = request.get("refreshToken");
         authService.revokeRefreshToken(refreshToken);
@@ -47,7 +48,7 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize(Permissions.PERMIT_ALL)
     public ResponseEntity<ProfileResponseDTO> profile(
         @RequestHeader("Authorization") String authHeader
     ){

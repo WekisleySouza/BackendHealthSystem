@@ -1,10 +1,15 @@
 package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
+import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.AgentResponseDTO;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.service.AgentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,11 +24,16 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/agents")
 @RequiredArgsConstructor
+@Tag(name = "Agentes")
 public class AgentController {
     private final AgentService agentService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    @Operation(summary = "Salvar", description = "Cadastro de novo agente.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Cadastrado com sucesso.")
+    })
     public ResponseEntity<Object> save(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid AgentRequestDTO agentRequestDTO
@@ -41,7 +51,7 @@ public class AgentController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Object> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable("id") long id,
@@ -53,13 +63,13 @@ public class AgentController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(agentService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<AgentResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -80,7 +90,7 @@ public class AgentController {
         ));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         agentService.delete(id);

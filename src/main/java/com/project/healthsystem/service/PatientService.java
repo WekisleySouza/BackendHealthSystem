@@ -3,7 +3,6 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.PatientResponseDTO;
 import com.project.healthsystem.controller.mappers.PatientMapper;
-import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
@@ -49,7 +48,7 @@ public class PatientService {
         // Save Person
         if(personService.existsPersonByCpf(patientRequestDTO.getCpfNormalized())){
             Person person = personService.getReferenceByCpf(patientRequestDTO.getCpfNormalized());
-            person.addRole(roleService.findByRole(Roles.USER));
+            person.addRole(roleService.findByRole(Roles.PATIENT));
             patient.setPerson(person);
         } else {
             Person person = new Person();
@@ -59,7 +58,7 @@ public class PatientService {
             person.setEmail(patientRequestDTO.getEmail());
             person.setPhone(patientRequestDTO.getPhone());
             person
-                .addRole(roleService.findByRole(Roles.USER));
+                .addRole(roleService.findByRole(Roles.PATIENT));
             person.setCreatedBy(currentEditor);
             person.setLastModifiedBy(currentEditor);
             person.createdNow();
