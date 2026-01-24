@@ -23,6 +23,7 @@ public class AgentRequestDTO {
     @CPF(message = "CPF inválido!")
     private String cpf;
     private String phone;
+    private String address;
 
     @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;

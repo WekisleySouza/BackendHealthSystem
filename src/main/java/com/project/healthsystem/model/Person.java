@@ -23,6 +23,8 @@ public class Person extends BasicEntityAbstraction {
     protected String cpf;
     @Column(name = "phone")
     protected String phone;
+    @Column(name = "address")
+    protected String address;
     @Column(name="birthday", nullable = false)
     protected LocalDate birthday;
     @Column(name="email", length=320)

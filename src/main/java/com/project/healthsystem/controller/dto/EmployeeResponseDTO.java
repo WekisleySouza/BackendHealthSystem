@@ -15,6 +15,7 @@ public class EmployeeResponseDTO {
     private String cpf;
     private LocalDate birthday;
     private String email;
+    private String address;
     private String phone;
     private String role;
 }

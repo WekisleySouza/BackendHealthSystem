@@ -22,6 +22,7 @@ public class PatientResponseDTO {
     private LocalDate birthday;
     private String cns;
     private String cpf;
+    private String address;
     private String phone;
     private String email;
 }

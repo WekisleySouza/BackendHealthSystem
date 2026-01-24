@@ -3,6 +3,7 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.PatientResponseDTO;
 import com.project.healthsystem.controller.mappers.PatientMapper;
+import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
@@ -29,6 +30,7 @@ public class PatientService {
     private final LoginService loginService;
     private final PatientValidator patientValidator;
     private final PatientMapper patientMapper;
+    private final PersonMapper personMapper;
 
     private final PersonService personService;
     private final RoleService roleService;
@@ -51,12 +53,7 @@ public class PatientService {
             person.addRole(roleService.findByRole(Roles.PATIENT));
             patient.setPerson(person);
         } else {
-            Person person = new Person();
-            person.setName(patientRequestDTO.getName());
-            person.setCpf(patientRequestDTO.getCpfNormalized());
-            person.setBirthday(patientRequestDTO.getBirthday());
-            person.setEmail(patientRequestDTO.getEmail());
-            person.setPhone(patientRequestDTO.getPhone());
+            Person person = personMapper.toPersonEntity(patientRequestDTO);
             person
                 .addRole(roleService.findByRole(Roles.PATIENT));
             person.setCreatedBy(currentEditor);
@@ -85,10 +82,7 @@ public class PatientService {
 
         // Saving Person
         Person person = personService.findByCpf(patientRequestDTO.getCpfNormalized());
-        person.setName(patientRequestDTO.getName());
-        person.setBirthday(patientRequestDTO.getBirthday());
-        person.setEmail(patientRequestDTO.getEmail());
-        person.setPhone(patientRequestDTO.getPhone());
+        person = personMapper.updatePersonEntity(person, patientRequestDTO);
         person.updatedNow();
         person.setLastModifiedBy(currentEditor);
         person = personService.save(person);

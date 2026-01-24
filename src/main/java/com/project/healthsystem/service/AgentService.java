@@ -3,6 +3,7 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.AgentResponseDTO;
 import com.project.healthsystem.controller.mappers.AgentMapper;
+import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
@@ -28,6 +29,7 @@ public class AgentService {
     private final AgentRepository repository;
     private final AgentValidator agentValidator;
     private final AgentMapper agentMapper;
+    private final PersonMapper personMapper;
 
     private final PersonService personService;
     private final RoleService roleService;
@@ -51,12 +53,7 @@ public class AgentService {
             agent.setPerson(person);
         }
         else {
-            Person person = new Person();
-            person.setName(agentRequestDTO.getName());
-            person.setCpf(agentRequestDTO.getCpfNormalized());
-            person.setBirthday(agentRequestDTO.getBirthday());
-            person.setEmail(agentRequestDTO.getEmail());
-            person.setPhone(agentRequestDTO.getPhone());
+            Person person = personMapper.toPersonEntity(agentRequestDTO);
             person
                 .addRole(roleService.findByRole(Roles.PATIENT));
             person.setCreatedBy(currentEditor);
@@ -81,10 +78,7 @@ public class AgentService {
 
         // Saving Person
         Person person = personService.findByCpf(agentRequestDTO.getCpfNormalized());
-        person.setName(agentRequestDTO.getName());
-        person.setBirthday(agentRequestDTO.getBirthday());
-        person.setEmail(agentRequestDTO.getEmail());
-        person.setPhone(agentRequestDTO.getPhone());
+        person = personMapper.updatePersonEntity(person, agentRequestDTO);
         person.updatedNow();
         person.setLastModifiedBy(currentEditor);
         person = personService.save(person);

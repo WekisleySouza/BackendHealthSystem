@@ -2,6 +2,7 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
+import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.ProfessionalRepository;
@@ -26,6 +27,7 @@ public class ProfessionalService {
     private final ProfessionalRepository repository;
     private final ProfessionalValidator professionalValidator;
     private final ProfessionalMapper professionalMapper;
+    private final PersonMapper personMapper;
     private final PersonService personService;
     private final RoleService roleService;
 
@@ -46,12 +48,7 @@ public class ProfessionalService {
             Person person = personService.getReferenceByCpf(professionalRequestDTO.getCpfNormalized());
             professional.setPerson(person);
         } else {
-            Person person = new Person();
-            person.setName(professionalRequestDTO.getName());
-            person.setCpf(professionalRequestDTO.getCpfNormalized());
-            person.setBirthday(professionalRequestDTO.getBirthday());
-            person.setEmail(professionalRequestDTO.getEmail());
-            person.setPhone(professionalRequestDTO.getPhone());
+            Person person = personMapper.toPersonEntity(professionalRequestDTO);
             person.addRole(roleService.findByRole(Roles.PATIENT));
             person.setCreatedBy(currentEditor);
             person.setLastModifiedBy(currentEditor);
@@ -75,10 +72,7 @@ public class ProfessionalService {
 
         // Saving Person
         Person person = personService.findByCpf(professionalRequestDTO.getCpfNormalized());
-        person.setName(professionalRequestDTO.getName());
-        person.setBirthday(professionalRequestDTO.getBirthday());
-        person.setEmail(professionalRequestDTO.getEmail());
-        person.setPhone(professionalRequestDTO.getPhone());
+        person = personMapper.updatePersonEntity(person, professionalRequestDTO);
         person.updatedNow();
         person.setLastModifiedBy(currentEditor);
         person = personService.save(person);

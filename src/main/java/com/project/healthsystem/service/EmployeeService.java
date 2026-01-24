@@ -3,6 +3,7 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
+import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
@@ -27,6 +28,7 @@ public class EmployeeService {
     private final EmployeeRepository repository;
     private final EmployeeValidator employeeValidator;
     private final EmployeeMapper employeeMapper;
+    private final PersonMapper personMapper;
 
     private final LoginService loginService;
     private final PersonService personService;
@@ -50,12 +52,7 @@ public class EmployeeService {
             person.addRole(roleService.findByRole(Roles.fromLabel(employeeRequestDTO.getRole())));
             employee.setPerson(person);
         } else {
-            Person person = new Person();
-            person.setName(employeeRequestDTO.getName());
-            person.setCpf(employeeRequestDTO.getCpfNormalized());
-            person.setBirthday(employeeRequestDTO.getBirthday());
-            person.setEmail(employeeRequestDTO.getEmail());
-            person.setPhone(employeeRequestDTO.getPhone());
+            Person person = personMapper.toPersonEntity(employeeRequestDTO);
             person
                 .addRole(roleService.findByRole(Roles.PATIENT))
                 .addRole(roleService.findByRole(Roles.fromLabel(employeeRequestDTO.getRole())));
@@ -83,10 +80,7 @@ public class EmployeeService {
 
         // Saving Person
         Person person = personService.findByCpf(employeeRequestDTO.getCpfNormalized());
-        person.setName(employeeRequestDTO.getName());
-        person.setBirthday(employeeRequestDTO.getBirthday());
-        person.setEmail(employeeRequestDTO.getEmail());
-        person.setPhone(employeeRequestDTO.getPhone());
+        person = personMapper.updatePersonEntity(person, employeeRequestDTO);
         person.updatedNow();
         person.setLastModifiedBy(currentEditor);
         person = personService.save(person);

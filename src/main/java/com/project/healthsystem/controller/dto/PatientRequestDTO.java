@@ -38,6 +38,7 @@ public class PatientRequestDTO {
     @CPF(message = "CPF inválido!")
     private String cpf;
 
+    private String address;
     private String phone;
 
     @Email(message = "Formato de e-mail inválido!")

@@ -15,6 +15,7 @@ public class ProfessionalResponseDTO {
     private String name;
     private LocalDate birthday;
     private String cpf;
+    private String address;
     private String phone;
     private String email;
 }

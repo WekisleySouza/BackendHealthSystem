@@ -14,6 +14,7 @@ public class AgentResponseDTO {
     private String name;
     private String cpf;
     private String phone;
+    private String address;
     private LocalDate birthday;
     private String email;
 }

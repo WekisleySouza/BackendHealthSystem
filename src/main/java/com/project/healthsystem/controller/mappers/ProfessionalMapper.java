@@ -17,6 +17,7 @@ public abstract class ProfessionalMapper {
     @Mapping(target = "name", expression = "java(entity.getPerson().getName())")
     @Mapping(target = "phone", expression = "java(entity.getPerson().getPhone())")
     @Mapping(target = "birthday", expression = "java(entity.getPerson().getBirthday())")
+    @Mapping(target = "address", expression = "java(entity.getPerson().getAddress())")
     @Mapping(target = "email", expression = "java(entity.getPerson().getEmail())")
     public abstract ProfessionalResponseDTO toDto(Professional entity);
 
@@ -24,6 +25,7 @@ public abstract class ProfessionalMapper {
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
         entity.getPerson().setPhone(dto.getPhone());
+        entity.getPerson().setAddress(dto.getAddress());
         entity.getPerson().setBirthday(dto.getBirthday());
         entity.getPerson().setEmail(dto.getEmail());
         return entity;
@@ -33,6 +35,7 @@ public abstract class ProfessionalMapper {
         Person person = new Person();
         person.setName(dto.getName());
         person.setCpf(dto.getCpfNormalized());
+        person.setAddress(dto.getAddress());
         person.setPhone(dto.getPhone());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());

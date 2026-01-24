@@ -17,22 +17,27 @@ public abstract class AgentMapper {
     @Mapping(target = "name", expression = "java(agent.getPerson().getName())")
     @Mapping(target = "phone", expression = "java(agent.getPerson().getPhone())")
     @Mapping(target = "birthday", expression = "java(agent.getPerson().getBirthday())")
+    @Mapping(target = "address", expression = "java(agent.getPerson().getAddress())")
     @Mapping(target = "email", expression = "java(agent.getPerson().getEmail())")
     public abstract AgentResponseDTO toDto(Agent agent);
 
-    public Agent toEntityWhenHasId(Agent agent, AgentRequestDTO agentRequestDTO){
-        agent.getPerson().setCpf(agentRequestDTO.getCpf());
-        agent.getPerson().setName(agentRequestDTO.getName());
-        agent.getPerson().setPhone(agentRequestDTO.getPhone());
-        agent.getPerson().setBirthday(agentRequestDTO.getBirthday());
-        agent.getPerson().setEmail(agentRequestDTO.getEmail());
-        return agent;
+    public Agent toEntityWhenHasId(Agent entity, AgentRequestDTO dto){
+        System.out.println("Endereço: " + dto.getAddress());
+        entity.getPerson().setCpf(dto.getCpf());
+        entity.getPerson().setName(dto.getName());
+        entity.getPerson().setAddress(dto.getAddress());
+        entity.getPerson().setPhone(dto.getPhone());
+        entity.getPerson().setBirthday(dto.getBirthday());
+        entity.getPerson().setEmail(dto.getEmail());
+        return entity;
     }
 
     protected Person map(AgentRequestDTO dto){
+        System.out.println("Endereço: " + dto.getAddress());
         Person person = new Person();
         person.setName(dto.getName());
         person.setCpf(dto.getCpfNormalized());
+        person.setAddress(dto.getAddress());
         person.setPhone(dto.getPhone());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());

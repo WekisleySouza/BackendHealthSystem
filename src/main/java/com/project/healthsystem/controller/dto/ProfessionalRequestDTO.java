@@ -28,6 +28,7 @@ public class ProfessionalRequestDTO {
     @CPF(message = "CPF inválido!")
     private String cpf;
 
+    private String address;
     private String phone;
 
     @Size(max = 320, message = "O e-mail não pode ultrapassar 320 caracteres!")

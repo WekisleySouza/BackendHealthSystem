@@ -31,6 +31,7 @@ public class EmployeeRequestDTO {
     @Size(max = 320, message = "O e-mail não pode ultrapassar 320 caracteres!")
     private String email;
 
+    private String address;
     private String phone;
 
     @NotBlank(message = "O papel do usuário deve ser informado!")

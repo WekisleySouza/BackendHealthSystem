@@ -20,6 +20,7 @@ public abstract class PatientMapper {
     @Mapping(target = "birthday", expression = "java(entity.getPerson().getBirthday())")
     @Mapping(target = "cpf", expression = "java(entity.getPerson().getCpf())")
     @Mapping(target = "phone", expression = "java(entity.getPerson().getPhone())")
+    @Mapping(target = "address", expression = "java(entity.getPerson().getAddress())")
     @Mapping(target = "email", expression = "java(entity.getPerson().getEmail())")
     public abstract PatientResponseDTO toDto(Patient entity);
 
@@ -28,6 +29,7 @@ public abstract class PatientMapper {
         entity.setCns(dto.getCns());
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
+        entity.getPerson().setAddress(dto.getAddress());
         entity.getPerson().setPhone(dto.getPhone());
         entity.getPerson().setBirthday(dto.getBirthday());
         entity.getPerson().setEmail(dto.getEmail());
@@ -38,6 +40,7 @@ public abstract class PatientMapper {
         Person person = new Person();
         person.setName(dto.getName());
         person.setCpf(dto.getCpfNormalized());
+        person.setAddress(dto.getAddress());
         person.setPhone(dto.getPhone());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());

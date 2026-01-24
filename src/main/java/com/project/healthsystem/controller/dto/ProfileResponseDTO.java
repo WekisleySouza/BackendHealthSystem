@@ -10,6 +10,7 @@ public class ProfileResponseDTO {
     // Common atributes
     private String name;
     private String cpf;
+    private String address;
     private String phone;
     private LocalDate birthday;
     private String email;

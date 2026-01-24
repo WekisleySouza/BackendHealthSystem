@@ -16,6 +16,7 @@ public abstract class EmployeeMapper {
     @Mapping(target = "cpf", expression = "java(entity.getPerson().getCpf())")
     @Mapping(target = "name", expression = "java(entity.getPerson().getName())")
     @Mapping(target = "phone", expression = "java(entity.getPerson().getPhone())")
+    @Mapping(target = "address", expression = "java(entity.getPerson().getAddress())")
     @Mapping(target = "birthday", expression = "java(entity.getPerson().getBirthday())")
     @Mapping(target = "email", expression = "java(entity.getPerson().getEmail())")
     public abstract EmployeeResponseDTO toDto(Employee entity);
@@ -23,6 +24,7 @@ public abstract class EmployeeMapper {
     public Employee toEntityWhenHasId(Employee entity, EmployeeRequestDTO dto){
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
+        entity.getPerson().setAddress(dto.getAddress());
         entity.getPerson().setPhone(dto.getPhone());
         entity.getPerson().setBirthday(dto.getBirthday());
         entity.getPerson().setEmail(dto.getEmail());
@@ -33,6 +35,7 @@ public abstract class EmployeeMapper {
         Person person = new Person();
         person.setName(dto.getName());
         person.setCpf(dto.getCpfNormalized());
+        person.setAddress(dto.getAddress());
         person.setPhone(dto.getPhone());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
