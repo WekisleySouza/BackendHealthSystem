@@ -53,8 +53,9 @@ public class SurgeryTypeService {
             .map(surgeryTypeMapper::toDto);
     }
 
-    public SurgeryType findById(long id){
-        return this.surgeryTypeValidator.validateFindById(id);
+    public SurgeryTypeResponseDTO findById(long id){
+        SurgeryType surgeryType = this.surgeryTypeValidator.validateFindById(id);
+        return surgeryTypeMapper.toDto(surgeryType);
     }
 
     public void delete(long id){

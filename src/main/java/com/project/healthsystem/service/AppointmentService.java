@@ -70,8 +70,9 @@ public class AppointmentService {
             .map(appointmentsMapper::toDto);
     }
 
-    public Appointment findById(long id){
-        return appointmentValidator.validateFindById(id);
+    public AppointmentResponseDTO findById(long id){
+        Appointment appointment = appointmentValidator.validateFindById(id);
+        return appointmentsMapper.toDto(appointment);
     }
 
     public void delete(long id){

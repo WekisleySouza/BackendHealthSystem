@@ -57,14 +57,15 @@ public class ConditionService {
             .map(conditionMapper::toDto);
     }
 
-    public Condition findById(long id){
-        return this.conditionValidator.validateFindById(id);
+    public ConditionResponseDTO findById(long id){
+        Condition condition = this.conditionValidator.validateFindById(id);
+        return conditionMapper.toDto(condition);
     }
 
     public List<Condition> findByIds(List<Long> ids){
         List<Condition> conditions = new ArrayList<>();
         for(long id : ids){
-            Condition condition = this.findById(id);
+            Condition condition = this.conditionValidator.validateFindById(id);
             conditions.add(condition);
         }
         return conditions;

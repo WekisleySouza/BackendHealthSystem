@@ -92,7 +92,8 @@ public class PatientService {
     }
 
     public PatientResponseDTO findById(long id){
-        return patientMapper.toDto(patientValidator.validateFindById(id));
+        Patient patient = patientValidator.validateFindById(id);
+        return patientMapper.toDto(patient);
     }
 
     public Page<PatientResponseDTO> getAll(

@@ -82,8 +82,9 @@ public class SurgeryService {
             .map(surgeryMapper::toDto);
     }
 
-    public Surgery findById(long id){
-        return this.surgeryValidator.validateFindById(id);
+    public SurgeryResponseDTO findById(long id){
+        Surgery surgery = this.surgeryValidator.validateFindById(id);
+        return surgeryMapper.toDto(surgery);
     }
 
     public void delete(long id){

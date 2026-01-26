@@ -64,8 +64,9 @@ public class ServiceTypeService {
             .map(serviceTypeMapper::toDto);
     }
 
-    public ServiceType findById(long id){
-        return this.serviceTypeValidator.validateFindById(id);
+    public ServiceTypeResponseDTO findById(long id){
+        ServiceType serviceType = this.serviceTypeValidator.validateFindById(id);
+        return serviceTypeMapper.toDto(serviceType);
     }
 
     public void delete(long id){

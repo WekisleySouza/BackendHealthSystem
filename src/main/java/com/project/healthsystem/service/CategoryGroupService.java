@@ -61,8 +61,9 @@ public class CategoryGroupService {
             .map(categoryGroupMapper::toDto);
     }
 
-    public CategoryGroup findById(long id){
-        return categoryGroupValidator.validateFindById(id);
+    public CategoryGroupResponseDTO findById(long id){
+        CategoryGroup categoryGroup = categoryGroupValidator.validateFindById(id);
+        return categoryGroupMapper.toDto(categoryGroup);
     }
 
     public void delete(long id){

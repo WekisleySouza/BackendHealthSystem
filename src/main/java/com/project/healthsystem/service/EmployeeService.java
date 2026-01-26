@@ -89,8 +89,9 @@ public class EmployeeService {
         repository.save(employee);
     }
 
-    public Employee findById(long id){
-        return employeeValidator.validateFindById(id);
+    public EmployeeResponseDTO findById(long id){
+        Employee employee = employeeValidator.validateFindById(id);
+        return employeeMapper.toDto(employee);
     }
 
     public Employee findByCpf(String cpf) {

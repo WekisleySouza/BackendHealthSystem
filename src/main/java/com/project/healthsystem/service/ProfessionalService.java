@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -102,8 +103,9 @@ public class ProfessionalService {
             .map(professionalMapper::toDto);
     }
 
-    public Professional findById(long id){
-        return professionalValidator.validateFindById(id);
+    public ProfessionalResponseDTO findById(long id){
+        Professional professional = professionalValidator.validateFindById(id);
+        return professionalMapper.toDto(professional);
     }
 
     public void delete(long id){
