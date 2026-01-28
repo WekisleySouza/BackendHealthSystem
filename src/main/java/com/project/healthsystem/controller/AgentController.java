@@ -24,15 +24,15 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/agents")
 @RequiredArgsConstructor
-@Tag(name = "Agentes")
+@Tag(name = "Agent")
 public class AgentController {
     private final AgentService agentService;
 
     @PostMapping
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(summary = "Salvar", description = "Cadastro de novo agente.")
+    @Operation(summary = "Create agent", description = "Create a new agent.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Cadastrado com sucesso.")
+        @ApiResponse(responseCode = "200", description = "Created successfully.")
     })
     public ResponseEntity<Object> save(
         @RequestHeader("Authorization") String authHeader,
@@ -52,6 +52,10 @@ public class AgentController {
 
     @PutMapping("/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    @Operation(summary = "Update agent", description = "Update agent.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Updated successfully.")
+    })
     public ResponseEntity<Object> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable("id") long id,
@@ -64,12 +68,17 @@ public class AgentController {
 
     @GetMapping("/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @Operation(summary = "Find by id", description = "Find agent by id.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "404", description = "Agent not found.")
+    })
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(agentService.findById(id));
     }
 
     @GetMapping
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @Operation(summary = "Get all", description = "Get all agents.")
     public ResponseEntity<Page<AgentResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -92,6 +101,11 @@ public class AgentController {
 
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete", description = "Delete an agent by id.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Deleted successfully."),
+        @ApiResponse(responseCode = "404", description = "Agent not found.")
+    })
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         agentService.delete(id);
         return ResponseEntity.noContent().build();

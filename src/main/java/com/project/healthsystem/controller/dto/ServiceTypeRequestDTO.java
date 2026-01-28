@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller.dto;
 
+import com.project.healthsystem.model.ServiceTypes;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -20,6 +21,6 @@ public class ServiceTypeRequestDTO {
     private BigDecimal value;
 
     @NotBlank(message = "O tipo é obrigatório!")
-    private String type;
+    private ServiceTypes type;
 
 }

@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
 import com.project.healthsystem.model.ServiceType;
 import com.project.healthsystem.service.ServiceTypeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/service-types")
 @RequiredArgsConstructor
+@Tag(name = "Service Type")
 public class ServiceTypeController {
     private final ServiceTypeService serviceTypeService;
 

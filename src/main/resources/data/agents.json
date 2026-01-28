@@ -4,204 +4,231 @@
     "cpf": "529.982.247-25",
     "phone": "(11) 98765-1111",
     "birthday": "1980-03-12",
-    "email": "carlos.almeida@health.com"
+    "email": "carlos.almeida@health.com",
+    "address": "Rua das Palmeiras, 123 - Centro, São Paulo/SP - 01010-000"
   },
   {
     "name": "Fernanda Lopes",
     "cpf": "168.995.350-09",
     "phone": "(11) 98888-2222",
     "birthday": "1985-07-25",
-    "email": "fernanda.lopes@health.com"
+    "email": "fernanda.lopes@health.com",
+    "address": "Avenida Paulista, 1500 - Bela Vista, São Paulo/SP - 01310-200"
   },
   {
     "name": "Ricardo Nunes",
     "cpf": "111.444.777-35",
     "phone": "(21) 97777-3333",
     "birthday": "1979-11-02",
-    "email": "ricardo.nunes@health.com"
+    "email": "ricardo.nunes@health.com",
+    "address": "Rua Barata Ribeiro, 800 - Copacabana, Rio de Janeiro/RJ - 22040-002"
   },
   {
     "name": "Patricia Azevedo",
     "cpf": "935.411.347-80",
     "phone": "(31) 98876-4444",
     "birthday": "1983-09-09",
-    "email": "patricia.azevedo@health.com"
+    "email": "patricia.azevedo@health.com",
+    "address": "Rua da Bahia, 980 - Funcionários, Belo Horizonte/MG - 30160-011"
   },
   {
     "name": "Marcos Vinicius Rocha",
     "cpf": "286.255.878-87",
     "phone": "(41) 98712-5555",
     "birthday": "1990-01-14",
-    "email": "marcos.rocha@health.com"
+    "email": "marcos.rocha@health.com",
+    "address": "Rua XV de Novembro, 450 - Centro, Curitiba/PR - 80020-310"
   },
   {
     "name": "Juliana Pires",
     "cpf": "746.971.314-01",
     "phone": "(19) 97654-6666",
     "birthday": "1988-04-21",
-    "email": "juliana.pires@health.com"
+    "email": "juliana.pires@health.com",
+    "address": "Rua Moraes Salles, 300 - Centro, Campinas/SP - 13010-002"
   },
   {
     "name": "Eduardo Farias",
     "cpf": "357.192.310-08",
     "phone": "(51) 98444-7777",
     "birthday": "1975-12-30",
-    "email": "eduardo.farias@health.com"
+    "email": "eduardo.farias@health.com",
+    "address": "Avenida Ipiranga, 2000 - Partenon, Porto Alegre/RS - 90610-001"
   },
   {
     "name": "Vanessa Guimarães",
     "cpf": "502.998.010-40",
     "phone": "(11) 95555-8888",
     "birthday": "1992-08-05",
-    "email": "vanessa.guimaraes@health.com"
+    "email": "vanessa.guimaraes@health.com",
+    "address": "Rua Augusta, 900 - Consolação, São Paulo/SP - 01305-100"
   },
   {
     "name": "Rafael Cardoso",
     "cpf": "398.742.640-30",
     "phone": "(62) 98777-9999",
     "birthday": "1987-10-11",
-    "email": "rafael.cardoso@health.com"
+    "email": "rafael.cardoso@health.com",
+    "address": "Avenida T-63, 1200 - Setor Bueno, Goiânia/GO - 74230-100"
   },
   {
     "name": "Aline Batista",
     "cpf": "390.533.447-05",
     "phone": "(13) 98812-1010",
     "birthday": "1991-02-17",
-    "email": "aline.batista@health.com"
+    "email": "aline.batista@health.com",
+    "address": "Avenida Ana Costa, 400 - Gonzaga, Santos/SP - 11060-002"
   },
-
   {
     "name": "Rodrigo Moreira",
     "cpf": "153.509.460-56",
     "phone": "(11) 99123-2020",
     "birthday": "1986-05-09",
-    "email": "rodrigo.moreira@health.com"
+    "email": "rodrigo.moreira@health.com",
+    "address": "Rua Teodoro Sampaio, 700 - Pinheiros, São Paulo/SP - 05406-000"
   },
   {
     "name": "Simone Freitas",
     "cpf": "073.125.980-39",
     "phone": "(27) 98877-3030",
     "birthday": "1982-09-27",
-    "email": "simone.freitas@health.com"
+    "email": "simone.freitas@health.com",
+    "address": "Avenida Nossa Senhora da Penha, 850 - Praia do Canto, Vitória/ES - 29055-131"
   },
   {
     "name": "Bruno Teixeira",
     "cpf": "846.971.520-04",
     "phone": "(85) 98765-4040",
     "birthday": "1978-12-03",
-    "email": "bruno.teixeira@health.com"
+    "email": "bruno.teixeira@health.com",
+    "address": "Rua Desembargador Moreira, 600 - Aldeota, Fortaleza/CE - 60170-002"
   },
   {
     "name": "Renata Costa",
     "cpf": "070.680.840-02",
     "phone": "(48) 99654-5050",
     "birthday": "1994-11-20",
-    "email": "renata.costa@health.com"
+    "email": "renata.costa@health.com",
+    "address": "Rua Bocaiúva, 1200 - Centro, Florianópolis/SC - 88015-530"
   },
   {
     "name": "Anderson Ribeiro",
     "cpf": "391.202.260-09",
     "phone": "(92) 98712-6060",
     "birthday": "1984-06-01",
-    "email": "anderson.ribeiro@health.com"
+    "email": "anderson.ribeiro@health.com",
+    "address": "Avenida Djalma Batista, 900 - Chapada, Manaus/AM - 69050-010"
   },
   {
     "name": "Luciana Martins",
     "cpf": "058.991.350-07",
     "phone": "(11) 99333-7070",
     "birthday": "1996-02-08",
-    "email": "luciana.martins@health.com"
+    "email": "luciana.martins@health.com",
+    "address": "Rua Vergueiro, 1800 - Vila Mariana, São Paulo/SP - 04101-000"
   },
   {
     "name": "Marcelo Guedes",
     "cpf": "604.694.230-75",
     "phone": "(34) 98845-8080",
     "birthday": "1972-10-29",
-    "email": "marcelo.guedes@health.com"
+    "email": "marcelo.guedes@health.com",
+    "address": "Avenida Floriano Peixoto, 500 - Centro, Uberlândia/MG - 38400-070"
   },
   {
     "name": "Camila Torres",
     "cpf": "294.379.480-06",
     "phone": "(21) 98744-9090",
     "birthday": "1993-07-13",
-    "email": "camila.torres@health.com"
+    "email": "camila.torres@health.com",
+    "address": "Rua Jardim Botânico, 650 - Jardim Botânico, Rio de Janeiro/RJ - 22461-000"
   },
   {
     "name": "Leandro Falcão",
     "cpf": "824.915.870-70",
     "phone": "(65) 98811-1112",
     "birthday": "1981-01-05",
-    "email": "leandro.falcao@health.com"
+    "email": "leandro.falcao@health.com",
+    "address": "Avenida Historiador Rubens de Mendonça, 1400 - Bosque da Saúde, Cuiabá/MT - 78050-000"
   },
   {
     "name": "Aline Prado",
     "cpf": "483.698.650-07",
     "phone": "(71) 98765-1313",
     "birthday": "1999-03-18",
-    "email": "aline.prado@health.com"
+    "email": "aline.prado@health.com",
+    "address": "Rua Alceu Amoroso Lima, 400 - Caminho das Árvores, Salvador/BA - 41820-770"
   },
-
   {
     "name": "Fábio Cunha",
     "cpf": "139.489.360-92",
     "phone": "(12) 98890-1414",
     "birthday": "1976-08-26",
-    "email": "fabio.cunha@health.com"
+    "email": "fabio.cunha@health.com",
+    "address": "Avenida Cassiano Ricardo, 600 - Jardim Alvorada, São José dos Campos/SP - 12246-870"
   },
   {
     "name": "Natalia Rangel",
     "cpf": "850.960.540-05",
     "phone": "(98) 98777-1515",
     "birthday": "1989-12-11",
-    "email": "natalia.rangel@health.com"
+    "email": "natalia.rangel@health.com",
+    "address": "Avenida Colares Moreira, 1000 - Renascença, São Luís/MA - 65075-441"
   },
   {
     "name": "Gustavo Pimentel",
     "cpf": "011.781.250-96",
     "phone": "(44) 98866-1616",
     "birthday": "1983-04-07",
-    "email": "gustavo.pimentel@health.com"
+    "email": "gustavo.pimentel@health.com",
+    "address": "Avenida Tiradentes, 900 - Zona 01, Maringá/PR - 87013-260"
   },
   {
     "name": "Daniela Furtado",
     "cpf": "279.924.630-60",
     "phone": "(11) 99900-1717",
     "birthday": "1997-06-30",
-    "email": "daniela.furtado@health.com"
+    "email": "daniela.furtado@health.com",
+    "address": "Rua Oscar Freire, 1100 - Jardins, São Paulo/SP - 01426-001"
   },
   {
     "name": "Paulo Roberto Cunha",
     "cpf": "295.504.190-05",
     "phone": "(83) 98855-1818",
     "birthday": "1970-02-19",
-    "email": "paulo.cunha@health.com"
+    "email": "paulo.cunha@health.com",
+    "address": "Avenida Epitácio Pessoa, 2000 - Tambaú, João Pessoa/PB - 58039-000"
   },
   {
     "name": "Natalia Brandão",
     "cpf": "720.314.890-30",
     "phone": "(61) 98712-1919",
     "birthday": "1992-09-08",
-    "email": "natalia.brandao@health.com"
+    "email": "natalia.brandao@health.com",
+    "address": "SQN 304 Bloco B, Asa Norte, Brasília/DF - 70736-020"
   },
   {
     "name": "Thiago Mendonça",
     "cpf": "604.948.230-03",
     "phone": "(11) 98888-2021",
     "birthday": "1988-01-16",
-    "email": "thiago.mendonca@health.com"
+    "email": "thiago.mendonca@health.com",
+    "address": "Rua Serra de Bragança, 350 - Tatuapé, São Paulo/SP - 03318-000"
   },
   {
     "name": "Renato Peixoto",
     "cpf": "390.438.840-08",
     "phone": "(63) 98765-2122",
     "birthday": "1977-05-24",
-    "email": "renato.peixoto@health.com"
+    "email": "renato.peixoto@health.com",
+    "address": "Avenida JK, 500 - Plano Diretor Sul, Palmas/TO - 77015-012"
   },
   {
     "name": "Carolina Meireles",
     "cpf": "460.278.930-40",
     "phone": "(84) 98877-2323",
     "birthday": "1991-10-02",
-    "email": "carolina.meireles@health.com"
+    "email": "carolina.meireles@health.com",
+    "address": "Avenida Engenheiro Roberto Freire, 1200 - Capim Macio, Natal/RN - 59082-400"
   }
 ]

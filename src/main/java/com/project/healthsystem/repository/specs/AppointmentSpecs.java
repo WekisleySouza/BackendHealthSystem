@@ -1,6 +1,7 @@
 package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.Appointment;
+import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.model.Status;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -35,5 +36,10 @@ public class AppointmentSpecs {
         if(status == null) return null;
         return (root, query, criteriaBuilder)
                 -> criteriaBuilder.equal(root.get("status"), Status.fromLabel(status));
+    }
+
+    public static Specification<Appointment> serviceTypeTypeEqual(String type){
+        return (root, query, criteriaBuilder)
+                -> criteriaBuilder.equal(root.get("serviceType").get("type"), ServiceTypes.fromLabel(type));
     }
 }

@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.service.EmployeeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/employees")
 @RequiredArgsConstructor
+@Tag(name = "Employee")
 public class EmployeeController {
     private final EmployeeService service;
 

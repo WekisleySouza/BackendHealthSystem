@@ -23,7 +23,7 @@ public class ServiceType extends BasicEntityAbstraction {
     @Column(name = "value", precision = 20, scale = 8)
     private BigDecimal value;
     @Column(name = "type")
-    private String type;
+    private ServiceTypes type;
 
     public long getCategoryGroupId(){
         if(this.categoryGroup != null){

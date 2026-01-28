@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.service.ProfessionalService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/professionals")
 @RequiredArgsConstructor
+@Tag(name = "Professional")
 public class ProfessionalController {
     private final ProfessionalService professionalService;
 

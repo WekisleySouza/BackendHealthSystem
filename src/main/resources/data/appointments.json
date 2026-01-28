@@ -192,7 +192,7 @@
   {
     "professionalId": 10,
     "employeeId": 1,
-    "patientId": 20,
+    "patientId": 10,
     "status": "Completo",
     "serviceTypeId": 5,
     "notes": "Consulta especializada",
@@ -202,7 +202,7 @@
   {
     "professionalId": 1,
     "employeeId": 2,
-    "patientId": 21,
+    "patientId": 11,
     "status": "Agendado",
     "serviceTypeId": 6,
     "notes": "Exame complementar",
@@ -212,7 +212,7 @@
   {
     "professionalId": 2,
     "employeeId": 3,
-    "patientId": 22,
+    "patientId": 12,
     "status": "Completo",
     "serviceTypeId": 7,
     "notes": "Avaliação clínica",
@@ -222,7 +222,7 @@
   {
     "professionalId": 3,
     "employeeId": 4,
-    "patientId": 23,
+    "patientId": 13,
     "status": "Agendado",
     "serviceTypeId": 8,
     "notes": "Consulta de acompanhamento",
@@ -232,7 +232,7 @@
   {
     "professionalId": 4,
     "employeeId": 5,
-    "patientId": 24,
+    "patientId": 14,
     "status": "Completo",
     "serviceTypeId": 9,
     "notes": "Exame específico",
@@ -242,7 +242,7 @@
   {
     "professionalId": 5,
     "employeeId": 6,
-    "patientId": 25,
+    "patientId": 15,
     "status": "Agendado",
     "serviceTypeId": 10,
     "notes": "Consulta de rotina",
@@ -252,7 +252,7 @@
   {
     "professionalId": 6,
     "employeeId": 7,
-    "patientId": 26,
+    "patientId": 16,
     "status": "Atrasado",
     "serviceTypeId": 11,
     "notes": "Avaliação urgente",
@@ -262,7 +262,7 @@
   {
     "professionalId": 7,
     "employeeId": 8,
-    "patientId": 27,
+    "patientId": 17,
     "status": "Agendado",
     "serviceTypeId": 12,
     "notes": "Exame de imagem",
@@ -272,31 +272,11 @@
   {
     "professionalId": 8,
     "employeeId": 9,
-    "patientId": 28,
+    "patientId": 18,
     "status": "Completo",
     "serviceTypeId": 13,
     "notes": "Consulta técnica",
     "scheduledAt": "2025-01-28T11:00:00",
-    "priority": "LOW"
-  },
-  {
-    "professionalId": 9,
-    "employeeId": 10,
-    "patientId": 29,
-    "status": "Agendado",
-    "serviceTypeId": 14,
-    "notes": "Retorno pós-exame",
-    "scheduledAt": "2025-01-29T08:30:00",
-    "priority": "MEDIUM"
-  },
-  {
-    "professionalId": 10,
-    "employeeId": 1,
-    "patientId": 29,
-    "status": "Completo",
-    "serviceTypeId": 15,
-    "notes": "Consulta final",
-    "scheduledAt": "2025-01-29T09:30:00",
     "priority": "LOW"
   }
 ]

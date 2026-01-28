@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.ConditionRequestDTO;
 import com.project.healthsystem.controller.dto.ConditionResponseDTO;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.service.ConditionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/conditions")
 @RequiredArgsConstructor
+@Tag(name = "Condition")
 public class ConditionController {
     private final ConditionService conditionService;
 

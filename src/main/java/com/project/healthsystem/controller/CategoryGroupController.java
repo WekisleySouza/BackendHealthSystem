@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
 import com.project.healthsystem.controller.dto.CategoryGroupResponseDTO;
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.service.CategoryGroupService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/category-groups")
 @RequiredArgsConstructor
+@Tag(name = "Category Group")
 public class CategoryGroupController {
 
     private final CategoryGroupService categoryGroupService;

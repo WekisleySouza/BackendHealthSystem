@@ -9,7 +9,8 @@
     "cns": "898001160123456",
     "cpf": "529.982.247-25",
     "phone": "(11) 98765-4321",
-    "email": "joao.silva@email.com"
+    "email": "joao.silva@email.com",
+    "address": "Rua das Flores, 123 - São Paulo/SP"
   },
   {
     "agentId": 1,
@@ -21,7 +22,8 @@
     "cns": "898002340123457",
     "cpf": "168.995.350-09",
     "phone": "(11) 98888-1111",
-    "email": "ana.souza@email.com"
+    "email": "ana.souza@email.com",
+    "address": "Av. Paulista, 900 - São Paulo/SP"
   },
   {
     "agentId": 2,
@@ -33,7 +35,8 @@
     "cns": "898003450123458",
     "cpf": "987.654.321-00",
     "phone": "(21) 97654-3210",
-    "email": "carlos.pereira@email.com"
+    "email": "carlos.pereira@email.com",
+    "address": "Rua Barata Ribeiro, 455 - Rio de Janeiro/RJ"
   },
   {
     "agentId": 2,
@@ -45,7 +48,8 @@
     "cns": "898004560123459",
     "cpf": "111.444.777-35",
     "phone": "(11) 97777-2222",
-    "email": "mariana.silva@email.com"
+    "email": "mariana.silva@email.com",
+    "address": "Rua do Sol, 88 - São Paulo/SP"
   },
   {
     "agentId": 3,
@@ -57,9 +61,9 @@
     "cns": "898005670123460",
     "cpf": "935.411.347-80",
     "phone": "(31) 98876-5432",
-    "email": "rafael.mendes@email.com"
+    "email": "rafael.mendes@email.com",
+    "address": "Av. Afonso Pena, 1200 - Belo Horizonte/MG"
   },
-
   {
     "agentId": 1,
     "responsibleId": null,
@@ -70,7 +74,8 @@
     "cns": "898006780123461",
     "cpf": "286.255.878-87",
     "phone": "(41) 98712-3456",
-    "email": "fernanda.rocha@email.com"
+    "email": "fernanda.rocha@email.com",
+    "address": "Rua XV de Novembro, 300 - Curitiba/PR"
   },
   {
     "agentId": 2,
@@ -82,7 +87,8 @@
     "cns": "898007890123462",
     "cpf": "746.971.314-01",
     "phone": "(19) 97654-1111",
-    "email": "bruno.almeida@email.com"
+    "email": "bruno.almeida@email.com",
+    "address": "Av. Brasil, 640 - Campinas/SP"
   },
   {
     "agentId": 3,
@@ -94,7 +100,8 @@
     "cns": "898008900123463",
     "cpf": "357.192.310-08",
     "phone": "(51) 98444-2222",
-    "email": "patricia.nogueira@email.com"
+    "email": "patricia.nogueira@email.com",
+    "address": "Rua dos Andradas, 1020 - Porto Alegre/RS"
   },
   {
     "agentId": 1,
@@ -106,7 +113,8 @@
     "cns": "898009010123464",
     "cpf": "012.345.678-90",
     "phone": "(11) 95555-3333",
-    "email": "lucas.souza@email.com"
+    "email": "lucas.souza@email.com",
+    "address": "Rua das Crianças, 45 - São Paulo/SP"
   },
   {
     "agentId": 2,
@@ -118,234 +126,137 @@
     "cns": "898010120123465",
     "cpf": "398.742.640-30",
     "phone": "(62) 98777-9999",
-    "email": "diego.fernandes@email.com"
-  }  ,
+    "email": "diego.fernandes@email.com",
+    "address": "Av. Goiás, 1500 - Goiânia/GO"
+  },
   {
     "agentId": 3,
     "responsibleId": null,
-    "conditionsId": [1],
+    "conditionsId": [4],
     "name": "Eduardo Lima",
-    "motherName": "Neusa Lima",
-    "birthday": "1980-02-17",
+    "motherName": "Marta Lima",
+    "birthday": "1983-02-17",
     "cns": "898011230123466",
-    "cpf": "390.533.447-05",
-    "phone": "(13) 98812-4567",
-    "email": "eduardo.lima@email.com"
+    "cpf": "451.982.630-20",
+    "phone": "(85) 98888-4444",
+    "email": "eduardo.lima@email.com",
+    "address": "Av. Beira Mar, 2100 - Fortaleza/CE"
   },
   {
     "agentId": 1,
     "responsibleId": null,
     "conditionsId": [],
-    "name": "Juliana Matos",
-    "motherName": "Celia Matos",
+    "name": "Juliana Azevedo",
+    "motherName": "Clara Azevedo",
     "birthday": "1996-05-09",
     "cns": "898012340123467",
-    "cpf": "153.509.460-56",
-    "phone": "(11) 99123-8888",
-    "email": "juliana.matos@email.com"
+    "cpf": "682.945.110-55",
+    "phone": "(81) 97777-1111",
+    "email": "juliana.azevedo@email.com",
+    "address": "Rua da Aurora, 400 - Recife/PE"
   },
   {
     "agentId": 2,
     "responsibleId": null,
-    "conditionsId": [4],
-    "name": "Rodrigo Pacheco",
-    "motherName": "Ivone Pacheco",
-    "birthday": "1987-09-27",
+    "conditionsId": [1],
+    "name": "André Farias",
+    "motherName": "Luciana Farias",
+    "birthday": "1979-09-23",
     "cns": "898013450123468",
-    "cpf": "073.125.980-39",
-    "phone": "(27) 98877-6655",
-    "email": "rodrigo.pacheco@email.com"
+    "cpf": "914.250.380-70",
+    "phone": "(92) 98899-2222",
+    "email": "andre.farias@email.com",
+    "address": "Av. Djalma Batista, 900 - Manaus/AM"
   },
   {
     "agentId": 3,
-    "responsibleId": null,
+    "responsibleId": 10,
     "conditionsId": [],
-    "name": "Simone Barros",
-    "motherName": "Lourdes Barros",
-    "birthday": "1979-12-03",
+    "name": "Beatriz Fernandes",
+    "motherName": "Claudia Fernandes",
+    "birthday": "2016-03-14",
     "cns": "898014560123469",
-    "cpf": "846.971.520-04",
-    "phone": "(85) 98765-2211",
-    "email": "simone.barros@email.com"
+    "cpf": "822.331.920-15",
+    "phone": "(62) 98888-5555",
+    "email": "beatriz.fernandes@email.com",
+    "address": "Av. Goiás, 1500 - Goiânia/GO"
   },
   {
     "agentId": 1,
-    "responsibleId": 3,
-    "conditionsId": [2],
-    "name": "Pedro Henrique Lima",
-    "motherName": "Juliana Lima",
-    "birthday": "2016-04-14",
+    "responsibleId": null,
+    "conditionsId": [2, 5],
+    "name": "Ricardo Pacheco",
+    "motherName": "Eliane Pacheco",
+    "birthday": "1987-12-01",
     "cns": "898015670123470",
-    "cpf": "502.998.010-40",
-    "phone": "(11) 95566-7788",
-    "email": "pedro.lima@email.com"
+    "cpf": "204.698.510-99",
+    "phone": "(27) 98765-0000",
+    "email": "ricardo.pacheco@email.com",
+    "address": "Rua Sete de Setembro, 77 - Vitória/ES"
   },
   {
     "agentId": 2,
     "responsibleId": null,
     "conditionsId": [],
-    "name": "Vanessa Torres",
-    "motherName": "Regina Torres",
-    "birthday": "1993-11-20",
+    "name": "Camila Torres",
+    "motherName": "Sandra Torres",
+    "birthday": "1993-06-27",
     "cns": "898016780123471",
-    "cpf": "070.680.840-02",
-    "phone": "(48) 99654-3321",
-    "email": "vanessa.torres@email.com"
-  },
-  {
-    "agentId": 3,
-    "responsibleId": null,
-    "conditionsId": [5],
-    "name": "Anderson Farias",
-    "motherName": "Marcia Farias",
-    "birthday": "1984-06-01",
-    "cns": "898017890123472",
-    "cpf": "391.202.260-09",
-    "phone": "(92) 98712-9988",
-    "email": "anderson.farias@email.com"
-  },
-  {
-    "agentId": 1,
-    "responsibleId": null,
-    "conditionsId": [],
-    "name": "Renata Guedes",
-    "motherName": "Ivani Guedes",
-    "birthday": "1998-02-08",
-    "cns": "898018900123473",
-    "cpf": "058.991.350-07",
-    "phone": "(11) 99333-1212",
-    "email": "renata.guedes@email.com"
-  },
-  {
-    "agentId": 2,
-    "responsibleId": null,
-    "conditionsId": [1, 3],
-    "name": "Marcelo Azevedo",
-    "motherName": "Elza Azevedo",
-    "birthday": "1972-10-29",
-    "cns": "898019010123474",
-    "cpf": "604.694.230-75",
-    "phone": "(34) 98845-6677",
-    "email": "marcelo.azevedo@email.com"
-  },
-  {
-    "agentId": 3,
-    "responsibleId": null,
-    "conditionsId": [],
-    "name": "Camila Rangel",
-    "motherName": "Denise Rangel",
-    "birthday": "1995-07-13",
-    "cns": "898020120123475",
-    "cpf": "294.379.480-06",
-    "phone": "(21) 98744-8899",
-    "email": "camila.rangel@email.com"
-  },
-  {
-    "agentId": 1,
-    "responsibleId": 5,
-    "conditionsId": [],
-    "name": "Thiago Santos",
-    "motherName": "Fernanda Santos",
-    "birthday": "2014-09-22",
-    "cns": "898021230123476",
-    "cpf": "791.706.120-20",
-    "phone": "(11) 94444-5566",
-    "email": "thiago.santos@email.com"
-  },
-  {
-    "agentId": 2,
-    "responsibleId": null,
-    "conditionsId": [4],
-    "name": "Leandro Costa",
-    "motherName": "Marilene Costa",
-    "birthday": "1981-01-05",
-    "cns": "898022340123477",
-    "cpf": "824.915.870-70",
-    "phone": "(65) 98811-2233",
-    "email": "leandro.costa@email.com"
-  },
-  {
-    "agentId": 3,
-    "responsibleId": null,
-    "conditionsId": [],
-    "name": "Aline Ribeiro",
-    "motherName": "Roseli Ribeiro",
-    "birthday": "1999-03-18",
-    "cns": "898023450123478",
-    "cpf": "483.698.650-07",
-    "phone": "(71) 98765-9090",
-    "email": "aline.ribeiro@email.com"
-  },
-  {
-    "agentId": 1,
-    "responsibleId": null,
-    "conditionsId": [2],
-    "name": "Fábio Moreira",
-    "motherName": "Tereza Moreira",
-    "birthday": "1976-08-26",
-    "cns": "898024560123479",
-    "cpf": "139.489.360-92",
-    "phone": "(12) 98890-3344",
-    "email": "fabio.moreira@email.com"
-  },
-  {
-    "agentId": 2,
-    "responsibleId": null,
-    "conditionsId": [],
-    "name": "Luciana Peixoto",
-    "motherName": "Irene Peixoto",
-    "birthday": "1989-12-11",
-    "cns": "898025670123480",
-    "cpf": "850.960.540-05",
-    "phone": "(98) 98777-1010",
-    "email": "luciana.peixoto@email.com"
+    "cpf": "539.104.860-44",
+    "phone": "(48) 99666-7777",
+    "email": "camila.torres@email.com",
+    "address": "Av. Hercílio Luz, 500 - Florianópolis/SC"
   },
   {
     "agentId": 3,
     "responsibleId": null,
     "conditionsId": [3],
-    "name": "Gustavo Neves",
-    "motherName": "Angela Neves",
-    "birthday": "1983-04-07",
-    "cns": "898026780123481",
-    "cpf": "011.781.250-96",
-    "phone": "(44) 98866-5544",
-    "email": "gustavo.neves@email.com"
+    "name": "Felipe Martins",
+    "motherName": "Renata Martins",
+    "birthday": "1984-08-19",
+    "cns": "898017890123472",
+    "cpf": "688.352.940-11",
+    "phone": "(65) 98877-8888",
+    "email": "felipe.martins@email.com",
+    "address": "Av. do CPA, 1800 - Cuiabá/MT"
   },
   {
     "agentId": 1,
     "responsibleId": null,
     "conditionsId": [],
-    "name": "Daniela Furtado",
-    "motherName": "Sueli Furtado",
-    "birthday": "1997-06-30",
-    "cns": "898027890123482",
-    "cpf": "279.924.630-60",
-    "phone": "(11) 99900-1122",
-    "email": "daniela.furtado@email.com"
+    "name": "Aline Ribeiro",
+    "motherName": "Tereza Ribeiro",
+    "birthday": "2000-02-10",
+    "cns": "898018900123473",
+    "cpf": "974.860.120-66",
+    "phone": "(71) 97777-6666",
+    "email": "aline.ribeiro@email.com",
+    "address": "Rua Chile, 120 - Salvador/BA"
   },
   {
     "agentId": 2,
-    "responsibleId": null,
+    "responsibleId": 5,
     "conditionsId": [1],
-    "name": "Paulo Roberto Cunha",
-    "motherName": "Rita Cunha",
-    "birthday": "1970-02-19",
-    "cns": "898028900123483",
-    "cpf": "295.504.190-05",
-    "phone": "(83) 98855-7788",
-    "email": "paulo.cunha@email.com"
+    "name": "Gabriel Mendes",
+    "motherName": "Patricia Mendes",
+    "birthday": "2010-11-22",
+    "cns": "898019010123474",
+    "cpf": "103.225.960-88",
+    "phone": "(31) 98888-9999",
+    "email": "gabriel.mendes@email.com",
+    "address": "Av. Afonso Pena, 1200 - Belo Horizonte/MG"
   },
   {
     "agentId": 3,
     "responsibleId": null,
-    "conditionsId": [],
-    "name": "Natalia Brandão",
-    "motherName": "Cristina Brandão",
-    "birthday": "1992-09-08",
-    "cns": "898029010123484",
-    "cpf": "720.314.890-30",
-    "phone": "(61) 98712-3434",
-    "email": "natalia.brandao@email.com"
+    "conditionsId": [4],
+    "name": "Rodrigo Teixeira",
+    "motherName": "Marcia Teixeira",
+    "birthday": "1976-04-06",
+    "cns": "898020120123475",
+    "cpf": "415.902.780-33",
+    "phone": "(98) 98811-2233",
+    "email": "rodrigo.teixeira@email.com",
+    "address": "Av. Litorânea, 300 - São Luís/MA"
   }
 ]

@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
 import com.project.healthsystem.controller.dto.SurgeryTypeResponseDTO;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.service.SurgeryTypeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/surgery-type")
 @RequiredArgsConstructor
+@Tag(name = "Surgery Type")
 public class SurgeryTypeController {
     private final SurgeryTypeService surgeryTypeService;
 

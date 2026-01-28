@@ -5,7 +5,8 @@
     "birthday": "1985-03-12",
     "email": "ana.ribeiro@health.com",
     "phone": "(11) 98765-1111",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Rua das Flores, 120 - Centro, São Paulo/SP"
   },
   {
     "name": "Bruno Martins",
@@ -13,7 +14,8 @@
     "birthday": "1988-07-25",
     "email": "bruno.martins@health.com",
     "phone": "(11) 98888-2222",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Avenida Paulista, 980 - Bela Vista, São Paulo/SP"
   },
   {
     "name": "Carla Souza",
@@ -21,7 +23,8 @@
     "birthday": "1990-11-02",
     "email": "carla.souza@health.com",
     "phone": "(21) 97777-3333",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Barata Ribeiro, 455 - Copacabana, Rio de Janeiro/RJ"
   },
   {
     "name": "Diego Azevedo",
@@ -29,7 +32,8 @@
     "birthday": "1983-09-09",
     "email": "diego.azevedo@health.com",
     "phone": "(31) 98876-4444",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua da Bahia, 780 - Funcionários, Belo Horizonte/MG"
   },
   {
     "name": "Eduarda Rocha",
@@ -37,7 +41,8 @@
     "birthday": "1992-01-14",
     "email": "eduarda.rocha@health.com",
     "phone": "(41) 98712-5555",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua XV de Novembro, 300 - Centro, Curitiba/PR"
   },
   {
     "name": "Felipe Pires",
@@ -45,7 +50,8 @@
     "birthday": "1987-04-21",
     "email": "felipe.pires@health.com",
     "phone": "(19) 97654-6666",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Moraes Salles, 220 - Centro, Campinas/SP"
   },
   {
     "name": "Gabriela Farias",
@@ -53,7 +59,8 @@
     "birthday": "1980-12-30",
     "email": "gabriela.farias@health.com",
     "phone": "(51) 98444-7777",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Avenida Ipiranga, 1450 - Partenon, Porto Alegre/RS"
   },
   {
     "name": "Henrique Guimarães",
@@ -61,7 +68,8 @@
     "birthday": "1991-08-05",
     "email": "henrique.guimaraes@health.com",
     "phone": "(11) 95555-8888",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Augusta, 640 - Consolação, São Paulo/SP"
   },
   {
     "name": "Isabela Cardoso",
@@ -69,7 +77,8 @@
     "birthday": "1993-10-11",
     "email": "isabela.cardoso@health.com",
     "phone": "(62) 98777-9999",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida T-63, 980 - Setor Bueno, Goiânia/GO"
   },
   {
     "name": "João Batista",
@@ -77,7 +86,8 @@
     "birthday": "1984-02-17",
     "email": "joao.batista@health.com",
     "phone": "(13) 98812-1010",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Avenida Ana Costa, 410 - Gonzaga, Santos/SP"
   },
   {
     "name": "Karina Moreira",
@@ -85,7 +95,8 @@
     "birthday": "1989-05-09",
     "email": "karina.moreira@health.com",
     "phone": "(11) 99123-2020",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Teodoro Sampaio, 820 - Pinheiros, São Paulo/SP"
   },
   {
     "name": "Lucas Freitas",
@@ -93,7 +104,8 @@
     "birthday": "1986-09-27",
     "email": "lucas.freitas@health.com",
     "phone": "(27) 98877-3030",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida Nossa Senhora da Penha, 700 - Praia do Canto, Vitória/ES"
   },
   {
     "name": "Marina Teixeira",
@@ -101,7 +113,8 @@
     "birthday": "1990-12-03",
     "email": "marina.teixeira@health.com",
     "phone": "(85) 98765-4040",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Desembargador Moreira, 510 - Aldeota, Fortaleza/CE"
   },
   {
     "name": "Nicolas Costa",
@@ -109,7 +122,8 @@
     "birthday": "1987-11-20",
     "email": "nicolas.costa@health.com",
     "phone": "(48) 99654-5050",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Rua Bocaiúva, 990 - Centro, Florianópolis/SC"
   },
   {
     "name": "Olivia Ribeiro",
@@ -117,7 +131,8 @@
     "birthday": "1994-06-01",
     "email": "olivia.ribeiro@health.com",
     "phone": "(92) 98712-6060",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida Djalma Batista, 1200 - Chapada, Manaus/AM"
   },
   {
     "name": "Paulo Martins",
@@ -125,7 +140,8 @@
     "birthday": "1981-02-08",
     "email": "paulo.martins@health.com",
     "phone": "(11) 99333-7070",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Rua Vergueiro, 1700 - Vila Mariana, São Paulo/SP"
   },
   {
     "name": "Renata Guedes",
@@ -133,7 +149,8 @@
     "birthday": "1979-10-29",
     "email": "renata.guedes@health.com",
     "phone": "(34) 98845-8080",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Avenida Floriano Peixoto, 620 - Centro, Uberlândia/MG"
   },
   {
     "name": "Samuel Torres",
@@ -141,7 +158,8 @@
     "birthday": "1992-07-13",
     "email": "samuel.torres@health.com",
     "phone": "(21) 98744-9090",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Jardim Botânico, 540 - Jardim Botânico, Rio de Janeiro/RJ"
   },
   {
     "name": "Tatiana Falcão",
@@ -149,7 +167,8 @@
     "birthday": "1985-01-05",
     "email": "tatiana.falcao@health.com",
     "phone": "(65) 98811-1112",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida Rubens de Mendonça, 1300 - Bosque da Saúde, Cuiabá/MT"
   },
   {
     "name": "Victor Prado",
@@ -157,7 +176,8 @@
     "birthday": "1996-03-18",
     "email": "victor.prado@health.com",
     "phone": "(71) 98765-1313",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Alceu Amoroso Lima, 390 - Caminho das Árvores, Salvador/BA"
   },
   {
     "name": "William Cunha",
@@ -165,7 +185,8 @@
     "birthday": "1976-08-26",
     "email": "william.cunha@health.com",
     "phone": "(12) 98890-1414",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Avenida Cassiano Ricardo, 580 - Jardim Alvorada, São José dos Campos/SP"
   },
   {
     "name": "Yasmin Rangel",
@@ -173,7 +194,8 @@
     "birthday": "1991-12-11",
     "email": "yasmin.rangel@health.com",
     "phone": "(98) 98777-1515",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida Colares Moreira, 890 - Renascença, São Luís/MA"
   },
   {
     "name": "Zeca Pimentel",
@@ -181,7 +203,8 @@
     "birthday": "1983-04-07",
     "email": "zeca.pimentel@health.com",
     "phone": "(44) 98866-1616",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida Tiradentes, 780 - Zona 01, Maringá/PR"
   },
   {
     "name": "Amanda Furtado",
@@ -189,7 +212,8 @@
     "birthday": "1997-06-30",
     "email": "amanda.furtado@health.com",
     "phone": "(11) 99900-1717",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Oscar Freire, 980 - Jardins, São Paulo/SP"
   },
   {
     "name": "Breno Cunha",
@@ -197,7 +221,8 @@
     "birthday": "1970-02-19",
     "email": "breno.cunha@health.com",
     "phone": "(83) 98855-1818",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "Avenida Epitácio Pessoa, 1800 - Tambaú, João Pessoa/PB"
   },
   {
     "name": "Camila Brandão",
@@ -205,7 +230,8 @@
     "birthday": "1992-09-08",
     "email": "camila.brandao@health.com",
     "phone": "(61) 98712-1919",
-    "role": "MANAGER"
+    "role": "MANAGER",
+    "address": "SQN 304 Bloco C, Asa Norte, Brasília/DF"
   },
   {
     "name": "Douglas Mendonça",
@@ -213,7 +239,8 @@
     "birthday": "1988-01-16",
     "email": "douglas.mendonca@health.com",
     "phone": "(11) 98888-2021",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Rua Serra de Bragança, 320 - Tatuapé, São Paulo/SP"
   },
   {
     "name": "Elisa Peixoto",
@@ -221,7 +248,8 @@
     "birthday": "1977-05-24",
     "email": "elisa.peixoto@health.com",
     "phone": "(63) 98765-2122",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida JK, 480 - Plano Diretor Sul, Palmas/TO"
   },
   {
     "name": "Fernando Meireles",
@@ -229,6 +257,7 @@
     "birthday": "1984-10-02",
     "email": "fernando.meireles@health.com",
     "phone": "(84) 98877-2323",
-    "role": "EMPLOYEE"
+    "role": "EMPLOYEE",
+    "address": "Avenida Engenheiro Roberto Freire, 1100 - Capim Macio, Natal/RN"
   }
 ]

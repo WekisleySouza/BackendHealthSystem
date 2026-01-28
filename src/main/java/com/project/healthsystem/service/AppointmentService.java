@@ -1,7 +1,6 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
-import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
@@ -17,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +50,7 @@ public class AppointmentService {
     }
 
     public Page<AppointmentResponseDTO> getAll(
+            String serviceType,
             Integer pageNumber,
             Integer pageLength,
             String notes,
@@ -65,6 +66,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritEqual(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusEqual(status));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeTypeEqual(serviceType));
         return repository
             .findAll(specification, pageRequest)
             .map(appointmentsMapper::toDto);
@@ -79,4 +81,16 @@ public class AppointmentService {
         Appointment apointment = appointmentValidator.validateDelete(id);
         repository.delete(apointment);
     }
+
+    public AppointmentReportPageResponseDTO getReport(
+        Integer pageNumber,
+        Integer pageLength
+
+    ){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Page<AppointmentReportResponseDTO> appointmentReportResponseDTOS = repository.findAppointmentReport(pageRequest);
+        List<AppointmentStatusCountResponseDTO> appointmentStatusCountResponseDTOS = repository.countByStatus();
+        return new AppointmentReportPageResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
+    }
+
 }

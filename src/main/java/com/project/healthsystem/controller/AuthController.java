@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.AuthRequestDTO;
 import com.project.healthsystem.controller.dto.AuthResponseDTO;
 import com.project.healthsystem.controller.dto.ProfileResponseDTO;
 import com.project.healthsystem.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Autentication")
 public class AuthController {
     private final AuthService authService;
 
