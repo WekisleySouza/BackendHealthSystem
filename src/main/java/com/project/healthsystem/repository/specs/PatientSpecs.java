@@ -6,49 +6,71 @@ import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 
 public class PatientSpecs {
+    public static Specification<Patient> cnsLike(String cns) {
+        if (cns == null || cns.isBlank()) return null;
 
-    public static Specification<Patient> cnsEqual(String cns){
-        if(cns == null || cns.isBlank()) return null;
-        return (root, query, criteriaBuilder)
-                -> criteriaBuilder.equal(root.get("cns"), cns);
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("cns")),
+                        "%" + cns.trim().toUpperCase() + "%"
+                );
     }
 
-    public static Specification<Patient> motherNameEqual(String motherName){
-        if(motherName == null || motherName.isBlank()) return null;
-        return (root, query, criteriaBuilder)
-                -> criteriaBuilder.equal(root.get("motherName"), motherName);
+    public static Specification<Patient> motherNameLike(String motherName) {
+        if (motherName == null || motherName.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("motherName")),
+                        "%" + motherName.trim().toUpperCase() + "%"
+                );
     }
 
-    public static Specification<Patient> nameEqual(String name){
-        if(name == null || name.isBlank()) return null;
-        return (root, query, criteriaBuilder)
-            -> criteriaBuilder.equal(root.get("name"), name);
+    public static Specification<Patient> nameLike(String name) {
+        if (name == null || name.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("name")),
+                        "%" + name.trim().toUpperCase() + "%"
+                );
     }
 
-    public static Specification<Patient> cpfEqual(String cpf){
-        if(cpf == null || cpf.isBlank()) return null;
-        return (root, query, criteriaBuilder)
-            -> criteriaBuilder.equal(root.get("cpf"), cpf);
+    public static Specification<Patient> cpfLike(String cpf) {
+        if (cpf == null || cpf.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("cpf")),
+                        "%" + cpf.trim().toUpperCase() + "%"
+                );
     }
 
-    public static Specification<Patient> phoneEqual(String phone){
-        if(phone == null || phone.isBlank()) return null;
-        return (root, query, criteriaBuilder)
-            -> criteriaBuilder.equal(root.get("phone"), phone);
+    public static Specification<Patient> phoneLike(String phone) {
+        if (phone == null || phone.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("phone")),
+                        "%" + phone.trim().toUpperCase() + "%"
+                );
     }
 
-    public static Specification<Patient> birthdayEqual(LocalDate birthday){
-        if(birthday == null) return null;
-        return (root, query, criteriaBuilder)
-            -> criteriaBuilder.equal(root.get("birthday"), birthday);
+    public static Specification<Patient> birthdayEqual(LocalDate birthday) {
+        if (birthday == null) return null;
+
+        return (root, query, cb) ->
+                cb.equal(root.get("person").get("birthday"), birthday);
     }
 
-    public static Specification<Patient> emailEqual(String email){
-        if(email == null || email.isBlank()) return null;
-        return (root, query, criteriaBuilder)
-            -> criteriaBuilder.like(
-            criteriaBuilder.upper(root.get("email")),
-            "%" + email.toUpperCase() + "%"
-        );
+    public static Specification<Patient> emailLike(String email) {
+        if (email == null || email.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("email")),
+                        "%" + email.trim().toUpperCase() + "%"
+                );
     }
+
 }

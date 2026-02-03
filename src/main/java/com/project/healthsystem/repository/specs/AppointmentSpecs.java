@@ -8,6 +8,22 @@ import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDateTime;
 
 public class AppointmentSpecs {
+
+    // Reports:
+    public static Specification<Appointment> appointmentReport() {
+        return (root, query, cb) -> {
+
+            root.join("patient").join("person");
+            root.join("professional").join("person");
+
+            query.orderBy(cb.desc(root.get("scheduledAt")));
+
+            return cb.conjunction();
+        };
+    }
+
+    // Other specifications:
+
     public static Specification<Appointment> notesEqual(String notes){
         if(notes == null || notes.isBlank()) return null;
         return (root, query, criteriaBuilder)

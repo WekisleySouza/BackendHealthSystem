@@ -93,11 +93,11 @@ public class ProfessionalService {
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Professional> specs = null;
-        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.nameEqual(name));
-        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cpfEqual(cpf));
-        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.phoneEqual(phone));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cpfLike(cpf));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.birthdayEqual(birthday));
-        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.emailEqual(email));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.emailLike(email));
         return repository
             .findAll(specs, pageRequest)
             .map(professionalMapper::toDto);

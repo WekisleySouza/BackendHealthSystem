@@ -23,6 +23,7 @@ import java.util.List;
 public class AppointmentService {
 
     private final AppointmentRepository repository;
+    private final ProfessionalRepository professionalRepository;
 
     private final AppointmentValidator appointmentValidator;
     private final AppointmentsMapper appointmentsMapper;
@@ -82,15 +83,59 @@ public class AppointmentService {
         repository.delete(apointment);
     }
 
-    public AppointmentReportPageResponseDTO getReport(
+    public AppointmentReportByPatientResponseDTO getPatientReport(
         Integer pageNumber,
         Integer pageLength
-
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Page<AppointmentReportResponseDTO> appointmentReportResponseDTOS = repository.findAppointmentReport(pageRequest);
         List<AppointmentStatusCountResponseDTO> appointmentStatusCountResponseDTOS = repository.countByStatus();
-        return new AppointmentReportPageResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
+        return new AppointmentReportByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
+    }
+
+    public AppointmentReportByProfessionalResponseDTO getProfessionalReport(
+            Integer pageNumber,
+            Integer pageLength
+    ){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Page<AppointmentReportCountByProfessionalResponseDTO> reportsByProfessional = repository.countAppointmentsByProfessional(
+            pageRequest
+        );
+        Page<AppointmentReportCountByStatusByProfessionalResponseDTO> reportsByStatusAndProfessional = repository.countByProfessionalAndStatus(
+            pageRequest
+        );
+        Page<AppointmentReportCountByServiceTypeByProfessionalResponse> reportsByServiceTypeAndProfessional = repository.countByProfessionalAndServiceType(
+            pageRequest
+        );
+        long professionalsNumber = professionalRepository.countProfessionals();
+        return new AppointmentReportByProfessionalResponseDTO(
+            reportsByProfessional,
+            reportsByStatusAndProfessional,
+            reportsByServiceTypeAndProfessional,
+            professionalsNumber
+        );
+    }
+
+    public Page<TestDTO> test(
+        Integer pageNumber,
+        Integer pageLength
+    ){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Specification<Appointment> specification = null;
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.appointmentReport());
+        return repository
+            .findAll(specification, pageRequest)
+            .map(AppointmentService::toReportDTO);
+    }
+
+    public static TestDTO toReportDTO(Appointment appointment) {
+        return new TestDTO(
+                appointment.getPatient().getPerson().getName(),
+                appointment.getPatient().getMotherName(),
+                appointment.getScheduledAt(),
+                appointment.getStatus(),
+                appointment.getProfessional().getPerson().getName()
+        );
     }
 
 }

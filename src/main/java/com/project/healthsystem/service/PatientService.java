@@ -109,13 +109,13 @@ public class PatientService {
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Patient> specs =  null;
-        specs = SpecsCommon.addSpec(specs, PatientSpecs.nameEqual(name));
-        specs = SpecsCommon.addSpec(specs, PatientSpecs.cpfEqual(cpf));
-        specs = SpecsCommon.addSpec(specs, PatientSpecs.phoneEqual(phone));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.cpfLike(cpf));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.birthdayEqual(birthday));
-        specs = SpecsCommon.addSpec(specs, PatientSpecs.emailEqual(email));
-        specs = SpecsCommon.addSpec(specs, PatientSpecs.cnsEqual(cns));
-        specs = SpecsCommon.addSpec(specs, PatientSpecs.motherNameEqual(motherName));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.emailLike(email));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.cnsLike(cns));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.motherNameLike(motherName));
         return repository
             .findAll(specs, pageRequest)
             .map(patientMapper::toDto);

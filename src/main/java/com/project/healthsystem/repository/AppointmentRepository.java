@@ -1,7 +1,6 @@
 package com.project.healthsystem.repository;
 
-import com.project.healthsystem.controller.dto.AppointmentReportResponseDTO;
-import com.project.healthsystem.controller.dto.AppointmentStatusCountResponseDTO;
+import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.model.Appointment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,4 +36,45 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
     """)
     List<AppointmentStatusCountResponseDTO> countByStatus();
 
+    @Query("""
+        SELECT new com.project.healthsystem.controller.dto.AppointmentReportCountByProfessionalResponseDTO(
+            prof.id,
+            prof.person.name,
+            a.scheduledAt,
+            COUNT(a)
+        )
+        FROM Appointment a
+        JOIN a.professional prof
+        GROUP BY prof.id, prof.person.name
+    """)
+    Page<AppointmentReportCountByProfessionalResponseDTO> countAppointmentsByProfessional(Pageable pageable);
+
+    @Query("""
+        SELECT new com.project.healthsystem.controller.dto.AppointmentReportCountByStatusByProfessionalResponseDTO(
+            prof.id,
+            prof.person.name,
+            a.status,
+            a.scheduledAt,
+            COUNT(a)
+        )
+        FROM Appointment a
+        JOIN a.professional prof
+        GROUP BY prof.id, prof.person.name, a.status
+    """)
+    Page<AppointmentReportCountByStatusByProfessionalResponseDTO> countByProfessionalAndStatus(Pageable pageable);
+
+    @Query("""
+    SELECT new com.project.healthsystem.controller.dto.AppointmentReportCountByServiceTypeByProfessionalResponse(
+            prof.id,
+            prof.person.name,
+            st.name,
+            a.scheduledAt,
+            COUNT(a)
+        )
+        FROM Appointment a
+        JOIN a.professional prof
+        JOIN a.serviceType st
+        GROUP BY prof.id, prof.person.name, st.name
+    """)
+    Page<AppointmentReportCountByServiceTypeByProfessionalResponse> countByProfessionalAndServiceType(Pageable pageable);
 }

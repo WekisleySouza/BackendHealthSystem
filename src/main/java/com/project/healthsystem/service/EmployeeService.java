@@ -109,11 +109,11 @@ public class EmployeeService {
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Employee> specs = null;
-        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.nameEqual(name));
-        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.cpfEqual(cpf));
-        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.phoneEqual(phone));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.cpfLike(cpf));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.birthdayEqual(birthday));
-        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.emailEqual(email));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.emailLike(email));
         return repository
             .findAll(specs, pageRequest)
             .map(employeeMapper::toDto);

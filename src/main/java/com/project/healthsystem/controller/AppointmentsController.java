@@ -2,12 +2,11 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
-import com.project.healthsystem.controller.dto.AppointmentReportPageResponseDTO;
-import com.project.healthsystem.controller.dto.AppointmentReportResponseDTO;
+import com.project.healthsystem.controller.dto.AppointmentReportByPatientResponseDTO;
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.TestDTO;
 import com.project.healthsystem.model.Appointment;
-import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.service.AppointmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -109,16 +108,30 @@ public class AppointmentsController {
     @GetMapping("/patients-report")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     @Operation(summary = "Get Report", description = "Get appointment reports.")
-    public ResponseEntity<AppointmentReportPageResponseDTO> readAll(
+    public ResponseEntity<AppointmentReportByPatientResponseDTO> readAll(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
     ){
-        AppointmentReportPageResponseDTO AppointmentReportPageResponseDTOs = appointmentService.getReport(
+        AppointmentReportByPatientResponseDTO appointmentReportByPatientResponseDTOs = appointmentService.getPatientReport(
             pageNumber,
             pageLength
         );
-        return ResponseEntity.ok(AppointmentReportPageResponseDTOs);
+        return ResponseEntity.ok(appointmentReportByPatientResponseDTOs);
     }
+
+//    @GetMapping("/test")
+//    @PreAuthorize(Permissions.PERMIT_ALL)
+//    @Operation(summary = "Teste", description = "Just to test.")
+//    public ResponseEntity<Page<TestDTO>> test(
+//            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+//            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+//    ){
+//        Page<TestDTO> appointment = appointmentService.test(
+//            pageNumber,
+//            pageLength
+//        );
+//        return ResponseEntity.ok(appointment);
+//    }
 
     @DeleteMapping("{id}")
     @Operation(summary = "Delete", description = "Delete an appointment by id.")
