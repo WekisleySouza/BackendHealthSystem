@@ -5,7 +5,8 @@
     "cpf": "529.982.247-25",
     "phone": "(11) 98765-1111",
     "email": "joao.mendes@clinic.com",
-    "address": "Rua Haddock Lobo, 210 - São Paulo/SP"
+    "address": "Rua Haddock Lobo, 210 - São Paulo/SP",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Mariana Lopes",
@@ -13,7 +14,8 @@
     "cpf": "168.995.350-09",
     "phone": "(11) 98888-2222",
     "email": "mariana.lopes@clinic.com",
-    "address": "Av. Paulista, 1578 - São Paulo/SP"
+    "address": "Av. Paulista, 1578 - São Paulo/SP",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Ricardo Nunes",
@@ -21,7 +23,8 @@
     "cpf": "111.444.777-35",
     "phone": "(21) 97777-3333",
     "email": "ricardo.nunes@clinic.com",
-    "address": "Rua Voluntários da Pátria, 455 - Rio de Janeiro/RJ"
+    "address": "Rua Voluntários da Pátria, 455 - Rio de Janeiro/RJ",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Patricia Azevedo",
@@ -29,7 +32,8 @@
     "cpf": "935.411.347-80",
     "phone": "(31) 98876-4444",
     "email": "patricia.azevedo@clinic.com",
-    "address": "Av. do Contorno, 890 - Belo Horizonte/MG"
+    "address": "Av. do Contorno, 890 - Belo Horizonte/MG",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Marcos Vinicius Rocha",
@@ -37,7 +41,8 @@
     "cpf": "286.255.878-87",
     "phone": "(41) 98712-5555",
     "email": "marcos.rocha@clinic.com",
-    "address": "Rua Mateus Leme, 340 - Curitiba/PR"
+    "address": "Rua Mateus Leme, 340 - Curitiba/PR",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Juliana Pires",
@@ -45,7 +50,8 @@
     "cpf": "746.971.314-01",
     "phone": "(19) 97654-6666",
     "email": "juliana.pires@clinic.com",
-    "address": "Av. Moraes Salles, 1020 - Campinas/SP"
+    "address": "Av. Moraes Salles, 1020 - Campinas/SP",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Eduardo Farias",
@@ -53,7 +59,8 @@
     "cpf": "357.192.310-08",
     "phone": "(51) 98444-7777",
     "email": "eduardo.farias@clinic.com",
-    "address": "Rua Padre Chagas, 88 - Porto Alegre/RS"
+    "address": "Rua Padre Chagas, 88 - Porto Alegre/RS",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Vanessa Guimarães",
@@ -61,7 +68,8 @@
     "cpf": "502.998.010-40",
     "phone": "(11) 95555-8888",
     "email": "vanessa.guimaraes@clinic.com",
-    "address": "Rua Vergueiro, 1500 - São Paulo/SP"
+    "address": "Rua Vergueiro, 1500 - São Paulo/SP",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Rafael Cardoso",
@@ -69,7 +77,8 @@
     "cpf": "398.742.640-30",
     "phone": "(62) 98777-9999",
     "email": "rafael.cardoso@clinic.com",
-    "address": "Av. T-63, 700 - Goiânia/GO"
+    "address": "Av. T-63, 700 - Goiânia/GO",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Aline Batista",
@@ -77,7 +86,8 @@
     "cpf": "390.533.447-05",
     "phone": "(13) 98812-1010",
     "email": "aline.batista@clinic.com",
-    "address": "Av. Ana Costa, 350 - Santos/SP"
+    "address": "Av. Ana Costa, 350 - Santos/SP",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Rodrigo Moreira",
@@ -85,7 +95,8 @@
     "cpf": "153.509.460-56",
     "phone": "(11) 99123-2020",
     "email": "rodrigo.moreira@clinic.com",
-    "address": "Rua Teodoro Sampaio, 910 - São Paulo/SP"
+    "address": "Rua Teodoro Sampaio, 910 - São Paulo/SP",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Simone Freitas",
@@ -93,7 +104,8 @@
     "cpf": "073.125.980-39",
     "phone": "(27) 98877-3030",
     "email": "simone.freitas@clinic.com",
-    "address": "Av. Nossa Senhora da Penha, 500 - Vitória/ES"
+    "address": "Av. Nossa Senhora da Penha, 500 - Vitória/ES",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Bruno Teixeira",
@@ -101,7 +113,8 @@
     "cpf": "846.971.520-04",
     "phone": "(85) 98765-4040",
     "email": "bruno.teixeira@clinic.com",
-    "address": "Av. Beira Mar, 1200 - Fortaleza/CE"
+    "address": "Av. Beira Mar, 1200 - Fortaleza/CE",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Renata Costa",
@@ -109,7 +122,8 @@
     "cpf": "070.680.840-02",
     "phone": "(48) 99654-5050",
     "email": "renata.costa@clinic.com",
-    "address": "Rua Bocaiúva, 980 - Florianópolis/SC"
+    "address": "Rua Bocaiúva, 980 - Florianópolis/SC",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Anderson Ribeiro",
@@ -117,7 +131,8 @@
     "cpf": "391.202.260-09",
     "phone": "(92) 98712-6060",
     "email": "anderson.ribeiro@clinic.com",
-    "address": "Av. Djalma Batista, 2100 - Manaus/AM"
+    "address": "Av. Djalma Batista, 2100 - Manaus/AM",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Luciana Martins",
@@ -125,7 +140,8 @@
     "cpf": "058.991.350-07",
     "phone": "(11) 99333-7070",
     "email": "luciana.martins@clinic.com",
-    "address": "Rua da Consolação, 1440 - São Paulo/SP"
+    "address": "Rua da Consolação, 1440 - São Paulo/SP",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Marcelo Guedes",
@@ -133,7 +149,8 @@
     "cpf": "604.694.230-75",
     "phone": "(34) 98845-8080",
     "email": "marcelo.guedes@clinic.com",
-    "address": "Av. Floriano Peixoto, 600 - Uberlândia/MG"
+    "address": "Av. Floriano Peixoto, 600 - Uberlândia/MG",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Camila Torres",
@@ -141,7 +158,8 @@
     "cpf": "294.379.480-06",
     "phone": "(21) 98744-9090",
     "email": "camila.torres@clinic.com",
-    "address": "Rua Jardim Botânico, 720 - Rio de Janeiro/RJ"
+    "address": "Rua Jardim Botânico, 720 - Rio de Janeiro/RJ",
+    "gender": "Feminino"
   },
   {
     "name": "Dr. Leandro Falcão",
@@ -149,7 +167,8 @@
     "cpf": "824.915.870-70",
     "phone": "(65) 98811-1112",
     "email": "leandro.falcao@clinic.com",
-    "address": "Av. Historiador Rubens de Mendonça, 1300 - Cuiabá/MT"
+    "address": "Av. Historiador Rubens de Mendonça, 1300 - Cuiabá/MT",
+    "gender": "Masculino"
   },
   {
     "name": "Dra. Aline Prado",
@@ -157,6 +176,7 @@
     "cpf": "483.698.650-07",
     "phone": "(71) 98765-1313",
     "email": "aline.prado@clinic.com",
-    "address": "Av. ACM, 4200 - Salvador/BA"
+    "address": "Av. ACM, 4200 - Salvador/BA",
+    "gender": "Feminino"
   }
 ]

@@ -2,10 +2,9 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
-import com.project.healthsystem.controller.dto.AppointmentReportByPatientResponseDTO;
+import com.project.healthsystem.controller.dto.ReportAppointmentByPatientResponseDTO;
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
-import com.project.healthsystem.controller.dto.TestDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.service.AppointmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -90,7 +89,7 @@ public class AppointmentsController {
         @RequestParam(value = "createdAt", required = false) LocalDateTime createdAt,
         @RequestParam(value = "priorit", required = false) String priorit,
         @RequestParam(value = "status", required = false) String status,
-        @RequestParam(value = "type") String type
+        @RequestParam(value = "type", required = false) String type
     ){
         Page<AppointmentResponseDTO> AppointmentResponseDTOs = appointmentService.getAll(
             type,
@@ -108,15 +107,15 @@ public class AppointmentsController {
     @GetMapping("/patients-report")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     @Operation(summary = "Get Report", description = "Get appointment reports.")
-    public ResponseEntity<AppointmentReportByPatientResponseDTO> readAll(
+    public ResponseEntity<ReportAppointmentByPatientResponseDTO> readAll(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
     ){
-        AppointmentReportByPatientResponseDTO appointmentReportByPatientResponseDTOs = appointmentService.getPatientReport(
+        ReportAppointmentByPatientResponseDTO reportAppointmentByPatientResponseDTOs = appointmentService.getPatientReport(
             pageNumber,
             pageLength
         );
-        return ResponseEntity.ok(appointmentReportByPatientResponseDTOs);
+        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
     }
 
 //    @GetMapping("/test")

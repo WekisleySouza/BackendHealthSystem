@@ -83,14 +83,14 @@ public class AppointmentService {
         repository.delete(apointment);
     }
 
-    public AppointmentReportByPatientResponseDTO getPatientReport(
+    public ReportAppointmentByPatientResponseDTO getPatientReport(
         Integer pageNumber,
         Integer pageLength
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Page<AppointmentReportResponseDTO> appointmentReportResponseDTOS = repository.findAppointmentReport(pageRequest);
         List<AppointmentStatusCountResponseDTO> appointmentStatusCountResponseDTOS = repository.countByStatus();
-        return new AppointmentReportByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
+        return new ReportAppointmentByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
     }
 
     public AppointmentReportByProfessionalResponseDTO getProfessionalReport(

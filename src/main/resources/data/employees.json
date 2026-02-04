@@ -1,6 +1,7 @@
 [
   {
     "name": "Ana Paula Ribeiro",
+    "gender":"Feminino",
     "cpf": "742.816.930-41",
     "birthday": "1985-03-12",
     "email": "ana.ribeiro@health.com",
@@ -10,6 +11,7 @@
   },
   {
     "name": "Bruno Martins",
+    "gender": "Masculino",
     "cpf": "681.254.970-62",
     "birthday": "1988-07-25",
     "email": "bruno.martins@health.com",
@@ -19,6 +21,7 @@
   },
   {
     "name": "Carla Souza",
+    "gender": "Feminino",
     "cpf": "914.603.820-15",
     "birthday": "1990-11-02",
     "email": "carla.souza@health.com",
@@ -28,6 +31,7 @@
   },
   {
     "name": "Diego Azevedo",
+    "gender": "Masculino",
     "cpf": "537.918.460-08",
     "birthday": "1983-09-09",
     "email": "diego.azevedo@health.com",
@@ -37,6 +41,7 @@
   },
   {
     "name": "Eduarda Rocha",
+    "gender": "Feminino",
     "cpf": "268.709.540-93",
     "birthday": "1992-01-14",
     "email": "eduarda.rocha@health.com",
@@ -46,6 +51,7 @@
   },
   {
     "name": "Felipe Pires",
+    "gender": "Masculino",
     "cpf": "805.134.690-27",
     "birthday": "1987-04-21",
     "email": "felipe.pires@health.com",
@@ -55,6 +61,7 @@
   },
   {
     "name": "Gabriela Farias",
+    "gender": "Feminino",
     "cpf": "419.580.360-44",
     "birthday": "1980-12-30",
     "email": "gabriela.farias@health.com",
@@ -64,6 +71,7 @@
   },
   {
     "name": "Henrique Guimarães",
+    "gender": "Masculino",
     "cpf": "392.847.510-66",
     "birthday": "1991-08-05",
     "email": "henrique.guimaraes@health.com",
@@ -73,6 +81,7 @@
   },
   {
     "name": "Isabela Cardoso",
+    "gender": "Feminino",
     "cpf": "671.930.280-59",
     "birthday": "1993-10-11",
     "email": "isabela.cardoso@health.com",
@@ -82,6 +91,7 @@
   },
   {
     "name": "João Batista",
+    "gender": "Masculino",
     "cpf": "508.261.940-73",
     "birthday": "1984-02-17",
     "email": "joao.batista@health.com",
@@ -91,6 +101,7 @@
   },
   {
     "name": "Karina Moreira",
+    "gender": "Feminino",
     "cpf": "146.782.390-84",
     "birthday": "1989-05-09",
     "email": "karina.moreira@health.com",
@@ -100,6 +111,7 @@
   },
   {
     "name": "Lucas Freitas",
+    "gender": "Masculino",
     "cpf": "930.475.820-11",
     "birthday": "1986-09-27",
     "email": "lucas.freitas@health.com",
@@ -109,6 +121,7 @@
   },
   {
     "name": "Marina Teixeira",
+    "gender": "Feminino",
     "cpf": "287.650.910-58",
     "birthday": "1990-12-03",
     "email": "marina.teixeira@health.com",
@@ -118,6 +131,7 @@
   },
   {
     "name": "Nicolas Costa",
+    "gender": "Feminino",
     "cpf": "654.093.870-20",
     "birthday": "1987-11-20",
     "email": "nicolas.costa@health.com",
@@ -127,6 +141,7 @@
   },
   {
     "name": "Olivia Ribeiro",
+    "gender": "Feminino",
     "cpf": "318.907.640-95",
     "birthday": "1994-06-01",
     "email": "olivia.ribeiro@health.com",
@@ -136,6 +151,7 @@
   },
   {
     "name": "Paulo Martins",
+    "gender": "Masculino",
     "cpf": "790.261.830-04",
     "birthday": "1981-02-08",
     "email": "paulo.martins@health.com",
@@ -145,6 +161,7 @@
   },
   {
     "name": "Renata Guedes",
+    "gender": "Feminino",
     "cpf": "471.629.580-36",
     "birthday": "1979-10-29",
     "email": "renata.guedes@health.com",
@@ -154,6 +171,7 @@
   },
   {
     "name": "Samuel Torres",
+    "gender": "Masculino",
     "cpf": "825.370.940-17",
     "birthday": "1992-07-13",
     "email": "samuel.torres@health.com",
@@ -163,6 +181,7 @@
   },
   {
     "name": "Tatiana Falcão",
+    "gender": "Feminino",
     "cpf": "902.148.630-72",
     "birthday": "1985-01-05",
     "email": "tatiana.falcao@health.com",
@@ -172,6 +191,7 @@
   },
   {
     "name": "Victor Prado",
+    "gender": "Masculino",
     "cpf": "368.514.790-61",
     "birthday": "1996-03-18",
     "email": "victor.prado@health.com",
@@ -181,6 +201,7 @@
   },
   {
     "name": "William Cunha",
+    "gender": "Masculino",
     "cpf": "594.870.231-49",
     "birthday": "1976-08-26",
     "email": "william.cunha@health.com",
@@ -190,6 +211,7 @@
   },
   {
     "name": "Yasmin Rangel",
+    "gender": "Feminino",
     "cpf": "237.945.680-90",
     "birthday": "1991-12-11",
     "email": "yasmin.rangel@health.com",
@@ -199,6 +221,7 @@
   },
   {
     "name": "Zeca Pimentel",
+    "gender": "Masculino",
     "cpf": "681.590.374-26",
     "birthday": "1983-04-07",
     "email": "zeca.pimentel@health.com",
@@ -208,6 +231,7 @@
   },
   {
     "name": "Amanda Furtado",
+    "gender": "Feminino",
     "cpf": "740.183.965-52",
     "birthday": "1997-06-30",
     "email": "amanda.furtado@health.com",
@@ -217,6 +241,7 @@
   },
   {
     "name": "Breno Cunha",
+    "gender": "Masculino",
     "cpf": "259.830.471-88",
     "birthday": "1970-02-19",
     "email": "breno.cunha@health.com",
@@ -226,6 +251,7 @@
   },
   {
     "name": "Camila Brandão",
+    "gender": "Feminino",
     "cpf": "814.067.329-10",
     "birthday": "1992-09-08",
     "email": "camila.brandao@health.com",
@@ -235,6 +261,7 @@
   },
   {
     "name": "Douglas Mendonça",
+    "gender": "Masculino",
     "cpf": "936.405.281-67",
     "birthday": "1988-01-16",
     "email": "douglas.mendonca@health.com",
@@ -244,6 +271,7 @@
   },
   {
     "name": "Elisa Peixoto",
+    "gender": "Feminino",
     "cpf": "507.938.642-19",
     "birthday": "1977-05-24",
     "email": "elisa.peixoto@health.com",
@@ -253,6 +281,7 @@
   },
   {
     "name": "Fernando Meireles",
+    "gender": "Masculino",
     "cpf": "683.249.705-34",
     "birthday": "1984-10-02",
     "email": "fernando.meireles@health.com",
