@@ -62,6 +62,7 @@ public class DefaultInitializer implements ApplicationRunner {
         if(!loginRepository.existsByLogin(this.DEFAULT_ADMIN_USERNAME)){
             Person person = new Person();
             person.setName(this.name);
+            person.setGender(Gender.MALE);
             person.setCpf(this.cpf);
             person.setBirthday(this.birthday);
             person.setEmail(this.email);
