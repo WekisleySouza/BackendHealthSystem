@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +21,10 @@ public class ProfessionalRequestDTO {
 
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
+
+    @NotBlank(message = "O gênero é obrigatório!")
+    @Schema(name = "gender")
+    private String gender;
 
     @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;

@@ -2,6 +2,7 @@ package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.PatientResponseDTO;
+import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
 import org.mapstruct.Mapper;
@@ -17,6 +18,7 @@ public abstract class PatientMapper {
     @Mapping(target = "conditionsId", expression = "java(entity.getConditionsId())")
     @Mapping(target = "responsibleId", expression = "java(entity.getResponsibleId())")
     @Mapping(target = "name", expression = "java(entity.getPerson().getName())")
+    @Mapping(target = "gender", expression = "java(entity.getPerson().getGender().getLabel())")
     @Mapping(target = "birthday", expression = "java(entity.getPerson().getBirthday())")
     @Mapping(target = "cpf", expression = "java(entity.getPerson().getCpf())")
     @Mapping(target = "phone", expression = "java(entity.getPerson().getPhone())")
@@ -29,6 +31,7 @@ public abstract class PatientMapper {
         entity.setCns(dto.getCns());
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
+        entity.getPerson().setGender(Gender.fromLabel(dto.getGender()));
         entity.getPerson().setAddress(dto.getAddress());
         entity.getPerson().setPhone(dto.getPhone());
         entity.getPerson().setBirthday(dto.getBirthday());
@@ -39,6 +42,7 @@ public abstract class PatientMapper {
     protected Person map(PatientRequestDTO dto){
         Person person = new Person();
         person.setName(dto.getName());
+        person.setGender(Gender.fromLabel(dto.getGender()));
         person.setCpf(dto.getCpfNormalized());
         person.setAddress(dto.getAddress());
         person.setPhone(dto.getPhone());

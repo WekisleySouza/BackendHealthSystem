@@ -19,6 +19,10 @@ public class AgentRequestDTO {
     @Schema(name = "name")
     private String name;
 
+    @NotBlank(message = "O gênero é obrigatório!")
+    @Schema(name = "gender")
+    private String gender;
+
     @NotBlank(message = "O CPF é obrigatório!")
     @CPF(message = "CPF inválido!")
     private String cpf;

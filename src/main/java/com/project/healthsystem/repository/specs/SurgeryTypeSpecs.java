@@ -4,10 +4,13 @@ import com.project.healthsystem.model.SurgeryType;
 import org.springframework.data.jpa.domain.Specification;
 
 public class SurgeryTypeSpecs {
-
-    public static Specification<SurgeryType> typeEqual(String type) {
+    public static Specification<SurgeryType> typeLike(String type) {
         if (type == null || type.isBlank()) return null;
+
         return (root, query, cb) ->
-                cb.like(cb.upper(root.get("type")), "%" + type.toUpperCase() + "%");
+                cb.like(
+                        cb.upper(root.get("type")),
+                        "%" + type.trim().toUpperCase() + "%"
+                );
     }
 }

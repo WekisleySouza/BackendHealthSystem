@@ -62,12 +62,12 @@ public class AppointmentService {
         ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Appointment> specification = null;
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.notesEqual(notes));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.notesLike(notes));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritEqual(priorit));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusEqual(status));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeTypeEqual(serviceType));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
         return repository
             .findAll(specification, pageRequest)
             .map(appointmentsMapper::toDto);

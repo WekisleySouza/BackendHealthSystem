@@ -19,6 +19,9 @@ public class Person extends BasicEntityAbstraction {
 
     @Column(name = "name", length = 100, nullable = false)
     protected String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 100, nullable = false)
+    protected Gender gender;
     @Column(name = "cpf", nullable = false, unique = true, length = 15)
     protected String cpf;
     @Column(name = "phone")

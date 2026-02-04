@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class EmployeeResponseDTO {
     private long id;
     private String name;
+    private String gender;
     private String cpf;
     private LocalDate birthday;
     private String email;

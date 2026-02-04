@@ -56,8 +56,8 @@ public class ServiceTypeService {
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<ServiceType> specs = null;
-        specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.nameEqual(name));
-        specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.typeEqual(type));
+        specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.typeLike(type));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.valueEqual(value));
         return repository
             .findAll(specs, pageRequest)

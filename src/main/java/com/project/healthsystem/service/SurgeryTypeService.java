@@ -47,7 +47,7 @@ public class SurgeryTypeService {
     public Page<SurgeryTypeResponseDTO> getAll(Integer pageNumber, Integer pageLength, String type){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<SurgeryType> specs = null;
-        specs = SpecsCommon.addSpec(specs, SurgeryTypeSpecs.typeEqual(type));
+        specs = SpecsCommon.addSpec(specs, SurgeryTypeSpecs.typeLike(type));
         return repository
             .findAll(specs, pageRequest)
             .map(surgeryTypeMapper::toDto);

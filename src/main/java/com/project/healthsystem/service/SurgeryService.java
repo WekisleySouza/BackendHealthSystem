@@ -66,15 +66,15 @@ public class SurgeryService {
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Surgery> specs = null;
         specs = SpecsCommon.addSpec(specs, SurgerySpecs.dateTimeEqual(dateTime));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.personNameEqual(personName));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.surgeryRiskEqual(surgeryRisk));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.locationEqual(location));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.conclusionEqual(conclusion));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.susEasyEqual(susEasy));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.sesapEqual(sesap));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.personNameLike(personName));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.surgeryRiskLike(surgeryRisk));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.locationLike(location));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.conclusionLike(conclusion));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.susEasyLike(susEasy));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.sesapLike(sesap));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.anesthesicRiskLike(anesthesicRisk));
         specs = SpecsCommon.addSpec(specs, SurgerySpecs.procedureDateEqual(procedureDate));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.anesthesicRiskEqual(anesthesicRisk));
-        specs = SpecsCommon.addSpec(specs, SurgerySpecs.observationEqual(observation));
+        specs = SpecsCommon.addSpec(specs, SurgerySpecs.observationLike(observation));
         specs = SpecsCommon.addSpec(specs, SurgerySpecs.surgeryTypeIdEqual(surgeryTypeId));
 
         return repository

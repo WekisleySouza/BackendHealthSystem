@@ -18,6 +18,7 @@ public class PatientResponseDTO {
     private List<Long> conditionsId;
 
     private String name;
+    private String gender;
     private String motherName;
     private LocalDate birthday;
     private String cns;

@@ -55,7 +55,7 @@ public class CategoryGroupService {
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<CategoryGroup> specs = null;
-        specs = SpecsCommon.addSpec(specs, CategoryGroupSpecs.nameEqual(name));
+        specs = SpecsCommon.addSpec(specs, CategoryGroupSpecs.nameLike(name));
         return repository
             .findAll(specs, pageRequest)
             .map(categoryGroupMapper::toDto);

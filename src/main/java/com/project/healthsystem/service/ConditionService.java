@@ -51,7 +51,7 @@ public class ConditionService {
     public Page<ConditionResponseDTO> getAll(Integer pageNumber, Integer pageLength, String specification){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Condition> specs = null;
-        specs = SpecsCommon.addSpec(specs, ConditionSpecs.specificationEqual(specification));
+        specs = SpecsCommon.addSpec(specs, ConditionSpecs.specificationLike(specification));
         return repository
             .findAll(specs, pageRequest)
             .map(conditionMapper::toDto);
