@@ -2,9 +2,12 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.PersonRepository;
+import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
 import com.project.healthsystem.validator.PersonValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

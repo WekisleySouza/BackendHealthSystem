@@ -2,12 +2,14 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.AgentResponseDTO;
+import com.project.healthsystem.controller.dto.PatientInfoAgentResponseDTO;
 import com.project.healthsystem.controller.mappers.AgentMapper;
 import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.AgentRepository;
+import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
 import com.project.healthsystem.repository.specs.AgentSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;

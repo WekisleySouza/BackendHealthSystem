@@ -2,10 +2,12 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
+import com.project.healthsystem.controller.dto.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.PatientResponseDTO;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.service.PatientService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +62,14 @@ public class PatientController {
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         PatientResponseDTO patientResponseDTO = patientService.findById(id);
         return ResponseEntity.ok(patientResponseDTO);
+    }
+
+    @GetMapping("/info-patient/{id}")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
+    @Operation(summary = "Get patient info", description = "Get patient info by id.")
+    public ResponseEntity<Object> getPatientInfo(@PathVariable("id") long id){
+        PatientInfoResponseDTO patientInfoDTO = patientService.getPatientInfo(id);
+        return ResponseEntity.ok(patientInfoDTO);
     }
 
     @GetMapping

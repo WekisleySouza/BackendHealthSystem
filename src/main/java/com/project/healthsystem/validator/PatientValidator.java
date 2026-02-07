@@ -10,6 +10,10 @@ import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.repository.AgentRepository;
 import com.project.healthsystem.repository.PatientRepository;
+import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
+import com.project.healthsystem.repository.projections.PatientInfoAppointmentsProjection;
+import com.project.healthsystem.repository.projections.PatientInfoConditionsProjection;
+import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
 import com.project.healthsystem.service.ConditionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -52,7 +56,7 @@ public class PatientValidator {
 
     public Patient validateUpdate(PatientRequestDTO patientRequestDTO, long id){
         Patient patient = patientRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Patient não encontrada!"));
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrada!"));
         Agent agent = agentRepository.findById(patientRequestDTO.getAgentId())
                 .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
 
@@ -74,16 +78,36 @@ public class PatientValidator {
 
     public Patient validateFindById(long id){
         return patientRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Patient não encontrada!"));
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrada!"));
+    }
+
+    public PatientInfoResponsibleProjection validateFindResponsibleById(long id){
+        return patientRepository.findResponsibleById(id)
+                .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
+    }
+
+    public PatientInfoAgentProjection validateFindAgentById(long id){
+        return patientRepository.findAgentById(id)
+                .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
+    }
+
+    public PatientInfoConditionsProjection validateFindConditionsById(long id){
+        return patientRepository.findConditionsById(id)
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
+    }
+
+    public PatientInfoAppointmentsProjection validateFindAppointmentsById(long id){
+        return patientRepository.findAppointmentsById(id)
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
     }
 
     public Patient validateFindByCpf(String cpf){
         return patientRepository.findByPersonCpf(cpf)
-            .orElseThrow(() -> new NotFoundException("Patient não encontrado!"));
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
     }
 
     public Patient validateDelete(long id){
         return patientRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Patient não encontrada!"));
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrada!"));
     }
 }

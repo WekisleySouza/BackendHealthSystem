@@ -2,7 +2,8 @@ package com.project.healthsystem.model;
 
 public enum Gender {
     MALE("Masculino"),
-    FEMALE("Feminino");
+    FEMALE("Feminino"),
+    OTHER("Outro");
 
     private final String label;
 

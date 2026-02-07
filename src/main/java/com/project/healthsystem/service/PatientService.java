@@ -1,13 +1,13 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.PatientRequestDTO;
-import com.project.healthsystem.controller.dto.PatientResponseDTO;
-import com.project.healthsystem.controller.mappers.PatientMapper;
-import com.project.healthsystem.controller.mappers.PersonMapper;
+import com.project.healthsystem.controller.dto.*;
+import com.project.healthsystem.controller.mappers.*;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.PatientRepository;
+import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
+import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
 import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
@@ -21,19 +21,24 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PatientService {
 
     private final PatientRepository repository;
-    private final LoginService loginService;
+
     private final PatientValidator patientValidator;
+
     private final PatientMapper patientMapper;
     private final PersonMapper personMapper;
+    private final PatientInfoAppointmentProjectionMapper patientInfoAppointmentProjectionMapper;
 
+    private final LoginService loginService;
     private final PersonService personService;
     private final RoleService roleService;
+    private final AppointmentService appointmentService;
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -121,8 +126,59 @@ public class PatientService {
             .map(patientMapper::toDto);
     }
 
+    public PatientInfoResponseDTO getPatientInfo(long id){
+        patientValidator.validateFindById(id);
+        PatientInfoAgentProjection patientInfoAgentProjection = patientValidator.validateFindAgentById(id);
+        PatientInfoAgentResponseDTO patientInfoAgentResponseDTO = new PatientInfoAgentResponseDTO(
+            patientInfoAgentProjection.getAgent().getId(),
+            patientInfoAgentProjection.getAgent().getPerson().getName()
+        );
+        PatientInfoResponsibleProjection patientInfoResponsibleProjection = patientValidator.validateFindResponsibleById(id);
+        PatientInfoResponsibleResponseDTO patientInfoResponsibleResponseDTO = new PatientInfoResponsibleResponseDTO(
+            patientInfoResponsibleProjection.getPerson().getId(),
+            patientInfoResponsibleProjection.getPerson().getName()
+        );
+        List<PatientInfoAppointmentResponseDTO> patientInfoAppointmentResponseDTO = patientValidator
+            .validateFindAppointmentsById(id)
+            .getAppointments()
+            .stream()
+            .map(patientInfoAppointmentProjectionMapper::toDto)
+            .toList();
+        List<ConditionResponseDTO> patientConditionResponseDTOS = patientValidator
+            .validateFindConditionsById(id)
+            .getConditions()
+            .stream()
+            .map(conditionProjection -> new ConditionResponseDTO(
+                conditionProjection.getId(),
+                conditionProjection.getSpecification()
+            ))
+            .toList();
+        PatientResponseDTO patient = this.findById(id);
+
+        return new PatientInfoResponseDTO(
+            patient.getId(),
+            patientInfoAgentResponseDTO,
+            patientInfoResponsibleResponseDTO,
+            patientConditionResponseDTOS,
+            patientInfoAppointmentResponseDTO,
+            patient.getName(),
+            patient.getGender(),
+            patient.getMotherName(),
+            patient.getBirthday(),
+            patient.getCns(),
+            patient.getCpf(),
+            patient.getAddress(),
+            patient.getPhone(),
+            patient.getEmail()
+        );
+    }
+
     public Patient getByCpf(String cpf){
         return patientValidator.validateFindByCpf(cpf);
+    }
+
+    public Patient getById(long id){
+        return patientValidator.validateFindById(id);
     }
 
     public void delete(long id){

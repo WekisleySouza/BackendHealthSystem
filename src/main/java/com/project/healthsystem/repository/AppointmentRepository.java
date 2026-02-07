@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long>, JpaSpecificationExecutor<Appointment> {
+
     @Query("""
         SELECT new com.project.healthsystem.controller.dto.AppointmentReportResponseDTO(
             p.person.name,
@@ -37,7 +38,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
     List<AppointmentStatusCountResponseDTO> countByStatus();
 
     @Query("""
-        SELECT new com.project.healthsystem.controller.dto.AppointmentReportCountByProfessionalResponseDTO(
+        SELECT new com.project.healthsystem.controller.dto.ReportAppointmentCountByProfessionalResponseDTO(
             prof.id,
             prof.person.name,
             a.scheduledAt,
@@ -47,10 +48,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         JOIN a.professional prof
         GROUP BY prof.id, prof.person.name
     """)
-    Page<AppointmentReportCountByProfessionalResponseDTO> countAppointmentsByProfessional(Pageable pageable);
+    Page<ReportAppointmentCountByProfessionalResponseDTO> countAppointmentsByProfessional(Pageable pageable);
 
     @Query("""
-        SELECT new com.project.healthsystem.controller.dto.AppointmentReportCountByStatusByProfessionalResponseDTO(
+        SELECT new com.project.healthsystem.controller.dto.ReportAppointmentCountByStatusByProfessionalResponseDTO(
             prof.id,
             prof.person.name,
             a.status,
@@ -61,10 +62,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         JOIN a.professional prof
         GROUP BY prof.id, prof.person.name, a.status
     """)
-    Page<AppointmentReportCountByStatusByProfessionalResponseDTO> countByProfessionalAndStatus(Pageable pageable);
+    Page<ReportAppointmentCountByStatusByProfessionalResponseDTO> countByProfessionalAndStatus(Pageable pageable);
 
     @Query("""
-    SELECT new com.project.healthsystem.controller.dto.AppointmentReportCountByServiceTypeByProfessionalResponse(
+    SELECT new com.project.healthsystem.controller.dto.ReportAppointmentCountByServiceTypeByProfessionalResponse(
             prof.id,
             prof.person.name,
             st.name,
@@ -76,5 +77,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         JOIN a.serviceType st
         GROUP BY prof.id, prof.person.name, st.name
     """)
-    Page<AppointmentReportCountByServiceTypeByProfessionalResponse> countByProfessionalAndServiceType(Pageable pageable);
+    Page<ReportAppointmentCountByServiceTypeByProfessionalResponse> countByProfessionalAndServiceType(Pageable pageable);
 }

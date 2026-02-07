@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
+import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
 import com.project.healthsystem.repository.specs.AppointmentSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
@@ -93,22 +94,22 @@ public class AppointmentService {
         return new ReportAppointmentByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
     }
 
-    public AppointmentReportByProfessionalResponseDTO getProfessionalReport(
+    public ReportAppointmentByProfessionalResponseDTO getProfessionalReport(
             Integer pageNumber,
             Integer pageLength
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-        Page<AppointmentReportCountByProfessionalResponseDTO> reportsByProfessional = repository.countAppointmentsByProfessional(
+        Page<ReportAppointmentCountByProfessionalResponseDTO> reportsByProfessional = repository.countAppointmentsByProfessional(
             pageRequest
         );
-        Page<AppointmentReportCountByStatusByProfessionalResponseDTO> reportsByStatusAndProfessional = repository.countByProfessionalAndStatus(
+        Page<ReportAppointmentCountByStatusByProfessionalResponseDTO> reportsByStatusAndProfessional = repository.countByProfessionalAndStatus(
             pageRequest
         );
-        Page<AppointmentReportCountByServiceTypeByProfessionalResponse> reportsByServiceTypeAndProfessional = repository.countByProfessionalAndServiceType(
+        Page<ReportAppointmentCountByServiceTypeByProfessionalResponse> reportsByServiceTypeAndProfessional = repository.countByProfessionalAndServiceType(
             pageRequest
         );
         long professionalsNumber = professionalRepository.countProfessionals();
-        return new AppointmentReportByProfessionalResponseDTO(
+        return new ReportAppointmentByProfessionalResponseDTO(
             reportsByProfessional,
             reportsByStatusAndProfessional,
             reportsByServiceTypeAndProfessional,

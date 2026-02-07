@@ -24,7 +24,6 @@ public abstract class AgentMapper {
     public abstract AgentResponseDTO toDto(Agent agent);
 
     public Agent toEntityWhenHasId(Agent entity, AgentRequestDTO dto){
-        System.out.println("Endereço: " + dto.getAddress());
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
         entity.getPerson().setGender(Gender.fromLabel(dto.getGender()));
@@ -36,7 +35,6 @@ public abstract class AgentMapper {
     }
 
     protected Person map(AgentRequestDTO dto){
-        System.out.println("Endereço: " + dto.getAddress());
         Person person = new Person();
         person.setName(dto.getName());
         person.setGender(Gender.fromLabel(dto.getGender()));

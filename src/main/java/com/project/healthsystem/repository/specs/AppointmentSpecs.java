@@ -1,8 +1,6 @@
 package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.Appointment;
-import com.project.healthsystem.model.ServiceTypes;
-import com.project.healthsystem.model.Status;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;

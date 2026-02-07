@@ -1,6 +1,7 @@
 package com.project.healthsystem.repository;
 
 import com.project.healthsystem.model.Person;
+import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
