@@ -98,6 +98,7 @@ public class AgentService {
         Integer pageNumber,
         Integer pageLength,
         String name,
+        String gender,
         String cpf,
         String phone,
         LocalDate birthday,
@@ -106,6 +107,7 @@ public class AgentService {
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Agent> specs =  null;
         specs = SpecsCommon.addSpec(specs, AgentSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, AgentSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.cpfLike(cpf));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.birthdayEqual(birthday));

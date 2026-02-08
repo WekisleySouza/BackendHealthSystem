@@ -86,6 +86,7 @@ public class ProfessionalService {
             Integer pageNumber,
             Integer pageLength,
             String name,
+            String gender,
             String cpf,
             String phone,
             LocalDate birthday,
@@ -94,6 +95,7 @@ public class ProfessionalService {
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Professional> specs = null;
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cpfLike(cpf));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.birthdayEqual(birthday));

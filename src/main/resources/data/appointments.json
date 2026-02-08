@@ -7,7 +7,7 @@
     "serviceTypeId": 3,
     "notes": "Consulta inicial",
     "scheduledAt": "2025-01-20T09:00:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 2,
@@ -17,7 +17,7 @@
     "serviceTypeId": 5,
     "notes": "Retorno médico",
     "scheduledAt": "2025-01-20T10:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 3,
@@ -27,7 +27,7 @@
     "serviceTypeId": 1,
     "notes": "Exame de rotina",
     "scheduledAt": "2025-01-21T08:30:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 4,
@@ -37,7 +37,7 @@
     "serviceTypeId": 7,
     "notes": "Avaliação cardiológica",
     "scheduledAt": "2025-01-21T09:30:00",
-    "priority": "HIGH"
+    "priority": "Urgente"
   },
   {
     "professionalId": 5,
@@ -47,7 +47,7 @@
     "serviceTypeId": 4,
     "notes": "Exame laboratorial",
     "scheduledAt": "2025-01-21T10:30:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 6,
@@ -57,7 +57,7 @@
     "serviceTypeId": 9,
     "notes": "Consulta especializada",
     "scheduledAt": "2025-01-22T09:00:00",
-    "priority": "HIGH"
+    "priority": "Urgente"
   },
   {
     "professionalId": 7,
@@ -67,7 +67,7 @@
     "serviceTypeId": 6,
     "notes": "Exame de imagem",
     "scheduledAt": "2025-01-22T10:00:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 8,
@@ -77,7 +77,7 @@
     "serviceTypeId": 2,
     "notes": "Consulta clínica",
     "scheduledAt": "2025-01-22T11:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 9,
@@ -87,7 +87,7 @@
     "serviceTypeId": 8,
     "notes": "Acompanhamento",
     "scheduledAt": "2025-01-23T08:00:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 10,
@@ -97,7 +97,7 @@
     "serviceTypeId": 10,
     "notes": "Consulta preventiva",
     "scheduledAt": "2025-01-23T09:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 1,
@@ -107,7 +107,7 @@
     "serviceTypeId": 11,
     "notes": "Exame neurológico",
     "scheduledAt": "2025-01-23T10:00:00",
-    "priority": "HIGH"
+    "priority": "Urgente"
   },
   {
     "professionalId": 2,
@@ -117,7 +117,7 @@
     "serviceTypeId": 12,
     "notes": "Consulta ortopédica",
     "scheduledAt": "2025-01-24T08:30:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 3,
@@ -127,7 +127,7 @@
     "serviceTypeId": 13,
     "notes": "Exame de sangue",
     "scheduledAt": "2025-01-24T09:30:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 4,
@@ -137,7 +137,7 @@
     "serviceTypeId": 14,
     "notes": "Consulta pediátrica",
     "scheduledAt": "2025-01-24T10:30:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 5,
@@ -147,7 +147,7 @@
     "serviceTypeId": 15,
     "notes": "Avaliação clínica",
     "scheduledAt": "2025-01-24T11:30:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 6,
@@ -157,7 +157,7 @@
     "serviceTypeId": 1,
     "notes": "Consulta geral",
     "scheduledAt": "2025-01-25T09:00:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 7,
@@ -167,7 +167,7 @@
     "serviceTypeId": 2,
     "notes": "Check-up",
     "scheduledAt": "2025-01-25T10:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 8,
@@ -177,7 +177,7 @@
     "serviceTypeId": 3,
     "notes": "Exame preventivo",
     "scheduledAt": "2025-01-25T11:00:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 9,
@@ -187,7 +187,7 @@
     "serviceTypeId": 4,
     "notes": "Avaliação de retorno",
     "scheduledAt": "2025-01-26T08:30:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 10,
@@ -197,7 +197,7 @@
     "serviceTypeId": 5,
     "notes": "Consulta especializada",
     "scheduledAt": "2025-01-26T09:30:00",
-    "priority": "HIGH"
+    "priority": "Urgente"
   },
   {
     "professionalId": 1,
@@ -207,7 +207,7 @@
     "serviceTypeId": 6,
     "notes": "Exame complementar",
     "scheduledAt": "2025-01-26T10:30:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 2,
@@ -217,7 +217,7 @@
     "serviceTypeId": 7,
     "notes": "Avaliação clínica",
     "scheduledAt": "2025-01-27T08:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 3,
@@ -227,7 +227,7 @@
     "serviceTypeId": 8,
     "notes": "Consulta de acompanhamento",
     "scheduledAt": "2025-01-27T09:00:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 4,
@@ -237,7 +237,7 @@
     "serviceTypeId": 9,
     "notes": "Exame específico",
     "scheduledAt": "2025-01-27T10:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 5,
@@ -247,7 +247,7 @@
     "serviceTypeId": 10,
     "notes": "Consulta de rotina",
     "scheduledAt": "2025-01-27T11:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   },
   {
     "professionalId": 6,
@@ -257,7 +257,7 @@
     "serviceTypeId": 11,
     "notes": "Avaliação urgente",
     "scheduledAt": "2025-01-28T09:00:00",
-    "priority": "HIGH"
+    "priority": "Urgente"
   },
   {
     "professionalId": 7,
@@ -267,7 +267,7 @@
     "serviceTypeId": 12,
     "notes": "Exame de imagem",
     "scheduledAt": "2025-01-28T10:00:00",
-    "priority": "MEDIUM"
+    "priority": "Prioritário"
   },
   {
     "professionalId": 8,
@@ -277,6 +277,6 @@
     "serviceTypeId": 13,
     "notes": "Consulta técnica",
     "scheduledAt": "2025-01-28T11:00:00",
-    "priority": "LOW"
+    "priority": "Eletivo"
   }
 ]

@@ -1,6 +1,8 @@
 package com.project.healthsystem.repository.specs;
 
+import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
+import com.project.healthsystem.model.Professional;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -34,6 +36,15 @@ public class PatientSpecs {
                         cb.upper(root.get("person").get("name")),
                         "%" + name.trim().toUpperCase() + "%"
                 );
+    }
+
+    public static Specification<Patient> genderEqual(String genderLabel) {
+        if (genderLabel == null || genderLabel.isBlank()) return null;
+
+        Gender gender = Gender.fromLabel(genderLabel);
+
+        return (root, query, cb) ->
+                cb.equal(root.get("person").get("gender"), gender);
     }
 
     public static Specification<Patient> cpfLike(String cpf) {

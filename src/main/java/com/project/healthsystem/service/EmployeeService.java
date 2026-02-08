@@ -102,6 +102,7 @@ public class EmployeeService {
             Integer pageNumber,
             Integer pageLength,
             String name,
+            String gender,
             String cpf,
             String phone,
             LocalDate birthday,
@@ -110,6 +111,7 @@ public class EmployeeService {
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Employee> specs = null;
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.cpfLike(cpf));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.birthdayEqual(birthday));

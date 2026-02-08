@@ -105,6 +105,7 @@ public class PatientService {
             Integer pageNumber,
             Integer pageLength,
             String name,
+            String gender,
             String cpf,
             String phone,
             LocalDate birthday,
@@ -115,6 +116,7 @@ public class PatientService {
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Patient> specs =  null;
         specs = SpecsCommon.addSpec(specs, PatientSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.cpfLike(cpf));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.birthdayEqual(birthday));

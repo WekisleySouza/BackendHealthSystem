@@ -1,6 +1,7 @@
 package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.Agent;
+import com.project.healthsystem.model.Gender;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -14,6 +15,15 @@ public class AgentSpecs {
                         cb.upper(root.get("person").get("name")),
                         "%" + name.trim().toUpperCase() + "%"
                 );
+    }
+
+    public static Specification<Agent> genderEqual(String genderLabel) {
+        if (genderLabel == null || genderLabel.isBlank()) return null;
+
+        Gender gender = Gender.fromLabel(genderLabel);
+
+        return (root, query, cb) ->
+                cb.equal(root.get("person").get("gender"), gender);
     }
 
     public static Specification<Agent> cpfLike(String cpf) {

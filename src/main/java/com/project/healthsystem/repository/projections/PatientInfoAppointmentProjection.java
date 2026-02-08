@@ -1,5 +1,6 @@
 package com.project.healthsystem.repository.projections;
 
+import com.project.healthsystem.model.Priority;
 import com.project.healthsystem.model.Status;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -10,7 +11,7 @@ public interface PatientInfoAppointmentProjection {
     long getId();
     Status getStatus();
     String getNotes();
-    String getPriorit();
+    Priority getPriorit();
     LocalDateTime getScheduledAt();
     LocalDateTime getCreatedAt();
 

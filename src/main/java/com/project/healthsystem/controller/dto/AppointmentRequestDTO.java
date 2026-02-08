@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller.dto;
 
+import com.project.healthsystem.model.Priority;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

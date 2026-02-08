@@ -1,19 +1,31 @@
 package com.project.healthsystem.repository.specs;
 
+import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Professional;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 
-public class ProfessionalSpecs {public static Specification<Professional> nameLike(String name) {
-    if (name == null || name.isBlank()) return null;
+public class ProfessionalSpecs {
+    public static Specification<Professional> nameLike(String name) {
+        if (name == null || name.isBlank()) return null;
 
-    return (root, query, cb) ->
-            cb.like(
-                    cb.upper(root.get("person").get("name")),
-                    "%" + name.toUpperCase() + "%"
-            );
-}
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("name")),
+                        "%" + name.toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Professional> genderEqual(String genderLabel) {
+        if (genderLabel == null || genderLabel.isBlank()) return null;
+
+        Gender gender = Gender.fromLabel(genderLabel);
+
+        return (root, query, cb) ->
+                cb.equal(root.get("person").get("gender"), gender);
+    }
+
 
     public static Specification<Professional> cpfLike(String cpf) {
         if (cpf == null || cpf.isBlank()) return null;

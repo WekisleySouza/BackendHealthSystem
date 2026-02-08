@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
+import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.service.ProfessionalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -67,6 +68,7 @@ public class ProfessionalController {
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
         @RequestParam(value = "name", required = false) String name,
+        @RequestParam(value = "gender", required = false) String gender,
         @RequestParam(value = "cpf", required = false) String cpf,
         @RequestParam(value = "phone", required = false) String phone,
         @RequestParam(value = "birthday", required = false) LocalDate birthday,
@@ -77,6 +79,7 @@ public class ProfessionalController {
             pageNumber,
             pageLength,
             name,
+            gender,
             cpf,
             phone,
             birthday,

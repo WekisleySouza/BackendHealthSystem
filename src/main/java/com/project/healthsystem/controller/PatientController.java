@@ -59,7 +59,7 @@ public class PatientController {
 
     @GetMapping("{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Object> read(@PathVariable("id") long id){
+    public ResponseEntity<PatientResponseDTO> read(@PathVariable("id") long id){
         PatientResponseDTO patientResponseDTO = patientService.findById(id);
         return ResponseEntity.ok(patientResponseDTO);
     }
@@ -67,7 +67,7 @@ public class PatientController {
     @GetMapping("/info-patient/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
     @Operation(summary = "Get patient info", description = "Get patient info by id.")
-    public ResponseEntity<Object> getPatientInfo(@PathVariable("id") long id){
+    public ResponseEntity<PatientInfoResponseDTO> getPatientInfo(@PathVariable("id") long id){
         PatientInfoResponseDTO patientInfoDTO = patientService.getPatientInfo(id);
         return ResponseEntity.ok(patientInfoDTO);
     }
@@ -78,6 +78,7 @@ public class PatientController {
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
         @RequestParam(value = "name", required = false) String name,
+        @RequestParam(value = "gender", required = false) String gender,
         @RequestParam(value = "cpf", required = false) String cpf,
         @RequestParam(value = "phone", required = false) String phone,
         @RequestParam(value = "birthday", required = false) LocalDate birthday,
@@ -89,6 +90,7 @@ public class PatientController {
             pageNumber,
             pageLength,
             name,
+            gender,
             cpf,
             phone,
             birthday,

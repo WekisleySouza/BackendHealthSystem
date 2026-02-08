@@ -17,9 +17,10 @@ public class Appointment extends BasicEntityAbstraction {
     @Column(name = "notes")
     @Getter
     private String notes;
+    @Enumerated(EnumType.STRING)
     @Column(name="priorit")
     @Getter
-    private String priorit;
+    private Priority priorit;
     @Enumerated(EnumType.STRING)
     @Column(name="status")
     private Status status;
