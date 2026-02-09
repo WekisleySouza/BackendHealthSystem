@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.PatientResponseDTO;
+import com.project.healthsystem.controller.dto.PatientSimplifiedInfoDTO;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.service.PatientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/patients")
@@ -70,6 +72,14 @@ public class PatientController {
     public ResponseEntity<PatientInfoResponseDTO> getPatientInfo(@PathVariable("id") long id){
         PatientInfoResponseDTO patientInfoDTO = patientService.getPatientInfo(id);
         return ResponseEntity.ok(patientInfoDTO);
+    }
+
+    @GetMapping("/simplified-list")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
+    @Operation(summary = "Get patient simplified info", description = "Get patients just with id, name, cpf and mother name.")
+    public ResponseEntity<List<PatientSimplifiedInfoDTO>> getPatientInfo(){
+        List<PatientSimplifiedInfoDTO> patientSimplifiedInfoDTOS = patientService.getSimplifiedPatients();
+        return ResponseEntity.ok(patientSimplifiedInfoDTOS);
     }
 
     @GetMapping

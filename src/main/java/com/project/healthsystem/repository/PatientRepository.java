@@ -1,10 +1,7 @@
 package com.project.healthsystem.repository;
 
 import com.project.healthsystem.model.Patient;
-import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
-import com.project.healthsystem.repository.projections.PatientInfoAppointmentsProjection;
-import com.project.healthsystem.repository.projections.PatientInfoConditionsProjection;
-import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
+import com.project.healthsystem.repository.projections.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -12,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpecificationExecutor<Patient> {
+
+    List<PatientSimplifiedInfoProjection> findAllBy();
 
     Optional<PatientInfoResponsibleProjection> findResponsibleById(long patientId);
 

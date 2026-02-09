@@ -1,6 +1,5 @@
 package com.project.healthsystem.controller.dto;
 
-import com.project.healthsystem.model.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,7 @@ public class AppointmentResponseDTO {
     private Long employeeId;
     private Long patientId;
 
-    private Status status;
+    private String status;
     private Long serviceTypeId;
     private String notes;
     private String priority;

@@ -1,7 +1,5 @@
 package com.project.healthsystem.controller.dto;
 
-import com.project.healthsystem.model.Status;
-
 import java.time.LocalDateTime;
 
 public record PatientInfoAppointmentResponseDTO (
@@ -9,7 +7,7 @@ public record PatientInfoAppointmentResponseDTO (
     String professionalName,
     String employeeName,
     String patientName,
-    Status status,
+    String status,
     String serviceTypeName,
     String notes,
     String priorit,

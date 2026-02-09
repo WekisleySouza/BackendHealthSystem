@@ -8,6 +8,7 @@ import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.PatientRepository;
 import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
 import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
+import com.project.healthsystem.repository.projections.PatientSimplifiedInfoProjection;
 import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
@@ -99,6 +100,19 @@ public class PatientService {
     public PatientResponseDTO findById(long id){
         Patient patient = patientValidator.validateFindById(id);
         return patientMapper.toDto(patient);
+    }
+
+    public List<PatientSimplifiedInfoDTO> getSimplifiedPatients(){
+        return repository
+            .findAllBy()
+            .stream()
+            .map(patientProjection -> new PatientSimplifiedInfoDTO(
+                patientProjection.getId(),
+                patientProjection.getPerson().getName(),
+                patientProjection.getPerson().getCpf(),
+                patientProjection.getMotherName()
+            ))
+            .toList();
     }
 
     public Page<PatientResponseDTO> getAll(

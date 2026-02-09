@@ -45,8 +45,8 @@ public class Appointment extends BasicEntityAbstraction {
         if(scheduledAt == null) return Status.PENDING_SCHEDULING;
 
         if(status != Status.COMPLETED && status != Status.NO_SHOW && status != Status.CANCELED){
-            if(scheduledAt.isBefore(LocalDateTime.now())) return Status.SCHEDULED;
-            if(scheduledAt.isAfter(LocalDateTime.now())) return Status.OVERDUE;
+            if(scheduledAt.isBefore(LocalDateTime.now())) return Status.OVERDUE;
+            if(scheduledAt.isAfter(LocalDateTime.now())) return Status.SCHEDULED;
         }
 
         return this.status;
