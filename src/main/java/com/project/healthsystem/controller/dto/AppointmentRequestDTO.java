@@ -1,6 +1,5 @@
 package com.project.healthsystem.controller.dto;
 
-import com.project.healthsystem.model.Priority;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,5 +31,6 @@ public class AppointmentRequestDTO {
 
     private LocalDateTime scheduledAt;
 
+    @NotNull(message = "A prioridade é obrigatória!")
     private String priority;
 }

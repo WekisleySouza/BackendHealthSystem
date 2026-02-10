@@ -76,5 +76,34 @@ public class AppointmentSpecs {
                 );
     }
 
+    public static Specification<Appointment> professionalNameLike(String name) {
+        if (name == null || name.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("professional").get("person").get("name")),
+                        "%" + name.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Appointment> employeeNameLike(String name) {
+        if (name == null || name.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("employee").get("person").get("name")),
+                        "%" + name.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Appointment> patientNameLike(String name) {
+        if (name == null || name.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("patient").get("person").get("name")),
+                        "%" + name.trim().toUpperCase() + "%"
+                );
+    }
 
 }

@@ -59,7 +59,10 @@ public class AppointmentService {
             LocalDateTime scheduledAt,
             LocalDateTime createdAt,
             String priorit,
-            String status
+            String status,
+            String professionalName,
+            String employeeName,
+            String patientName
         ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Appointment> specification = null;
@@ -69,6 +72,9 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.employeeNameLike(employeeName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
         return repository
             .findAll(specification, pageRequest)
             .map(appointmentsMapper::toDto);

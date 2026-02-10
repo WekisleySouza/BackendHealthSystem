@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 public class AppointmentResponseDTO {
     private long id;
 
-    private Long professionalId;
-    private Long employeeId;
-    private Long patientId;
+    private String professionalName;
+    private String employeeName;
+    private String patientName;
 
     private String status;
-    private Long serviceTypeId;
+    private String serviceTypeName;
     private String notes;
     private String priority;
 

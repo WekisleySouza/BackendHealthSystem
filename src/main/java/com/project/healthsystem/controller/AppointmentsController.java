@@ -89,6 +89,9 @@ public class AppointmentsController {
         @RequestParam(value = "createdAt", required = false) LocalDateTime createdAt,
         @RequestParam(value = "priorit", required = false) String priorit,
         @RequestParam(value = "status", required = false) String status,
+        @RequestParam(value = "professional-name", required = false) String professional,
+        @RequestParam(value = "employee-name", required = false) String employee,
+        @RequestParam(value = "patient-name", required = false) String patient,
         @RequestParam(value = "type", required = false) String type
     ){
         Page<AppointmentResponseDTO> AppointmentResponseDTOs = appointmentService.getAll(
@@ -99,7 +102,10 @@ public class AppointmentsController {
             scheduledAt,
             createdAt,
             priorit,
-            status
+            status,
+            professional,
+            employee,
+            patient
         );
         return ResponseEntity.ok(AppointmentResponseDTOs);
     }
