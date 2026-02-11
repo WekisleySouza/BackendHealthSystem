@@ -1,8 +1,8 @@
 package com.project.healthsystem.model;
 
 public enum ServiceTypes {
-    EXAM("EXAM"),
-    SPECIALTY("SPECIALTY");
+    EXAM("Exame"),
+    SPECIALTY("Especialidade");
 
     private final String label;
 

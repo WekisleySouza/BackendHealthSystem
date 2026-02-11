@@ -18,11 +18,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
             p.motherName,
             a.scheduledAt,
             a.status,
-            prof.person.name
+            prof.person.name,
+            a.priorit,
+            st.name,
+            st.type
         )
         FROM Appointment a
         JOIN a.patient p
         JOIN a.professional prof
+        JOIN a.serviceType st
         ORDER BY a.scheduledAt DESC
     """)
     Page<AppointmentReportResponseDTO> findAppointmentReport(Pageable pageable);
