@@ -1,6 +1,9 @@
 package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.Appointment;
+import com.project.healthsystem.model.Priority;
+import com.project.healthsystem.model.ServiceTypes;
+import com.project.healthsystem.model.Status;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
@@ -52,7 +55,7 @@ public class AppointmentSpecs {
         return (root, query, cb) ->
                 cb.like(
                         cb.upper(root.get("priorit")),
-                        "%" + priorit.trim().toUpperCase() + "%"
+                        "%" + Priority.fromLabel(priorit).name().trim().toUpperCase() + "%"
                 );
     }
 
@@ -62,7 +65,7 @@ public class AppointmentSpecs {
         return (root, query, cb) ->
                 cb.like(
                         cb.upper(root.get("status").as(String.class)),
-                        "%" + status.trim().toUpperCase() + "%"
+                        "%" + Status.fromLabel(status).name().trim().toUpperCase() + "%"
                 );
     }
 
@@ -72,7 +75,7 @@ public class AppointmentSpecs {
         return (root, query, cb) ->
                 cb.like(
                         cb.upper(root.get("serviceType").get("type").as(String.class)),
-                        "%" + type.trim().toUpperCase() + "%"
+                        "%" + ServiceTypes.fromLabel(type).name().trim().toUpperCase() + "%"
                 );
     }
 

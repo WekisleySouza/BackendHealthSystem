@@ -65,8 +65,14 @@ public class AuthService {
             Patient patient = patientService.getByCpf(person.getCpf());
             profileResponseDTO.setName(patient.getPerson().getName());
             profileResponseDTO.setCpf(patient.getPerson().getCpf());
-            profileResponseDTO.setPhone(patient.getPerson().getPhone());
+            profileResponseDTO.setContactPhone(patient.getPerson().getContactPhone());
+            profileResponseDTO.setResidentialPhone(patient.getPerson().getResidentialPhone());
+            profileResponseDTO.setCellPhone(patient.getPerson().getCellPhone());
             profileResponseDTO.setBirthday(patient.getPerson().getBirthday());
+            profileResponseDTO.setTeamName(patient.getTeamName());
+            profileResponseDTO.setTeamINE(patient.getTeamINE());
+            profileResponseDTO.setMicroArea(patient.getMicroArea());
+            profileResponseDTO.setOrigin(patient.getOrigin());
             profileResponseDTO.setEmail(patient.getPerson().getEmail());
             profileResponseDTO.setCns(patient.getCns());
             profileResponseDTO.setMotherName(patient.getMotherName());
@@ -74,7 +80,9 @@ public class AuthService {
             Employee employee = employeeService.findByCpf(person.getCpf());
             profileResponseDTO.setName(employee.getPerson().getName());
             profileResponseDTO.setCpf(employee.getPerson().getCpf());
-            profileResponseDTO.setPhone(employee.getPerson().getPhone());
+            profileResponseDTO.setContactPhone(employee.getPerson().getContactPhone());
+            profileResponseDTO.setResidentialPhone(employee.getPerson().getResidentialPhone());
+            profileResponseDTO.setCellPhone(employee.getPerson().getCellPhone());
             profileResponseDTO.setBirthday(employee.getPerson().getBirthday());
             profileResponseDTO.setEmail(employee.getPerson().getEmail());
 

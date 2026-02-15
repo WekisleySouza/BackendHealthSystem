@@ -14,8 +14,12 @@ public class AgentResponseDTO {
     private long id;
     private String name;
     private String gender;
-    private String cpf;
+    private String sex;
+    private String cellPhone;
+    private String residentialPhone;
+    private String contactPhone;
     private String phone;
+    private String cpf;
     private String address;
     private LocalDate birthday;
     private String email;

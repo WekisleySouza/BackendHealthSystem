@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.ReportAppointmentByPatientRespons
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
 import com.project.healthsystem.model.Appointment;
+import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.service.AppointmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

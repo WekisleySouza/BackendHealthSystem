@@ -13,10 +13,14 @@ public class EmployeeResponseDTO {
     private long id;
     private String name;
     private String gender;
+    private String sex;
+    private String cellPhone;
+    private String residentialPhone;
+    private String contactPhone;
+    private String phone;
     private String cpf;
     private LocalDate birthday;
     private String email;
     private String address;
-    private String phone;
     private String role;
 }

@@ -63,6 +63,7 @@ public class DefaultInitializer implements ApplicationRunner {
             Person person = new Person();
             person.setName(this.name);
             person.setGender(Gender.MALE);
+            person.setSex(Sex.MALE);
             person.setCpf(this.cpf);
             person.setBirthday(this.birthday);
             person.setEmail(this.email);

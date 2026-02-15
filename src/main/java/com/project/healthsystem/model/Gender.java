@@ -1,8 +1,10 @@
 package com.project.healthsystem.model;
 
 public enum Gender {
-    MALE("Masculino"),
-    FEMALE("Feminino"),
+    MALE("Homem Cisgênero"),
+    MALE_TRANS("Homem Transgênero"),
+    FEMALE("Mulher Cisgênero"),
+    FEMALE_TRANS("Mulher Transgênero"),
     OTHER("Outro");
 
     private final String label;

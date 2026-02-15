@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Person;
+import com.project.healthsystem.model.Sex;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -17,7 +18,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }
@@ -28,7 +32,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }
@@ -40,7 +47,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }
@@ -51,7 +61,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }
@@ -63,7 +76,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }
@@ -74,7 +90,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }
@@ -86,7 +105,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }
@@ -97,7 +119,10 @@ public class PersonMapper {
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setPhone(dto.getPhone());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setContactPhone(dto.getContactPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
         person.setAddress(dto.getAddress());
         return person;
     }

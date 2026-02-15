@@ -2,13 +2,10 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.mappers.*;
-import com.project.healthsystem.model.Patient;
-import com.project.healthsystem.model.Person;
-import com.project.healthsystem.model.Roles;
+import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.PatientRepository;
 import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
 import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
-import com.project.healthsystem.repository.projections.PatientSimplifiedInfoProjection;
 import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
@@ -20,8 +17,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -173,18 +174,25 @@ public class PatientService {
 
         return new PatientInfoResponseDTO(
             patient.getId(),
+            patient.getTeamName(),
+            patient.getTeamINE(),
+            patient.getMicroArea(),
+            patient.getOrigin(),
             patientInfoAgentResponseDTO,
             patientInfoResponsibleResponseDTO,
             patientConditionResponseDTOS,
             patientInfoAppointmentResponseDTO,
             patient.getName(),
             patient.getGender(),
+            patient.getSex(),
             patient.getMotherName(),
             patient.getBirthday(),
             patient.getCns(),
             patient.getCpf(),
             patient.getAddress(),
-            patient.getPhone(),
+            patient.getCellPhone(),
+            patient.getResidentialPhone(),
+            patient.getContactPhone(),
             patient.getEmail()
         );
     }
@@ -200,4 +208,65 @@ public class PatientService {
     public void delete(long id){
         repository.delete(patientValidator.validateDelete(id));
     }
+
+    @Transactional
+    public void importCsv(MultipartFile file) {
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+
+            String line;
+
+            // Pular header
+            for (int i = 0; i < 1; i++) {
+                reader.readLine();
+            }
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] columns = line.split(";");
+
+                String cpfCNS = columns[4].replaceAll("\\D", "");
+
+                Person person = new Person();
+                person.setAddress(columns[3]);
+                person.setName(columns[5]);
+                person.setSex(Sex.fromLabel(columns[7]));
+
+                if(!columns[8].equals("-")) {
+                    person.setGender(Gender.fromLabel(columns[8]));
+                }
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                person.setBirthday(LocalDate.parse(columns[9], formatter));
+                person.setCellPhone(columns[10]);
+                person.setResidentialPhone(columns[11]);
+                person.setContactPhone(columns[12]);
+
+                Patient patient = new Patient();
+                patient.setTeamName(columns[0]);
+                patient.setTeamINE(columns[1]);
+                patient.setMicroArea(columns[2]);
+                patient.setOrigin(columns[14]);
+
+                if(!(cpfCNS.isBlank())){
+                    // Se número de dígitos maior que 11, é CNS
+                    if(cpfCNS.length() > 11){
+                        patient.setCns(cpfCNS);
+                    } else {
+                        person.setCpf(cpfCNS);
+                    }
+                }
+
+                personService.save(person);
+
+                patient.setPerson(person);
+
+                repository.save(patient);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao importar CSV" + e.getMessage());
+        }
+    }
+
 }

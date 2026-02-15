@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.dto.PatientResponseDTO;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
+import com.project.healthsystem.model.Sex;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,12 +17,19 @@ public abstract class PatientMapper {
 
     @Mapping(target = "agentId", expression = "java(entity.getAgentId())")
     @Mapping(target = "conditionsId", expression = "java(entity.getConditionsId())")
+    @Mapping(target = "teamName", expression = "java(entity.getTeamName())")
+    @Mapping(target = "teamINE", expression = "java(entity.getTeamINE())")
+    @Mapping(target = "microArea", expression = "java(entity.getMicroArea())")
+    @Mapping(target = "origin", expression = "java(entity.getOrigin())")
     @Mapping(target = "responsibleId", expression = "java(entity.getResponsibleId())")
     @Mapping(target = "name", expression = "java(entity.getPerson().getName())")
     @Mapping(target = "gender", expression = "java(entity.getPerson().getGender().getLabel())")
     @Mapping(target = "birthday", expression = "java(entity.getPerson().getBirthday())")
     @Mapping(target = "cpf", expression = "java(entity.getPerson().getCpf())")
-    @Mapping(target = "phone", expression = "java(entity.getPerson().getPhone())")
+    @Mapping(target = "sex", expression = "java(entity.getPerson().getSex().getLabel())")
+    @Mapping(target = "cellPhone", expression = "java(entity.getPerson().getCellPhone())")
+    @Mapping(target = "residentialPhone", expression = "java(entity.getPerson().getResidentialPhone())")
+    @Mapping(target = "contactPhone", expression = "java(entity.getPerson().getContactPhone())")
     @Mapping(target = "address", expression = "java(entity.getPerson().getAddress())")
     @Mapping(target = "email", expression = "java(entity.getPerson().getEmail())")
     public abstract PatientResponseDTO toDto(Patient entity);
@@ -29,11 +37,18 @@ public abstract class PatientMapper {
     public Patient toEntityWhenHasId(Patient entity, PatientRequestDTO dto){
         entity.setMotherName(dto.getMotherName());
         entity.setCns(dto.getCns());
+        entity.setTeamName(dto.getTeamName());
+        entity.setTeamINE(dto.getTeamINE());
+        entity.setMicroArea(dto.getMicroArea());
+        entity.setOrigin(dto.getOrigin());
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
         entity.getPerson().setGender(Gender.fromLabel(dto.getGender()));
         entity.getPerson().setAddress(dto.getAddress());
-        entity.getPerson().setPhone(dto.getPhone());
+        entity.getPerson().setSex(Sex.fromLabel(dto.getSex()));
+        entity.getPerson().setCellPhone(dto.getCellPhone());
+        entity.getPerson().setResidentialPhone(dto.getResidentialPhone());
+        entity.getPerson().setContactPhone(dto.getContactPhone());
         entity.getPerson().setBirthday(dto.getBirthday());
         entity.getPerson().setEmail(dto.getEmail());
         return entity;
@@ -45,7 +60,11 @@ public abstract class PatientMapper {
         person.setGender(Gender.fromLabel(dto.getGender()));
         person.setCpf(dto.getCpfNormalized());
         person.setAddress(dto.getAddress());
-        person.setPhone(dto.getPhone());
+        person.setAddress(dto.getAddress());
+        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setCellPhone(dto.getCellPhone());
+        person.setResidentialPhone(dto.getResidentialPhone());
+        person.setContactPhone(dto.getContactPhone());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
         return person;

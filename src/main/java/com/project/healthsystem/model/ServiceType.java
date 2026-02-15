@@ -22,6 +22,7 @@ public class ServiceType extends BasicEntityAbstraction {
     private String name;
     @Column(name = "value", precision = 20, scale = 8)
     private BigDecimal value;
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private ServiceTypes type;
 

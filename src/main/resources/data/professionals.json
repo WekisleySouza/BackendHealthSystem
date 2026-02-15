@@ -3,180 +3,240 @@
     "name": "Dr. João Carlos Mendes",
     "birthday": "1978-04-12",
     "cpf": "529.982.247-25",
-    "phone": "(11) 98765-1111",
     "email": "joao.mendes@clinic.com",
     "address": "Rua Haddock Lobo, 210 - São Paulo/SP",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(11) 98765-1111",
+    "residentialPhone": "(11) 3456-1111",
+    "contactPhone": "(11) 93456-1111"
   },
   {
     "name": "Dra. Mariana Lopes",
     "birthday": "1985-07-25",
     "cpf": "168.995.350-09",
-    "phone": "(11) 98888-2222",
     "email": "mariana.lopes@clinic.com",
     "address": "Av. Paulista, 1578 - São Paulo/SP",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(11) 98888-2222",
+    "residentialPhone": "(11) 3567-2222",
+    "contactPhone": "(11) 93567-2222"
   },
   {
     "name": "Dr. Ricardo Nunes",
     "birthday": "1979-11-02",
     "cpf": "111.444.777-35",
-    "phone": "(21) 97777-3333",
     "email": "ricardo.nunes@clinic.com",
     "address": "Rua Voluntários da Pátria, 455 - Rio de Janeiro/RJ",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(21) 97777-3333",
+    "residentialPhone": "(21) 3344-3333",
+    "contactPhone": "(21) 93344-3333"
   },
   {
     "name": "Dra. Patricia Azevedo",
     "birthday": "1983-09-09",
     "cpf": "935.411.347-80",
-    "phone": "(31) 98876-4444",
     "email": "patricia.azevedo@clinic.com",
     "address": "Av. do Contorno, 890 - Belo Horizonte/MG",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(31) 98876-4444",
+    "residentialPhone": "(31) 3456-4444",
+    "contactPhone": "(31) 93456-4444"
   },
   {
     "name": "Dr. Marcos Vinicius Rocha",
     "birthday": "1990-01-14",
     "cpf": "286.255.878-87",
-    "phone": "(41) 98712-5555",
     "email": "marcos.rocha@clinic.com",
     "address": "Rua Mateus Leme, 340 - Curitiba/PR",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(41) 98712-5555",
+    "residentialPhone": "(41) 3344-5555",
+    "contactPhone": "(41) 93344-5555"
   },
   {
     "name": "Dra. Juliana Pires",
     "birthday": "1988-04-21",
     "cpf": "746.971.314-01",
-    "phone": "(19) 97654-6666",
     "email": "juliana.pires@clinic.com",
     "address": "Av. Moraes Salles, 1020 - Campinas/SP",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(19) 97654-6666",
+    "residentialPhone": "(19) 3234-6666",
+    "contactPhone": "(19) 93234-6666"
   },
   {
     "name": "Dr. Eduardo Farias",
     "birthday": "1975-12-30",
     "cpf": "357.192.310-08",
-    "phone": "(51) 98444-7777",
     "email": "eduardo.farias@clinic.com",
     "address": "Rua Padre Chagas, 88 - Porto Alegre/RS",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(51) 98444-7777",
+    "residentialPhone": "(51) 3344-7777",
+    "contactPhone": "(51) 93344-7777"
   },
   {
     "name": "Dra. Vanessa Guimarães",
     "birthday": "1992-08-05",
     "cpf": "502.998.010-40",
-    "phone": "(11) 95555-8888",
     "email": "vanessa.guimaraes@clinic.com",
     "address": "Rua Vergueiro, 1500 - São Paulo/SP",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(11) 95555-8888",
+    "residentialPhone": "(11) 3456-8888",
+    "contactPhone": "(11) 93456-8888"
   },
   {
     "name": "Dr. Rafael Cardoso",
     "birthday": "1987-10-11",
     "cpf": "398.742.640-30",
-    "phone": "(62) 98777-9999",
     "email": "rafael.cardoso@clinic.com",
     "address": "Av. T-63, 700 - Goiânia/GO",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(62) 98777-9999",
+    "residentialPhone": "(62) 3344-9999",
+    "contactPhone": "(62) 93344-9999"
   },
   {
     "name": "Dra. Aline Batista",
     "birthday": "1991-02-17",
     "cpf": "390.533.447-05",
-    "phone": "(13) 98812-1010",
     "email": "aline.batista@clinic.com",
     "address": "Av. Ana Costa, 350 - Santos/SP",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(13) 98812-1010",
+    "residentialPhone": "(13) 3322-1010",
+    "contactPhone": "(13) 93322-1010"
   },
   {
     "name": "Dr. Rodrigo Moreira",
     "birthday": "1986-05-09",
     "cpf": "153.509.460-56",
-    "phone": "(11) 99123-2020",
     "email": "rodrigo.moreira@clinic.com",
     "address": "Rua Teodoro Sampaio, 910 - São Paulo/SP",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(11) 99123-2020",
+    "residentialPhone": "(11) 3344-2020",
+    "contactPhone": "(11) 93344-2020"
   },
   {
     "name": "Dra. Simone Freitas",
     "birthday": "1982-09-27",
     "cpf": "073.125.980-39",
-    "phone": "(27) 98877-3030",
     "email": "simone.freitas@clinic.com",
     "address": "Av. Nossa Senhora da Penha, 500 - Vitória/ES",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(27) 98877-3030",
+    "residentialPhone": "(27) 3322-3030",
+    "contactPhone": "(27) 93322-3030"
   },
   {
     "name": "Dr. Bruno Teixeira",
     "birthday": "1978-12-03",
     "cpf": "846.971.520-04",
-    "phone": "(85) 98765-4040",
     "email": "bruno.teixeira@clinic.com",
     "address": "Av. Beira Mar, 1200 - Fortaleza/CE",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(85) 98765-4040",
+    "residentialPhone": "(85) 3344-4040",
+    "contactPhone": "(85) 93344-4040"
   },
   {
     "name": "Dra. Renata Costa",
     "birthday": "1994-11-20",
     "cpf": "070.680.840-02",
-    "phone": "(48) 99654-5050",
     "email": "renata.costa@clinic.com",
     "address": "Rua Bocaiúva, 980 - Florianópolis/SC",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(48) 99654-5050",
+    "residentialPhone": "(48) 3344-5050",
+    "contactPhone": "(48) 93344-5050"
   },
   {
     "name": "Dr. Anderson Ribeiro",
     "birthday": "1984-06-01",
     "cpf": "391.202.260-09",
-    "phone": "(92) 98712-6060",
     "email": "anderson.ribeiro@clinic.com",
     "address": "Av. Djalma Batista, 2100 - Manaus/AM",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(92) 98712-6060",
+    "residentialPhone": "(92) 3344-6060",
+    "contactPhone": "(92) 93344-6060"
   },
   {
     "name": "Dra. Luciana Martins",
     "birthday": "1996-02-08",
     "cpf": "058.991.350-07",
-    "phone": "(11) 99333-7070",
     "email": "luciana.martins@clinic.com",
     "address": "Rua da Consolação, 1440 - São Paulo/SP",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(11) 99333-7070",
+    "residentialPhone": "(11) 3344-7070",
+    "contactPhone": "(11) 93344-7070"
   },
   {
     "name": "Dr. Marcelo Guedes",
     "birthday": "1972-10-29",
     "cpf": "604.694.230-75",
-    "phone": "(34) 98845-8080",
     "email": "marcelo.guedes@clinic.com",
     "address": "Av. Floriano Peixoto, 600 - Uberlândia/MG",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(34) 98845-8080",
+    "residentialPhone": "(34) 3322-8080",
+    "contactPhone": "(34) 93322-8080"
   },
   {
     "name": "Dra. Camila Torres",
     "birthday": "1993-07-13",
     "cpf": "294.379.480-06",
-    "phone": "(21) 98744-9090",
     "email": "camila.torres@clinic.com",
     "address": "Rua Jardim Botânico, 720 - Rio de Janeiro/RJ",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(21) 98744-9090",
+    "residentialPhone": "(21) 3344-9090",
+    "contactPhone": "(21) 93344-9090"
   },
   {
     "name": "Dr. Leandro Falcão",
     "birthday": "1981-01-05",
     "cpf": "824.915.870-70",
-    "phone": "(65) 98811-1112",
     "email": "leandro.falcao@clinic.com",
     "address": "Av. Historiador Rubens de Mendonça, 1300 - Cuiabá/MT",
-    "gender": "Masculino"
+    "gender": "Homem Cisgênero",
+    "sex": "Masculino",
+    "cellPhone": "(65) 98811-1112",
+    "residentialPhone": "(65) 3344-1112",
+    "contactPhone": "(65) 93344-1112"
   },
   {
     "name": "Dra. Aline Prado",
     "birthday": "1999-03-18",
     "cpf": "483.698.650-07",
-    "phone": "(71) 98765-1313",
     "email": "aline.prado@clinic.com",
     "address": "Av. ACM, 4200 - Salvador/BA",
-    "gender": "Feminino"
+    "gender": "Mulher Cisgênero",
+    "sex": "Feminino",
+    "cellPhone": "(71) 98765-1313",
+    "residentialPhone": "(71) 3344-1313",
+    "contactPhone": "(71) 93344-1313"
   }
 ]

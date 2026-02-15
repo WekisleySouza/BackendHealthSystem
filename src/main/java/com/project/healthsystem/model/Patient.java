@@ -14,6 +14,17 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Patient extends BasicEntityAbstraction {
 
+    // Only report fields
+    @Column(name = "team_name")
+    private String teamName;
+    @Column(name = "team_ine")
+    private String teamINE;
+    @Column(name = "micro_area")
+    private String microArea;
+    @Column(name = "origin")
+    private String origin;
+
+    // System fields
     @Column(name = "cns")
     private String cns;
     @Column(name = "mother_name")

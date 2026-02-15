@@ -14,8 +14,16 @@ public class ProfileResponseDTO {
     private String phone;
     private LocalDate birthday;
     private String email;
+    private String sex;
+    private String cellPhone;
+    private String residentialPhone;
+    private String contactPhone;
 
     // Patient atributes
     private String cns;
     private String motherName;
+    private String teamName;
+    private String teamINE;
+    private String microArea;
+    private String origin;
 }

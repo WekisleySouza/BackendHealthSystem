@@ -107,4 +107,11 @@ public class Appointment extends BasicEntityAbstraction {
         }
         return "";
     }
+
+    public String getServiceType(){
+        if(this.serviceType != null){
+            return serviceType.getType().getLabel();
+        }
+        return "";
+    }
 }

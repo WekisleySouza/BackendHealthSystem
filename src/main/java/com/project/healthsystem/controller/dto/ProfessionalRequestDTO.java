@@ -22,9 +22,13 @@ public class ProfessionalRequestDTO {
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
 
-    @NotBlank(message = "O gênero é obrigatório!")
-    @Schema(name = "gender")
+    @NotBlank(message = "O sexo é obrigatório!")
+    @Schema(name = "sexo")
+    private String sex;
     private String gender;
+    private String cellPhone;
+    private String residentialPhone;
+    private String contactPhone;
 
     @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;

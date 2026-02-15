@@ -20,12 +20,19 @@ public class Person extends BasicEntityAbstraction {
     @Column(name = "name", length = 100, nullable = false)
     protected String name;
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", length = 100, nullable = false)
+    @Column(name = "gender", length = 100)
     protected Gender gender;
-    @Column(name = "cpf", nullable = false, unique = true, length = 15)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sex", length = 100, nullable = false)
+    protected Sex sex;
+    @Column(name = "cpf", unique = true, length = 15)
     protected String cpf;
-    @Column(name = "phone")
-    protected String phone;
+    @Column(name = "cell_phone")
+    protected String cellPhone;
+    @Column(name = "residential_phone")
+    protected String residentialPhone;
+    @Column(name = "contact_phone")
+    protected String contactPhone;
     @Column(name = "address")
     protected String address;
     @Column(name="birthday", nullable = false)
