@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -226,6 +227,7 @@ public class PatientService {
                 String[] columns = line.split(";");
 
                 String cpfCNS = columns[4].replaceAll("\\D", "");
+                String lastUpdate = columns[13];
 
                 Person person = new Person();
                 person.setAddress(columns[3]);
@@ -238,6 +240,7 @@ public class PatientService {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 person.setBirthday(LocalDate.parse(columns[9], formatter));
+                person.setLastUpdate(LocalDate.parse(lastUpdate, formatter).atStartOfDay());
                 person.setCellPhone(columns[10]);
                 person.setResidentialPhone(columns[11]);
                 person.setContactPhone(columns[12]);
@@ -262,6 +265,8 @@ public class PatientService {
                 patient.setPerson(person);
 
                 repository.save(patient);
+
+                loginService.createDefaultLoginTo(patient);
             }
 
         } catch (Exception e) {

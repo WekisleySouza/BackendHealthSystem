@@ -49,12 +49,20 @@ public class LoginService {
     }
 
     public void createDefaultLoginTo(Patient patient){
-        Login login = new Login();
-        login.setLogin(patient.getPerson().getCpf());
-        login.setPassword(this.passwordEncoder.encode(this.DEFAULT_USER_PASSWORD));
-        login.setPerson(patient.getPerson());
+        String cpf = patient.getPerson().getCpf();
+        String cns = patient.getCns();
+        if(cpf != null || cns != null){
+            Login login = new Login();
+            if(cpf != null && !cpf.isEmpty()){
+                login.setLogin(cpf);
+            } else if(cns != null && !cns.isEmpty()){
+                login.setLogin(cns);
+            }
+            login.setPassword(this.passwordEncoder.encode(this.DEFAULT_USER_PASSWORD));
+            login.setPerson(patient.getPerson());
 
-        repository.save(login);
+            repository.save(login);
+        }
     }
 
     public void updatePassword(Login login, LoginRequestDTO loginRequestDTO){

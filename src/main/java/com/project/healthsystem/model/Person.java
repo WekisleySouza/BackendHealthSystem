@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,6 +52,10 @@ public class Person extends BasicEntityAbstraction {
     public Person addRole(Role role){
         roles.add(role);
         return this;
+    }
+
+    public void setLastUpdate(LocalDateTime dateTime){
+        this.updatedAt = dateTime;
     }
 
     public Person removeRole(Roles roleLabel){
