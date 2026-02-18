@@ -74,26 +74,26 @@ public class DefaultInitializer implements ApplicationRunner {
         }
 
         // Adicionando dados para testes:
-        if(patientRepository.count() > 0) return;
+//        if(patientRepository.count() > 0) return;
+//
+//        AuthRequestDTO authRequestDTO = new AuthRequestDTO();
+//        authRequestDTO.setLogin(
+//            this.environment.getProperty("app.default-admin.username")
+//        );
+//        authRequestDTO.setPassword(
+//            this.environment.getProperty("app.default-admin.password")
+//        );
+//
+//        String accesToken = authService.authenticateUser(authRequestDTO).access_token();
 
-        AuthRequestDTO authRequestDTO = new AuthRequestDTO();
-        authRequestDTO.setLogin(
-            this.environment.getProperty("app.default-admin.username")
-        );
-        authRequestDTO.setPassword(
-            this.environment.getProperty("app.default-admin.password")
-        );
-
-        String accesToken = authService.authenticateUser(authRequestDTO).access_token();
-
-        this.fillAgents(accesToken);
-        this.fillConditions(accesToken);
-        this.fillCategoryGroups(accesToken);
-        this.fillServiceTypes(accesToken);
-        this.fillProfessionals(accesToken);
-        this.fillEmployees(accesToken);
-        this.fillPatients(accesToken);
-        this.fillAppointments(accesToken);
+//        this.fillAgents(accesToken);
+//        this.fillConditions(accesToken);
+//        this.fillCategoryGroups(accesToken);
+//        this.fillServiceTypes(accesToken);
+//        this.fillProfessionals(accesToken);
+//        this.fillEmployees(accesToken);
+//        this.fillPatients(accesToken);
+//        this.fillAppointments(accesToken);
     }
 
     private void fillAgents(String accessToken) {
