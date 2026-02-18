@@ -68,7 +68,7 @@ public class PatientController {
     }
 
     @GetMapping("/info-patient/{id}")
-    @PreAuthorize(Permissions.PERMIT_ALL)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     @Operation(summary = "Get patient info", description = "Get patient info by id.")
     public ResponseEntity<PatientInfoResponseDTO> getPatientInfo(@PathVariable("id") long id){
         PatientInfoResponseDTO patientInfoDTO = patientService.getPatientInfo(id);

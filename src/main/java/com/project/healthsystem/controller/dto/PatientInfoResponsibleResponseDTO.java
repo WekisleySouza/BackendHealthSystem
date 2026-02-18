@@ -1,7 +1,7 @@
 package com.project.healthsystem.controller.dto;
 
 public record PatientInfoResponsibleResponseDTO(
-        long id,
+        Long id,
         String name
 ) {
 }

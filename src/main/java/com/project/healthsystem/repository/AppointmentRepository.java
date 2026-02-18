@@ -7,8 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long>, JpaSpecificationExecutor<Appointment> {
@@ -85,5 +87,41 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
     Page<ReportAppointmentCountByServiceTypeByProfessionalResponse> countByProfessionalAndServiceType(Pageable pageable);
 
     List<PatientInfoAppointmentProjection> findByPatient_Id(long patientId);
+
+    @Modifying
+    @Query("""
+        UPDATE Appointment a
+        SET a.status = com.project.healthsystem.model.Status.OVERDUE
+        WHERE a.scheduledAt IS NOT NULL
+          AND a.status NOT IN (
+              com.project.healthsystem.model.Status.COMPLETED,
+              com.project.healthsystem.model.Status.NO_SHOW,
+              com.project.healthsystem.model.Status.CANCELED
+          )
+          AND a.scheduledAt < :now
+    """)
+    void updateToOverdue(LocalDateTime now);
+
+    @Modifying
+    @Query("""
+        UPDATE Appointment a
+        SET a.status = com.project.healthsystem.model.Status.SCHEDULED
+        WHERE a.scheduledAt IS NOT NULL
+          AND a.status NOT IN (
+              com.project.healthsystem.model.Status.COMPLETED,
+              com.project.healthsystem.model.Status.NO_SHOW,
+              com.project.healthsystem.model.Status.CANCELED
+          )
+          AND a.scheduledAt > :now
+    """)
+    void updateToScheduled(LocalDateTime now);
+
+    @Modifying
+    @Query("""
+        UPDATE Appointment a
+        SET a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING
+        WHERE a.scheduledAt IS NULL
+    """)
+    void updateToPending();
 
 }

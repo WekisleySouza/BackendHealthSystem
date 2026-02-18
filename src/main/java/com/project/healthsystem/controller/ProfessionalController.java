@@ -76,7 +76,6 @@ public class ProfessionalController {
         @RequestParam(value = "cell-phone", required = false) String cellPhone,
         @RequestParam(value = "residential-phone", required = false) String residentialPhone,
         @RequestParam(value = "contact-phone", required = false) String contactPhone
-
     ){
         return ResponseEntity.ok(professionalService.getAll(
             pageNumber,

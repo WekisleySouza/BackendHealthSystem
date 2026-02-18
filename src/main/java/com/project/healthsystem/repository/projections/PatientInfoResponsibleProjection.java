@@ -1,11 +1,12 @@
 package com.project.healthsystem.repository.projections;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public interface PatientInfoResponsibleProjection {
 
-    PersonInfo getPerson();
+    @Value("#{target.responsible != null ? target.responsible.person.id : null}")
+    Long getResponsibleId();
 
-    interface PersonInfo{
-        long getId();
-        String getName();
-    }
+    @Value("#{target.responsible != null ? target.responsible.person.name : null}")
+    String getResponsibleName();
 }
