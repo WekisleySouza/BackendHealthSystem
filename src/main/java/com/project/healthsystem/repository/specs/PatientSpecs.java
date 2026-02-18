@@ -3,11 +3,91 @@ package com.project.healthsystem.repository.specs;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Professional;
+import com.project.healthsystem.model.Sex;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 
 public class PatientSpecs {
+    public static Specification<Patient> teamNameLike(String teamName) {
+        if (teamName == null || teamName.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("teamName")),
+                        "%" + teamName.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Patient> teamINELike(String teamINE) {
+        if (teamINE == null || teamINE.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("teamINE")),
+                        "%" + teamINE.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Patient> microAreaLike(String microArea) {
+        if (microArea == null || microArea.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("microArea")),
+                        "%" + microArea.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Patient> originLike(String origin) {
+        if (origin == null || origin.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("origin")),
+                        "%" + origin.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Patient> sexEqual(String sexLabel) {
+        if (sexLabel == null || sexLabel.isBlank()) return null;
+
+        Sex sex = Sex.fromLabel(sexLabel);
+
+        return (root, query, cb) ->
+                cb.equal(root.get("person").get("sex"), sex);
+    }
+
+    public static Specification<Patient> cellPhoneLike(String cellPhone) {
+        if (cellPhone == null || cellPhone.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("cellPhone")),
+                        "%" + cellPhone.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Patient> residentialPhoneLike(String residentialPhone) {
+        if (residentialPhone == null || residentialPhone.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("residentialPhone")),
+                        "%" + residentialPhone.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Patient> contactPhoneLike(String contactPhone) {
+        if (contactPhone == null || contactPhone.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("person").get("contactPhone")),
+                        "%" + contactPhone.trim().toUpperCase() + "%"
+                );
+    }
+
     public static Specification<Patient> cnsLike(String cns) {
         if (cns == null || cns.isBlank()) return null;
 
@@ -54,16 +134,6 @@ public class PatientSpecs {
                 cb.like(
                         cb.upper(root.get("person").get("cpf")),
                         "%" + cpf.trim().toUpperCase() + "%"
-                );
-    }
-
-    public static Specification<Patient> phoneLike(String phone) {
-        if (phone == null || phone.isBlank()) return null;
-
-        return (root, query, cb) ->
-                cb.like(
-                        cb.upper(root.get("person").get("phone")),
-                        "%" + phone.trim().toUpperCase() + "%"
                 );
     }
 

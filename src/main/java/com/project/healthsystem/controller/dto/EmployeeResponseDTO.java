@@ -17,7 +17,6 @@ public class EmployeeResponseDTO {
     private String cellPhone;
     private String residentialPhone;
     private String contactPhone;
-    private String phone;
     private String cpf;
     private LocalDate birthday;
     private String email;

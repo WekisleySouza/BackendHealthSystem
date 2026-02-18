@@ -1,6 +1,7 @@
 package com.project.healthsystem.model;
 
 public enum Gender {
+    UNDEFINED("Não Definido"),
     MALE("Homem Cisgênero"),
     MALE_TRANS("Homem Transgênero"),
     FEMALE("Mulher Cisgênero"),

@@ -11,6 +11,7 @@ import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.AgentRepository;
 import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
 import com.project.healthsystem.repository.specs.AgentSpecs;
+import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.AgentValidator;
@@ -100,18 +101,24 @@ public class AgentService {
         String name,
         String gender,
         String cpf,
-        String phone,
         LocalDate birthday,
-        String email
+        String email,
+        String sex,
+        String cellPhone,
+        String residentialPhone,
+        String contactPhone
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Agent> specs =  null;
         specs = SpecsCommon.addSpec(specs, AgentSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.cpfLike(cpf));
-        specs = SpecsCommon.addSpec(specs, AgentSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.birthdayEqual(birthday));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.emailLike(email));
+        specs = SpecsCommon.addSpec(specs, AgentSpecs.sexEqual(sex));
+        specs = SpecsCommon.addSpec(specs, AgentSpecs.cellPhoneLike(cellPhone));
+        specs = SpecsCommon.addSpec(specs, AgentSpecs.residentialPhoneLike(residentialPhone));
+        specs = SpecsCommon.addSpec(specs, AgentSpecs.contactPhoneLike(contactPhone));
         return repository
             .findAll(specs, pageRequest)
             .map(agentMapper::toDto);

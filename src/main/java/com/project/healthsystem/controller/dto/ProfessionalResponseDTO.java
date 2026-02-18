@@ -18,7 +18,6 @@ public class ProfessionalResponseDTO {
     private String cellPhone;
     private String residentialPhone;
     private String contactPhone;
-    private String phone;
     private LocalDate birthday;
     private String cpf;
     private String address;

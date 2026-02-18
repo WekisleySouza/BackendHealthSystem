@@ -145,4 +145,7 @@ public class AppointmentService {
         );
     }
 
+    public List<PatientInfoAppointmentProjection> findAppointmentsByPatientId(long patientId){
+        return repository.findByPatient_Id(patientId);
+    }
 }

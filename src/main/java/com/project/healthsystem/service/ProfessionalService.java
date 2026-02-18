@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.ProfessionalRepository;
+import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.ProfessionalSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
@@ -88,18 +89,24 @@ public class ProfessionalService {
             String name,
             String gender,
             String cpf,
-            String phone,
             LocalDate birthday,
-            String email
+            String email,
+            String sex,
+            String cellPhone,
+            String residentialPhone,
+            String contactPhone
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Professional> specs = null;
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cpfLike(cpf));
-        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.birthdayEqual(birthday));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.emailLike(email));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.sexEqual(sex));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cellPhoneLike(cellPhone));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.residentialPhoneLike(residentialPhone));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.contactPhoneLike(contactPhone));
         return repository
             .findAll(specs, pageRequest)
             .map(professionalMapper::toDto);

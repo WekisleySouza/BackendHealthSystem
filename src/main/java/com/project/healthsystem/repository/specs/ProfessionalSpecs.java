@@ -2,11 +2,52 @@ package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Professional;
+import com.project.healthsystem.model.Sex;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 
 public class ProfessionalSpecs {
+
+    public static Specification<Professional> sexEqual(String sexLabel) {
+        if (sexLabel == null || sexLabel.isBlank()) return null;
+
+        Sex sex = Sex.fromLabel(sexLabel);
+
+        return (root, query, cb) ->
+                cb.equal(root.get("sex"), sex);
+    }
+
+    public static Specification<Professional> cellPhoneLike(String cellPhone) {
+        if (cellPhone == null || cellPhone.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("cellPhone")),
+                        "%" + cellPhone.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Professional> residentialPhoneLike(String residentialPhone) {
+        if (residentialPhone == null || residentialPhone.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("residentialPhone")),
+                        "%" + residentialPhone.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Professional> contactPhoneLike(String contactPhone) {
+        if (contactPhone == null || contactPhone.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("contactPhone")),
+                        "%" + contactPhone.trim().toUpperCase() + "%"
+                );
+    }
+
     public static Specification<Professional> nameLike(String name) {
         if (name == null || name.isBlank()) return null;
 
@@ -34,16 +75,6 @@ public class ProfessionalSpecs {
                 cb.like(
                         cb.upper(root.get("person").get("cpf")),
                         "%" + cpf.toUpperCase() + "%"
-                );
-    }
-
-    public static Specification<Professional> phoneLike(String phone) {
-        if (phone == null || phone.isBlank()) return null;
-
-        return (root, query, cb) ->
-                cb.like(
-                        cb.upper(root.get("person").get("phone")),
-                        "%" + phone.toUpperCase() + "%"
                 );
     }
 

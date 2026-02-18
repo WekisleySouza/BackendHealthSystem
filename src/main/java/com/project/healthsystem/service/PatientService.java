@@ -123,22 +123,36 @@ public class PatientService {
             String name,
             String gender,
             String cpf,
-            String phone,
             LocalDate birthday,
             String email,
             String cns,
-            String motherName
+            String motherName,
+            String teamName,
+            String teamINE,
+            String microArea,
+            String origin,
+            String sex,
+            String cellPhone,
+            String residentialPhone,
+            String contactPhone
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Patient> specs =  null;
         specs = SpecsCommon.addSpec(specs, PatientSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.cpfLike(cpf));
-        specs = SpecsCommon.addSpec(specs, PatientSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.birthdayEqual(birthday));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.emailLike(email));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.cnsLike(cns));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.motherNameLike(motherName));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.teamNameLike(teamName));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.teamINELike(teamINE));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.microAreaLike(microArea));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.originLike(origin));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.sexEqual(sex));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.cellPhoneLike(cellPhone));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.residentialPhoneLike(residentialPhone));
+        specs = SpecsCommon.addSpec(specs, PatientSpecs.contactPhoneLike(contactPhone));
         return repository
             .findAll(specs, pageRequest)
             .map(patientMapper::toDto);
@@ -156,9 +170,8 @@ public class PatientService {
             patientInfoResponsibleProjection.getPerson().getId(),
             patientInfoResponsibleProjection.getPerson().getName()
         );
-        List<PatientInfoAppointmentResponseDTO> patientInfoAppointmentResponseDTO = patientValidator
-            .validateFindAppointmentsById(id)
-            .getAppointments()
+        List<PatientInfoAppointmentResponseDTO> patientInfoAppointmentResponseDTO = appointmentService
+            .findAppointmentsByPatientId(id)
             .stream()
             .map(patientInfoAppointmentProjectionMapper::toDto)
             .toList();
@@ -234,8 +247,11 @@ public class PatientService {
                 person.setName(columns[5]);
                 person.setSex(Sex.fromLabel(columns[7]));
 
-                if(!columns[8].equals("-")) {
-                    person.setGender(Gender.fromLabel(columns[8]));
+                if(columns[8].equals("-")) {
+                    person.setGender(Gender.UNDEFINED);
+                }
+                else {
+                   person.setGender(Gender.fromLabel(columns[8]));
                 }
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

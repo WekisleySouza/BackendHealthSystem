@@ -68,7 +68,7 @@ public class PatientController {
     }
 
     @GetMapping("/info-patient/{id}")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
+    @PreAuthorize(Permissions.PERMIT_ALL)
     @Operation(summary = "Get patient info", description = "Get patient info by id.")
     public ResponseEntity<PatientInfoResponseDTO> getPatientInfo(@PathVariable("id") long id){
         PatientInfoResponseDTO patientInfoDTO = patientService.getPatientInfo(id);
@@ -86,30 +86,53 @@ public class PatientController {
     @GetMapping
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<PatientResponseDTO>> readAll(
-        @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
-        @RequestParam(value = "name", required = false) String name,
-        @RequestParam(value = "gender", required = false) String gender,
-        @RequestParam(value = "cpf", required = false) String cpf,
-        @RequestParam(value = "phone", required = false) String phone,
-        @RequestParam(value = "birthday", required = false) LocalDate birthday,
-        @RequestParam(value = "email", required = false) String email,
-        @RequestParam(value = "cns", required = false) String cns,
-        @RequestParam(value = "mother-name", required = false) String motherName
-    ){
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "gender", required = false) String gender,
+            @RequestParam(value = "cpf", required = false) String cpf,
+            @RequestParam(value = "birthday", required = false) LocalDate birthday,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "cns", required = false) String cns,
+            @RequestParam(value = "mother-name", required = false) String motherName,
+
+            // 🔹 NOVOS - Person
+            @RequestParam(value = "team-name", required = false) String teamName,
+            @RequestParam(value = "team-ine", required = false) String teamINE,
+            @RequestParam(value = "micro-area", required = false) String microArea,
+            @RequestParam(value = "origin", required = false) String origin,
+
+            // 🔹 NOVOS - Base
+            @RequestParam(value = "sex", required = false) String sex,
+            @RequestParam(value = "cell-phone", required = false) String cellPhone,
+            @RequestParam(value = "residential-phone", required = false) String residentialPhone,
+            @RequestParam(value = "contact-phone", required = false) String contactPhone
+    ) {
+
         return ResponseEntity.ok(patientService.getAll(
-            pageNumber,
-            pageLength,
-            name,
-            gender,
-            cpf,
-            phone,
-            birthday,
-            email,
-            cns,
-            motherName
+                pageNumber,
+                pageLength,
+                name,
+                gender,
+                cpf,
+                birthday,
+                email,
+                cns,
+                motherName,
+
+                // novos
+                teamName,
+                teamINE,
+                microArea,
+                origin,
+                sex,
+                cellPhone,
+                residentialPhone,
+                contactPhone
         ));
     }
+
 
     @DeleteMapping("{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
@@ -119,7 +142,7 @@ public class PatientController {
     }
 
     @PostMapping("/import")
-    @PreAuthorize(Permissions.PERMIT_ALL)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<String> importExcel(@RequestParam("file") MultipartFile file) {
         patientService.importCsv(file);
         return ResponseEntity.ok("Importado com sucesso");

@@ -18,8 +18,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpec
 
     Optional<PatientInfoConditionsProjection> findConditionsById(long patientId);
 
-    Optional<PatientInfoAppointmentsProjection> findAppointmentsById(long patientId);
-
     Optional<Patient> findByPersonCpf(String cpf);
 
     Patient findByCns(String cns);

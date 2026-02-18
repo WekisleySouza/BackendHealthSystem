@@ -2,6 +2,7 @@ package com.project.healthsystem.repository;
 
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.model.Appointment;
+import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -82,4 +83,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         GROUP BY prof.id, prof.person.name, st.name
     """)
     Page<ReportAppointmentCountByServiceTypeByProfessionalResponse> countByProfessionalAndServiceType(Pageable pageable);
+
+    List<PatientInfoAppointmentProjection> findByPatient_Id(long patientId);
+
 }

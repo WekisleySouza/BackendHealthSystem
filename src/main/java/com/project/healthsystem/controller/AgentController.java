@@ -85,9 +85,12 @@ public class AgentController {
         @RequestParam(value = "name", required = false) String name,
         @RequestParam(value = "gender", required = false) String gender,
         @RequestParam(value = "cpf", required = false) String cpf,
-        @RequestParam(value = "phone", required = false) String phone,
         @RequestParam(value = "birthday", required = false) LocalDate birthday,
-        @RequestParam(value = "email", required = false) String email
+        @RequestParam(value = "email", required = false) String email,
+        @RequestParam(value = "sex", required = false) String sex,
+        @RequestParam(value = "cell-phone", required = false) String cellPhone,
+        @RequestParam(value = "residential-phone", required = false) String residentialPhone,
+        @RequestParam(value = "contact-phone", required = false) String contactPhone
     ){
         return ResponseEntity.ok(agentService.getAll(
             pageNumber,
@@ -95,9 +98,12 @@ public class AgentController {
             name,
             gender,
             cpf,
-            phone,
             birthday,
-            email
+            email,
+            sex,
+            cellPhone,
+            residentialPhone,
+            contactPhone
         ));
     }
 

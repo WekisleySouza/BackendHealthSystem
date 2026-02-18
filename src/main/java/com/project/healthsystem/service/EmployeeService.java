@@ -9,6 +9,7 @@ import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.EmployeeRepository;
 import com.project.healthsystem.repository.specs.EmployeeSpecs;
+import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.EmployeeValidator;
@@ -104,18 +105,24 @@ public class EmployeeService {
             String name,
             String gender,
             String cpf,
-            String phone,
             LocalDate birthday,
-            String email
+            String email,
+            String sex,
+            String cellPhone,
+            String residentialPhone,
+            String contactPhone
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         Specification<Employee> specs = null;
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.genderEqual(gender));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.cpfLike(cpf));
-        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.phoneLike(phone));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.birthdayEqual(birthday));
         specs = SpecsCommon.addSpec(specs, EmployeeSpecs.emailLike(email));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.sexEqual(sex));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.cellPhoneLike(cellPhone));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.residentialPhoneLike(residentialPhone));
+        specs = SpecsCommon.addSpec(specs, EmployeeSpecs.contactPhoneLike(contactPhone));
         return repository
             .findAll(specs, pageRequest)
             .map(employeeMapper::toDto);
