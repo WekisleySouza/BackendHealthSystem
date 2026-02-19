@@ -24,7 +24,7 @@ public class Person extends BasicEntityAbstraction {
     @Column(name = "gender", length = 100)
     protected Gender gender;
     @Enumerated(EnumType.STRING)
-    @Column(name = "sex", length = 100, nullable = false)
+    @Column(name = "sex", length = 100)
     protected Sex sex;
     @Column(name = "cpf", unique = true, length = 15)
     protected String cpf;
@@ -36,7 +36,7 @@ public class Person extends BasicEntityAbstraction {
     protected String contactPhone;
     @Column(name = "address")
     protected String address;
-    @Column(name="birthday", nullable = false)
+    @Column(name="birthday")
     protected LocalDate birthday;
     @Column(name="email", length=320)
     protected String email;

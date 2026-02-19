@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +65,8 @@ public class AppointmentService {
             String employeeName,
             String patientName
         ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Sort sort = Sort.by("serviceType.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         Specification<Appointment> specification = null;
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.notesLike(notes));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));

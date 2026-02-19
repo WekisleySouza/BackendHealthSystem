@@ -19,18 +19,28 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ProfessionalRequestDTO {
 
+    // Fields accordingly with SNES:
+    // aDD CNS, CBO(OBG), VINCULAÇÃO, DESCRIÇÃO.
+    private String cns;
+    @NotBlank(message = "O cbo é obrigatório!")
+    private String cbo;
+    private String vinculation;
+    private String description;
+
+    // Existent Fields:
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
 
     @NotBlank(message = "O sexo é obrigatório!")
     @Schema(name = "sexo")
     private String sex;
+    @NotBlank(message = "O gênero é obrigatório!")
+    @Schema(name = "gênero")
     private String gender;
     private String cellPhone;
     private String residentialPhone;
     private String contactPhone;
 
-    @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;
 
     @NotBlank(message = "O CPF é obrigatório!")

@@ -11,11 +11,13 @@ import com.project.healthsystem.repository.specs.ProfessionalSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.ProfessionalValidator;
+import jakarta.persistence.Column;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -94,9 +96,14 @@ public class ProfessionalService {
             String sex,
             String cellPhone,
             String residentialPhone,
-            String contactPhone
+            String contactPhone,
+            String cns,
+            String cbo,
+            String vinculation,
+            String description
     ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Sort sort = Sort.by("person.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         Specification<Professional> specs = null;
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.genderEqual(gender));
@@ -107,6 +114,10 @@ public class ProfessionalService {
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cellPhoneLike(cellPhone));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.residentialPhoneLike(residentialPhone));
         specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.contactPhoneLike(contactPhone));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cnsLike(cns));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.cboLike(cbo));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.descriptionLike(description));
+        specs = SpecsCommon.addSpec(specs, ProfessionalSpecs.vinculationLike(vinculation));
         return repository
             .findAll(specs, pageRequest)
             .map(professionalMapper::toDto);

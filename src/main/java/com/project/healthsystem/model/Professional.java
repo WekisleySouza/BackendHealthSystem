@@ -16,6 +16,16 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Professional extends BasicEntityAbstraction {
 
+
+    @Column(name = "cns", length = 100)
+    private String cns;
+    @Column(name = "cbo", length = 100)
+    private String cbo;
+    @Column(name = "vinculation", length = 100)
+    private String vinculation;
+    @Column(name = "description", length = 100)
+    private String description;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "person_id", unique = true)
     private Person person;

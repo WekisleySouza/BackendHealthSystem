@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,8 @@ public class ConditionService {
     }
 
     public Page<ConditionResponseDTO> getAll(Integer pageNumber, Integer pageLength, String specification){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Sort sort = Sort.by("specification").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         Specification<Condition> specs = null;
         specs = SpecsCommon.addSpec(specs, ConditionSpecs.specificationLike(specification));
         return repository

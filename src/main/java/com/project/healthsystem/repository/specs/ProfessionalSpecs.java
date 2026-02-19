@@ -9,6 +9,46 @@ import java.time.LocalDate;
 
 public class ProfessionalSpecs {
 
+    public static Specification<Professional> cnsLike(String cns) {
+        if (cns == null || cns.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("cns")),
+                        "%" + cns.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Professional> cboLike(String cbo) {
+        if (cbo == null || cbo.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("cbo")),
+                        "%" + cbo.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Professional> vinculationLike(String vinculation) {
+        if (vinculation == null || vinculation.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("vinculation")),
+                        "%" + vinculation.trim().toUpperCase() + "%"
+                );
+    }
+
+    public static Specification<Professional> descriptionLike(String description) {
+        if (description == null || description.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(root.get("description")),
+                        "%" + description.trim().toUpperCase() + "%"
+                );
+    }
+
     public static Specification<Professional> sexEqual(String sexLabel) {
         if (sexLabel == null || sexLabel.isBlank()) return null;
 

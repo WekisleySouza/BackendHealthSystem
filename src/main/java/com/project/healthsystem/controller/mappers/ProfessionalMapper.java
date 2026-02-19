@@ -28,6 +28,7 @@ public abstract class ProfessionalMapper {
     public abstract ProfessionalResponseDTO toDto(Professional entity);
 
     public Professional toEntityWhenHasId(Professional entity, ProfessionalRequestDTO dto){
+
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
         entity.getPerson().setGender(Gender.fromLabel(dto.getGender()));

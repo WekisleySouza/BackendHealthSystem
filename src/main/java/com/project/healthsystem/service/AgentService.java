@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -108,7 +109,8 @@ public class AgentService {
         String residentialPhone,
         String contactPhone
     ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Sort sort = Sort.by("person.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         Specification<Agent> specs =  null;
         specs = SpecsCommon.addSpec(specs, AgentSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, AgentSpecs.genderEqual(gender));

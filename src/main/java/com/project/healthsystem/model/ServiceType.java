@@ -18,7 +18,7 @@ public class ServiceType extends BasicEntityAbstraction {
     @ManyToOne
     private CategoryGroup categoryGroup;
 
-    @Column(name = "specification", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "value", precision = 20, scale = 8)
     private BigDecimal value;

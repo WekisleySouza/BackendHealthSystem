@@ -24,6 +24,8 @@ public class EmployeeRequestDTO {
     @NotBlank(message = "O sexo é obrigatório!")
     @Schema(name = "sexo")
     private String sex;
+    @NotBlank(message = "O gênder é obrigatório!")
+    @Schema(name = "gênder")
     private String gender;
     private String cellPhone;
     private String residentialPhone;
@@ -41,7 +43,6 @@ public class EmployeeRequestDTO {
     private String email;
 
     private String address;
-    private String phone;
 
     @NotBlank(message = "O papel do usuário deve ser informado!")
     private String role;

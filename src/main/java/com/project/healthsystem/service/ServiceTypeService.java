@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,8 @@ public class ServiceTypeService {
         String type,
         BigDecimal value
     ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Sort sort = Sort.by("name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         Specification<ServiceType> specs = null;
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.typeLike(type));

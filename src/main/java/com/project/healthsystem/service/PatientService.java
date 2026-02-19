@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -136,7 +137,8 @@ public class PatientService {
             String residentialPhone,
             String contactPhone
     ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        Sort sort = Sort.by("person.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         Specification<Patient> specs =  null;
         specs = SpecsCommon.addSpec(specs, PatientSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, PatientSpecs.genderEqual(gender));
@@ -263,8 +265,8 @@ public class PatientService {
 
                 Patient patient = new Patient();
                 patient.setTeamName(columns[0]);
-                patient.setTeamINE(columns[1]);
-                patient.setMicroArea(columns[2]);
+                patient.setTeamINE(columns[1].replaceAll("\\D", ""));
+                patient.setMicroArea(columns[2].replaceAll("\\D", ""));
                 patient.setOrigin(columns[14]);
 
                 if(!(cpfCNS.isBlank())){

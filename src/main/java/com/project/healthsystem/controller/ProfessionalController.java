@@ -75,7 +75,11 @@ public class ProfessionalController {
         @RequestParam(value = "sex", required = false) String sex,
         @RequestParam(value = "cell-phone", required = false) String cellPhone,
         @RequestParam(value = "residential-phone", required = false) String residentialPhone,
-        @RequestParam(value = "contact-phone", required = false) String contactPhone
+        @RequestParam(value = "contact-phone", required = false) String contactPhone,
+        @RequestParam(value = "cns", required = false) String cns,
+        @RequestParam(value = "cbo", required = false) String cbo,
+        @RequestParam(value = "vinculation", required = false) String vinculation,
+        @RequestParam(value = "description", required = false) String description
     ){
         return ResponseEntity.ok(professionalService.getAll(
             pageNumber,
@@ -88,7 +92,11 @@ public class ProfessionalController {
             sex,
             cellPhone,
             residentialPhone,
-            contactPhone
+            contactPhone,
+            cns,
+            cbo,
+            vinculation,
+            description
         ));
     }
 

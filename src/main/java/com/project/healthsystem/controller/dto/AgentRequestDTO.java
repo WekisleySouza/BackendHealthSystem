@@ -22,6 +22,8 @@ public class AgentRequestDTO {
     @NotBlank(message = "O sexo é obrigatório!")
     @Schema(name = "sexo")
     private String sex;
+    @NotBlank(message = "O gênero é obrigatório!")
+    @Schema(name = "gênero")
     private String gender;
     private String cellPhone;
     private String residentialPhone;

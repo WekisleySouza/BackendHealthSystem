@@ -12,6 +12,10 @@ import java.time.LocalDate;
 public class ProfessionalResponseDTO {
     private long id;
 
+    private String cns;
+    private String cbo;
+    private String vinculation;
+    private String description;
     private String name;
     private String gender;
     private String sex;

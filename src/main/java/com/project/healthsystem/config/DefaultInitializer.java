@@ -85,7 +85,7 @@ public class DefaultInitializer implements ApplicationRunner {
 //        );
 //
 //        String accesToken = authService.authenticateUser(authRequestDTO).access_token();
-
+//
 //        this.fillAgents(accesToken);
 //        this.fillConditions(accesToken);
 //        this.fillCategoryGroups(accesToken);
