@@ -75,17 +75,17 @@ public class PatientValidator {
 
     public Patient validateFindById(long id){
         return patientRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Paciente não encontrada!"));
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
     }
 
     public PatientInfoResponsibleProjection validateFindResponsibleById(long id){
         return patientRepository.findResponsibleById(id)
-                .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
     }
 
     public PatientInfoAgentProjection validateFindAgentById(long id){
         return patientRepository.findAgentById(id)
-                .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
+            .orElseThrow(() -> new NotFoundException("Paciente não encontrado1!"));
     }
 
     public PatientInfoConditionsProjection validateFindConditionsById(long id){

@@ -36,7 +36,6 @@ public class AgentRequestDTO {
     @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;
 
-    @NotBlank(message = "O e-mail é obrigatório!")
     @Size(
         max = 320,
         message = "O e-mail não pode ultrapassar 320 caracteres!"

@@ -1,14 +1,12 @@
 package com.project.healthsystem.repository.projections;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public interface PatientInfoAgentProjection {
-    AgentInfo getAgent();
 
-    interface AgentInfo{
-        long getId();
-        PersonInfo getPerson();
-    }
+    @Value("#{target.agent != null ? target.agent.person.id : null}")
+    Long getAgentId();
 
-    interface PersonInfo{
-        String getName();
-    }
+    @Value("#{target.agent != null ? target.agent.person.id : null}")
+    String getAgentName();
 }

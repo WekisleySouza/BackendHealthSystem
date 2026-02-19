@@ -21,6 +21,6 @@ public class ServiceTypeRequestDTO {
     private BigDecimal value;
 
     @NotBlank(message = "O tipo é obrigatório!")
-    private ServiceTypes type;
+    private String type;
 
 }

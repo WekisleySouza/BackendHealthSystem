@@ -162,8 +162,8 @@ public class PatientService {
         patientValidator.validateFindById(id);
         PatientInfoAgentProjection patientInfoAgentProjection = patientValidator.validateFindAgentById(id);
         PatientInfoAgentResponseDTO patientInfoAgentResponseDTO = new PatientInfoAgentResponseDTO(
-            patientInfoAgentProjection.getAgent().getId(),
-            patientInfoAgentProjection.getAgent().getPerson().getName()
+            patientInfoAgentProjection.getAgentId(),
+            patientInfoAgentProjection.getAgentName()
         );
         PatientInfoResponsibleProjection patientInfoResponsibleProjection = patientValidator.validateFindResponsibleById(id);
         PatientInfoResponsibleResponseDTO patientInfoResponsibleResponseDTO = new PatientInfoResponsibleResponseDTO(
