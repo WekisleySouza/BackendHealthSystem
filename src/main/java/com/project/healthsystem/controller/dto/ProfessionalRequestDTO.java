@@ -43,7 +43,6 @@ public class ProfessionalRequestDTO {
 
     private LocalDate birthday;
 
-    @NotBlank(message = "O CPF é obrigatório!")
     @CPF(message = "CPF inválido!")
     private String cpf;
 
