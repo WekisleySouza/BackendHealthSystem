@@ -6,6 +6,7 @@ import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
+import com.project.healthsystem.repository.projections.AppointmentGetByIdProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +44,7 @@ public class AppointmentValidator {
 
     public Appointment validateUpdate(AppointmentRequestDTO appointmentRequestDTO, long id){
         Appointment appointment = appointmentRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Não foi encontrado um agent com este id!"));
+            .orElseThrow(() -> new NotFoundException("Não foi encontrado um appointment com este id!"));
         Patient patient = patientRepository.findById(appointmentRequestDTO.getPatientId())
             .orElseThrow(() -> new InvalidDataException("Patient inválido!"));
         ServiceType serviceType = serviceTypeRepository.findById(appointmentRequestDTO.getServiceTypeId())
@@ -62,13 +63,13 @@ public class AppointmentValidator {
         return appointment;
     }
 
-    public Appointment validateFindById(long id){
-        return appointmentRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Não foi encontrado um agent com este id!"));
+    public AppointmentGetByIdProjection validateFindById(long id){
+        return appointmentRepository.findAppointmentById(id)
+            .orElseThrow(() -> new NotFoundException("Não foi encontrado um appointment com este id!"));
     }
 
     public Appointment validateDelete(long id){
         return appointmentRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Não foi encontrado um agent com este id!"));
+            .orElseThrow(() -> new NotFoundException("Não foi encontrado um appointment com este id!"));
     }
 }

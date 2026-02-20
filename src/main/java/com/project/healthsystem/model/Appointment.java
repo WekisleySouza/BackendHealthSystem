@@ -33,34 +33,6 @@ public class Appointment extends BasicEntityAbstraction {
     @ManyToOne
     private Patient patient;
 
-    public long getProfessionalId(){
-        if(this.professional != null){
-            return professional.getId();
-        }
-        return -1;
-    }
-
-    public long getEmployeeId(){
-        if(this.employee != null){
-            return this.employee.getId();
-        }
-        return -1;
-    }
-
-    public long getPatientId(){
-        if(this.patient != null){
-            return patient.getId();
-        }
-        return -1;
-    }
-
-    public long getServiceTypeId(){
-        if(this.serviceType != null){
-            return serviceType.getId();
-        }
-        return -1;
-    }
-
     public String getProfessionalName(){
         if(this.professional != null){
             return professional.getPerson().getName();
@@ -88,7 +60,6 @@ public class Appointment extends BasicEntityAbstraction {
         }
         return "";
     }
-
     public String getServiceType(){
         if(this.serviceType != null){
             return serviceType.getType().getLabel();

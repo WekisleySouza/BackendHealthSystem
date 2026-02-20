@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ProfessionalRepository extends JpaRepository<Professional, Long>, JpaSpecificationExecutor<Professional> {
-    public boolean existsByPersonCpf(String cpf);
+    boolean existsByPersonCpf(String cpf);
 
     @Query("SELECT COUNT(p) FROM Professional p")
     Long countProfessionals();

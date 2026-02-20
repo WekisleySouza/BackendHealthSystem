@@ -1,15 +1,10 @@
 package com.project.healthsystem.controller.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.br.CPF;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -32,10 +27,8 @@ public class ProfessionalRequestDTO {
     private String name;
 
     @NotBlank(message = "O sexo é obrigatório!")
-    @Schema(name = "sexo")
     private String sex;
     @NotBlank(message = "O gênero é obrigatório!")
-    @Schema(name = "gênero")
     private String gender;
     private String cellPhone;
     private String residentialPhone;
@@ -43,7 +36,11 @@ public class ProfessionalRequestDTO {
 
     private LocalDate birthday;
 
-    @CPF(message = "CPF inválido!")
+    @Setter(AccessLevel.NONE)
+    @Pattern(
+        regexp = "(^$)|(^\\d{11}$)",
+        message = "CPF inválido!"
+    )
     private String cpf;
 
     private String address;
@@ -52,6 +49,14 @@ public class ProfessionalRequestDTO {
     @Size(max = 320, message = "O e-mail não pode ultrapassar 320 caracteres!")
     @Email(message = "Formato de e-mail inválido!")
     private String email;
+
+    public void setCpf(String cpf) {
+        if (cpf == null || cpf.isBlank()) {
+            this.cpf = null;
+        } else {
+            this.cpf = cpf.replaceAll("\\D", "");
+        }
+    }
 
     public String getCpfNormalized() {
         return cpf == null ? null : cpf.replaceAll("\\D", "");

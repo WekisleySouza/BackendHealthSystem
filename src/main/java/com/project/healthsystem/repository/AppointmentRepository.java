@@ -2,6 +2,7 @@ package com.project.healthsystem.repository;
 
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.model.Appointment;
+import com.project.healthsystem.repository.projections.AppointmentGetByIdProjection;
 import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long>, JpaSpecificationExecutor<Appointment> {
+
+    Optional<AppointmentGetByIdProjection> findAppointmentById(long id);
 
     @Query("""
         SELECT new com.project.healthsystem.controller.dto.AppointmentReportResponseDTO(

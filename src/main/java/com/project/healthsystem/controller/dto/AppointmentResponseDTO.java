@@ -15,10 +15,10 @@ public class AppointmentResponseDTO {
     private String professionalName;
     private String employeeName;
     private String patientName;
-
-    private String status;
     private String serviceTypeName;
     private String serviceType;
+
+    private String status;
     private String notes;
     private String priority;
 

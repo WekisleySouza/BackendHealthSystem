@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ReportAppointmentByPatientResponseDTO;
 import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.service.AppointmentService;
@@ -75,7 +76,7 @@ public class AppointmentsController {
         @ApiResponse(responseCode = "404", description = "Appointment not found.")
     })
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Object> read(@PathVariable("id") long id){
+    public ResponseEntity<AppointmentGetByIdResponseDTO> read(@PathVariable("id") long id){
         return ResponseEntity.ok(appointmentService.findById(id));
     }
 

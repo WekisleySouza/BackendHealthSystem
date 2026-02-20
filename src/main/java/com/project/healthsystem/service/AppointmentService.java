@@ -1,9 +1,12 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.*;
+import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
+import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
+import com.project.healthsystem.repository.projections.AppointmentGetByIdProjection;
 import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
 import com.project.healthsystem.repository.specs.AppointmentSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
@@ -82,9 +85,33 @@ public class AppointmentService {
             .map(appointmentsMapper::toDto);
     }
 
-    public AppointmentResponseDTO findById(long id){
-        Appointment appointment = appointmentValidator.validateFindById(id);
-        return appointmentsMapper.toDto(appointment);
+    public AppointmentGetByIdResponseDTO findById(long id){
+        AppointmentGetByIdProjection appointmentProjection = appointmentValidator.validateFindById(id);
+        return new AppointmentGetByIdResponseDTO(
+            appointmentProjection.getId(),
+            new ProfessionalInfoResponseDTO(
+                appointmentProjection.getProfessional().getId(),
+                appointmentProjection.getProfessional().getPerson().getName()
+            ),
+            new EmployeeInfoResponseDTO(
+                appointmentProjection.getEmployee().getId(),
+                appointmentProjection.getEmployee().getPerson().getName()
+            ),
+            new PatientInfoResponseDTO(
+                appointmentProjection.getPatient().getId(),
+                appointmentProjection.getPatient().getPerson().getName()
+            ),
+            new ServiceTypeInfoResponseDTO(
+                appointmentProjection.getServiceType().getId(),
+                appointmentProjection.getServiceType().getType().getLabel(),
+                appointmentProjection.getServiceType().getName()
+            ),
+            appointmentProjection.getStatus().getLabel(),
+            appointmentProjection.getNotes(),
+            appointmentProjection.getPriorit().getLabel(),
+            appointmentProjection.getScheduledAt(),
+            appointmentProjection.getCreatedAt()
+        );
     }
 
     public void delete(long id){
