@@ -36,11 +36,11 @@ public class ProfessionalRequestDTO {
 
     private LocalDate birthday;
 
-    @Setter(AccessLevel.NONE)
-    @Pattern(
-        regexp = "(^$)|(^\\d{11}$)",
-        message = "CPF inválido!"
-    )
+//    @Setter(AccessLevel.NONE)
+//    @Pattern(
+//        regexp = "(^$)|(^\\d{11}$)",
+//        message = "CPF inválido!"
+//    )
     private String cpf;
 
     private String address;
@@ -50,13 +50,13 @@ public class ProfessionalRequestDTO {
     @Email(message = "Formato de e-mail inválido!")
     private String email;
 
-    public void setCpf(String cpf) {
-        if (cpf == null || cpf.isBlank()) {
-            this.cpf = null;
-        } else {
-            this.cpf = cpf.replaceAll("\\D", "");
-        }
-    }
+//    public void setCpf(String cpf) {
+//        if (cpf == null || cpf.isBlank()) {
+//            this.cpf = null;
+//        } else {
+//            this.cpf = cpf.replaceAll("\\D", "");
+//        }
+//    }
 
     public String getCpfNormalized() {
         return cpf == null ? null : cpf.replaceAll("\\D", "");
