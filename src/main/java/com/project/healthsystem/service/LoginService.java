@@ -28,40 +28,46 @@ public class LoginService {
     private String DEFAULT_USER_PASSWORD;
 
     public void createDefaultAdmin(Person person){
-        Login login = new Login();
-        login.setLogin(DEFAULT_ADMIN_USERNAME);
-        login.setPassword(this.passwordEncoder.encode(DEFAULT_ADMIN_PASSWORD));
+        if(!repository.existsByLogin(person.getCpf())) {
+            Login login = new Login();
+            login.setLogin(DEFAULT_ADMIN_USERNAME);
+            login.setPassword(this.passwordEncoder.encode(DEFAULT_ADMIN_PASSWORD));
 
-        Role role = roleService.findByRole(Roles.ADMIN);
-        person.getRoles().add(role);
+            Role role = roleService.findByRole(Roles.ADMIN);
+            person.getRoles().add(role);
 
-        login.setPerson(person);
-        repository.save(login);
+            login.setPerson(person);
+            repository.save(login);
+        }
     }
 
     public void createDefaultLoginTo(Employee employee){
-        Login login = new Login();
-        login.setLogin(employee.getPerson().getCpf());
-        login.setPassword(this.passwordEncoder.encode(this.DEFAULT_EMPLOYEE_PASSWORD));
-        login.setPerson(employee.getPerson());
+        if(!repository.existsByLogin(employee.getPerson().getCpf())){
+            Login login = new Login();
+            login.setLogin(employee.getPerson().getCpf());
+            login.setPassword(this.passwordEncoder.encode(this.DEFAULT_EMPLOYEE_PASSWORD));
+            login.setPerson(employee.getPerson());
 
-        repository.save(login);
+            repository.save(login);
+        }
     }
 
     public void createDefaultLoginTo(Patient patient){
-        String cpf = patient.getPerson().getCpf();
-        String cns = patient.getCns();
-        if(cpf != null || cns != null){
-            Login login = new Login();
-            if(cpf != null && !cpf.isEmpty()){
-                login.setLogin(cpf);
-            } else if(cns != null && !cns.isEmpty()){
-                login.setLogin(cns);
-            }
-            login.setPassword(this.passwordEncoder.encode(this.DEFAULT_USER_PASSWORD));
-            login.setPerson(patient.getPerson());
+        if(!repository.existsByLogin(patient.getPerson().getCpf())) {
+            String cpf = patient.getPerson().getCpf();
+            String cns = patient.getCns();
+            if(cpf != null || cns != null){
+                Login login = new Login();
+                if(cpf != null && !cpf.isEmpty()){
+                    login.setLogin(cpf);
+                } else if(cns != null && !cns.isEmpty()){
+                    login.setLogin(cns);
+                }
+                login.setPassword(this.passwordEncoder.encode(this.DEFAULT_USER_PASSWORD));
+                login.setPerson(patient.getPerson());
 
-            repository.save(login);
+                repository.save(login);
+            }
         }
     }
 

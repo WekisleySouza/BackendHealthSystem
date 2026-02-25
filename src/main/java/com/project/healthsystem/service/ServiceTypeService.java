@@ -2,6 +2,7 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.ServiceTypeSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.ServiceTypeMapper;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Person;
@@ -46,6 +47,20 @@ public class ServiceTypeService {
         serviceType.setLastModifiedBy(currentEditor);
         serviceType.updatedNow();
         repository.save(serviceType);
+    }
+
+    public Page<ServiceTypeSimplifiedResponseDTO> getAllSimplified(
+        Integer pageNumber,
+        Integer pageLength
+    ){
+        Sort sort = Sort.by("name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+        return repository
+            .getAllBy(pageRequest)
+            .map(projection -> new ServiceTypeSimplifiedResponseDTO(
+                projection.getId(),
+                projection.getName()
+            ));
     }
 
     public Page<ServiceTypeResponseDTO> getAll(

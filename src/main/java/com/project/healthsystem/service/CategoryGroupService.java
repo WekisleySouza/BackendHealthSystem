@@ -2,6 +2,7 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
 import com.project.healthsystem.controller.dto.CategoryGroupResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.CategoryGroupSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.CategoryGroupMapper;
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.model.Employee;
@@ -47,6 +48,20 @@ public class CategoryGroupService {
         categoryGroup.setLastModifiedBy(currentEditor);
         categoryGroup.updatedNow();
         repository.save(categoryGroup);
+    }
+
+    public Page<CategoryGroupSimplifiedResponseDTO> getAllSimplified(
+            Integer pageNumber,
+            Integer pageLength
+    ){
+        Sort sort = Sort.by("name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+        return repository
+            .getAllBy(pageRequest)
+            .map(projection -> new CategoryGroupSimplifiedResponseDTO(
+                projection.getId(),
+                projection.getName()
+            ));
     }
 
     public Page<CategoryGroupResponseDTO> getAll(

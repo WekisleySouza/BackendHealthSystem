@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ConditionRequestDTO;
 import com.project.healthsystem.controller.dto.ConditionResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.ConditionSimplifiedResponseDTO;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.service.ConditionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,6 +59,15 @@ public class ConditionController {
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(conditionService.findById(id));
+    }
+
+    @GetMapping("/get-all-simplified")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<Page<ConditionSimplifiedResponseDTO>> readAllSimplified(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+    ){
+        return ResponseEntity.ok(conditionService.getAllSimplified(pageNumber, pageLength));
     }
 
     @GetMapping

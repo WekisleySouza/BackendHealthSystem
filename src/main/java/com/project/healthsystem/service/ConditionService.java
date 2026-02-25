@@ -2,6 +2,7 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ConditionRequestDTO;
 import com.project.healthsystem.controller.dto.ConditionResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.ConditionSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.model.Condition;
 import com.project.healthsystem.model.Employee;
@@ -48,6 +49,17 @@ public class ConditionService {
         condition.setLastModifiedBy(currentEditor);
         condition.updatedNow();
         repository.save(condition);
+    }
+
+    public Page<ConditionSimplifiedResponseDTO> getAllSimplified(Integer pageNumber, Integer pageLength){
+        Sort sort = Sort.by("specification").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+        return repository
+            .getAllBy(pageRequest)
+            .map(projection -> new ConditionSimplifiedResponseDTO(
+                projection.getId(),
+                projection.getSpecification()
+            ));
     }
 
     public Page<ConditionResponseDTO> getAll(Integer pageNumber, Integer pageLength, String specification){

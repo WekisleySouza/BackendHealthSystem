@@ -1,6 +1,5 @@
 package com.project.healthsystem.model.abstractions;
 
-import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Person;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +20,7 @@ public abstract class BasicEntityAbstraction extends IDAbstraction {
     @Setter
     protected Person createdBy;
     @Column(name="created_at")
+    @Setter
     protected LocalDateTime createdAt;
     @Column(name="updated_at")
     protected LocalDateTime updatedAt;

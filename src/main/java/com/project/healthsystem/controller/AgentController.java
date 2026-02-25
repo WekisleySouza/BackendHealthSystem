@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.AgentResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.AgentSimplifiedResponseDTO;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.service.AgentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -104,6 +105,19 @@ public class AgentController {
             cellPhone,
             residentialPhone,
             contactPhone
+        ));
+    }
+
+    @GetMapping("/get-all-simplified")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @Operation(summary = "Get all", description = "Get all agents simplified.")
+    public ResponseEntity<Page<AgentSimplifiedResponseDTO>> readAll(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "20") Integer pageLength
+    ){
+        return ResponseEntity.ok(agentService.getAllSimplified(
+            pageNumber,
+            pageLength
         ));
     }
 

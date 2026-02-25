@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.EmployeeSimplifiedResponseDTO;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.service.EmployeeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,8 +62,21 @@ public class EmployeeController {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    @GetMapping("/get-all-simplified")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<Page<EmployeeSimplifiedResponseDTO>> readAllSimplified(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "20") Integer pageLength
+    ){
+        Page<EmployeeSimplifiedResponseDTO> employeeRequestDTOS = service.getAllSimplified(
+            pageNumber,
+            pageLength
+        );
+        return ResponseEntity.ok(employeeRequestDTOS);
+    }
+
     @GetMapping
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<EmployeeResponseDTO>> readAll(
         @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
         @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,

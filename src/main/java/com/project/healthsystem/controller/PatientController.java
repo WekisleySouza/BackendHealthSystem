@@ -5,7 +5,8 @@ import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.PatientResponseDTO;
-import com.project.healthsystem.controller.dto.PatientSimplifiedInfoDTO;
+import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedInfoDTO;
+import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.service.PatientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -81,6 +82,18 @@ public class PatientController {
     public ResponseEntity<List<PatientSimplifiedInfoDTO>> getPatientInfo(){
         List<PatientSimplifiedInfoDTO> patientSimplifiedInfoDTOS = patientService.getSimplifiedPatients();
         return ResponseEntity.ok(patientSimplifiedInfoDTOS);
+    }
+
+    @GetMapping("/get-all-simplified")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<Page<PatientSimplifiedResponseDTO>> readAllSimplified(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+    ) {
+        return ResponseEntity.ok(patientService.getAllSimplified(
+                pageNumber,
+                pageLength
+        ));
     }
 
     @GetMapping

@@ -40,7 +40,11 @@ public class AppointmentService {
 
         // Auditory
         Person currentEditor = jwtTokenProvider.getPerson(token);
-        appointment.createdNow();
+        if(appointmentRequestDTO.getCreatedAt() == null){
+            appointment.createdNow();
+        } else {
+            appointment.setCreatedAt(appointmentRequestDTO.getCreatedAt());
+        }
         appointment.setCreatedBy(currentEditor);
         appointment.setLastModifiedBy(currentEditor);
 

@@ -2,16 +2,14 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.AgentResponseDTO;
-import com.project.healthsystem.controller.dto.PatientInfoAgentResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.AgentSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.AgentMapper;
 import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.AgentRepository;
-import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
 import com.project.healthsystem.repository.specs.AgentSpecs;
-import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.AgentValidator;
@@ -94,6 +92,20 @@ public class AgentService {
     public AgentResponseDTO findById(long id){
         Agent agent = agentValidator.validateFindById(id);
         return agentMapper.toDto(agent);
+    }
+
+    public Page<AgentSimplifiedResponseDTO> getAllSimplified(
+        Integer pageNumber,
+        Integer pageLength
+    ){
+        Sort sort = Sort.by("person.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+        return repository
+            .findAllBy(pageRequest)
+            .map(agentProjection -> new AgentSimplifiedResponseDTO(
+                agentProjection.getId(),
+                agentProjection.getPerson().getName()
+            ));
     }
 
     public Page<AgentResponseDTO> getAll(

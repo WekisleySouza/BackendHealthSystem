@@ -1,6 +1,8 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.*;
+import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedInfoDTO;
+import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.*;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.PatientRepository;
@@ -23,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -116,6 +117,20 @@ public class PatientService {
                 patientProjection.getMotherName()
             ))
             .toList();
+    }
+
+    public Page<PatientSimplifiedResponseDTO> getAllSimplified(
+            Integer pageNumber,
+            Integer pageLength
+    ){
+        Sort sort = Sort.by("person.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+        return repository
+            .getAllBy(pageRequest)
+            .map(projection -> new PatientSimplifiedResponseDTO(
+                projection.getId(),
+                projection.getPerson().getName()
+            ));
     }
 
     public Page<PatientResponseDTO> getAll(

@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
 import com.project.healthsystem.controller.dto.CategoryGroupResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.CategoryGroupSimplifiedResponseDTO;
 import com.project.healthsystem.model.CategoryGroup;
 import com.project.healthsystem.service.CategoryGroupService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -59,6 +60,15 @@ public class CategoryGroupController {
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(categoryGroupService.findById(id));
+    }
+
+    @GetMapping("/get-all-simplified")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<Page<CategoryGroupSimplifiedResponseDTO>> readAllSimplified(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "20") Integer pageLength
+    ){
+        return ResponseEntity.ok(categoryGroupService.getAllSimplified(pageNumber, pageLength));
     }
 
     @GetMapping

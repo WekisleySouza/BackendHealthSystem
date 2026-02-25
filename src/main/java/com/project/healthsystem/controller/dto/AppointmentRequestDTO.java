@@ -31,6 +31,8 @@ public class AppointmentRequestDTO {
 
     private LocalDateTime scheduledAt;
 
+    private LocalDateTime createdAt;
+
     @NotNull(message = "A prioridade é obrigatória!")
     private String priority;
 }

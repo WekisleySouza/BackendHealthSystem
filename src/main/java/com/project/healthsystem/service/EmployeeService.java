@@ -2,6 +2,7 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.EmployeeSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
 import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.model.Employee;
@@ -98,6 +99,20 @@ public class EmployeeService {
 
     public Employee findByCpf(String cpf) {
         return employeeValidator.validateFindByCpf(cpf);
+    }
+
+    public Page<EmployeeSimplifiedResponseDTO> getAllSimplified(
+            Integer pageNumber,
+            Integer pageLength
+    ){
+        Sort sort = Sort.by("person.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+        return repository
+            .findAll(pageRequest)
+            .map(projection -> new EmployeeSimplifiedResponseDTO(
+                projection.getId(),
+                projection.getPerson().getName()
+            ));
     }
 
     public Page<EmployeeResponseDTO> getAll(

@@ -15,7 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Employee extends BasicEntityAbstraction {
 
-    @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+    @OneToOne(optional = false)
     @JoinColumn(name = "person_id", unique = true)
     private Person person;
     @OneToMany(mappedBy = "employee")

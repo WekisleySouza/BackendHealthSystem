@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.ServiceTypeSimplifiedResponseDTO;
 import com.project.healthsystem.model.ServiceType;
 import com.project.healthsystem.service.ServiceTypeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -59,6 +60,18 @@ public class ServiceTypeController {
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(serviceTypeService.findById(id));
+    }
+
+    @GetMapping("/get-all-simplified")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<Page<ServiceTypeSimplifiedResponseDTO>> readAllSimplified(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+    ){
+        return ResponseEntity.ok(serviceTypeService.getAllSimplified(
+                pageNumber,
+                pageLength
+        ));
     }
 
     @GetMapping

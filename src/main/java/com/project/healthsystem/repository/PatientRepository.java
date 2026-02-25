@@ -2,6 +2,8 @@ package com.project.healthsystem.repository;
 
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.repository.projections.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpecificationExecutor<Patient> {
+
+    Page<com.project.healthsystem.repository.projections.simplified_lists.PatientSimplifiedInfoProjection> getAllBy(Pageable page);
 
     List<PatientSimplifiedInfoProjection> findAllBy();
 

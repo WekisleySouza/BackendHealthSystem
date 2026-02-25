@@ -2,6 +2,7 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
+import com.project.healthsystem.controller.dto.simplified_info.ProfessionalSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.model.*;
@@ -83,6 +84,20 @@ public class ProfessionalService {
 
         professional.setPerson(person);
         repository.save(professional);
+    }
+
+    public Page<ProfessionalSimplifiedResponseDTO> getAllSimplified(
+            Integer pageNumber,
+            Integer pageLength
+    ){
+        Sort sort = Sort.by("person.name").ascending();
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+        return repository
+            .getAllBy(pageRequest)
+            .map(projection -> new ProfessionalSimplifiedResponseDTO(
+                projection.getId(),
+                projection.getPerson().getName()
+            ));
     }
 
     public Page<ProfessionalResponseDTO> getAll(
