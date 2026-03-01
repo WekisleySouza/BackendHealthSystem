@@ -39,6 +39,7 @@ public abstract class EmployeeMapper {
         entity.getPerson().setContactPhone(dto.getContactPhone());
         entity.getPerson().setBirthday(dto.getBirthday());
         entity.getPerson().setEmail(dto.getEmail());
+        entity.setActive(dto.isActive());
         return entity;
     }
 
