@@ -48,7 +48,7 @@ public class ProfessionalService {
         professional.setCreatedBy(currentEditor);
         professional.setLastModifiedBy(currentEditor);
 
-        if(personService.existsPersonByCpf(professionalRequestDTO.getCpfNormalized())){
+        if(!professionalRequestDTO.getCpfNormalized().isBlank() && personService.existsPersonByCpf(professionalRequestDTO.getCpfNormalized())){
 
             Person person = personService.getReferenceByCpf(professionalRequestDTO.getCpfNormalized());
             professional.setPerson(person);
@@ -76,7 +76,7 @@ public class ProfessionalService {
         professional.updatedNow();
 
         // Saving Person
-        Person person = personService.findByCpf(professionalRequestDTO.getCpfNormalized());
+        Person person = professional.getPerson();
         person = personMapper.updatePersonEntity(person, professionalRequestDTO);
         person.updatedNow();
         person.setLastModifiedBy(currentEditor);

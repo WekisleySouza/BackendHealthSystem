@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,8 +45,8 @@ public class EmployeeRequestDTO {
 
     private String address;
 
-    @NotBlank(message = "O papel do usuário deve ser informado!")
-    private String role;
+    @NotNull(message = "O papel do usuário deve ser informado!")
+    private List<String> roles;
 
     public String getCpfNormalized() {
         return cpf == null ? null : cpf.replaceAll("\\D", "");

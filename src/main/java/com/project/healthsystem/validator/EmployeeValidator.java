@@ -16,7 +16,7 @@ public class EmployeeValidator {
     private final EmployeeMapper employeeMapper;
 
     public Employee validateSave(EmployeeRequestDTO employeeRequestDTO){
-        if (employeeRepository.existsByPersonCpf(employeeRequestDTO.getCpfNormalized())){
+        if (!employeeRequestDTO.getCpfNormalized().isBlank() && employeeRepository.existsByPersonCpf(employeeRequestDTO.getCpfNormalized())){
             throw new DuplicatedRegisterException("Cpf já cadastrado!");
         }
         return employeeMapper.toEntity(employeeRequestDTO);

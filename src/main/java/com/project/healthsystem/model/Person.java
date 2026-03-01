@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +28,7 @@ public class Person extends BasicEntityAbstraction {
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", length = 100)
     protected Sex sex;
-    @Column(name = "cpf", unique = true, length = 15)
+    @Column(name = "cpf", length = 15)
     protected String cpf;
     @Column(name = "cell_phone")
     protected String cellPhone;
@@ -54,6 +56,12 @@ public class Person extends BasicEntityAbstraction {
         return this;
     }
 
+    public void addRoles(List<Role> roles){
+        for(Role r : roles){
+            this.addRole(r);
+        }
+    }
+
     public void setLastUpdate(LocalDateTime dateTime){
         this.updatedAt = dateTime;
     }
@@ -63,5 +71,19 @@ public class Person extends BasicEntityAbstraction {
             role.getRole() == roleLabel
         );
         return this;
+    }
+
+    public void removeAllRoles(){
+        for(Roles role : Roles.values()){
+            this.removeRole(role);
+        }
+    }
+
+    public List<String> getStringRoles(){
+        List<String> roles = new ArrayList<>();
+        for(Role role : this.roles){
+            roles.add(role.getRole().getLabel());
+        }
+        return roles;
     }
 }

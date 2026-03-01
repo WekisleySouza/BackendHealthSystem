@@ -16,7 +16,7 @@ public class ProfessionalValidator {
     private final ProfessionalMapper professionalMapper;
 
     public Professional validateSave(ProfessionalRequestDTO professionalRequestDTO){
-        if (professionalRepository.existsByPersonCpf(professionalRequestDTO.getCpfNormalized())) {
+        if (!professionalRequestDTO.getCpf().isBlank() && professionalRepository.existsByPersonCpf(professionalRequestDTO.getCpfNormalized())) {
             throw new DuplicatedRegisterException("Cpf já cadastrado para um professional!");
         }
         return professionalMapper.toEntity(professionalRequestDTO);

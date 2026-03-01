@@ -35,12 +35,6 @@ public class ProfessionalRequestDTO {
     private String contactPhone;
 
     private LocalDate birthday;
-
-//    @Setter(AccessLevel.NONE)
-//    @Pattern(
-//        regexp = "(^$)|(^\\d{11}$)",
-//        message = "CPF inválido!"
-//    )
     private String cpf;
 
     private String address;
@@ -49,14 +43,6 @@ public class ProfessionalRequestDTO {
     @Size(max = 320, message = "O e-mail não pode ultrapassar 320 caracteres!")
     @Email(message = "Formato de e-mail inválido!")
     private String email;
-
-//    public void setCpf(String cpf) {
-//        if (cpf == null || cpf.isBlank()) {
-//            this.cpf = null;
-//        } else {
-//            this.cpf = cpf.replaceAll("\\D", "");
-//        }
-//    }
 
     public String getCpfNormalized() {
         return cpf == null ? null : cpf.replaceAll("\\D", "");

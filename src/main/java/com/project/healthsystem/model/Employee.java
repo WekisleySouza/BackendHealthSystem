@@ -18,6 +18,8 @@ public class Employee extends BasicEntityAbstraction {
     @OneToOne(optional = false)
     @JoinColumn(name = "person_id", unique = true)
     private Person person;
+    @Column(name = "active", nullable = false)
+    private boolean active;
     @OneToMany(mappedBy = "employee")
     private List<Appointment> appointments;
 }

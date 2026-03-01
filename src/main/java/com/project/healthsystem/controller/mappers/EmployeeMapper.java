@@ -25,6 +25,7 @@ public abstract class EmployeeMapper {
     @Mapping(target = "address", expression = "java(entity.getPerson().getAddress())")
     @Mapping(target = "birthday", expression = "java(entity.getPerson().getBirthday())")
     @Mapping(target = "email", expression = "java(entity.getPerson().getEmail())")
+    @Mapping(target = "roles", expression = "java(entity.getPerson().getStringRoles())")
     public abstract EmployeeResponseDTO toDto(Employee entity);
 
     public Employee toEntityWhenHasId(Employee entity, EmployeeRequestDTO dto){

@@ -10,7 +10,6 @@ import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.EmployeeRepository;
 import com.project.healthsystem.repository.specs.EmployeeSpecs;
-import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.EmployeeValidator;
@@ -50,15 +49,18 @@ public class EmployeeService {
         employee.setLastModifiedBy(currentEditor);
 
         // Save Person
-        if(personService.existsPersonByCpf(employeeRequestDTO.getCpfNormalized())){
+        if(!employeeRequestDTO.getCpfNormalized().isBlank() && personService.existsPersonByCpf(employeeRequestDTO.getCpfNormalized())){
             Person person = personService.getReferenceByCpf(employeeRequestDTO.getCpfNormalized());
-            person.addRole(roleService.findByRole(Roles.fromLabel(employeeRequestDTO.getRole())));
+            for(String role : employeeRequestDTO.getRoles()){
+                person.addRole(roleService.findByRole(Roles.fromLabel(role)));
+            }
             employee.setPerson(person);
         } else {
             Person person = personMapper.toPersonEntity(employeeRequestDTO);
-            person
-                .addRole(roleService.findByRole(Roles.PATIENT))
-                .addRole(roleService.findByRole(Roles.fromLabel(employeeRequestDTO.getRole())));
+            person.addRole(roleService.findByRole(Roles.PATIENT));
+            for(String role : employeeRequestDTO.getRoles()){
+                person.addRole(roleService.findByRole(Roles.fromLabel(role)));
+            }
             person.setCreatedBy(currentEditor);
             person.setLastModifiedBy(currentEditor);
             person.createdNow();
@@ -82,8 +84,14 @@ public class EmployeeService {
         employee.updatedNow();
 
         // Saving Person
-        Person person = personService.findByCpf(employeeRequestDTO.getCpfNormalized());
+        Person person = employee.getPerson();
         person = personMapper.updatePersonEntity(person, employeeRequestDTO);
+        person.removeRole(Roles.EMPLOYEE)
+            .removeRole(Roles.MANAGER)
+            .removeRole(Roles.ADMIN);
+        for(String role : employeeRequestDTO.getRoles()){
+            person.addRole(roleService.findByRole(Roles.fromLabel(role)));
+        }
         person.updatedNow();
         person.setLastModifiedBy(currentEditor);
         person = personService.save(person);

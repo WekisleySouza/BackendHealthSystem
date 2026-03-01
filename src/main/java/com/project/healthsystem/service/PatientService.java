@@ -58,7 +58,7 @@ public class PatientService {
         patient.setLastModifiedBy(currentEditor);
 
         // Save Person
-        if(personService.existsPersonByCpf(patientRequestDTO.getCpfNormalized())){
+        if(!patientRequestDTO.getCpfNormalized().isBlank() && personService.existsPersonByCpf(patientRequestDTO.getCpfNormalized())){
             Person person = personService.getReferenceByCpf(patientRequestDTO.getCpfNormalized());
             person.addRole(roleService.findByRole(Roles.PATIENT));
             patient.setPerson(person);

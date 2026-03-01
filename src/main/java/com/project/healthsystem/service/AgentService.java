@@ -49,7 +49,7 @@ public class AgentService {
         agent.setLastModifiedBy(currentEditor);
 
         // Save Person
-        if(personService.existsPersonByCpf(agentRequestDTO.getCpfNormalized())){
+        if(!agentRequestDTO.getCpfNormalized().isBlank() && personService.existsPersonByCpf(agentRequestDTO.getCpfNormalized())){
             Person person = personService.getReferenceByCpf(agentRequestDTO.getCpfNormalized());
             person.addRole(roleService.findByRole(Roles.PATIENT));
             agent.setPerson(person);

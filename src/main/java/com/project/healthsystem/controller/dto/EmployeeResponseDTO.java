@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,5 +22,5 @@ public class EmployeeResponseDTO {
     private LocalDate birthday;
     private String email;
     private String address;
-    private String role;
+    private List<String> roles;
 }
