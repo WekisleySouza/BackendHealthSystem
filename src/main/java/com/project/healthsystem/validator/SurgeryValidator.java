@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.SurgeryRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.SurgeryRequestDTO;
 import com.project.healthsystem.controller.mappers.SurgeryMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Surgery;

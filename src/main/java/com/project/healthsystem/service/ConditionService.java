@@ -1,14 +1,12 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.ConditionRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ConditionRequestDTO;
 import com.project.healthsystem.controller.dto.ConditionResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.ConditionSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.model.Condition;
-import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.ConditionRepository;
-import com.project.healthsystem.repository.projections.PatientInfoConditionProjection;
 import com.project.healthsystem.repository.specs.ConditionSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;

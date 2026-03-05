@@ -1,6 +1,6 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.ConditionRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ConditionRequestDTO;
 import com.project.healthsystem.controller.dto.ConditionResponseDTO;
 import com.project.healthsystem.model.Condition;
 import org.mapstruct.Mapper;

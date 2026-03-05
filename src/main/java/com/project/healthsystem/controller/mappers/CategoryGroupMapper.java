@@ -1,6 +1,6 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.CategoryGroupRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.CategoryGroupRequestDTO;
 import com.project.healthsystem.controller.dto.CategoryGroupResponseDTO;
 import com.project.healthsystem.model.CategoryGroup;
 import org.mapstruct.Mapper;

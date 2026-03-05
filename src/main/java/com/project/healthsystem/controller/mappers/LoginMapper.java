@@ -1,9 +1,8 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.LoginRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.LoginRequestDTO;
 import com.project.healthsystem.model.Login;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public abstract class LoginMapper {

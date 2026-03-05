@@ -6,6 +6,7 @@ import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -113,9 +114,19 @@ public class GlobalExceptionHandler {
     public ErrorResponseDTO handleUnhandledErrorException(ConstraintViolationException e){
         System.out.println("Erro inesperado: " + e);
         return new ErrorResponseDTO(
-                HttpStatus.CONFLICT.value(),
-                "Violação de restrição de dados!",
-                List.of());
+            HttpStatus.CONFLICT.value(),
+            "Violação de restrição de dados!",
+            List.of());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDTO handleDataIntegrityViolationErrorException(DataIntegrityViolationException e){
+        System.out.println("Erro inesperado: " + e);
+        return new ErrorResponseDTO(
+            HttpStatus.CONFLICT.value(),
+            "Integridade de dados ameaçada! O recurso já existe ou viola uma restrição do banco.",
+            List.of());
     }
 
     @ExceptionHandler(RuntimeException.class)

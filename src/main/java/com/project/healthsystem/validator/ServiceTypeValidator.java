@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.mappers.ServiceTypeMapper;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.CategoryGroup;

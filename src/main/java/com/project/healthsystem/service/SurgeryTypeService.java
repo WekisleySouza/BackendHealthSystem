@@ -1,9 +1,8 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.SurgeryTypeRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.SurgeryTypeRequestDTO;
 import com.project.healthsystem.controller.dto.SurgeryTypeResponseDTO;
 import com.project.healthsystem.controller.mappers.SurgeryTypeMapper;
-import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.repository.SurgeryTypeRepository;

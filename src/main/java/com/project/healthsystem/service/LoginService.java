@@ -1,6 +1,6 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.LoginRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.LoginRequestDTO;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.validator.LoginValidator;

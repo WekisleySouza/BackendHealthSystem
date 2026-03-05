@@ -22,5 +22,6 @@ public class EmployeeResponseDTO {
     private LocalDate birthday;
     private String email;
     private String address;
+    private boolean active;
     private List<String> roles;
 }

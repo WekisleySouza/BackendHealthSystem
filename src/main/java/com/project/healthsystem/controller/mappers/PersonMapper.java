@@ -1,9 +1,9 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.AgentRequestDTO;
-import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
-import com.project.healthsystem.controller.dto.PatientRequestDTO;
-import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.AgentRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.EmployeeRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ProfessionalRequestDTO;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Sex;

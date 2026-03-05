@@ -1,6 +1,6 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.NotFoundException;

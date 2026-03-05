@@ -1,6 +1,6 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.AgentRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.AgentResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.AgentSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.AgentMapper;

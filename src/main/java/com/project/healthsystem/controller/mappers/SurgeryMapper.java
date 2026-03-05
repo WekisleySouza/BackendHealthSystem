@@ -1,6 +1,6 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.SurgeryRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.SurgeryRequestDTO;
 import com.project.healthsystem.controller.dto.SurgeryResponseDTO;
 import com.project.healthsystem.model.Surgery;
 import org.mapstruct.Mapper;

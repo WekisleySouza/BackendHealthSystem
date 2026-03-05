@@ -1,18 +1,16 @@
 package com.project.healthsystem.service;
 
-import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.ProfessionalSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.PersonMapper;
 import com.project.healthsystem.controller.mappers.ProfessionalMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.ProfessionalRepository;
-import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.ProfessionalSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.ProfessionalValidator;
-import jakarta.persistence.Column;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

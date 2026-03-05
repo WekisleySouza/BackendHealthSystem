@@ -1,6 +1,6 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.model.Priority;
@@ -26,6 +26,7 @@ public abstract class AppointmentsMapper {
 
     public Appointment toEntityWhenHasId(Appointment entity, AppointmentRequestDTO dto) {
         entity.setStatus(Status.fromLabel(dto.getStatus()));
+        entity.setCreatedAt(dto.getCreatedAt());
         entity.setPriorit(Priority.fromLabel(dto.getPriority()));
         entity.setNotes(dto.getNotes());
         entity.setScheduledAt(dto.getScheduledAt());

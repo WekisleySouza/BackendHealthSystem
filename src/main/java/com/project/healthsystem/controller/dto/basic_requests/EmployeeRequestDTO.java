@@ -1,4 +1,4 @@
-package com.project.healthsystem.controller.dto;
+package com.project.healthsystem.controller.dto.basic_requests;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;

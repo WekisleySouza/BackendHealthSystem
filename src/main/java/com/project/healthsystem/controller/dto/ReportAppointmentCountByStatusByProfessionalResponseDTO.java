@@ -8,7 +8,6 @@ public record ReportAppointmentCountByStatusByProfessionalResponseDTO(
         Long professionalId,
         String professionalName,
         Status status,
-        LocalDateTime scheduledAt,
         Long total
 ) {
 }

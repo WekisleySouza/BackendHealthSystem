@@ -1,12 +1,11 @@
 package com.project.healthsystem.validator;
 
-import com.project.healthsystem.controller.dto.AgentRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.AgentRequestDTO;
 import com.project.healthsystem.controller.mappers.AgentMapper;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.repository.AgentRepository;
-import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

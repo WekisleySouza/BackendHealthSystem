@@ -1,10 +1,9 @@
-package com.project.healthsystem.controller.dto;
+package com.project.healthsystem.controller.dto.basic_requests;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,36 +17,47 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeRequestDTO {
-    @NotBlank(message = "O nome é obrigatório!")
+public class PatientRequestDTO {
+    // Only report fields
+    private String teamName;
+    private String teamINE;
+    private String microArea;
+    private String origin;
+
+    // System fields
+    private Long agentId;
+
+    private Long responsibleId;
+
+    private List<Long> conditionsId;
+
+    @NotNull(message = "O nome é obrigatório!")
     private String name;
 
     @NotBlank(message = "O sexo é obrigatório!")
     @Schema(name = "sexo")
     private String sex;
-    @NotBlank(message = "O gênder é obrigatório!")
-    @Schema(name = "gênder")
+    @NotBlank(message = "O gênero é obrigatório!")
+    @Schema(name = "gênero")
     private String gender;
     private String cellPhone;
     private String residentialPhone;
     private String contactPhone;
 
-    @NotBlank(message = "O CPF é obrigatório!")
-    @CPF(message = "CPF inválido!")
-    private String cpf;
+    private String motherName;
 
     @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;
 
-    @Email(message = "Formato de e-mail inválido!")
-    @Size(max = 320, message = "O e-mail não pode ultrapassar 320 caracteres!")
-    private String email;
+    private String cns;
+
+    @CPF(message = "CPF inválido!")
+    private String cpf;
 
     private String address;
-    private boolean active;
 
-    @NotNull(message = "O papel do usuário deve ser informado!")
-    private List<String> roles;
+    @Email(message = "Formato de e-mail inválido!")
+    private String email;
 
     public String getCpfNormalized() {
         return cpf == null ? null : cpf.replaceAll("\\D", "");

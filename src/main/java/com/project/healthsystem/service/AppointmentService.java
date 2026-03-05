@@ -3,6 +3,8 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
@@ -70,10 +72,18 @@ public class AppointmentService {
             String status,
             String professionalName,
             String employeeName,
-            String patientName
+            String patientName,
+            boolean isSortedByName,
+            boolean isDescending
         ){
-        Sort sort = Sort.by("serviceType.name").ascending();
+        String field = isSortedByName ? "serviceType.name" : "createdAt";
+        Sort sort = Sort.by(
+                isDescending ? Sort.Direction.DESC : Sort.Direction.ASC,
+                field
+        );
+
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
+
         Specification<Appointment> specification = null;
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.notesLike(notes));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
@@ -133,26 +143,13 @@ public class AppointmentService {
         return new ReportAppointmentByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
     }
 
-    public ReportAppointmentByProfessionalResponseDTO getProfessionalReport(
-            Integer pageNumber,
-            Integer pageLength
+    public Page<NumberAppointmentsByStatusAndProfessionalDTO> countAppointmentsByProfessional(
+        Integer pageNumber,
+        Integer pageLength
     ){
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-        Page<ReportAppointmentCountByProfessionalResponseDTO> reportsByProfessional = repository.countAppointmentsByProfessional(
+        return repository.countAppointmentsGroupedByProfessional(
             pageRequest
-        );
-        Page<ReportAppointmentCountByStatusByProfessionalResponseDTO> reportsByStatusAndProfessional = repository.countByProfessionalAndStatus(
-            pageRequest
-        );
-        Page<ReportAppointmentCountByServiceTypeByProfessionalResponse> reportsByServiceTypeAndProfessional = repository.countByProfessionalAndServiceType(
-            pageRequest
-        );
-        long professionalsNumber = professionalRepository.countProfessionals();
-        return new ReportAppointmentByProfessionalResponseDTO(
-            reportsByProfessional,
-            reportsByStatusAndProfessional,
-            reportsByServiceTypeAndProfessional,
-            professionalsNumber
         );
     }
 
