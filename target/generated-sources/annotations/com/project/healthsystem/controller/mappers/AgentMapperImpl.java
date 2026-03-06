@@ -1,15 +1,15 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.AgentResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.AgentRequestDTO;
 import com.project.healthsystem.model.Agent;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-13T18:09:26-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.9 (Ubuntu)"
+    date = "2026-03-06T17:38:30-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
 )
 @Component
 public class AgentMapperImpl extends AgentMapper {
@@ -39,8 +39,13 @@ public class AgentMapperImpl extends AgentMapper {
 
         agentResponseDTO.setCpf( agent.getPerson().getCpf() );
         agentResponseDTO.setName( agent.getPerson().getName() );
-        agentResponseDTO.setPhone( agent.getPerson().getPhone() );
+        agentResponseDTO.setGender( agent.getPerson().getGender().getLabel() );
+        agentResponseDTO.setSex( agent.getPerson().getSex().getLabel() );
+        agentResponseDTO.setCellPhone( agent.getPerson().getCellPhone() );
+        agentResponseDTO.setResidentialPhone( agent.getPerson().getResidentialPhone() );
+        agentResponseDTO.setContactPhone( agent.getPerson().getContactPhone() );
         agentResponseDTO.setBirthday( agent.getPerson().getBirthday() );
+        agentResponseDTO.setAddress( agent.getPerson().getAddress() );
         agentResponseDTO.setEmail( agent.getPerson().getEmail() );
 
         return agentResponseDTO;

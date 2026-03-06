@@ -2,7 +2,7 @@ package com.project.healthsystem.config;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.healthsystem.controller.dto.*;
+import com.project.healthsystem.controller.dto.basic_requests.*;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.repository.PatientRepository;

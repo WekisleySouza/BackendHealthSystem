@@ -24,3 +24,5 @@ security:
     expiration: ${DEFAULT_REFRESH_TOKEN_TIME_EXPIRATION:604800000}
   access:
     expiration: ${DEFAULT_ACCESS_TOKEN_TIME_EXPIRATION:900000}
+springdoc:
+  override-with-generic-response: false

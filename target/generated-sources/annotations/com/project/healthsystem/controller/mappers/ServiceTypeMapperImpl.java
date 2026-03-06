@@ -1,15 +1,15 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.ServiceTypeRequestDTO;
 import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ServiceTypeRequestDTO;
 import com.project.healthsystem.model.ServiceType;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-13T18:09:26-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.9 (Ubuntu)"
+    date = "2026-03-06T17:38:30-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
 )
 @Component
 public class ServiceTypeMapperImpl extends ServiceTypeMapper {
@@ -24,7 +24,8 @@ public class ServiceTypeMapperImpl extends ServiceTypeMapper {
 
         serviceType.setName( dto.getName() );
         serviceType.setValue( dto.getValue() );
-        serviceType.setType( dto.getType() );
+
+        serviceType.setType( com.project.healthsystem.model.ServiceTypes.fromLabel(dto.getType()) );
 
         return serviceType;
     }
@@ -40,9 +41,9 @@ public class ServiceTypeMapperImpl extends ServiceTypeMapper {
         serviceTypeResponseDTO.setId( entity.getId() );
         serviceTypeResponseDTO.setName( entity.getName() );
         serviceTypeResponseDTO.setValue( entity.getValue() );
-        serviceTypeResponseDTO.setType( entity.getType() );
 
         serviceTypeResponseDTO.setCategoryGroupId( entity.getCategoryGroupId() );
+        serviceTypeResponseDTO.setType( entity.getType().getLabel() );
 
         return serviceTypeResponseDTO;
     }

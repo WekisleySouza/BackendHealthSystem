@@ -1,14 +1,14 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.LoginRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.LoginRequestDTO;
 import com.project.healthsystem.model.Login;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-13T18:09:26-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.9 (Ubuntu)"
+    date = "2026-03-06T17:38:30-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
 )
 @Component
 public class LoginMapperImpl extends LoginMapper {

@@ -1,15 +1,15 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.ProfessionalRequestDTO;
 import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ProfessionalRequestDTO;
 import com.project.healthsystem.model.Professional;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-13T18:09:26-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.9 (Ubuntu)"
+    date = "2026-03-06T17:38:30-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
 )
 @Component
 public class ProfessionalMapperImpl extends ProfessionalMapper {
@@ -21,6 +21,11 @@ public class ProfessionalMapperImpl extends ProfessionalMapper {
         }
 
         Professional professional = new Professional();
+
+        professional.setCns( dto.getCns() );
+        professional.setCbo( dto.getCbo() );
+        professional.setVinculation( dto.getVinculation() );
+        professional.setDescription( dto.getDescription() );
 
         professional.setPerson( map(dto) );
 
@@ -36,11 +41,20 @@ public class ProfessionalMapperImpl extends ProfessionalMapper {
         ProfessionalResponseDTO professionalResponseDTO = new ProfessionalResponseDTO();
 
         professionalResponseDTO.setId( entity.getId() );
+        professionalResponseDTO.setCns( entity.getCns() );
+        professionalResponseDTO.setCbo( entity.getCbo() );
+        professionalResponseDTO.setVinculation( entity.getVinculation() );
+        professionalResponseDTO.setDescription( entity.getDescription() );
 
         professionalResponseDTO.setCpf( entity.getPerson().getCpf() );
         professionalResponseDTO.setName( entity.getPerson().getName() );
-        professionalResponseDTO.setPhone( entity.getPerson().getPhone() );
+        professionalResponseDTO.setGender( entity.getPerson().getGender().getLabel() );
+        professionalResponseDTO.setSex( entity.getPerson().getSex().getLabel() );
+        professionalResponseDTO.setCellPhone( entity.getPerson().getCellPhone() );
+        professionalResponseDTO.setResidentialPhone( entity.getPerson().getResidentialPhone() );
+        professionalResponseDTO.setContactPhone( entity.getPerson().getContactPhone() );
         professionalResponseDTO.setBirthday( entity.getPerson().getBirthday() );
+        professionalResponseDTO.setAddress( entity.getPerson().getAddress() );
         professionalResponseDTO.setEmail( entity.getPerson().getEmail() );
 
         return professionalResponseDTO;

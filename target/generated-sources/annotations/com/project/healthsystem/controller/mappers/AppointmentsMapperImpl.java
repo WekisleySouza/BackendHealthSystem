@@ -1,15 +1,15 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.model.Appointment;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-13T18:09:26-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.9 (Ubuntu)"
+    date = "2026-03-06T17:38:30-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
 )
 @Component
 public class AppointmentsMapperImpl extends AppointmentsMapper {
@@ -22,10 +22,12 @@ public class AppointmentsMapperImpl extends AppointmentsMapper {
 
         Appointment appointment = new Appointment();
 
+        appointment.setCreatedAt( dto.getCreatedAt() );
         appointment.setNotes( dto.getNotes() );
         appointment.setScheduledAt( dto.getScheduledAt() );
 
         appointment.setStatus( com.project.healthsystem.model.Status.fromLabel(dto.getStatus()) );
+        appointment.setPriorit( com.project.healthsystem.model.Priority.fromLabel(dto.getPriority()) );
 
         return appointment;
     }
@@ -43,11 +45,13 @@ public class AppointmentsMapperImpl extends AppointmentsMapper {
         appointmentResponseDTO.setScheduledAt( entity.getScheduledAt() );
         appointmentResponseDTO.setCreatedAt( entity.getCreatedAt() );
 
-        appointmentResponseDTO.setProfessionalId( entity.getProfessionalId() );
-        appointmentResponseDTO.setEmployeeId( entity.getEmployeeId() );
-        appointmentResponseDTO.setPatientId( entity.getPatientId() );
-        appointmentResponseDTO.setServiceTypeId( entity.getServiceTypeId() );
-        appointmentResponseDTO.setStatus( entity.getStatus() );
+        appointmentResponseDTO.setProfessionalName( entity.getProfessionalName() );
+        appointmentResponseDTO.setEmployeeName( entity.getEmployeeName() );
+        appointmentResponseDTO.setPatientName( entity.getPatientName() );
+        appointmentResponseDTO.setServiceTypeName( entity.getServiceTypeName() );
+        appointmentResponseDTO.setServiceType( entity.getServiceType() );
+        appointmentResponseDTO.setStatus( entity.getStatus().getLabel() );
+        appointmentResponseDTO.setPriority( entity.getPriorit().getLabel() );
 
         return appointmentResponseDTO;
     }

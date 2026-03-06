@@ -1,7 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.PatientResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
 import com.project.healthsystem.model.Patient;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-13T18:09:26-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.9 (Ubuntu)"
+    date = "2026-03-06T17:38:30-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
 )
 @Component
 public class PatientMapperImpl extends PatientMapper {
@@ -23,6 +23,10 @@ public class PatientMapperImpl extends PatientMapper {
 
         Patient patient = new Patient();
 
+        patient.setTeamName( dto.getTeamName() );
+        patient.setTeamINE( dto.getTeamINE() );
+        patient.setMicroArea( dto.getMicroArea() );
+        patient.setOrigin( dto.getOrigin() );
         patient.setCns( dto.getCns() );
         patient.setMotherName( dto.getMotherName() );
         if ( patient.getConditionsId() != null ) {
@@ -51,7 +55,21 @@ public class PatientMapperImpl extends PatientMapper {
 
         patientResponseDTO.setAgentId( entity.getAgentId() );
         patientResponseDTO.setConditionsId( entity.getConditionsId() );
+        patientResponseDTO.setTeamName( entity.getTeamName() );
+        patientResponseDTO.setTeamINE( entity.getTeamINE() );
+        patientResponseDTO.setMicroArea( entity.getMicroArea() );
+        patientResponseDTO.setOrigin( entity.getOrigin() );
         patientResponseDTO.setResponsibleId( entity.getResponsibleId() );
+        patientResponseDTO.setName( entity.getPerson().getName() );
+        patientResponseDTO.setGender( entity.getPerson().getGender().getLabel() );
+        patientResponseDTO.setBirthday( entity.getPerson().getBirthday() );
+        patientResponseDTO.setCpf( entity.getPerson().getCpf() );
+        patientResponseDTO.setSex( entity.getPerson().getSex().getLabel() );
+        patientResponseDTO.setCellPhone( entity.getPerson().getCellPhone() );
+        patientResponseDTO.setResidentialPhone( entity.getPerson().getResidentialPhone() );
+        patientResponseDTO.setContactPhone( entity.getPerson().getContactPhone() );
+        patientResponseDTO.setAddress( entity.getPerson().getAddress() );
+        patientResponseDTO.setEmail( entity.getPerson().getEmail() );
 
         return patientResponseDTO;
     }

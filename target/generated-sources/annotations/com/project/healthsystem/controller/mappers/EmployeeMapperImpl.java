@@ -1,15 +1,15 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.EmployeeRequestDTO;
 import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.EmployeeRequestDTO;
 import com.project.healthsystem.model.Employee;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-13T18:09:26-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.9 (Ubuntu)"
+    date = "2026-03-06T17:38:30-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
 )
 @Component
 public class EmployeeMapperImpl extends EmployeeMapper {
@@ -21,6 +21,8 @@ public class EmployeeMapperImpl extends EmployeeMapper {
         }
 
         Employee employee = new Employee();
+
+        employee.setActive( dto.isActive() );
 
         employee.setPerson( map(dto) );
 
@@ -36,12 +38,19 @@ public class EmployeeMapperImpl extends EmployeeMapper {
         EmployeeResponseDTO employeeResponseDTO = new EmployeeResponseDTO();
 
         employeeResponseDTO.setId( entity.getId() );
+        employeeResponseDTO.setActive( entity.isActive() );
 
         employeeResponseDTO.setCpf( entity.getPerson().getCpf() );
         employeeResponseDTO.setName( entity.getPerson().getName() );
-        employeeResponseDTO.setPhone( entity.getPerson().getPhone() );
+        employeeResponseDTO.setGender( entity.getPerson().getGender().getLabel() );
+        employeeResponseDTO.setSex( entity.getPerson().getSex().getLabel() );
+        employeeResponseDTO.setCellPhone( entity.getPerson().getCellPhone() );
+        employeeResponseDTO.setResidentialPhone( entity.getPerson().getResidentialPhone() );
+        employeeResponseDTO.setContactPhone( entity.getPerson().getContactPhone() );
+        employeeResponseDTO.setAddress( entity.getPerson().getAddress() );
         employeeResponseDTO.setBirthday( entity.getPerson().getBirthday() );
         employeeResponseDTO.setEmail( entity.getPerson().getEmail() );
+        employeeResponseDTO.setRoles( entity.getPerson().getStringRoles() );
 
         return employeeResponseDTO;
     }
