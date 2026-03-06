@@ -304,7 +304,7 @@ public class AppointmentsController {
     }
 
     @GetMapping("/number-appointments-by-professional")
-    @PreAuthorize(Permissions.PERMIT_ALL)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<NumberAppointmentsByStatusAndProfessionalDTO>> countAppointmentsByProfessional(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
