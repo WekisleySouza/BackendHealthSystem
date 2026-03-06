@@ -5,6 +5,8 @@ import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
+import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
+import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
@@ -30,7 +32,6 @@ import java.util.List;
 public class AppointmentService {
 
     private final AppointmentRepository repository;
-    private final ProfessionalRepository professionalRepository;
 
     private final AppointmentValidator appointmentValidator;
     private final AppointmentsMapper appointmentsMapper;
@@ -151,6 +152,24 @@ public class AppointmentService {
         return repository.countAppointmentsGroupedByProfessional(
             pageRequest
         );
+    }
+
+    public Page<NumberSpecialtiesByStatusDTO> countSpecialtiesByStatus(
+        Integer pageNumber,
+        Integer pageLength
+    ){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        return repository
+            .countSpecialtiesByStatus(pageRequest);
+    }
+
+    public Page<NumberExamsByStatusDTO> countExamsByStatus(
+            Integer pageNumber,
+            Integer pageLength
+    ){
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        return repository
+                .countExamsByStatus(pageRequest);
     }
 
     public Page<TestDTO> test(

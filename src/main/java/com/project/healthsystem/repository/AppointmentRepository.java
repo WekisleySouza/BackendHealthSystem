@@ -2,6 +2,8 @@ package com.project.healthsystem.repository;
 
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
+import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
+import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.repository.projections.AppointmentGetByIdProjection;
 import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
@@ -69,6 +71,46 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         ORDER BY prof.person.name
     """)
     Page<NumberAppointmentsByStatusAndProfessionalDTO> countAppointmentsGroupedByProfessional(Pageable pageable);
+
+    @Query("""
+        SELECT new com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO(
+            st.id,
+            st.name,
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.SCHEDULED THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.COMPLETED THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.CANCELED THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.NO_SHOW THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.OVERDUE THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING THEN 1 ELSE 0 END),
+            COUNT(a)
+        )
+        FROM Appointment a
+        JOIN a.serviceType st
+        WHERE st.type = com.project.healthsystem.model.ServiceTypes.SPECIALTY
+        GROUP BY st.id, st.name
+        ORDER BY st.name
+    """)
+    Page<NumberSpecialtiesByStatusDTO> countSpecialtiesByStatus(Pageable pageable);
+
+    @Query("""
+        SELECT new com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO(
+            st.id,
+            st.name,
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.SCHEDULED THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.COMPLETED THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.CANCELED THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.NO_SHOW THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.OVERDUE THEN 1 ELSE 0 END),
+            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING THEN 1 ELSE 0 END),
+            COUNT(a)
+        )
+        FROM Appointment a
+        JOIN a.serviceType st
+        WHERE st.type = com.project.healthsystem.model.ServiceTypes.EXAM
+        GROUP BY st.id, st.name
+        ORDER BY st.name
+    """)
+    Page<NumberExamsByStatusDTO> countExamsByStatus(Pageable pageable);
 
     @Query("""
     SELECT new com.project.healthsystem.controller.dto.ReportAppointmentCountByServiceTypeByProfessionalResponse(

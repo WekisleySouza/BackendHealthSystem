@@ -6,6 +6,8 @@ import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
+import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
+import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.service.AppointmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -312,6 +314,32 @@ public class AppointmentsController {
         Page<NumberAppointmentsByStatusAndProfessionalDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countAppointmentsByProfessional(
                 pageNumber,
                 pageLength
+        );
+        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
+    }
+
+    @GetMapping("/number-specialties-by-service-type")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<Page<NumberSpecialtiesByStatusDTO>> countSpecialtiesByServiceType(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+    ){
+        Page<NumberSpecialtiesByStatusDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countSpecialtiesByStatus(
+                pageNumber,
+                pageLength
+        );
+        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
+    }
+
+    @GetMapping("/number-exams-by-service-type")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<Page<NumberExamsByStatusDTO>> countExamsByServiceType(
+        @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+    ){
+        Page<NumberExamsByStatusDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countExamsByStatus(
+            pageNumber,
+            pageLength
         );
         return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
     }
