@@ -64,6 +64,7 @@ public class AppointmentService {
 
     public Page<AppointmentResponseDTO> getAll(
             String serviceType,
+            String serviceTypeName,
             Integer pageNumber,
             Integer pageLength,
             String notes,
@@ -92,6 +93,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceTypeName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.employeeNameLike(employeeName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));

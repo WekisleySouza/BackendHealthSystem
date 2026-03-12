@@ -51,7 +51,6 @@ public class PatientRequestDTO {
 
     private String cns;
 
-    @CPF(message = "CPF inválido!")
     private String cpf;
 
     private String address;

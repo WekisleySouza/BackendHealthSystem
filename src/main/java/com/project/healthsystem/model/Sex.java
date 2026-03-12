@@ -1,6 +1,7 @@
 package com.project.healthsystem.model;
 
 public enum Sex {
+    NOT_INFORMED("Não Informado"),
     MALE("Masculino"),
     UNKNOW("Indeterminado"),
     FEMALE("Feminino");
