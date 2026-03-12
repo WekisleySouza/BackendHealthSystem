@@ -28,16 +28,17 @@ public class PatientValidator {
     private final PatientMapper patientMapper;
 
     public Patient validateSave(PatientRequestDTO patientRequestDTO){
-        if (patientRepository.existsByPersonCpf(patientRequestDTO.getCpfNormalized())){
+        if (!(patientRequestDTO.getCpfNormalized().isEmpty()) && patientRepository.existsByPersonCpf(patientRequestDTO.getCpfNormalized())){
             throw new DuplicatedRegisterException("Cpf já cadastrado!");
         }
 
-        Agent agent = agentRepository.findById(patientRequestDTO.getAgentId())
-            .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
-
         Patient patient = patientMapper.toEntity(patientRequestDTO);
-        patient.setAgent(agent);
 
+        if(patientRequestDTO.getAgentId() != null && patientRequestDTO.getAgentId() != -1){
+            Agent agent = agentRepository.findById(patientRequestDTO.getAgentId())
+                .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
+            patient.setAgent(agent);
+        }
         if(patientRequestDTO.getResponsibleId() != null){
             Patient responsible = patientRepository.findById(patientRequestDTO.getResponsibleId())
                 .orElse(null);

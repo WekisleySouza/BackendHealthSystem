@@ -42,7 +42,7 @@ public class LoginService {
     }
 
     public void createDefaultLoginTo(Employee employee){
-        if(!repository.existsByLogin(employee.getPerson().getCpf())){
+        if(!(employee.getPerson().getCpf().isEmpty() || repository.existsByLogin(employee.getPerson().getCpf()))){
             Login login = new Login();
             login.setLogin(employee.getPerson().getCpf());
             login.setPassword(this.passwordEncoder.encode(this.DEFAULT_EMPLOYEE_PASSWORD));
@@ -53,7 +53,7 @@ public class LoginService {
     }
 
     public void createDefaultLoginTo(Patient patient){
-        if(!repository.existsByLogin(patient.getPerson().getCpf())) {
+        if(!(patient.getPerson().getCpf().isEmpty() || repository.existsByLogin(patient.getPerson().getCpf()))) {
             String cpf = patient.getPerson().getCpf();
             String cns = patient.getCns();
             if(cpf != null || cns != null){
