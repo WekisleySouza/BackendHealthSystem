@@ -17,6 +17,7 @@ public class AppointmentResponseDTO {
     private String patientName;
     private String serviceTypeName;
     private String serviceType;
+    private String categoryGroupName;
 
     private String status;
     private String notes;

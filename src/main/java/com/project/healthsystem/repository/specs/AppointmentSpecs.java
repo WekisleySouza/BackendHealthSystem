@@ -89,6 +89,21 @@ public class AppointmentSpecs {
                 );
     }
 
+    public static Specification<Appointment> serviceTypeCategoryGroupNameLike(String name) {
+        if (name == null || name.isBlank()) return null;
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.upper(
+                                root.get("serviceType")
+                                        .get("categoryGroup")
+                                        .get("name")
+                                        .as(String.class)
+                        ),
+                        "%" + name.trim().toUpperCase() + "%"
+                );
+    }
+
     public static Specification<Appointment> professionalNameLike(String name) {
         if (name == null || name.isBlank()) return null;
 

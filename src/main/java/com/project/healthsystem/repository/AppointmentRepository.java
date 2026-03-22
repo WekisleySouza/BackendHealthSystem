@@ -162,6 +162,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         UPDATE Appointment a
         SET a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING
         WHERE a.scheduledAt IS NULL
+            AND a.status NOT IN (
+                  com.project.healthsystem.model.Status.COMPLETED,
+                  com.project.healthsystem.model.Status.NO_SHOW,
+                  com.project.healthsystem.model.Status.CANCELED
+            )
     """)
     void updateToPending();
 

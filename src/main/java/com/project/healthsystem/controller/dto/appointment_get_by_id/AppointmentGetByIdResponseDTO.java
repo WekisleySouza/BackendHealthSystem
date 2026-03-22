@@ -9,6 +9,7 @@ public record AppointmentGetByIdResponseDTO (
     EmployeeInfoResponseDTO employee,
     PatientInfoResponseDTO patient,
     ServiceTypeInfoResponseDTO serviceType,
+    CategoryGroupInfoResponseDTO categoryGroup,
 
     String status,
     String notes,

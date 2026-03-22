@@ -66,4 +66,11 @@ public class Appointment extends BasicEntityAbstraction {
         }
         return "";
     }
+
+    public String getServiceTypeCategoryGroupName(){
+        if(this.serviceType != null){
+            return serviceType.getCategoryGroupName();
+        }
+        return "";
+    }
 }

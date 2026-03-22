@@ -24,6 +24,12 @@ public interface AppointmentGetByIdProjection {
         long getId();
         String getName();
         ServiceTypes getType();
+        CategoryGroupInfo getCategoryGroup();
+
+        interface CategoryGroupInfo {
+            long getId();
+            String getName();
+        }
     }
 
     interface ProfessionalInfo {

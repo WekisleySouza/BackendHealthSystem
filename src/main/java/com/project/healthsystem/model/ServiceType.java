@@ -33,4 +33,10 @@ public class ServiceType extends BasicEntityAbstraction {
         return -1;
     }
 
+    public String getCategoryGroupName(){
+        if (this.categoryGroup != null){
+            return this.categoryGroup.getName();
+        }
+        return "";
+    }
 }

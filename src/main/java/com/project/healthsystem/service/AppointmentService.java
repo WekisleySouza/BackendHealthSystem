@@ -65,6 +65,7 @@ public class AppointmentService {
     public Page<AppointmentResponseDTO> getAll(
             String serviceType,
             String serviceTypeName,
+            String categoryName,
             Integer pageNumber,
             Integer pageLength,
             String notes,
@@ -94,6 +95,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceTypeName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeCategoryGroupNameLike(categoryName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.employeeNameLike(employeeName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
@@ -122,6 +124,10 @@ public class AppointmentService {
                 appointmentProjection.getServiceType().getId(),
                 appointmentProjection.getServiceType().getType().getLabel(),
                 appointmentProjection.getServiceType().getName()
+            ),
+            new CategoryGroupInfoResponseDTO(
+                appointmentProjection.getServiceType().getCategoryGroup().getId(),
+                appointmentProjection.getServiceType().getCategoryGroup().getName()
             ),
             appointmentProjection.getStatus().getLabel(),
             appointmentProjection.getNotes(),
