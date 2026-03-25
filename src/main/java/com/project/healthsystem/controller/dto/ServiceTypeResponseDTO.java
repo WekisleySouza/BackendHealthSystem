@@ -14,6 +14,7 @@ public class ServiceTypeResponseDTO {
     private long categoryGroupId;
 
     private String name;
+    private String sigtapCode;
     private BigDecimal value;
     private String type;
 }

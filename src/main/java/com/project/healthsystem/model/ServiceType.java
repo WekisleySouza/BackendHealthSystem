@@ -18,6 +18,8 @@ public class ServiceType extends BasicEntityAbstraction {
     @ManyToOne
     private CategoryGroup categoryGroup;
 
+    @Column(name = "sigtap_code")
+    private String sigtapCode;
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "value", precision = 20, scale = 8)

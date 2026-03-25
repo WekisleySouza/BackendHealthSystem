@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 public class ServiceTypeRequestDTO {
     private long categoryGroupId;
 
+    private String sigtapCode;
+
     @NotBlank(message = "O nome é obrigatório!")
     private String name;
 

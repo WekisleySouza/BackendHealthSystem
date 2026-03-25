@@ -19,9 +19,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.math.BigDecimal;
@@ -316,5 +318,61 @@ public class ServiceTypeController {
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         serviceTypeService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    @Operation(
+            summary = "Import patients",
+            description = "Import patients from a CSV file (multipart/form-data).",
+            parameters = {
+                    @Parameter(
+                            name = "Authorization",
+                            description = "Bearer access token",
+                            required = true
+                    )
+            }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Imported successfully."
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid file or request.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict - integrity violation during import.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected server error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            )
+    })
+    public ResponseEntity<String> importExcel(
+        @Parameter(
+            description = "CSV file",
+            required = true,
+            content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
+        )
+        @RequestParam("file") MultipartFile file
+    ){
+        serviceTypeService.importCsv(file);
+        return ResponseEntity.ok("Importado com sucesso!");
     }
 }

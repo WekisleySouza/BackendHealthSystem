@@ -6,11 +6,13 @@ import com.project.healthsystem.controller.dto.simplified_info.ServiceTypeSimpli
 import com.project.healthsystem.controller.mappers.ServiceTypeMapper;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.ServiceType;
+import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.repository.ServiceTypeRepository;
 import com.project.healthsystem.repository.specs.ServiceTypeSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.ServiceTypeValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
 @Service
@@ -88,5 +93,35 @@ public class ServiceTypeService {
     public void delete(long id){
         ServiceType serviceTypes = serviceTypeValidator.validateDelete(id);;
         repository.delete(serviceTypes);
+    }
+
+    @Transactional
+    public void importCsv(MultipartFile file){
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            String line;
+
+            // Pular header
+            reader.readLine();
+
+            while((line = reader.readLine()) != null){
+                String[] columns = line.split(";");
+
+                String sigtapCode = columns[0];
+                String name = columns[1];
+                BigDecimal price = new BigDecimal(columns[2]);
+                String type = columns[3];
+
+                ServiceType serviceType = new ServiceType();
+                serviceType.setSigtapCode(sigtapCode);
+                serviceType.setName(name);
+                serviceType.setType(ServiceTypes.fromLabel(type));
+                serviceType.setValue(price);
+                serviceType.createdNow();
+
+                repository.save(serviceType);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao importar CSV" + e.getMessage());
+        }
     }
 }
