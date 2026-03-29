@@ -3,6 +3,7 @@ package com.project.healthsystem.repository.specs;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Sex;
+import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -51,10 +52,14 @@ public class EmployeeSpecs {
     public static Specification<Employee> nameLike(String name) {
         if (name == null || name.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(name);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("name")),
-                        "%" + name.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("name"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
@@ -87,10 +92,14 @@ public class EmployeeSpecs {
     public static Specification<Employee> emailLike(String email) {
         if (email == null || email.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(email);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("email")),
-                        "%" + email.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("email"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 }

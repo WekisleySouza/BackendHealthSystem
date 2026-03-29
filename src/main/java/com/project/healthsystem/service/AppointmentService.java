@@ -70,7 +70,14 @@ public class AppointmentService {
             Integer pageLength,
             String notes,
             LocalDateTime scheduledAt,
+            LocalDateTime scheduledAtStart,
+            LocalDateTime scheduledAtEnd,
             LocalDateTime createdAt,
+            LocalDateTime createdAtStart,
+            LocalDateTime createdAtEnd,
+            LocalDateTime schedulingForecast,
+            LocalDateTime schedulingForecastStart,
+            LocalDateTime schedulingForecastEnd,
             String priorit,
             String status,
             String professionalName,
@@ -90,7 +97,11 @@ public class AppointmentService {
         Specification<Appointment> specification = null;
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.notesLike(notes));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtBetween(createdAtStart, createdAtEnd));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.schedulingForecastEqual(schedulingForecast));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.schedulingForecastBetween(schedulingForecastStart, schedulingForecastEnd));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
@@ -126,14 +137,17 @@ public class AppointmentService {
                 appointmentProjection.getServiceType().getName()
             ),
             new CategoryGroupInfoResponseDTO(
-                appointmentProjection.getServiceType().getCategoryGroup().getId(),
-                appointmentProjection.getServiceType().getCategoryGroup().getName()
+                appointmentProjection.getServiceType().getCategoryGroupId(),
+                appointmentProjection.getServiceType().getCategoryGroupName()
             ),
             appointmentProjection.getStatus().getLabel(),
             appointmentProjection.getNotes(),
             appointmentProjection.getPriorit().getLabel(),
+            appointmentProjection.getIsReturn(),
+
             appointmentProjection.getScheduledAt(),
-            appointmentProjection.getCreatedAt()
+            appointmentProjection.getCreatedAt(),
+            appointmentProjection.getSchedulingForecast()
         );
     }
 

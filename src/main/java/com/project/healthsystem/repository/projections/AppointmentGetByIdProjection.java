@@ -3,6 +3,7 @@ package com.project.healthsystem.repository.projections;
 import com.project.healthsystem.model.Priority;
 import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.model.Status;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +13,10 @@ public interface AppointmentGetByIdProjection {
     Status getStatus();
     String getNotes();
     Priority getPriorit();
+    boolean getIsReturn();
     LocalDateTime getScheduledAt();
     LocalDateTime getCreatedAt();
+    LocalDateTime getSchedulingForecast();
 
     ServiceTypeInfo getServiceType();
     ProfessionalInfo getProfessional();
@@ -24,12 +27,10 @@ public interface AppointmentGetByIdProjection {
         long getId();
         String getName();
         ServiceTypes getType();
-        CategoryGroupInfo getCategoryGroup();
-
-        interface CategoryGroupInfo {
-            long getId();
-            String getName();
-        }
+        @Value("#{target.categoryGroup != null ? target.categoryGroup.id : null}")
+        Long getCategoryGroupId();
+        @Value("#{target.categoryGroup != null ? target.categoryGroup.name : null}")
+        String getCategoryGroupName();
     }
 
     interface ProfessionalInfo {

@@ -95,8 +95,11 @@ public class PatientValidator {
     }
 
     public Patient validateFindByCpf(String cpf){
-        return patientRepository.findByPersonCpf(cpf)
-            .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
+        List<Patient> patient = patientRepository.findByPersonCpf(cpf);
+        if (patient.isEmpty()){
+            throw new NotFoundException("Paciente não encontrado!");
+        }
+        return patient.getFirst();
     }
 
     public Patient validateDelete(long id){

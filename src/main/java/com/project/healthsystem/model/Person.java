@@ -20,6 +20,10 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Person extends BasicEntityAbstraction {
 
+    @Column(name = "person_sequence_id")
+    protected String personSequenceId;
+    @Column(name = "unique_person_id")
+    protected String uniquePersonId;
     @Column(name = "name", length = 100, nullable = false)
     protected String name;
     @Enumerated(EnumType.STRING)

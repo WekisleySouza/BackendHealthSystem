@@ -28,8 +28,10 @@ public class AppointmentRequestDTO {
     private Long serviceTypeId;
 
     private String notes;
+    private boolean isReturn;
 
     private LocalDateTime scheduledAt;
+    private LocalDateTime schedulingForecast;
 
     private LocalDateTime createdAt;
 

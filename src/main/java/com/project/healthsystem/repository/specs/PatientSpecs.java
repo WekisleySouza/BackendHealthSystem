@@ -4,6 +4,7 @@ import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.model.Sex;
+import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -12,40 +13,56 @@ public class PatientSpecs {
     public static Specification<Patient> teamNameLike(String teamName) {
         if (teamName == null || teamName.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(teamName);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("teamName")),
-                        "%" + teamName.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("teamName"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
     public static Specification<Patient> teamINELike(String teamINE) {
         if (teamINE == null || teamINE.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(teamINE);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("teamINE")),
-                        "%" + teamINE.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("teamINE"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
     public static Specification<Patient> microAreaLike(String microArea) {
         if (microArea == null || microArea.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(microArea);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("microArea")),
-                        "%" + microArea.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("microArea"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
     public static Specification<Patient> originLike(String origin) {
         if (origin == null || origin.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(origin);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("origin")),
-                        "%" + origin.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("origin"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
@@ -98,23 +115,31 @@ public class PatientSpecs {
                 );
     }
 
-    public static Specification<Patient> motherNameLike(String motherName) {
-        if (motherName == null || motherName.isBlank()) return null;
-
-        return (root, query, cb) ->
-                cb.like(
-                        cb.upper(root.get("motherName")),
-                        "%" + motherName.trim().toUpperCase() + "%"
-                );
-    }
-
     public static Specification<Patient> nameLike(String name) {
         if (name == null || name.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(name);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("name")),
-                        "%" + name.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("name"))
+                        ),
+                        "%" + normalized + "%"
+                );
+    }
+
+    public static Specification<Patient> motherNameLike(String motherName) {
+        if (motherName == null || motherName.isBlank()) return null;
+
+        String normalized = SpecificationsUtils.normalize(motherName);
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("motherName"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
@@ -147,10 +172,14 @@ public class PatientSpecs {
     public static Specification<Patient> emailLike(String email) {
         if (email == null || email.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(email);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("email")),
-                        "%" + email.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("email"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 

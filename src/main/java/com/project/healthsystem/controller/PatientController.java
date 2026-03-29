@@ -487,4 +487,60 @@ public class PatientController {
         patientService.importCsv(file);
         return ResponseEntity.ok("Importado com sucesso");
     }
+
+    @PostMapping(value = "/import-esus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize(Permissions.PERMIT_ALL)
+    @Operation(
+            summary = "Import patients",
+            description = "Import patients from a CSV file (multipart/form-data).",
+            parameters = {
+                    @Parameter(
+                            name = "Authorization",
+                            description = "Bearer access token",
+                            required = true
+                    )
+            }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Imported successfully."
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid file or request.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict - integrity violation during import.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected server error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            )
+    })
+    public ResponseEntity<String> importExcelESUS(
+            @Parameter(
+                    description = "CSV file",
+                    required = true,
+                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
+            )
+            @RequestParam("file") MultipartFile file
+    ) {
+        patientService.importESUSCsv(file);
+        return ResponseEntity.ok("Importado ESUS com sucesso");
+    }
 }

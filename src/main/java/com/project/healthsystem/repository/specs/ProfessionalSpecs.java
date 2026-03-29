@@ -3,6 +3,7 @@ package com.project.healthsystem.repository.specs;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.model.Sex;
+import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -32,20 +33,28 @@ public class ProfessionalSpecs {
     public static Specification<Professional> vinculationLike(String vinculation) {
         if (vinculation == null || vinculation.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(vinculation);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("vinculation")),
-                        "%" + vinculation.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("vinculation"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
     public static Specification<Professional> descriptionLike(String description) {
         if (description == null || description.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(description);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("description")),
-                        "%" + description.trim().toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("description"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
@@ -91,10 +100,14 @@ public class ProfessionalSpecs {
     public static Specification<Professional> nameLike(String name) {
         if (name == null || name.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(name);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("name")),
-                        "%" + name.toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("name"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 
@@ -128,10 +141,14 @@ public class ProfessionalSpecs {
     public static Specification<Professional> emailLike(String email) {
         if (email == null || email.isBlank()) return null;
 
+        String normalized = SpecificationsUtils.normalize(email);
+
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("person").get("email")),
-                        "%" + email.toUpperCase() + "%"
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("person").get("email"))
+                        ),
+                        "%" + normalized + "%"
                 );
     }
 

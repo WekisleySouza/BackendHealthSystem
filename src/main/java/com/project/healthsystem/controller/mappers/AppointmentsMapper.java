@@ -31,6 +31,8 @@ public abstract class AppointmentsMapper {
         entity.setPriorit(Priority.fromLabel(dto.getPriority()));
         entity.setNotes(dto.getNotes());
         entity.setScheduledAt(dto.getScheduledAt());
+        entity.setReturn(dto.isReturn());
+        entity.setSchedulingForecast(dto.getSchedulingForecast());
         return entity;
     }
 }

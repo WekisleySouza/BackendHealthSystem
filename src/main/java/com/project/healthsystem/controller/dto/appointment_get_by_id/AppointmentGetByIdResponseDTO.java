@@ -14,7 +14,9 @@ public record AppointmentGetByIdResponseDTO (
     String status,
     String notes,
     String priority,
+    boolean isReturn,
 
     LocalDateTime scheduledAt,
-    LocalDateTime createdAt
+    LocalDateTime createdAt,
+    LocalDateTime schedulingForecast
 ){}

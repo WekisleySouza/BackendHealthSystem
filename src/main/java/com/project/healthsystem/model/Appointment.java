@@ -21,6 +21,10 @@ public class Appointment extends BasicEntityAbstraction {
     @Enumerated(EnumType.STRING)
     @Column(name="status")
     private Status status;
+    @Column(name="is_return")
+    private boolean isReturn;
+    @Column(name = "scheduling_forecast")
+    private LocalDateTime schedulingForecast;
     @Column(name="scheduled_at")
     private LocalDateTime scheduledAt;
 

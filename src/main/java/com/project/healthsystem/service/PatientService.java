@@ -308,4 +308,141 @@ public class PatientService {
         }
     }
 
+    @Transactional
+    public void importESUSCsv(MultipartFile file) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            String line;
+
+            // Pular header
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] columns = line.split(";", -1);
+                Patient patient = new Patient();
+                Person person = new Person();
+
+                String citizenSequenceId = columns[0];
+                String uniqueCitizenId = columns[1];
+                String citizenName = columns[2];
+                String address = columns[3];
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate birthDate = LocalDate.parse(columns[4], formatter);
+                String mobilePhone = columns[5];
+                String contactPhone = columns[6];
+                String homePhone = columns[7];
+                String cpf = columns[8].replaceAll("\\D", "");
+                String email = columns[9];
+                String gender = columns[10];
+                String sex = columns[11];
+                String cns = columns[12].replaceAll("\\D", "");
+
+                person.setPersonSequenceId(citizenSequenceId);
+                person.setUniquePersonId(uniqueCitizenId);
+                person.setName(citizenName);
+                person.setCpf(cpf);
+                person.setCellPhone(mobilePhone);
+                person.setResidentialPhone(homePhone);
+                person.setContactPhone(contactPhone);
+                person.setAddress(address);
+                person.setBirthday(birthDate);
+                person.setEmail(email);
+
+                if(gender.equals("BISSEXUAL")){
+                    person.setGender(Gender.BISEXUAL);
+                } else if (gender.equals("GAY")) {
+                    person.setGender(Gender.HOMOSEXUAL);
+                } else if (gender.equals("HETEROSSEXUAL")) {
+                    person.setGender(Gender.MALE);
+                } else if (gender.equals("HOMOSSEXUAL")) {
+                    person.setGender(Gender.HOMOSEXUAL);
+                } else if (gender.equals("LESBICA")) {
+                    person.setGender(Gender.HOMOSEXUAL);
+                } else {
+                    person.setGender(Gender.NOT_INFORMED);
+                }
+                if(sex.equals("FEMININO")){
+                    person.setSex(Sex.FEMALE);
+                } else if (sex.equals("INDETERMINADO")) {
+                    person.setSex(Sex.UNKNOW);
+                } else {
+                    person.setSex(Sex.MALE);
+                }
+
+                patient.setCns(cns);
+                patient.setPerson(person);
+
+                List<Patient> patientByName = repository.findByPersonName(citizenName);
+                List<Patient> patientByCpf = repository.findByPersonCpf(cpf);
+                List<Patient> patientByCns = repository.findByCns(cns);
+
+                if(!patientByName.isEmpty()){
+                    this.updateIfEmpty(patientByName.getFirst(), patient);
+                    personService.save(patientByName.getFirst().getPerson());
+                    repository.save(patientByName.getFirst());
+                } else if (!patientByCpf.isEmpty()) {
+                    this.updateIfEmpty(patientByCpf.getFirst(), patient);
+                    personService.save(patientByCpf.getFirst().getPerson());
+                    repository.save(patientByCpf.getFirst());
+                } else if (!patientByCns.isEmpty()) {
+                    this.updateIfEmpty(patientByCns.getFirst(), patient);
+                    personService.save(patientByCns.getFirst().getPerson());
+                    repository.save(patientByCns.getFirst());
+                } else {
+                    personService.save(person);
+                    repository.save(patient);
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao importar CSV" + e.getMessage());
+        }
+    }
+
+    private void updateIfEmpty(Patient target, Patient source) {
+        if (isEmpty(target.getPerson().getName()) && !isEmpty(source.getPerson().getName())) {
+            target.getPerson().setName(source.getPerson().getName());
+        }
+        if (isEmpty(target.getCns()) && !isEmpty(source.getCns())) {
+            target.setCns(source.getCns());
+        }
+        if (isEmpty(target.getPerson().getCpf()) && !isEmpty(source.getPerson().getCpf())) {
+            target.getPerson().setCpf(source.getPerson().getCpf());
+        }
+        if (isEmpty(target.getPerson().getCellPhone()) && !isEmpty(source.getPerson().getCellPhone())) {
+            target.getPerson().setCellPhone(source.getPerson().getCellPhone());
+        }
+        if (isEmpty(target.getPerson().getResidentialPhone()) && !isEmpty(source.getPerson().getResidentialPhone())) {
+            target.getPerson().setResidentialPhone(source.getPerson().getResidentialPhone());
+        }
+        if (isEmpty(target.getPerson().getContactPhone()) && !isEmpty(source.getPerson().getContactPhone())) {
+            target.getPerson().setContactPhone(source.getPerson().getContactPhone());
+        }
+        if (isEmpty(target.getPerson().getAddress()) && !isEmpty(source.getPerson().getAddress())) {
+            target.getPerson().setAddress(source.getPerson().getAddress());
+        }
+        if (target.getPerson().getBirthday() == null && source.getPerson().getBirthday() != null) {
+            target.getPerson().setBirthday(source.getPerson().getBirthday());
+        }
+        if (isEmpty(target.getPerson().getEmail()) && !isEmpty(source.getPerson().getEmail())) {
+            target.getPerson().setEmail(source.getPerson().getEmail());
+        }
+        if (target.getPerson().getGender() == Gender.NOT_INFORMED && source.getPerson().getGender() != null) {
+            target.getPerson().setGender(source.getPerson().getGender());
+        }
+        if (target.getPerson().getSex() == Sex.NOT_INFORMED && source.getPerson().getSex() != null) {
+            target.getPerson().setSex(source.getPerson().getSex());
+        }
+        if (isEmpty(target.getPerson().getUniquePersonId()) && !isEmpty(source.getPerson().getUniquePersonId())) {
+            target.getPerson().setUniquePersonId(source.getPerson().getUniquePersonId());
+        }
+        if (isEmpty(target.getPerson().getPersonSequenceId()) && !isEmpty(source.getPerson().getPersonSequenceId())) {
+            target.getPerson().setPersonSequenceId(source.getPerson().getPersonSequenceId());
+        }
+    }
+
+    private boolean isEmpty(String value) {
+        return value == null || value.trim().isEmpty();
+    }
 }
+

@@ -268,6 +268,7 @@ public class ServiceTypeController {
     public ResponseEntity<Page<ServiceTypeResponseDTO>> readAll(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+            @RequestParam(value = "code", required = false) String code,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "value", required = false) BigDecimal value
@@ -275,6 +276,7 @@ public class ServiceTypeController {
         return ResponseEntity.ok(serviceTypeService.getAll(
                 pageNumber,
                 pageLength,
+                code,
                 name,
                 type,
                 value

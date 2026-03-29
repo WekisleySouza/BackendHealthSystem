@@ -70,6 +70,7 @@ public class ServiceTypeService {
     public Page<ServiceTypeResponseDTO> getAll(
         Integer pageNumber,
         Integer pageLength,
+        String code,
         String name,
         String type,
         BigDecimal value
@@ -77,6 +78,7 @@ public class ServiceTypeService {
         Sort sort = Sort.by("name").ascending();
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         Specification<ServiceType> specs = null;
+        specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.codeLike(code));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.nameLike(name));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.typeLike(type));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.valueEqual(value));

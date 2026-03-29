@@ -3,6 +3,7 @@ package com.project.healthsystem.repository.specs;
 import com.project.healthsystem.model.Agent;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Sex;
+import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -49,13 +50,7 @@ public class AgentSpecs {
     }
 
     public static Specification<Agent> nameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        return (root, query, cb) ->
-                cb.like(
-                        cb.upper(root.get("person").get("name")),
-                        "%" + name.trim().toUpperCase() + "%"
-                );
+        return SpecificationsUtils.likeIgnoreAccentsNested("person", "name", name);
     }
 
     public static Specification<Agent> genderEqual(String genderLabel) {
@@ -85,13 +80,7 @@ public class AgentSpecs {
     }
 
     public static Specification<Agent> emailLike(String email) {
-        if (email == null || email.isBlank()) return null;
-
-        return (root, query, cb) ->
-                cb.like(
-                        cb.upper(root.get("person").get("email")),
-                        "%" + email.trim().toUpperCase() + "%"
-                );
+        return SpecificationsUtils.likeIgnoreAccentsNested("person", "email", email);
     }
 
 }

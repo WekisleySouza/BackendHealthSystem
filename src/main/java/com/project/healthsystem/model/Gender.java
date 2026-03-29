@@ -7,6 +7,8 @@ public enum Gender {
     MALE_TRANS("Homem Transgênero"),
     FEMALE("Mulher Cisgênero"),
     FEMALE_TRANS("Mulher Transgênero"),
+    HOMOSEXUAL("Homossexual"),
+    BISEXUAL("Bissexual"),
     OTHER("Outro");
 
     private final String label;
