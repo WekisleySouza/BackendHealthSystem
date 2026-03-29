@@ -99,7 +99,7 @@ public class PatientValidator {
         if (patient.isEmpty()){
             throw new NotFoundException("Paciente não encontrado!");
         }
-        return patient.getFirst();
+        return patient.get(0);
     }
 
     public Patient validateDelete(long id){
