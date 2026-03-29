@@ -377,17 +377,17 @@ public class PatientService {
                 List<Patient> patientByCns = repository.findByCns(cns);
 
                 if(!patientByName.isEmpty()){
-                    this.updateIfEmpty(patientByName.getFirst(), patient);
-                    personService.save(patientByName.getFirst().getPerson());
-                    repository.save(patientByName.getFirst());
+                    this.updateIfEmpty(patientByName.get(0), patient);
+                    personService.save(patientByName.get(0).getPerson());
+                    repository.save(patientByName.get(0));
                 } else if (!patientByCpf.isEmpty()) {
-                    this.updateIfEmpty(patientByCpf.getFirst(), patient);
-                    personService.save(patientByCpf.getFirst().getPerson());
-                    repository.save(patientByCpf.getFirst());
+                    this.updateIfEmpty(patientByCpf.get(0), patient);
+                    personService.save(patientByCpf.get(0).getPerson());
+                    repository.save(patientByCpf.get(0));
                 } else if (!patientByCns.isEmpty()) {
-                    this.updateIfEmpty(patientByCns.getFirst(), patient);
-                    personService.save(patientByCns.getFirst().getPerson());
-                    repository.save(patientByCns.getFirst());
+                    this.updateIfEmpty(patientByCns.get(0), patient);
+                    personService.save(patientByCns.get(0).getPerson());
+                    repository.save(patientByCns.get(0));
                 } else {
                     personService.save(person);
                     repository.save(patient);

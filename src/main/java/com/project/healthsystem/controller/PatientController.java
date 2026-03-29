@@ -489,7 +489,7 @@ public class PatientController {
     }
 
     @PostMapping(value = "/import-esus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize(Permissions.PERMIT_ALL)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     @Operation(
             summary = "Import patients",
             description = "Import patients from a CSV file (multipart/form-data).",
