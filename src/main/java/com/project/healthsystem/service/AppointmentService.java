@@ -85,7 +85,7 @@ public class AppointmentService {
             String patientName,
             boolean isSortedByName,
             boolean isDescending,
-            boolean isReturn
+            Boolean isReturn
         ){
         String field = isSortedByName ? "serviceType.name" : "createdAt";
         Sort sort = Sort.by(
@@ -94,7 +94,6 @@ public class AppointmentService {
         );
 
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
-
         Specification<Appointment> specification = null;
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.notesLike(notes));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
