@@ -84,7 +84,8 @@ public class AppointmentService {
             String employeeName,
             String patientName,
             boolean isSortedByName,
-            boolean isDescending
+            boolean isDescending,
+            boolean isReturn
         ){
         String field = isSortedByName ? "serviceType.name" : "createdAt";
         Sort sort = Sort.by(
@@ -109,6 +110,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeCategoryGroupNameLike(categoryName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.employeeNameLike(employeeName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.isReturnEqual(isReturn));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
         return repository
             .findAll(specification, pageRequest)

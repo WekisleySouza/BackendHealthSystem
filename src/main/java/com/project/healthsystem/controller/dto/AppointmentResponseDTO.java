@@ -22,7 +22,9 @@ public class AppointmentResponseDTO {
     private String status;
     private String notes;
     private String priority;
+    private boolean isReturn;
 
     private LocalDateTime scheduledAt;
+    private LocalDateTime schedulingForecast;
     private LocalDateTime createdAt;
 }

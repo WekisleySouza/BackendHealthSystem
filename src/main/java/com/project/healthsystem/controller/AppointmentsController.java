@@ -255,6 +255,7 @@ public class AppointmentsController {
             @RequestParam(value = "category-name", required = false) String categoryName,
             @RequestParam(value = "service-type-name", required = false) String serviceTypeName,
             @RequestParam(value = "is-sorted-by-name", required = false) boolean isSortedByName,
+            @RequestParam(value = "is-return", required = false) boolean isReturn,
             @RequestParam(value = "is-descending", required = false) boolean isDescending
     ){
         Page<AppointmentResponseDTO> AppointmentResponseDTOs = appointmentService.getAll(
@@ -279,7 +280,8 @@ public class AppointmentsController {
                 employee,
                 patient,
                 isSortedByName,
-                isDescending
+                isDescending,
+                isReturn
         );
         return ResponseEntity.ok(AppointmentResponseDTOs);
     }

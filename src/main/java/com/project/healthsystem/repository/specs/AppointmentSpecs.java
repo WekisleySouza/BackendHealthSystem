@@ -132,6 +132,13 @@ public class AppointmentSpecs {
                 );
     }
 
+    public static Specification<Appointment> isReturnEqual(Boolean isReturn) {
+        if (isReturn == null) return null;
+
+        return (root, query, cb) ->
+                cb.equal(root.get("isReturn"), isReturn);
+    }
+
     public static Specification<Appointment> serviceTypeLike(String type) {
         if (type == null || type.isBlank()) return null;
 
