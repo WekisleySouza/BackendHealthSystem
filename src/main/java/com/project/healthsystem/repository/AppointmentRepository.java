@@ -1,6 +1,7 @@
 package com.project.healthsystem.repository;
 
 import com.project.healthsystem.controller.dto.*;
+import com.project.healthsystem.controller.dto.reports_patients.AppointmentSummaryDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
@@ -9,6 +10,7 @@ import com.project.healthsystem.repository.projections.AppointmentGetByIdProject
 import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -112,21 +114,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
     """)
     Page<NumberExamsByStatusDTO> countExamsByStatus(Pageable pageable);
 
-    @Query("""
-    SELECT new com.project.healthsystem.controller.dto.ReportAppointmentCountByServiceTypeByProfessionalResponse(
-            prof.id,
-            prof.person.name,
-            st.name,
-            a.scheduledAt,
-            COUNT(a)
-        )
-        FROM Appointment a
-        JOIN a.professional prof
-        JOIN a.serviceType st
-        GROUP BY prof.id, prof.person.name, st.name
-    """)
-    Page<ReportAppointmentCountByServiceTypeByProfessionalResponse> countByProfessionalAndServiceType(Pageable pageable);
-
     List<PatientInfoAppointmentProjection> findByPatient_Id(long patientId);
 
     @Modifying
@@ -169,5 +156,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
             )
     """)
     void updateToPending();
+
+    @Query("""
+        SELECT new com.project.healthsystem.controller.dto.reports_patients.AppointmentSummaryDTO(a.status, COUNT(a))
+        FROM Appointment a
+        GROUP BY a.status
+    """)
+    List<AppointmentSummaryDTO> getSummary();
 
 }

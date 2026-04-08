@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-03-06T18:01:48-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-08T11:49:23-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Microsoft)"
 )
 @Component
 public class CategoryGroupMapperImpl extends CategoryGroupMapper {

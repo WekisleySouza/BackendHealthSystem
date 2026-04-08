@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
+import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
@@ -362,6 +363,30 @@ public class AppointmentsController {
             pageLength
         );
         return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
+    }
+
+    @GetMapping("/report-graph")
+    @PreAuthorize(Permissions.PERMIT_ALL)
+    public ResponseEntity<ReportAppointmentGraphResponseDTO> reportAppointmentsGraph(
+        @RequestParam(value = "patient-name", required = false) String patientName,
+        @RequestParam(value = "mother-name", required = false) String patientMotherName,
+        @RequestParam(value = "professional-name", required = false) String professionalName,
+        @RequestParam(value = "status", required = false) String status,
+        @RequestParam(value = "priorit", required = false) String priorit,
+        @RequestParam(value = "type", required = false) String type,
+        @RequestParam(value = "service-name", required = false) String serviceName,
+        @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt
+    ){
+        return ResponseEntity.ok(appointmentService.getPatientReportGraphInfo(
+            patientName,
+            patientMotherName,
+            professionalName,
+            status,
+            priorit,
+            type,
+            serviceName,
+            scheduledAt
+        ));
     }
 
 //    @GetMapping("/test")

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-03-06T18:01:48-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-08T11:49:23-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Microsoft)"
 )
 @Component
 public class ServiceTypeMapperImpl extends ServiceTypeMapper {
@@ -22,6 +22,7 @@ public class ServiceTypeMapperImpl extends ServiceTypeMapper {
 
         ServiceType serviceType = new ServiceType();
 
+        serviceType.setSigtapCode( dto.getSigtapCode() );
         serviceType.setName( dto.getName() );
         serviceType.setValue( dto.getValue() );
 
@@ -40,6 +41,7 @@ public class ServiceTypeMapperImpl extends ServiceTypeMapper {
 
         serviceTypeResponseDTO.setId( entity.getId() );
         serviceTypeResponseDTO.setName( entity.getName() );
+        serviceTypeResponseDTO.setSigtapCode( entity.getSigtapCode() );
         serviceTypeResponseDTO.setValue( entity.getValue() );
 
         serviceTypeResponseDTO.setCategoryGroupId( entity.getCategoryGroupId() );

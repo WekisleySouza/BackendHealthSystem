@@ -227,4 +227,18 @@ public class AppointmentSpecs {
                 );
     }
 
+    public static Specification<Appointment> patientMotherNameLike(String motherName) {
+        if (motherName == null || motherName.isBlank()) return null;
+
+        String normalized = SpecificationsUtils.normalize(motherName);
+
+        return (root, query, cb) ->
+                cb.like(
+                        cb.function("unaccent", String.class,
+                                cb.upper(root.get("patient").get("motherName"))
+                        ),
+                        "%" + normalized + "%"
+                );
+    }
+
 }

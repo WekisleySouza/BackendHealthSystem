@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-03-06T18:01:48-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-08T11:49:22-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Microsoft)"
 )
 @Component
 public class AppointmentsMapperImpl extends AppointmentsMapper {
@@ -24,6 +24,8 @@ public class AppointmentsMapperImpl extends AppointmentsMapper {
 
         appointment.setCreatedAt( dto.getCreatedAt() );
         appointment.setNotes( dto.getNotes() );
+        appointment.setReturn( dto.isReturn() );
+        appointment.setSchedulingForecast( dto.getSchedulingForecast() );
         appointment.setScheduledAt( dto.getScheduledAt() );
 
         appointment.setStatus( com.project.healthsystem.model.Status.fromLabel(dto.getStatus()) );
@@ -42,7 +44,9 @@ public class AppointmentsMapperImpl extends AppointmentsMapper {
 
         appointmentResponseDTO.setId( entity.getId() );
         appointmentResponseDTO.setNotes( entity.getNotes() );
+        appointmentResponseDTO.setReturn( entity.isReturn() );
         appointmentResponseDTO.setScheduledAt( entity.getScheduledAt() );
+        appointmentResponseDTO.setSchedulingForecast( entity.getSchedulingForecast() );
         appointmentResponseDTO.setCreatedAt( entity.getCreatedAt() );
 
         appointmentResponseDTO.setProfessionalName( entity.getProfessionalName() );
@@ -50,6 +54,7 @@ public class AppointmentsMapperImpl extends AppointmentsMapper {
         appointmentResponseDTO.setPatientName( entity.getPatientName() );
         appointmentResponseDTO.setServiceTypeName( entity.getServiceTypeName() );
         appointmentResponseDTO.setServiceType( entity.getServiceType() );
+        appointmentResponseDTO.setCategoryGroupName( entity.getServiceTypeCategoryGroupName() );
         appointmentResponseDTO.setStatus( entity.getStatus().getLabel() );
         appointmentResponseDTO.setPriority( entity.getPriorit().getLabel() );
 

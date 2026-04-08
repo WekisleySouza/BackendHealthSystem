@@ -4,6 +4,8 @@ import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.reports_patients.AppointmentSummaryDTO;
+import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
@@ -26,6 +28,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -155,6 +160,52 @@ public class AppointmentService {
     public void delete(long id){
         Appointment apointment = appointmentValidator.validateDelete(id);
         repository.delete(apointment);
+    }
+
+    public ReportAppointmentGraphResponseDTO getPatientReportGraphInfo(
+        String patientName,
+        String patientMotherName,
+        String professionalName,
+        String status,
+        String priorit,
+        String type,
+        String serviceName,
+        LocalDateTime scheduledAt
+    ){
+        Specification<Appointment> specification = null;
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientMotherNameLike(patientMotherName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
+        Long total = repository.count(specification);
+        List<AppointmentSummaryDTO> summaryList = repository.getSummary(
+//            patientName,
+//            patientMotherName,
+//            professionalName,
+//            status,
+//            priorit,
+//            type,
+//            serviceName,
+//            scheduledAt
+        );
+        Map<Status, Long> map = summaryList.stream()
+            .collect(Collectors.toMap(
+                AppointmentSummaryDTO::status,
+                AppointmentSummaryDTO::total
+            ));
+        ReportAppointmentGraphResponseDTO dto =  new ReportAppointmentGraphResponseDTO();
+        dto.setTotal(total);
+        dto.setTotalPendingScheduling(map.getOrDefault(Status.PENDING_SCHEDULING, 0L));
+        dto.setTotalScheduled(map.getOrDefault(Status.SCHEDULED, 0L));
+        dto.setTotalCompleted(map.getOrDefault(Status.COMPLETED, 0L));
+        dto.setTotalCanceled(map.getOrDefault(Status.CANCELED, 0L));
+        dto.setTotalNoShow(map.getOrDefault(Status.NO_SHOW, 0L));
+        dto.setTotalOverdue(map.getOrDefault(Status.OVERDUE, 0L));
+        return dto;
     }
 
     public ReportAppointmentByPatientResponseDTO getPatientReport(
