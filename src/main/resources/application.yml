@@ -5,8 +5,8 @@ spring:
     name: healthsystemapi
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/healthsystem}
-    username: ${SPRING_DATASOURCE_USERNAME:wekisley}
-    password: ${SPRING_DATASOURCE_PASSWORD:aline}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driverClassName: org.postgresql.Driver
   jpa:
     show-sql: true

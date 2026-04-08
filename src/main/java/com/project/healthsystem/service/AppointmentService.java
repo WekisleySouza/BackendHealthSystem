@@ -12,6 +12,7 @@ import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecial
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
+import com.project.healthsystem.repository.custom.AppointmentRepositoryCustom;
 import com.project.healthsystem.repository.projections.AppointmentGetByIdProjection;
 import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
 import com.project.healthsystem.repository.specs.AppointmentSpecs;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 public class AppointmentService {
 
     private final AppointmentRepository repository;
+    private final AppointmentRepositoryCustom repositoryCustom;
 
     private final AppointmentValidator appointmentValidator;
     private final AppointmentsMapper appointmentsMapper;
@@ -182,16 +184,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
         Long total = repository.count(specification);
-        List<AppointmentSummaryDTO> summaryList = repository.getSummary(
-//            patientName,
-//            patientMotherName,
-//            professionalName,
-//            status,
-//            priorit,
-//            type,
-//            serviceName,
-//            scheduledAt
-        );
+        List<AppointmentSummaryDTO> summaryList = repositoryCustom.getSummary(specification);
         Map<Status, Long> map = summaryList.stream()
             .collect(Collectors.toMap(
                 AppointmentSummaryDTO::status,
