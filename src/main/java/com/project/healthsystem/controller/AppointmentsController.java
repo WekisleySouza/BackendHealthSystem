@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
+import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
@@ -365,9 +366,9 @@ public class AppointmentsController {
         return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
     }
 
-    @GetMapping("/report-graph")
-    @PreAuthorize(Permissions.PERMIT_ALL)
-    public ResponseEntity<ReportAppointmentGraphResponseDTO> reportAppointmentsGraph(
+    @GetMapping("/report-patients-graph")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    public ResponseEntity<ReportAppointmentGraphResponseDTO> reportAppointmentsPatientGraph(
         @RequestParam(value = "patient-name", required = false) String patientName,
         @RequestParam(value = "mother-name", required = false) String patientMotherName,
         @RequestParam(value = "professional-name", required = false) String professionalName,
@@ -375,7 +376,12 @@ public class AppointmentsController {
         @RequestParam(value = "priorit", required = false) String priorit,
         @RequestParam(value = "type", required = false) String type,
         @RequestParam(value = "service-name", required = false) String serviceName,
-        @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt
+        @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt,
+        @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
+        @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
+        @RequestParam(value = "created-at", required = false) LocalDateTime createdAt,
+        @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
+        @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd
     ){
         return ResponseEntity.ok(appointmentService.getPatientReportGraphInfo(
             patientName,
@@ -385,7 +391,50 @@ public class AppointmentsController {
             priorit,
             type,
             serviceName,
-            scheduledAt
+            scheduledAt,
+            scheduledAtStart,
+            scheduledAtEnd,
+            createdAt,
+            createdAtStart,
+            createdAtEnd
+        ));
+    }
+
+    @GetMapping("/report-patients-page")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    public ResponseEntity<Page<PatientReportReponseDTO>> reportAppointmentsPatientPage(
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+            @RequestParam(value = "patient-name", required = false) String patientName,
+            @RequestParam(value = "mother-name", required = false) String patientMotherName,
+            @RequestParam(value = "professional-name", required = false) String professionalName,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "priorit", required = false) String priorit,
+            @RequestParam(value = "type", required = false) String type,
+            @RequestParam(value = "service-name", required = false) String serviceName,
+            @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt,
+            @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
+            @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
+            @RequestParam(value = "created-at", required = false) LocalDateTime createdAt,
+            @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
+            @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd
+    ){
+        return ResponseEntity.ok(appointmentService.getPatientReportPages(
+                pageNumber,
+                pageLength,
+                patientName,
+                patientMotherName,
+                professionalName,
+                status,
+                priorit,
+                type,
+                serviceName,
+                scheduledAt,
+                scheduledAtStart,
+                scheduledAtEnd,
+                createdAt,
+                createdAtStart,
+                createdAtEnd
         ));
     }
 

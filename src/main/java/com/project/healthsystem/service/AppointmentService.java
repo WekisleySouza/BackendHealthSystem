@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.reports_patients.AppointmentSummaryDTO;
+import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
@@ -30,7 +31,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Service
@@ -172,7 +172,12 @@ public class AppointmentService {
         String priorit,
         String type,
         String serviceName,
-        LocalDateTime scheduledAt
+        LocalDateTime scheduledAt,
+        LocalDateTime scheduledAtStart,
+        LocalDateTime scheduledAtEnd,
+        LocalDateTime createdAt,
+        LocalDateTime createdAtStart,
+        LocalDateTime createdAtEnd
     ){
         Specification<Appointment> specification = null;
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
@@ -183,6 +188,9 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtBetween(createdAtStart, createdAtEnd));
         Long total = repository.count(specification);
         List<AppointmentSummaryDTO> summaryList = repositoryCustom.getSummary(specification);
         Map<Status, Long> map = summaryList.stream()
@@ -199,6 +207,50 @@ public class AppointmentService {
         dto.setTotalNoShow(map.getOrDefault(Status.NO_SHOW, 0L));
         dto.setTotalOverdue(map.getOrDefault(Status.OVERDUE, 0L));
         return dto;
+    }
+
+    public Page<PatientReportReponseDTO> getPatientReportPages(
+        Integer pageNumber,
+        Integer pageLength,
+        String patientName,
+        String patientMotherName,
+        String professionalName,
+        String status,
+        String priorit,
+        String type,
+        String serviceName,
+        LocalDateTime scheduledAt,
+        LocalDateTime scheduledAtStart,
+        LocalDateTime scheduledAtEnd,
+        LocalDateTime createdAt,
+        LocalDateTime createdAtStart,
+        LocalDateTime createdAtEnd
+    ){
+        Specification<Appointment> specification = null;
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientMotherNameLike(patientMotherName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtBetween(createdAtStart, createdAtEnd));
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        return repository
+            .findAll(specification, pageRequest)
+            .map(appointment -> new PatientReportReponseDTO(
+                appointment.getPatient().getPerson().getName(),
+                appointment.getPatient().getMotherName(),
+                appointment.getScheduledAt(),
+                appointment.getStatus().getLabel(),
+                appointment.getProfessional().getPerson().getName(),
+                appointment.getPriorit().getLabel(),
+                appointment.getServiceTypeName(),
+                appointment.getServiceType()
+            ));
     }
 
     public ReportAppointmentByPatientResponseDTO getPatientReport(
@@ -253,11 +305,11 @@ public class AppointmentService {
 
     public static TestDTO toReportDTO(Appointment appointment) {
         return new TestDTO(
-                appointment.getPatient().getPerson().getName(),
-                appointment.getPatient().getMotherName(),
-                appointment.getScheduledAt(),
-                appointment.getStatus(),
-                appointment.getProfessional().getPerson().getName()
+            appointment.getPatient().getPerson().getName(),
+            appointment.getPatient().getMotherName(),
+            appointment.getScheduledAt(),
+            appointment.getStatus(),
+            appointment.getProfessional().getPerson().getName()
         );
     }
 
