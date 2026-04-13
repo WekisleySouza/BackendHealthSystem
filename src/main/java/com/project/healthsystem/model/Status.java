@@ -4,6 +4,7 @@ import com.project.healthsystem.exceptions.InvalidDataException;
 
 public enum Status {
     PENDING_SCHEDULING("Sem agendamento"),
+    PRE_SCHEDULED("Pré agendado"),
     SCHEDULED("Agendado"),
     COMPLETED("Completo"),
     CANCELED("Cancelado"),
