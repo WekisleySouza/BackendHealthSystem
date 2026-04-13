@@ -122,6 +122,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         WHERE a.scheduledAt IS NOT NULL
           AND a.status NOT IN (
               com.project.healthsystem.model.Status.COMPLETED,
+              com.project.healthsystem.model.Status.PRE_SCHEDULED,
               com.project.healthsystem.model.Status.NO_SHOW,
               com.project.healthsystem.model.Status.CANCELED
           )
@@ -136,6 +137,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         WHERE a.scheduledAt IS NOT NULL
           AND a.status NOT IN (
               com.project.healthsystem.model.Status.COMPLETED,
+              com.project.healthsystem.model.Status.PRE_SCHEDULED,
               com.project.healthsystem.model.Status.NO_SHOW,
               com.project.healthsystem.model.Status.CANCELED
           )
@@ -150,6 +152,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         WHERE a.scheduledAt IS NULL
             AND a.status NOT IN (
                   com.project.healthsystem.model.Status.COMPLETED,
+              com.project.healthsystem.model.Status.PRE_SCHEDULED,
                   com.project.healthsystem.model.Status.NO_SHOW,
                   com.project.healthsystem.model.Status.CANCELED
             )

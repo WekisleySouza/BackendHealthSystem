@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
@@ -490,4 +491,63 @@ public class AppointmentsController {
         appointmentService.delete(id);
         return ResponseEntity.notFound().build();
     }
+
+    @PatchMapping()
+    @PreAuthorize(Permissions.PERMIT_ALL)
+    @Operation(
+            summary = "Set appointments as pre scheduled",
+            description = "Set appointments to pre scheculed.",
+            parameters = {
+                    @Parameter(
+                            name = "Authorization",
+                            description = "Bearer access token",
+                            required = true
+                    )
+            }
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Updated successfully."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid data sent in the request.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized - invalid or missing credentials.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden - user does not have permission.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Appointment not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict - integrity violation.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "422",
+                    description = "Unprocessable Entity - validation errors on fields.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            )
+    })
+    public ResponseEntity<Object> setAppointmentsToPreScheduled(
+        @RequestBody @Valid PreSchedulingRequestDTO preSchedulingRequestDTO
+    ){
+        appointmentService.setPreSchedulingTo(preSchedulingRequestDTO);
+        return ResponseEntity.noContent().build();
+    }
+
 }

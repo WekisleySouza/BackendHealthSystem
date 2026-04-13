@@ -4,6 +4,7 @@ import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.reports_patients.AppointmentSummaryDTO;
 import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
@@ -315,5 +316,13 @@ public class AppointmentService {
 
     public List<PatientInfoAppointmentProjection> findAppointmentsByPatientId(long patientId){
         return repository.findByPatient_Id(patientId);
+    }
+
+    public void setPreSchedulingTo(PreSchedulingRequestDTO preScheduling){
+        for(Long id : preScheduling.getAppointmentsId()){
+            Appointment appointment = appointmentValidator.validateSetPreSchedulingTo(id);
+            appointment.setStatus(Status.PRE_SCHEDULED);
+            repository.save(appointment);
+        }
     }
 }
