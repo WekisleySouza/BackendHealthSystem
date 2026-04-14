@@ -12,7 +12,7 @@ public class ServiceTypeSpecs {
 
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("sigtap_code")),
+                        cb.upper(root.get("sigtapCode")),
                         "%" + code.trim().toUpperCase() + "%"
                 );
     }
