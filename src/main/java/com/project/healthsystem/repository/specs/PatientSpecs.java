@@ -11,59 +11,39 @@ import java.time.LocalDate;
 
 public class PatientSpecs {
     public static Specification<Patient> teamNameLike(String teamName) {
-        if (teamName == null || teamName.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(teamName);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("teamName"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("teamName"),
+                teamName
+            );
     }
 
     public static Specification<Patient> teamINELike(String teamINE) {
-        if (teamINE == null || teamINE.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(teamINE);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("teamINE"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("teamINE"),
+                teamINE
+            );
     }
 
     public static Specification<Patient> microAreaLike(String microArea) {
-        if (microArea == null || microArea.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(microArea);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("microArea"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("microArea"),
+                microArea
+            );
     }
 
     public static Specification<Patient> originLike(String origin) {
-        if (origin == null || origin.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(origin);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("origin"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("origin"),
+                origin
+            );
     }
 
     public static Specification<Patient> sexEqual(String sexLabel) {
@@ -121,26 +101,20 @@ public class PatientSpecs {
         String normalized = SpecificationsUtils.normalize(name);
 
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("name"))
-                        ),
-                        "%" + normalized + "%"
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                    cb,
+                    root.get("person").get("name"),
+                    name
                 );
     }
 
     public static Specification<Patient> motherNameLike(String motherName) {
-        if (motherName == null || motherName.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(motherName);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("motherName"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("motherName"),
+                motherName
+            );
     }
 
     public static Specification<Patient> genderEqual(String genderLabel) {
@@ -170,17 +144,12 @@ public class PatientSpecs {
     }
 
     public static Specification<Patient> emailLike(String email) {
-        if (email == null || email.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(email);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("email"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("email"),
+                email
+            );
     }
 
 }

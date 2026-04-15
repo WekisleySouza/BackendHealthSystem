@@ -27,17 +27,8 @@ public class AppointmentSpecs {
     // Other specifications:
 
     public static Specification<Appointment> notesLike(String notes) {
-        if (notes == null || notes.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(notes);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("notes"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(cb, root.get("notes"), notes);
     }
 
     public static Specification<Appointment> scheduledAtEqual(LocalDateTime scheduledAt) {
@@ -103,11 +94,11 @@ public class AppointmentSpecs {
 
         return (root, query, cb) -> {
             if (start != null && end != null) {
-                return cb.between(root.get("scheduling_forecast"), start, end);
+                return cb.between(root.get("schedulingForecast"), start, end);
             } else if (start != null) {
-                return cb.greaterThanOrEqualTo(root.get("scheduling_forecast"), start);
+                return cb.greaterThanOrEqualTo(root.get("schedulingForecast"), start);
             } else {
-                return cb.lessThanOrEqualTo(root.get("scheduling_forecast"), end);
+                return cb.lessThanOrEqualTo(root.get("schedulingForecast"), end);
             }
         };
     }
@@ -148,97 +139,63 @@ public class AppointmentSpecs {
 
         return (root, query, cb) ->
                 cb.like(
-                        cb.upper(root.get("serviceType").get("type").as(String.class)),
-                        "%" + normalized + "%"
+                    cb.upper(root.get("serviceType").get("type").as(String.class)),
+                    "%" + normalized + "%"
                 );
     }
 
     public static Specification<Appointment> serviceTypeNameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("serviceType").get("name"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("serviceType").get("name"),
+                name
+            );
     }
 
     public static Specification<Appointment> serviceTypeCategoryGroupNameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(
-                                        root.get("serviceType")
-                                                .get("categoryGroup")
-                                                .get("name")
-                                )
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("serviceType").get("categoryGroup").get("name"),
+                name
+            );
     }
 
     public static Specification<Appointment> professionalNameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("professional").get("person").get("name"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("professional").get("person").get("name"),
+                name
+            );
     }
 
     public static Specification<Appointment> employeeNameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
-        return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("employee").get("person").get("name"))
-                        ),
-                        "%" + normalized + "%"
-                );
+        if (name == null || name.isBlank()) return null;        return (root, query, cb) ->
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("employee").get("person").get("name"),
+                name
+            );
     }
 
     public static Specification<Appointment> patientNameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("patient").get("person").get("name"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("patient").get("person").get("name"),
+                name
+            );
     }
 
     public static Specification<Appointment> patientMotherNameLike(String motherName) {
-        if (motherName == null || motherName.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(motherName);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("patient").get("motherName"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("patient").get("motherName"),
+                motherName
+            );
     }
 
 }

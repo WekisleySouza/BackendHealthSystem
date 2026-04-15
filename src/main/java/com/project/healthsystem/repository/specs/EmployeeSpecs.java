@@ -50,17 +50,12 @@ public class EmployeeSpecs {
     }
 
     public static Specification<Employee> nameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("name"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("name"),
+                name
+            );
     }
 
     public static Specification<Employee> genderEqual(String genderLabel) {
@@ -90,16 +85,11 @@ public class EmployeeSpecs {
     }
 
     public static Specification<Employee> emailLike(String email) {
-        if (email == null || email.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(email);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("email"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("email"),
+                email
+            );
     }
 }

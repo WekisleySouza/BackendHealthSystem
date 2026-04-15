@@ -31,31 +31,21 @@ public class ProfessionalSpecs {
     }
 
     public static Specification<Professional> vinculationLike(String vinculation) {
-        if (vinculation == null || vinculation.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(vinculation);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("vinculation"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("vinculation"),
+                vinculation
+            );
     }
 
     public static Specification<Professional> descriptionLike(String description) {
-        if (description == null || description.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(description);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("description"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("description"),
+                description
+            );
     }
 
     public static Specification<Professional> sexEqual(String sexLabel) {
@@ -98,17 +88,12 @@ public class ProfessionalSpecs {
     }
 
     public static Specification<Professional> nameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("name"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("name"),
+                name
+            );
     }
 
     public static Specification<Professional> genderEqual(String genderLabel) {
@@ -139,17 +124,12 @@ public class ProfessionalSpecs {
     }
 
     public static Specification<Professional> emailLike(String email) {
-        if (email == null || email.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(email);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("person").get("email"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("person").get("email"),
+                email
+            );
     }
 
 }

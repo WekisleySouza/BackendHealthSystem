@@ -493,7 +493,7 @@ public class AppointmentsController {
     }
 
     @PatchMapping()
-    @PreAuthorize(Permissions.PERMIT_ALL)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     @Operation(
             summary = "Set appointments as pre scheduled",
             description = "Set appointments to pre scheculed.",

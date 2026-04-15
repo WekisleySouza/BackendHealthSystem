@@ -18,17 +18,12 @@ public class ServiceTypeSpecs {
     }
 
     public static Specification<ServiceType> nameLike(String name) {
-        if (name == null || name.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(name);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("name"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("name"),
+                name
+            );
     }
 
     public static Specification<ServiceType> valueEqual(BigDecimal value) {
@@ -39,17 +34,12 @@ public class ServiceTypeSpecs {
     }
 
     public static Specification<ServiceType> typeLike(String type) {
-        if (type == null || type.isBlank()) return null;
-
-        String normalized = SpecificationsUtils.normalize(type);
-
         return (root, query, cb) ->
-                cb.like(
-                        cb.function("unaccent", String.class,
-                                cb.upper(root.get("type"))
-                        ),
-                        "%" + normalized + "%"
-                );
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                cb,
+                root.get("type"),
+                type
+            );
     }
 
 }

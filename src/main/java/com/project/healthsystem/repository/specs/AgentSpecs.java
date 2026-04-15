@@ -50,7 +50,12 @@ public class AgentSpecs {
     }
 
     public static Specification<Agent> nameLike(String name) {
-        return SpecificationsUtils.likeIgnoreAccentsNested("person", "name", name);
+        return (root, query, criteriaBuilder) ->
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                criteriaBuilder,
+                root.get("person").get("name"),
+                name
+            );
     }
 
     public static Specification<Agent> genderEqual(String genderLabel) {
@@ -80,7 +85,12 @@ public class AgentSpecs {
     }
 
     public static Specification<Agent> emailLike(String email) {
-        return SpecificationsUtils.likeIgnoreAccentsNested("person", "email", email);
+        return (root, query, criteriaBuilder) ->
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                criteriaBuilder,
+                root.get("person").get("email"),
+                email
+            );
     }
 
 }
