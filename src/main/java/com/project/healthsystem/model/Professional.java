@@ -29,6 +29,4 @@ public class Professional extends BasicEntityAbstraction {
     @OneToOne(optional = false)
     @JoinColumn(name = "person_id", unique = true)
     private Person person;
-    @OneToMany(mappedBy = "professional")
-    List<Appointment> appointment;
 }
