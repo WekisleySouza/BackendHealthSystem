@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 public class AppointmentResponseDTO {
     private long id;
 
-    private String professionalName;
+    private String responsibleProfessionalName;
+    private String requestingProfessionalName;
     private String employeeName;
     private String patientName;
     private String serviceTypeName;

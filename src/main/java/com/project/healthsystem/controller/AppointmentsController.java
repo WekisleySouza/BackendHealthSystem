@@ -251,7 +251,8 @@ public class AppointmentsController {
             @RequestParam(value = "scheduled-forecast-end", required = false) LocalDateTime scheduledForecastEnd,
             @RequestParam(value = "priorit", required = false) String priorit,
             @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "professional-name", required = false) String professional,
+            @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
+            @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
             @RequestParam(value = "employee-name", required = false) String employee,
             @RequestParam(value = "patient-name", required = false) String patient,
             @RequestParam(value = "type", required = false) String type,
@@ -279,7 +280,8 @@ public class AppointmentsController {
                 scheduledForecastEnd,
                 priorit,
                 status,
-                professional,
+                responsibleProfessional,
+                requestingProfessional,
                 employee,
                 patient,
                 isSortedByName,
@@ -328,18 +330,18 @@ public class AppointmentsController {
         return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
     }
 
-    @GetMapping("/number-appointments-by-professional")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Page<NumberAppointmentsByStatusAndProfessionalDTO>> countAppointmentsByProfessional(
-            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
-    ){
-        Page<NumberAppointmentsByStatusAndProfessionalDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countAppointmentsByProfessional(
-                pageNumber,
-                pageLength
-        );
-        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
-    }
+//    @GetMapping("/number-appointments-by-professional")
+//    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+//    public ResponseEntity<Page<NumberAppointmentsByStatusAndProfessionalDTO>> countAppointmentsByProfessional(
+//            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+//            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+//    ){
+//        Page<NumberAppointmentsByStatusAndProfessionalDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countAppointmentsByProfessional(
+//                pageNumber,
+//                pageLength
+//        );
+//        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
+//    }
 
     @GetMapping("/number-specialties-by-service-type")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
@@ -372,7 +374,8 @@ public class AppointmentsController {
     public ResponseEntity<ReportAppointmentGraphResponseDTO> reportAppointmentsPatientGraph(
         @RequestParam(value = "patient-name", required = false) String patientName,
         @RequestParam(value = "mother-name", required = false) String patientMotherName,
-        @RequestParam(value = "professional-name", required = false) String professionalName,
+        @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
+        @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
         @RequestParam(value = "status", required = false) String status,
         @RequestParam(value = "priorit", required = false) String priorit,
         @RequestParam(value = "type", required = false) String type,
@@ -387,7 +390,8 @@ public class AppointmentsController {
         return ResponseEntity.ok(appointmentService.getPatientReportGraphInfo(
             patientName,
             patientMotherName,
-            professionalName,
+            responsibleProfessional,
+            requestingProfessional,
             status,
             priorit,
             type,
@@ -408,7 +412,8 @@ public class AppointmentsController {
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
             @RequestParam(value = "patient-name", required = false) String patientName,
             @RequestParam(value = "mother-name", required = false) String patientMotherName,
-            @RequestParam(value = "professional-name", required = false) String professionalName,
+            @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
+            @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "priorit", required = false) String priorit,
             @RequestParam(value = "type", required = false) String type,
@@ -425,7 +430,8 @@ public class AppointmentsController {
                 pageLength,
                 patientName,
                 patientMotherName,
-                professionalName,
+                responsibleProfessional,
+                requestingProfessional,
                 status,
                 priorit,
                 type,

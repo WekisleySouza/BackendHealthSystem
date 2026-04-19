@@ -7,7 +7,8 @@ public record PatientReportReponseDTO(
     String motherName,
     LocalDateTime scheduledAt,
     String status,
-    String professionalName,
+    String responsibleProfessionalName,
+    String requestingProfessionalName,
     String priorit,
     String serviceName,
     String serviceType

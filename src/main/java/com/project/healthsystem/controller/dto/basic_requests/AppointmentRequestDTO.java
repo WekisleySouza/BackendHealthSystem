@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AppointmentRequestDTO {
 
-    private Long professionalId;
+    private Long responsibleProfessionalId;
+    private Long requestingProfessionalId;
     @NotNull(message = "O funcionário responsável é obrigatório!")
     private Long employeeId;
 

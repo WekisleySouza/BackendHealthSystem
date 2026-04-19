@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-04-15T16:21:21-0300",
+    date = "2026-04-16T18:57:03-0300",
     comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Microsoft)"
 )
 @Component
@@ -49,7 +49,8 @@ public class AppointmentsMapperImpl extends AppointmentsMapper {
         appointmentResponseDTO.setSchedulingForecast( entity.getSchedulingForecast() );
         appointmentResponseDTO.setCreatedAt( entity.getCreatedAt() );
 
-        appointmentResponseDTO.setProfessionalName( entity.getProfessionalName() );
+        appointmentResponseDTO.setResponsibleProfessionalName( entity.getResponsibleProfessionalName() );
+        appointmentResponseDTO.setRequestingProfessionalName( entity.getRequestingProfessionalName() );
         appointmentResponseDTO.setEmployeeName( entity.getEmployeeName() );
         appointmentResponseDTO.setPatientName( entity.getPatientName() );
         appointmentResponseDTO.setServiceTypeName( entity.getServiceTypeName() );

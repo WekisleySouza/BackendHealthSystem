@@ -15,7 +15,8 @@ public abstract class AppointmentsMapper {
     @Mapping(target = "priorit", expression = "java(com.project.healthsystem.model.Priority.fromLabel(dto.getPriority()))")
     public abstract Appointment toEntity(AppointmentRequestDTO dto);
 
-    @Mapping(target = "professionalName", expression = "java(entity.getProfessionalName())")
+    @Mapping(target = "responsibleProfessionalName", expression = "java(entity.getResponsibleProfessionalName())")
+    @Mapping(target = "requestingProfessionalName", expression = "java(entity.getRequestingProfessionalName())")
     @Mapping(target = "employeeName", expression = "java(entity.getEmployeeName())")
     @Mapping(target = "patientName", expression = "java(entity.getPatientName())")
     @Mapping(target = "serviceTypeName", expression = "java(entity.getServiceTypeName())")

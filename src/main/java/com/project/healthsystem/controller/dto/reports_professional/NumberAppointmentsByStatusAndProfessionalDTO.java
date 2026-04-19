@@ -2,7 +2,8 @@ package com.project.healthsystem.controller.dto.reports_professional;
 
 public record NumberAppointmentsByStatusAndProfessionalDTO(
         Long professionalId,
-        String professionalName,
+        String responsibleProfessionalName,
+        String requestingProfessionalName,
         Long scheduledCount,
         Long completedCount,
         Long canceledCount,

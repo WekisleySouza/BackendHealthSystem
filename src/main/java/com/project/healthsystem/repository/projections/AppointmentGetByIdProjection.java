@@ -19,7 +19,8 @@ public interface AppointmentGetByIdProjection {
     LocalDateTime getSchedulingForecast();
 
     ServiceTypeInfo getServiceType();
-    ProfessionalInfo getProfessional();
+    ProfessionalInfo getResponsibleProfessional();
+    ProfessionalInfo getRequestingProfessional();
     EmployeeInfo getEmployee();
     PatientInfo getPatient();
 

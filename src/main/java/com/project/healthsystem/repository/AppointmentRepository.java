@@ -5,7 +5,6 @@ import com.project.healthsystem.controller.dto.reports_professional.NumberAppoin
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
 import com.project.healthsystem.model.Appointment;
-import com.project.healthsystem.repository.custom.AppointmentRepositoryCustom;
 import com.project.healthsystem.repository.projections.AppointmentGetByIdProjection;
 import com.project.healthsystem.repository.projections.PatientInfoAppointmentProjection;
 import org.springframework.data.domain.Page;
@@ -29,14 +28,16 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
             p.motherName,
             a.scheduledAt,
             a.status,
-            prof.person.name,
+            rpProf.person.name,
+            rqProf.person.name,
             a.priorit,
             st.name,
             st.type
         )
         FROM Appointment a
         JOIN a.patient p
-        JOIN a.professional prof
+        JOIN a.responsibleProfessional rpProf
+        JOIN a.requestingProfessional rqProf
         JOIN a.serviceType st
         ORDER BY a.scheduledAt DESC
     """)
@@ -52,26 +53,28 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
     """)
     List<AppointmentStatusCountResponseDTO> countByStatus();
 
-    @Query("""
-        SELECT new com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO(
-            prof.id,
-            prof.person.name,
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.SCHEDULED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.COMPLETED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.CANCELED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.NO_SHOW THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.OVERDUE THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.serviceType.type = com.project.healthsystem.model.ServiceTypes.EXAM THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.serviceType.type = com.project.healthsystem.model.ServiceTypes.SPECIALTY THEN 1 ELSE 0 END),
-            COUNT(a)
-        )
-        FROM Appointment a
-        JOIN a.professional prof
-        GROUP BY prof.id, prof.person.name
-        ORDER BY prof.person.name
-    """)
-    Page<NumberAppointmentsByStatusAndProfessionalDTO> countAppointmentsGroupedByProfessional(Pageable pageable);
+//    @Query("""
+//        SELECT new com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO(
+//            prof.id,
+//            rpProf.person.name,
+//            rqProf.person.name,
+//            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.SCHEDULED THEN 1 ELSE 0 END),
+//            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.COMPLETED THEN 1 ELSE 0 END),
+//            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.CANCELED THEN 1 ELSE 0 END),
+//            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.NO_SHOW THEN 1 ELSE 0 END),
+//            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.OVERDUE THEN 1 ELSE 0 END),
+//            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING THEN 1 ELSE 0 END),
+//            SUM(CASE WHEN a.serviceType.type = com.project.healthsystem.model.ServiceTypes.EXAM THEN 1 ELSE 0 END),
+//            SUM(CASE WHEN a.serviceType.type = com.project.healthsystem.model.ServiceTypes.SPECIALTY THEN 1 ELSE 0 END),
+//            COUNT(a)
+//        )
+//        FROM Appointment a
+//        JOIN a.responsibleProfessional rpProf
+//        JOIN a.requestingProfessional rqProf
+//        GROUP BY prof.id, prof.person.name
+//        ORDER BY prof.person.name
+//    """)
+//    Page<NumberAppointmentsByStatusAndProfessionalDTO> countAppointmentsGroupedByProfessional(Pageable pageable);
 
     @Query("""
         SELECT new com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO(

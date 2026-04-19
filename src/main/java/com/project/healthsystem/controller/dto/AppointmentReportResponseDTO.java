@@ -15,7 +15,8 @@ public class AppointmentReportResponseDTO {
         private String motherName;
         private LocalDateTime scheduledAt;
         private String status;
-        private String professionalName;
+        private String responsibleProfessionalName;
+        private String requestingProfessionalName;
         private String priorit;
         private String serviceName;
         private String serviceType;
@@ -25,7 +26,8 @@ public class AppointmentReportResponseDTO {
             String motherName,
             LocalDateTime scheduledAt,
             Status status,
-            String professionalName,
+            String responsibleProfessionalName,
+            String requestingProfessionalName,
             Priority priorit,
             String serviceName,
             ServiceTypes serviceType
@@ -34,7 +36,8 @@ public class AppointmentReportResponseDTO {
         this.motherName = motherName;
         this.scheduledAt = scheduledAt;
         this.status = status != null ? status.getLabel() : null;
-        this.professionalName = professionalName;
+        this.responsibleProfessionalName = responsibleProfessionalName;
+        this.requestingProfessionalName = requestingProfessionalName;
         this.priorit = priorit != null ? priorit.getLabel() : null;
         this.serviceName = serviceName;
         this.serviceType = serviceType != null ? serviceType.getLabel() : null;

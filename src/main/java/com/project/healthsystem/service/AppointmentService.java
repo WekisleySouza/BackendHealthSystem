@@ -88,7 +88,8 @@ public class AppointmentService {
             LocalDateTime schedulingForecastEnd,
             String priorit,
             String status,
-            String professionalName,
+            String responsibleProfessionalName,
+            String requestingProfessionalName,
             String employeeName,
             String patientName,
             boolean isSortedByName,
@@ -115,7 +116,8 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceTypeName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeCategoryGroupNameLike(categoryName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.employeeNameLike(employeeName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.isReturnEqual(isReturn));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
@@ -129,8 +131,12 @@ public class AppointmentService {
         return new AppointmentGetByIdResponseDTO(
             appointmentProjection.getId(),
             new ProfessionalInfoResponseDTO(
-                appointmentProjection.getProfessional().getId(),
-                appointmentProjection.getProfessional().getPerson().getName()
+                appointmentProjection.getResponsibleProfessional().getId(),
+                appointmentProjection.getRequestingProfessional().getPerson().getName()
+            ),
+            new ProfessionalInfoResponseDTO(
+                    appointmentProjection.getResponsibleProfessional().getId(),
+                    appointmentProjection.getRequestingProfessional().getPerson().getName()
             ),
             new EmployeeInfoResponseDTO(
                 appointmentProjection.getEmployee().getId(),
@@ -168,7 +174,8 @@ public class AppointmentService {
     public ReportAppointmentGraphResponseDTO getPatientReportGraphInfo(
         String patientName,
         String patientMotherName,
-        String professionalName,
+        String responsibleProfessionalName,
+        String requestingProfessionalName,
         String status,
         String priorit,
         String type,
@@ -183,7 +190,8 @@ public class AppointmentService {
         Specification<Appointment> specification = null;
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientMotherNameLike(patientMotherName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
@@ -215,7 +223,8 @@ public class AppointmentService {
         Integer pageLength,
         String patientName,
         String patientMotherName,
-        String professionalName,
+        String responsibleProfessionalName,
+        String requestingProfessionalName,
         String status,
         String priorit,
         String type,
@@ -230,7 +239,8 @@ public class AppointmentService {
         Specification<Appointment> specification = null;
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientMotherNameLike(patientMotherName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.professionalNameLike(professionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
@@ -247,7 +257,8 @@ public class AppointmentService {
                 appointment.getPatient().getMotherName(),
                 appointment.getScheduledAt(),
                 appointment.getStatus().getLabel(),
-                appointment.getProfessional().getPerson().getName(),
+                appointment.getResponsibleProfessional().getPerson().getName(),
+                appointment.getRequestingProfessional().getPerson().getName(),
                 appointment.getPriorit().getLabel(),
                 appointment.getServiceTypeName(),
                 appointment.getServiceType()
@@ -264,15 +275,15 @@ public class AppointmentService {
         return new ReportAppointmentByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
     }
 
-    public Page<NumberAppointmentsByStatusAndProfessionalDTO> countAppointmentsByProfessional(
-        Integer pageNumber,
-        Integer pageLength
-    ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-        return repository.countAppointmentsGroupedByProfessional(
-            pageRequest
-        );
-    }
+//    public Page<NumberAppointmentsByStatusAndProfessionalDTO> countAppointmentsByProfessional(
+//        Integer pageNumber,
+//        Integer pageLength
+//    ){
+//        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+//        return repository.countAppointmentsGroupedByProfessional(
+//            pageRequest
+//        );
+//    }
 
     public Page<NumberSpecialtiesByStatusDTO> countSpecialtiesByStatus(
         Integer pageNumber,
@@ -310,7 +321,8 @@ public class AppointmentService {
             appointment.getPatient().getMotherName(),
             appointment.getScheduledAt(),
             appointment.getStatus(),
-            appointment.getProfessional().getPerson().getName()
+            appointment.getResponsibleProfessional().getPerson().getName(),
+            appointment.getRequestingProfessional().getPerson().getName()
         );
     }
 

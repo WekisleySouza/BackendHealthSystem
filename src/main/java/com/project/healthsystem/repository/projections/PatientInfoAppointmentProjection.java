@@ -14,7 +14,8 @@ public interface PatientInfoAppointmentProjection {
     LocalDateTime getScheduledAt();
     LocalDateTime getCreatedAt();
 
-    ProfessionalInfo getProfessional();
+    ProfessionalInfo getResponsibleProfessional();
+    ProfessionalInfo getRequestingProfessional();
     EmployeeInfo getEmployee();
     PatientInfo getPatient();
     ServiceTypeInfo getServiceType();

@@ -29,14 +29,17 @@ public class AppointmentValidator {
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
-        Professional professional = professionalRepository.findById(appointmentRequestDTO.getProfessionalId())
+        Professional responsibleProfessional = professionalRepository.findById(appointmentRequestDTO.getResponsibleProfessionalId())
+            .orElse(null);
+        Professional requestingProfessional = professionalRepository.findById(appointmentRequestDTO.getRequestingProfessionalId())
             .orElse(null);
 
         Appointment appointment = appointmentsMapper.toEntity(appointmentRequestDTO);
         appointment.setServiceType(serviceType);
         appointment.setPatient(patient);
         appointment.setEmployee(employee);
-        appointment.setProfessional(professional);
+        appointment.setResponsibleProfessional(responsibleProfessional);
+        appointment.setRequestingProfessional(requestingProfessional);
         appointment.createdNow();
 
         return appointment;
@@ -51,14 +54,17 @@ public class AppointmentValidator {
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
-        Professional professional = professionalRepository.findById(appointmentRequestDTO.getProfessionalId())
+        Professional responsibleProfessional = professionalRepository.findById(appointmentRequestDTO.getResponsibleProfessionalId())
+            .orElse(null);
+        Professional requestingProfessional = professionalRepository.findById(appointmentRequestDTO.getRequestingProfessionalId())
             .orElse(null);
 
         appointment = appointmentsMapper.toEntityWhenHasId(appointment, appointmentRequestDTO);
         appointment.setServiceType(serviceType);
         appointment.setPatient(patient);
         appointment.setEmployee(employee);
-        appointment.setProfessional(professional);
+        appointment.setResponsibleProfessional(responsibleProfessional);
+        appointment.setRequestingProfessional(requestingProfessional);
 
         return appointment;
     }

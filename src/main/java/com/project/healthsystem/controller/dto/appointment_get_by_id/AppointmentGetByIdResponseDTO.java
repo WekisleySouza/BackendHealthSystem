@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 public record AppointmentGetByIdResponseDTO (
     long id,
 
-    ProfessionalInfoResponseDTO professional,
+    ProfessionalInfoResponseDTO responsibleProfessional,
+    ProfessionalInfoResponseDTO requestingProfessional,
     EmployeeInfoResponseDTO employee,
     PatientInfoResponseDTO patient,
     ServiceTypeInfoResponseDTO serviceType,

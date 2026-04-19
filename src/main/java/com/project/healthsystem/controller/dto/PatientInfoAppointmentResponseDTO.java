@@ -4,7 +4,8 @@ import java.time.LocalDateTime;
 
 public record PatientInfoAppointmentResponseDTO (
     long id,
-    String professionalName,
+    String responsibleProfessionalName,
+    String requestingProfessionalName,
     String employeeName,
     String patientName,
     String status,

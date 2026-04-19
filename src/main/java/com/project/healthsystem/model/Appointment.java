@@ -31,15 +31,24 @@ public class Appointment extends BasicEntityAbstraction {
     @ManyToOne
     private ServiceType serviceType;
     @ManyToOne
-    private Professional professional;
+    private Professional requestingProfessional;
+    @ManyToOne
+    private Professional responsibleProfessional;
     @ManyToOne
     private Employee employee;
     @ManyToOne
     private Patient patient;
 
-    public String getProfessionalName(){
-        if(this.professional != null){
-            return professional.getPerson().getName();
+    public String getResponsibleProfessionalName(){
+        if(this.responsibleProfessional != null){
+            return responsibleProfessional.getPerson().getName();
+        }
+        return "";
+    }
+
+    public String getRequestingProfessionalName(){
+        if(this.requestingProfessional != null){
+            return requestingProfessional.getPerson().getName();
         }
         return "";
     }

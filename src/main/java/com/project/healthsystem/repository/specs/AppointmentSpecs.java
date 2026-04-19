@@ -162,13 +162,22 @@ public class AppointmentSpecs {
             );
     }
 
-    public static Specification<Appointment> professionalNameLike(String name) {
+    public static Specification<Appointment> responsibleProfessionalNameLike(String name) {
         return (root, query, cb) ->
             SpecsCommon.likeIgnoreCaseUnaccent(
                 cb,
-                root.get("professional").get("person").get("name"),
+                root.get("responsibleProfessional").get("person").get("name"),
                 name
             );
+    }
+
+    public static Specification<Appointment> requestingProfessionalNameLike(String name) {
+        return (root, query, cb) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        cb,
+                        root.get("requestingProfessional").get("person").get("name"),
+                        name
+                );
     }
 
     public static Specification<Appointment> employeeNameLike(String name) {

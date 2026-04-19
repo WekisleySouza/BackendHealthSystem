@@ -9,6 +9,7 @@ public record TestDTO(
         String motherName,
         LocalDateTime scheduledAt,
         Status status,
-        String professionalName
+        String responsibleProfessionalName,
+        String requestingProfessionalName
 ) {
 }
