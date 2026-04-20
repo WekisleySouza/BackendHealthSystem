@@ -238,7 +238,6 @@ public class ServiceTypeController {
     }
 
     @GetMapping
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     @Operation(
             summary = "Get all service types",
             description = "Get paginated service types with optional filters."
@@ -265,12 +264,14 @@ public class ServiceTypeController {
                     content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
             )
     })
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<ServiceTypeResponseDTO>> readAll(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
             @RequestParam(value = "code", required = false) String code,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "type", required = false) String type,
+            @RequestParam(value = "category-group-name", required = false) String categoryGroupName,
             @RequestParam(value = "value", required = false) BigDecimal value
     ){
         return ResponseEntity.ok(serviceTypeService.getAll(
@@ -279,6 +280,7 @@ public class ServiceTypeController {
                 code,
                 name,
                 type,
+                categoryGroupName,
                 value
         ));
     }

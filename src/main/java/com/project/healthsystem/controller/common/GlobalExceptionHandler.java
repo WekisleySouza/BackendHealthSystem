@@ -16,6 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.nio.file.AccessDeniedException;
 import java.security.SignatureException;
@@ -60,6 +61,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponseDTO handleNotFoundException(NotFoundException e){
         return ErrorResponseDTO.notFound(e.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+        return new ErrorResponseDTO(
+            HttpStatus.BAD_REQUEST.value(),
+            "Dados enviados em formato inválido!",
+            List.of());
     }
 
     @ExceptionHandler(AccessDeniedException.class)

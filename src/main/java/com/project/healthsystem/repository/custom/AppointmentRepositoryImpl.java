@@ -22,9 +22,14 @@ public class AppointmentRepositoryImpl implements AppointmentRepositoryCustom {
         CriteriaQuery<AppointmentSummaryDTO> cq = cb.createQuery(AppointmentSummaryDTO.class);
         Root<Appointment> root = cq.from(Appointment.class);
 
-        Predicate predicate = spec != null
-            ? spec.toPredicate(root, cq, cb)
-            : cb.conjunction();
+        Predicate predicate = cb.conjunction();
+
+        if (spec != null) {
+            Predicate p = spec.toPredicate(root, cq, cb);
+            if (p != null) {
+                predicate = p;
+            }
+        }
         cq.select(cb.construct(AppointmentSummaryDTO.class, root.get("status"), cb.count(root)))
             .where(predicate)
             .groupBy(root.get("status"));

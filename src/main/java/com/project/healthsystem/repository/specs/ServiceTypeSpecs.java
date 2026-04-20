@@ -1,7 +1,6 @@
 package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.ServiceType;
-import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
@@ -17,13 +16,22 @@ public class ServiceTypeSpecs {
                 );
     }
 
-    public static Specification<ServiceType> nameLike(String name) {
+    public static Specification<ServiceType> categoryGroupNameLike(String name) {
         return (root, query, cb) ->
             SpecsCommon.likeIgnoreCaseUnaccent(
                 cb,
-                root.get("name"),
+                root.get("categoryGroup").get("name"),
                 name
             );
+    }
+
+    public static Specification<ServiceType> nameLike(String name) {
+        return (root, query, cb) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        cb,
+                        root.get("name"),
+                        name
+                );
     }
 
     public static Specification<ServiceType> valueEqual(BigDecimal value) {
@@ -41,5 +49,4 @@ public class ServiceTypeSpecs {
                 type
             );
     }
-
 }

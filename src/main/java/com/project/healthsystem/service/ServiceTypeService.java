@@ -73,6 +73,7 @@ public class ServiceTypeService {
         String code,
         String name,
         String type,
+        String categoryGroupName,
         BigDecimal value
     ){
         Sort sort = Sort.by("name").ascending();
@@ -80,6 +81,7 @@ public class ServiceTypeService {
         Specification<ServiceType> specs = null;
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.codeLike(code));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.nameLike(name));
+        specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.categoryGroupNameLike(categoryGroupName));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.typeLike(type));
         specs = SpecsCommon.addSpec(specs, ServiceTypeSpecs.valueEqual(value));
         return repository

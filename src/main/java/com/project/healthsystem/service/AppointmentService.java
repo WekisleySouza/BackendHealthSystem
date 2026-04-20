@@ -132,11 +132,11 @@ public class AppointmentService {
             appointmentProjection.getId(),
             new ProfessionalInfoResponseDTO(
                 appointmentProjection.getResponsibleProfessional().getId(),
-                appointmentProjection.getRequestingProfessional().getPerson().getName()
+                appointmentProjection.getResponsibleProfessional().getPerson().getName()
             ),
             new ProfessionalInfoResponseDTO(
-                    appointmentProjection.getResponsibleProfessional().getId(),
-                    appointmentProjection.getRequestingProfessional().getPerson().getName()
+                appointmentProjection.getRequestingProfessionalIdSafe(),
+                appointmentProjection.getRequestingProfessionalNameSafe()
             ),
             new EmployeeInfoResponseDTO(
                 appointmentProjection.getEmployee().getId(),
@@ -257,8 +257,8 @@ public class AppointmentService {
                 appointment.getPatient().getMotherName(),
                 appointment.getScheduledAt(),
                 appointment.getStatus().getLabel(),
-                appointment.getResponsibleProfessional().getPerson().getName(),
-                appointment.getRequestingProfessional().getPerson().getName(),
+                appointment.getResponsibleProfessionalName(),
+                appointment.getRequestingProfessionalName(),
                 appointment.getPriorit().getLabel(),
                 appointment.getServiceTypeName(),
                 appointment.getServiceType()

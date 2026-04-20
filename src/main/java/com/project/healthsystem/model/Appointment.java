@@ -46,11 +46,25 @@ public class Appointment extends BasicEntityAbstraction {
         return "";
     }
 
+    public Long getResponsibleProfessionalId(){
+        if(this.responsibleProfessional != null){
+            return responsibleProfessional.getId();
+        }
+        return null;
+    }
+
     public String getRequestingProfessionalName(){
         if(this.requestingProfessional != null){
             return requestingProfessional.getPerson().getName();
         }
         return "";
+    }
+
+    public Long getRequestingProfessionalId(){
+        if(this.requestingProfessional != null){
+            return requestingProfessional.getId();
+        }
+        return null;
     }
 
     public String getEmployeeName(){
