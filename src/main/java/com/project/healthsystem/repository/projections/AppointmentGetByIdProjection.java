@@ -24,6 +24,20 @@ public interface AppointmentGetByIdProjection {
     EmployeeInfo getEmployee();
     PatientInfo getPatient();
 
+    default Long getResponsibleProfessionalIdSafe(){
+        return getResponsibleProfessional() != null
+            ? getResponsibleProfessional().getId()
+            : null;
+    }
+
+    default String getResponsibleProfessionalNameSafe(){
+        return getResponsibleProfessional() != null
+            ? getResponsibleProfessional().getPerson() != null
+              ? getResponsibleProfessional().getPerson().getName()
+              : null
+            : null;
+    }
+
     default Long getRequestingProfessionalIdSafe(){
         return getRequestingProfessional() != null
             ? getRequestingProfessional().getId()

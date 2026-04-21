@@ -131,8 +131,8 @@ public class AppointmentService {
         return new AppointmentGetByIdResponseDTO(
             appointmentProjection.getId(),
             new ProfessionalInfoResponseDTO(
-                appointmentProjection.getResponsibleProfessional().getId(),
-                appointmentProjection.getResponsibleProfessional().getPerson().getName()
+                appointmentProjection.getResponsibleProfessionalIdSafe(),
+                appointmentProjection.getResponsibleProfessionalNameSafe()
             ),
             new ProfessionalInfoResponseDTO(
                 appointmentProjection.getRequestingProfessionalIdSafe(),

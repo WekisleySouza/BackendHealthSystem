@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public record AuthorizationFormResponseDTO(
     PatientDataResponseDTO patientDataResponseDTO,
-    AuthorizationIndetifyingResponseDTO authorizationIndetifyingResponseDTO,
+    AuthorizationIndentifyingResponseDTO authorizationIndentifyingResponseDTO,
     ProceduringDataResponseDTO proceduringDataResponseDTO,
     String description,
     String employeeName,
