@@ -14,7 +14,7 @@ public class PatientSpecs {
         return (root, query, cb) ->
             SpecsCommon.likeIgnoreCaseUnaccent(
                 cb,
-                root.get("person").get("teamName"),
+                root.get("teamName"),
                 teamName
             );
     }
@@ -23,7 +23,7 @@ public class PatientSpecs {
         return (root, query, cb) ->
             SpecsCommon.likeIgnoreCaseUnaccent(
                 cb,
-                root.get("person").get("teamINE"),
+                root.get("teamINE"),
                 teamINE
             );
     }
@@ -32,7 +32,7 @@ public class PatientSpecs {
         return (root, query, cb) ->
             SpecsCommon.likeIgnoreCaseUnaccent(
                 cb,
-                root.get("person").get("microArea"),
+                root.get("microArea"),
                 microArea
             );
     }
@@ -41,7 +41,7 @@ public class PatientSpecs {
         return (root, query, cb) ->
             SpecsCommon.likeIgnoreCaseUnaccent(
                 cb,
-                root.get("person").get("origin"),
+                root.get("origin"),
                 origin
             );
     }
