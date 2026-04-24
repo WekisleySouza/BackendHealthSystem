@@ -21,10 +21,12 @@ public class ServiceTypeValidator {
 
     public ServiceType validateSave(ServiceTypeRequestDTO serviceTypeRequestDTO){
         ServiceType serviceType = serviceTypeMapper.toEntity(serviceTypeRequestDTO);
-        CategoryGroup categoryGroup = categoryGroupRepository
-            .findById(serviceTypeRequestDTO.getCategoryGroupId())
-            .orElse(null);
-        serviceType.setCategoryGroup(categoryGroup);
+        if(serviceTypeRequestDTO.getCategoryGroupId() != null){
+            CategoryGroup categoryGroup = categoryGroupRepository
+                .findById(serviceTypeRequestDTO.getCategoryGroupId())
+                .orElseThrow(() -> new NotFoundException("Categoria não encontrada!"));
+            serviceType.setCategoryGroup(categoryGroup);
+        }
         return serviceType;
     }
 
@@ -32,11 +34,13 @@ public class ServiceTypeValidator {
         ServiceType serviceType = serviceTypesRepository
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Tipo de serviço não encontrado!"));
-        CategoryGroup categoryGroup = categoryGroupRepository
-            .findById(serviceTypeRequestDTO.getCategoryGroupId())
-            .orElse(null);
         serviceType = serviceTypeMapper.toEntityWhenHasId(serviceType, serviceTypeRequestDTO);
-        serviceType.setCategoryGroup(categoryGroup);
+        if(serviceTypeRequestDTO.getCategoryGroupId() != null) {
+            CategoryGroup categoryGroup = categoryGroupRepository
+                .findById(serviceTypeRequestDTO.getCategoryGroupId())
+                .orElse(null);
+            serviceType.setCategoryGroup(categoryGroup);
+        }
         return serviceType;
     }
 

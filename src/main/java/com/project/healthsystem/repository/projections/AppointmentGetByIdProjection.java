@@ -1,5 +1,6 @@
 package com.project.healthsystem.repository.projections;
 
+import com.project.healthsystem.model.Agreements;
 import com.project.healthsystem.model.Priority;
 import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.model.Status;
@@ -11,6 +12,7 @@ public interface AppointmentGetByIdProjection {
 
     long getId();
     Status getStatus();
+    Agreements getAgreements();
     String getNotes();
     Priority getPriorit();
     boolean getIsReturn();

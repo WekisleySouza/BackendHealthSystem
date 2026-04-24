@@ -1,5 +1,6 @@
 package com.project.healthsystem.controller.dto;
 
+import com.project.healthsystem.model.Agreements;
 import com.project.healthsystem.model.Priority;
 import com.project.healthsystem.model.ServiceTypes;
 import com.project.healthsystem.model.Status;
@@ -14,6 +15,7 @@ public class AppointmentReportResponseDTO {
         private String patientName;
         private String motherName;
         private LocalDateTime scheduledAt;
+        private String agreements;
         private String status;
         private String responsibleProfessionalName;
         private String requestingProfessionalName;
@@ -22,9 +24,11 @@ public class AppointmentReportResponseDTO {
         private String serviceType;
 
     public AppointmentReportResponseDTO(
+            // Este construtor é usado no repository
             String patientName,
             String motherName,
             LocalDateTime scheduledAt,
+            Agreements agreements,
             Status status,
             String responsibleProfessionalName,
             String requestingProfessionalName,
@@ -35,6 +39,7 @@ public class AppointmentReportResponseDTO {
         this.patientName = patientName;
         this.motherName = motherName;
         this.scheduledAt = scheduledAt;
+        this.agreements = agreements != null ? agreements.getLabel() : null;
         this.status = status != null ? status.getLabel() : null;
         this.responsibleProfessionalName = responsibleProfessionalName;
         this.requestingProfessionalName = requestingProfessionalName;

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceTypeRequestDTO {
-    private long categoryGroupId;
+    private Long categoryGroupId;
 
     @Size(max = 20, message = "O código SIGTAP não pode ultrapassar 20 caracteres!")
     private String sigtapCode;

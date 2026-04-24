@@ -1,9 +1,6 @@
 package com.project.healthsystem.repository.specs;
 
-import com.project.healthsystem.model.Appointment;
-import com.project.healthsystem.model.Priority;
-import com.project.healthsystem.model.ServiceTypes;
-import com.project.healthsystem.model.Status;
+import com.project.healthsystem.model.*;
 import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -121,6 +118,16 @@ public class AppointmentSpecs {
                         cb.upper(root.get("status").as(String.class)),
                         "%" + Status.fromLabel(status).name().trim().toUpperCase() + "%"
                 );
+    }
+
+    public static Specification<Appointment> agreementsLike(String agreements) {
+        if (agreements == null || agreements.isBlank()) return null;
+
+        return (root, query, cb) ->
+            cb.like(
+                cb.upper(root.get("agreements").as(String.class)),
+                "%" + Agreements.fromLabel(agreements).name().trim().toUpperCase() + "%"
+            );
     }
 
     public static Specification<Appointment> isReturnEqual(Boolean isReturn) {

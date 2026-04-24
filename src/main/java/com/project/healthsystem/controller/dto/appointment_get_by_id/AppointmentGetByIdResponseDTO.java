@@ -13,6 +13,7 @@ public record AppointmentGetByIdResponseDTO (
     CategoryGroupInfoResponseDTO categoryGroup,
 
     String status,
+    String agreements,
     String notes,
     String priority,
     boolean isReturn,

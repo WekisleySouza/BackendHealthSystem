@@ -21,6 +21,7 @@ public class AppointmentResponseDTO {
     private String categoryGroupName;
 
     private String status;
+    private String agreements;
     private String notes;
     private String priority;
     private boolean isReturn;

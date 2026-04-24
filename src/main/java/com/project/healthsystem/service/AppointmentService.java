@@ -156,6 +156,7 @@ public class AppointmentService {
                 appointmentProjection.getServiceType().getCategoryGroupName()
             ),
             appointmentProjection.getStatus().getLabel(),
+            appointmentProjection.getAgreements().getLabel(),
             appointmentProjection.getNotes(),
             appointmentProjection.getPriorit().getLabel(),
             appointmentProjection.getIsReturn(),
@@ -177,6 +178,7 @@ public class AppointmentService {
         String responsibleProfessionalName,
         String requestingProfessionalName,
         String status,
+        String agreement,
         String priorit,
         String type,
         String serviceName,
@@ -193,6 +195,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.agreementsLike(agreement));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
