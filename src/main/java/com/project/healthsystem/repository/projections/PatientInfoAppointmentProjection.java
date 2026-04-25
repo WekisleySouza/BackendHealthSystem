@@ -20,6 +20,22 @@ public interface PatientInfoAppointmentProjection {
     PatientInfo getPatient();
     ServiceTypeInfo getServiceType();
 
+    default String getResponsibleProfessionalNameSafe(){
+        return getResponsibleProfessional() != null
+                ? getResponsibleProfessional().getPerson() != null
+                  ? getResponsibleProfessional().getPerson().getName()
+                  : null
+                : null;
+    }
+
+    default String getRequestingProfessionalNameSafe(){
+        return getRequestingProfessional() != null
+                ? getRequestingProfessional().getPerson() != null
+                  ? getRequestingProfessional().getPerson().getName()
+                  : null
+                : null;
+    }
+
     interface ProfessionalInfo {
         PersonInfo getPerson();
     }

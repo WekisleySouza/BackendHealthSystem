@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public abstract class PatientInfoAppointmentProjectionMapper {
 
-    @Mapping(target = "responsibleProfessionalName", expression = "java(entity.getResponsibleProfessional().getPerson().getName())")
-    @Mapping(target = "requestingProfessionalName", expression = "java(entity.getRequestingProfessional().getPerson().getName())")
+    @Mapping(target = "responsibleProfessionalName", expression = "java(entity.getResponsibleProfessionalNameSafe())")
+    @Mapping(target = "requestingProfessionalName", expression = "java(entity.getRequestingProfessionalNameSafe())")
     @Mapping(target = "employeeName", expression = "java(entity.getEmployee().getPerson().getName())")
     @Mapping(target = "patientName", expression = "java(entity.getPatient().getPerson().getName())")
     @Mapping(target = "serviceTypeName", expression = "java(entity.getServiceType().getName())")
