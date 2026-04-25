@@ -213,6 +213,7 @@ public class AppointmentService {
         ReportAppointmentGraphResponseDTO dto =  new ReportAppointmentGraphResponseDTO();
         dto.setTotal(total);
         dto.setTotalPendingScheduling(map.getOrDefault(Status.PENDING_SCHEDULING, 0L));
+        dto.setTotalPreScheduled(map.getOrDefault(Status.PRE_SCHEDULED, 0L));
         dto.setTotalScheduled(map.getOrDefault(Status.SCHEDULED, 0L));
         dto.setTotalCompleted(map.getOrDefault(Status.COMPLETED, 0L));
         dto.setTotalCanceled(map.getOrDefault(Status.CANCELED, 0L));

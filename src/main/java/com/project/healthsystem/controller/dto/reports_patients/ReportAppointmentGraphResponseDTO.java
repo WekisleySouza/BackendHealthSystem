@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class ReportAppointmentGraphResponseDTO {
     private Long total;
     private Long totalPendingScheduling;
+    private Long totalPreScheduled;
     private Long totalScheduled;
     private Long totalCompleted;
     private Long totalCanceled;
