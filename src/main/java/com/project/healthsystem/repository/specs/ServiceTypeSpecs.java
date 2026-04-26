@@ -28,9 +28,9 @@ public class ServiceTypeSpecs {
     public static Specification<ServiceType> nameLike(String name) {
         return (root, query, cb) ->
                 SpecsCommon.likeIgnoreCaseUnaccent(
-                        cb,
-                        root.get("name"),
-                        name
+                    cb,
+                    root.get("name"),
+                    name
                 );
     }
 
