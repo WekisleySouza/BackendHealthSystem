@@ -88,6 +88,7 @@ public class AppointmentService {
             LocalDateTime schedulingForecastEnd,
             String priorit,
             String status,
+            String agreement,
             String responsibleProfessionalName,
             String requestingProfessionalName,
             String employeeName,
@@ -113,6 +114,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.schedulingForecastBetween(schedulingForecastStart, schedulingForecastEnd));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.agreementsLike(agreement));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceTypeName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeCategoryGroupNameLike(categoryName));
