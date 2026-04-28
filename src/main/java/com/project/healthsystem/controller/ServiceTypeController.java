@@ -275,13 +275,13 @@ public class ServiceTypeController {
             @RequestParam(value = "value", required = false) BigDecimal value
     ){
         return ResponseEntity.ok(serviceTypeService.getAll(
-                pageNumber,
-                pageLength,
-                code,
-                name,
-                type,
-                categoryGroupName,
-                value
+            pageNumber,
+            pageLength,
+            code,
+            name,
+            type,
+            categoryGroupName,
+            value
         ));
     }
 

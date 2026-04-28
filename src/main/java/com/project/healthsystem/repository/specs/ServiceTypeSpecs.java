@@ -1,9 +1,14 @@
 package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.ServiceType;
+import com.project.healthsystem.utils.SpecificationsUtils;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceTypeSpecs {
     public static Specification<ServiceType> codeLike(String code) {
@@ -27,11 +32,11 @@ public class ServiceTypeSpecs {
 
     public static Specification<ServiceType> nameLike(String name) {
         return (root, query, cb) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeIgnoreCaseUnaccent(
                     cb,
                     root.get("name"),
                     name
-                );
+            );
     }
 
     public static Specification<ServiceType> valueEqual(BigDecimal value) {
