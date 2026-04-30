@@ -35,6 +35,7 @@ public class ServiceTypeService {
     private final ServiceTypeMapper serviceTypeMapper;
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final AppointmentService appointmentService;
 
     public ServiceType save(ServiceTypeRequestDTO serviceTypeRequestDTO, String token){
         ServiceType serviceType = serviceTypeValidator.validateSave(serviceTypeRequestDTO);
@@ -92,6 +93,21 @@ public class ServiceTypeService {
     public ServiceTypeResponseDTO findById(long id){
         ServiceType serviceType = this.serviceTypeValidator.validateFindById(id);
         return serviceTypeMapper.toDto(serviceType);
+    }
+
+    public int deleteWhenNewServiceType(long id, ServiceTypeRequestDTO serviceTypeRequestDTO, String token){
+        ServiceType serviceType = this.save(serviceTypeRequestDTO, token);
+        int updatedAppointmentsNumber = this.appointmentService.switchServiceTypeId(id, serviceType.getId());
+        ServiceType serviceTypes = serviceTypeValidator.validateDelete(id);
+        repository.delete(serviceTypes);
+        return updatedAppointmentsNumber;
+    }
+
+    public int deleteWhenInnered(long id, long newId){
+        ServiceType serviceType = serviceTypeValidator.validateDeleteWhenInnered(id, newId);
+        int updatedAppointmentsNumber = this.appointmentService.switchServiceTypeId(id, newId);
+        repository.delete(serviceType);
+        return updatedAppointmentsNumber;
     }
 
     public void delete(long id){

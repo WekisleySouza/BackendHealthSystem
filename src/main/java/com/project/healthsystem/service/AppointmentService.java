@@ -62,6 +62,10 @@ public class AppointmentService {
         return this.repository.save(appointment);
     }
 
+    public int switchServiceTypeId(long id, long newId){
+        return repository.updateServiceTypeId(id, newId);
+    }
+
     public Appointment update(AppointmentRequestDTO appointmentRequestDTO, long id, String token){
         Appointment appointment = appointmentValidator.validateUpdate(appointmentRequestDTO, id);
         Person currentEditor = jwtTokenProvider.getPerson(token);

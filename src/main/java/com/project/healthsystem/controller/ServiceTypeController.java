@@ -285,6 +285,94 @@ public class ServiceTypeController {
         ));
     }
 
+    @DeleteMapping("delete-replace-with-new/{id}")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    @Operation(
+            summary = "Delete service type",
+            description = "Delete a service type by id."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Deleted successfully."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Service type not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict - integrity violation (service type in use, for example).",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected server error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            )
+    })
+    public ResponseEntity<Object> deleteWhenNewServiceType(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable("id") long id,
+            @RequestBody @Valid ServiceTypeRequestDTO serviceTypeRequestDTO
+    ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        serviceTypeService.deleteWhenNewServiceType(id, serviceTypeRequestDTO, accessToken);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(
+            summary = "Delete service type",
+            description = "Delete a service type by id."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Deleted successfully."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Service type not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict - integrity violation (service type in use, for example).",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Unexpected server error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+            )
+    })
+    @DeleteMapping("delete-replace-with/{id}")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    public ResponseEntity<Integer> deleteWhenInnered(
+        @PathVariable("id") long id,
+        @RequestParam(required=true) Long replaceWithId
+    ){
+        int replacedNumber = serviceTypeService.deleteWhenInnered(id, replaceWithId);
+        return ResponseEntity.ok(replacedNumber);
+    }
+
+
+
     @DeleteMapping("{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     @Operation(

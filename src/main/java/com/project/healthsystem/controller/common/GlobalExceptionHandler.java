@@ -2,6 +2,7 @@ package com.project.healthsystem.controller.common;
 
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.FieldErrorResponseDTO;
+import com.project.healthsystem.exceptions.CantDeleteException;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
@@ -55,6 +56,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponseDTO handleInconsistentDataException(InvalidDataException e){
         return ErrorResponseDTO.invalidData(e.getMessage());
+    }
+
+    @ExceptionHandler(CantDeleteException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleCantDeleteException(CantDeleteException e){
+        return new ErrorResponseDTO(
+            HttpStatus.BAD_REQUEST.value(),
+            "Não foi possível excluir!",
+            List.of());
     }
 
     @ExceptionHandler(NotFoundException.class)
