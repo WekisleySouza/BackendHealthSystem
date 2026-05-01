@@ -200,8 +200,8 @@ public class AgentController {
     @GetMapping
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     @Operation(
-            summary = "Get all",
-            description = "Get all agents with filters and pagination."
+        summary = "Get all",
+        description = "Get all agents with filters and pagination."
     )
     @ApiResponses({
             @ApiResponse(
