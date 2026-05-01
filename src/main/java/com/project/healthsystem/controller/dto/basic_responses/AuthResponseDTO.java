@@ -1,4 +1,4 @@
-package com.project.healthsystem.controller.dto;
+package com.project.healthsystem.controller.dto.basic_responses;
 
 import com.project.healthsystem.model.Role;
 

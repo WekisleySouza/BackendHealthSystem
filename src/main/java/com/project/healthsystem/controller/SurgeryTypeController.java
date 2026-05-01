@@ -4,7 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.SurgeryTypeRequestDTO;
-import com.project.healthsystem.controller.dto.SurgeryTypeResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.SurgeryTypeResponseDTO;
 import com.project.healthsystem.model.SurgeryType;
 import com.project.healthsystem.service.SurgeryTypeService;
 import io.swagger.v3.oas.annotations.Operation;

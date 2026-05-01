@@ -1,7 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.basic_requests.AuthRequestDTO;
-import com.project.healthsystem.controller.dto.AuthResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.AuthResponseDTO;
 import com.project.healthsystem.controller.dto.ProfileResponseDTO;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.security.JwtTokenProvider;

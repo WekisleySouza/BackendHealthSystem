@@ -1,4 +1,4 @@
-package com.project.healthsystem.controller.dto;
+package com.project.healthsystem.controller.dto.basic_responses;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

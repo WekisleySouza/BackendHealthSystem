@@ -1,7 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.basic_requests.ConditionRequestDTO;
-import com.project.healthsystem.controller.dto.ConditionResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ConditionResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.ConditionSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.ConditionMapper;
 import com.project.healthsystem.model.Condition;

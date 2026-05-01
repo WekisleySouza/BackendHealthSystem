@@ -1,7 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.basic_requests.EmployeeRequestDTO;
-import com.project.healthsystem.controller.dto.EmployeeResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.EmployeeResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.EmployeeSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
 import com.project.healthsystem.controller.mappers.PersonMapper;

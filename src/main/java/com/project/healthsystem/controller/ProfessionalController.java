@@ -4,7 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.ProfessionalRequestDTO;
-import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ProfessionalResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.ProfessionalSimplifiedResponseDTO;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.service.ProfessionalService;

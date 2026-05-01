@@ -1,14 +1,14 @@
 package com.project.healthsystem.controller.mappers;
 
-import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
 import com.project.healthsystem.model.Appointment;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-04-27T18:48:06-0300",
+    date = "2026-04-30T18:30:23-0300",
     comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.10 (Microsoft)"
 )
 @Component

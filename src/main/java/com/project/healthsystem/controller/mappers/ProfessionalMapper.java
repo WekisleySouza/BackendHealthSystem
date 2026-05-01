@@ -1,7 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.basic_requests.ProfessionalRequestDTO;
-import com.project.healthsystem.controller.dto.ProfessionalResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ProfessionalResponseDTO;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.model.Professional;

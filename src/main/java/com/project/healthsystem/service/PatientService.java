@@ -2,6 +2,8 @@ package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ConditionResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.PatientResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedInfoDTO;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.*;

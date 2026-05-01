@@ -3,7 +3,7 @@ package com.project.healthsystem.controller;
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.basic_requests.ConditionRequestDTO;
-import com.project.healthsystem.controller.dto.ConditionResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ConditionResponseDTO;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.ConditionSimplifiedResponseDTO;
 import com.project.healthsystem.model.Condition;

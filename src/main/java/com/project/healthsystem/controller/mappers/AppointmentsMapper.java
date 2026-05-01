@@ -1,7 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
-import com.project.healthsystem.controller.dto.AppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
 import com.project.healthsystem.model.Agreements;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.model.Priority;

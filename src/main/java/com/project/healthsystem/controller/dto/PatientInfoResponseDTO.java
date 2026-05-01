@@ -1,5 +1,7 @@
 package com.project.healthsystem.controller.dto;
 
+import com.project.healthsystem.controller.dto.basic_responses.ConditionResponseDTO;
+
 import java.time.LocalDate;
 import java.util.List;
 

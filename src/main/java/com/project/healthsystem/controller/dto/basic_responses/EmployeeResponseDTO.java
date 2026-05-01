@@ -1,16 +1,16 @@
-package com.project.healthsystem.controller.dto;
+package com.project.healthsystem.controller.dto.basic_responses;
 
-import com.project.healthsystem.model.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-public class AgentResponseDTO {
+public class EmployeeResponseDTO {
     private long id;
     private String name;
     private String gender;
@@ -19,7 +19,9 @@ public class AgentResponseDTO {
     private String residentialPhone;
     private String contactPhone;
     private String cpf;
-    private String address;
     private LocalDate birthday;
     private String email;
+    private String address;
+    private boolean active;
+    private List<String> roles;
 }

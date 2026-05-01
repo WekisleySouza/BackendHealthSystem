@@ -1,7 +1,7 @@
 package com.project.healthsystem.controller.mappers;
 
 import com.project.healthsystem.controller.dto.basic_requests.ServiceTypeRequestDTO;
-import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ServiceTypeResponseDTO;
 import com.project.healthsystem.model.ServiceType;
 import com.project.healthsystem.model.ServiceTypes;
 import org.mapstruct.Mapper;

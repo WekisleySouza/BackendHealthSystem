@@ -1,7 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.basic_requests.ServiceTypeRequestDTO;
-import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ServiceTypeResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.ServiceTypeSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.ServiceTypeMapper;
 import com.project.healthsystem.model.Person;

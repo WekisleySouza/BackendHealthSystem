@@ -4,7 +4,7 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.ServiceTypeRequestDTO;
-import com.project.healthsystem.controller.dto.ServiceTypeResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.ServiceTypeResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.ServiceTypeSimplifiedResponseDTO;
 import com.project.healthsystem.model.ServiceType;
 import com.project.healthsystem.service.ServiceTypeService;
@@ -289,7 +289,7 @@ public class ServiceTypeController {
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     @Operation(
             summary = "Delete service type",
-            description = "Delete a service type by id."
+            description = "Delete a service type by id.  Returns the number of service types updated."
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Deleted successfully."),
@@ -331,7 +331,7 @@ public class ServiceTypeController {
 
     @Operation(
             summary = "Delete service type",
-            description = "Delete a service type by id."
+            description = "Delete a service type by id. Returns the number of service types updated."
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Deleted successfully."),
