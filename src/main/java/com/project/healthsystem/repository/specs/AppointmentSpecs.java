@@ -160,6 +160,15 @@ public class AppointmentSpecs {
             );
     }
 
+    public static Specification<Appointment> instituitionNameLike(String name) {
+        return (root, query, cb) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        cb,
+                        root.get("instituition").get("name"),
+                        name
+                );
+    }
+
     public static Specification<Appointment> serviceTypeCategoryGroupNameLike(String name) {
         return (root, query, cb) ->
             SpecsCommon.likeIgnoreCaseUnaccent(

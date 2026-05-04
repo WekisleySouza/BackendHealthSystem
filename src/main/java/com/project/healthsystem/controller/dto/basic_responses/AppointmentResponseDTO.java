@@ -19,6 +19,7 @@ public class AppointmentResponseDTO {
     private String serviceTypeName;
     private String serviceType;
     private String categoryGroupName;
+    private String instituitionName;
 
     private String status;
     private String agreements;

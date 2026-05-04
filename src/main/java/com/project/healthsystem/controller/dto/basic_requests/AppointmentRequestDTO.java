@@ -20,6 +20,7 @@ public class AppointmentRequestDTO {
     private Long requestingProfessionalId;
     @NotNull(message = "O funcionário responsável é obrigatório!")
     private Long employeeId;
+    private Long instituitionId;
 
     @NotNull(message = "O paciente é obrigatório!")
     private Long patientId;

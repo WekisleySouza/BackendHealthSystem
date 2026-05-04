@@ -23,6 +23,7 @@ public interface AppointmentGetByIdProjection {
     ServiceTypeInfo getServiceType();
     ProfessionalInfo getResponsibleProfessional();
     ProfessionalInfo getRequestingProfessional();
+    InstituitionInfo getInstituition();
     EmployeeInfo getEmployee();
     PatientInfo getPatient();
 
@@ -52,6 +53,23 @@ public interface AppointmentGetByIdProjection {
                 ? getRequestingProfessional().getPerson().getName()
                 : null
             : null;
+    }
+
+    default Long getInstituitionIdSafe(){
+        return getInstituition() != null
+            ? getInstituition().getId()
+            : null;
+    }
+
+    default String getInstituitionNameSafe(){
+        return getInstituition() != null
+            ? getInstituition().getName()
+            : null;
+    }
+
+    interface InstituitionInfo {
+        Long getId();
+        String getName();
     }
 
     interface ServiceTypeInfo {

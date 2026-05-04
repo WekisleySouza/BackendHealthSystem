@@ -45,6 +45,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
             a.status,
             rpProf.person.name,
             rqProf.person.name,
+            inst.name,
             a.priorit,
             st.name,
             st.type
@@ -53,6 +54,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         JOIN a.patient p
         JOIN a.responsibleProfessional rpProf
         JOIN a.requestingProfessional rqProf
+        JOIN a.instituition inst
         JOIN a.serviceType st
         ORDER BY a.scheduledAt DESC
     """)

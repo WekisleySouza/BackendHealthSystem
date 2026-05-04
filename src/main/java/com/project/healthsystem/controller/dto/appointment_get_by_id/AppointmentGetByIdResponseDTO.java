@@ -11,6 +11,7 @@ public record AppointmentGetByIdResponseDTO (
     PatientInfoResponseDTO patient,
     ServiceTypeInfoResponseDTO serviceType,
     CategoryGroupInfoResponseDTO categoryGroup,
+    InstituitionInfoResponseDTO instituitionInfoResponseDTO,
 
     String status,
     String agreements,

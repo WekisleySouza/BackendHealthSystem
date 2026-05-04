@@ -19,6 +19,7 @@ public class AppointmentReportResponseDTO {
         private String status;
         private String responsibleProfessionalName;
         private String requestingProfessionalName;
+        private String instituitionName;
         private String priorit;
         private String serviceName;
         private String serviceType;
@@ -32,6 +33,7 @@ public class AppointmentReportResponseDTO {
             Status status,
             String responsibleProfessionalName,
             String requestingProfessionalName,
+            String instituitionName,
             Priority priorit,
             String serviceName,
             ServiceTypes serviceType
@@ -43,6 +45,7 @@ public class AppointmentReportResponseDTO {
         this.status = status != null ? status.getLabel() : null;
         this.responsibleProfessionalName = responsibleProfessionalName;
         this.requestingProfessionalName = requestingProfessionalName;
+        this.instituitionName = instituitionName;
         this.priorit = priorit != null ? priorit.getLabel() : null;
         this.serviceName = serviceName;
         this.serviceType = serviceType != null ? serviceType.getLabel() : null;

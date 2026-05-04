@@ -97,6 +97,7 @@ public class AppointmentService {
             String requestingProfessionalName,
             String employeeName,
             String patientName,
+            String instituitionName,
             boolean isSortedByName,
             boolean isDescending,
             Boolean isReturn
@@ -122,6 +123,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(serviceType));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceTypeName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeCategoryGroupNameLike(categoryName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.instituitionNameLike(instituitionName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.employeeNameLike(employeeName));
@@ -161,6 +163,10 @@ public class AppointmentService {
                 appointmentProjection.getServiceType().getCategoryGroupId(),
                 appointmentProjection.getServiceType().getCategoryGroupName()
             ),
+            new InstituitionInfoResponseDTO(
+                appointmentProjection.getInstituitionIdSafe(),
+                appointmentProjection.getInstituitionNameSafe()
+            ),
             appointmentProjection.getStatus().getLabel(),
             appointmentProjection.getAgreements().getLabel(),
             appointmentProjection.getNotes(),
@@ -188,6 +194,7 @@ public class AppointmentService {
         String priorit,
         String type,
         String serviceName,
+        String instituitionName,
         LocalDateTime scheduledAt,
         LocalDateTime scheduledAtStart,
         LocalDateTime scheduledAtEnd,
@@ -205,6 +212,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.instituitionNameLike(instituitionName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
@@ -239,6 +247,7 @@ public class AppointmentService {
         String priorit,
         String type,
         String serviceName,
+        String instituitionName,
         LocalDateTime scheduledAt,
         LocalDateTime scheduledAtStart,
         LocalDateTime scheduledAtEnd,
@@ -255,6 +264,7 @@ public class AppointmentService {
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.instituitionNameLike(instituitionName));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
         specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));

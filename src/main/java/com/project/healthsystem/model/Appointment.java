@@ -32,6 +32,8 @@ public class Appointment extends BasicEntityAbstraction {
     private LocalDateTime scheduledAt;
 
     @ManyToOne
+    private Instituition instituition;
+    @ManyToOne
     private ServiceType serviceType;
     @ManyToOne
     private Professional requestingProfessional;
@@ -41,6 +43,20 @@ public class Appointment extends BasicEntityAbstraction {
     private Employee employee;
     @ManyToOne
     private Patient patient;
+
+    public String getInstituitionName(){
+        if(this.instituition != null){
+            return instituition.getName();
+        }
+        return "";
+    }
+
+    public Long getInstituitionId(){
+        if(this.instituition != null){
+            return instituition.getId();
+        }
+        return null;
+    }
 
     public String getResponsibleProfessionalName(){
         if(this.responsibleProfessional != null){

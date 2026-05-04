@@ -19,27 +19,42 @@ public class AppointmentValidator {
     private final ServiceTypeRepository serviceTypeRepository;
     private final EmployeeRepository employeeRepository;
     private final ProfessionalRepository professionalRepository;
+    private final InstituitionRepository instituitionRepository;
 
     private final AppointmentsMapper appointmentsMapper;
 
     public Appointment validateSave(AppointmentRequestDTO appointmentRequestDTO){
+        Appointment appointment = appointmentsMapper.toEntity(appointmentRequestDTO);
+
         Patient patient = patientRepository.findById(appointmentRequestDTO.getPatientId())
             .orElseThrow(() -> new InvalidDataException("Patient inválido!"));
         ServiceType serviceType = serviceTypeRepository.findById(appointmentRequestDTO.getServiceTypeId())
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
-        Professional responsibleProfessional = professionalRepository.findById(appointmentRequestDTO.getResponsibleProfessionalId())
-            .orElse(null);
         Professional requestingProfessional = professionalRepository.findById(appointmentRequestDTO.getRequestingProfessionalId())
-            .orElse(null);
+            .orElseThrow(() -> new InvalidDataException("Professional requisitante inválido!"));
 
-        Appointment appointment = appointmentsMapper.toEntity(appointmentRequestDTO);
+        if(appointmentRequestDTO.getResponsibleProfessionalId() != null &&
+            appointmentRequestDTO.getResponsibleProfessionalId() != -1
+        ){
+            Professional responsibleProfessional = professionalRepository.findById(appointmentRequestDTO.getResponsibleProfessionalId())
+                .orElseThrow(() -> new InvalidDataException("Professional responsável inválido!"));
+            appointment.setResponsibleProfessional(responsibleProfessional);
+        }
+
+        if(appointmentRequestDTO.getInstituitionId() != null &&
+            appointmentRequestDTO.getInstituitionId() != -1
+        ){
+            Instituition instituition = instituitionRepository.findById(appointmentRequestDTO.getInstituitionId())
+                .orElseThrow(() -> new InvalidDataException("Instituition inválida!"));
+            appointment.setInstituition(instituition);
+        }
+
+        appointment.setRequestingProfessional(requestingProfessional);
         appointment.setServiceType(serviceType);
         appointment.setPatient(patient);
         appointment.setEmployee(employee);
-        appointment.setResponsibleProfessional(responsibleProfessional);
-        appointment.setRequestingProfessional(requestingProfessional);
         appointment.createdNow();
 
         return appointment;
@@ -54,16 +69,29 @@ public class AppointmentValidator {
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
-        Professional responsibleProfessional = professionalRepository.findById(appointmentRequestDTO.getResponsibleProfessionalId())
-            .orElse(null);
+
+        if(appointmentRequestDTO.getResponsibleProfessionalId() != null &&
+            appointmentRequestDTO.getResponsibleProfessionalId() != -1
+        ){
+            Professional responsibleProfessional = professionalRepository.findById(appointmentRequestDTO.getResponsibleProfessionalId())
+                .orElseThrow(() -> new InvalidDataException("Professional responsável inválido!"));
+            appointment.setResponsibleProfessional(responsibleProfessional);
+        }
         Professional requestingProfessional = professionalRepository.findById(appointmentRequestDTO.getRequestingProfessionalId())
-            .orElse(null);
+            .orElseThrow(() -> new InvalidDataException("Professional requisitante inválido!"));
+
+        if(appointmentRequestDTO.getInstituitionId() != null &&
+            appointmentRequestDTO.getInstituitionId() != -1
+        ){
+            Instituition instituition = instituitionRepository.findById(appointmentRequestDTO.getInstituitionId())
+                .orElseThrow(() -> new InvalidDataException("Instituition inválida!"));
+            appointment.setInstituition(instituition);
+        }
 
         appointment = appointmentsMapper.toEntityWhenHasId(appointment, appointmentRequestDTO);
         appointment.setServiceType(serviceType);
         appointment.setPatient(patient);
         appointment.setEmployee(employee);
-        appointment.setResponsibleProfessional(responsibleProfessional);
         appointment.setRequestingProfessional(requestingProfessional);
 
         return appointment;
