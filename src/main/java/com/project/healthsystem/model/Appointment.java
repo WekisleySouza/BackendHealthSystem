@@ -106,17 +106,35 @@ public class Appointment extends BasicEntityAbstraction {
         }
         return "";
     }
-    public String getServiceType(){
-        if(this.serviceType != null){
-            return serviceType.getType().getLabel();
-        }
-        return "";
-    }
 
     public String getServiceTypeCategoryGroupName(){
         if(this.serviceType != null){
             return serviceType.getCategoryGroupName();
         }
         return "";
+    }
+
+    public String getInstituitionNameSafe() {
+        return this.instituition != null ? this.instituition.getName() : null;
+    }
+
+    public String getInstituitionCepSafe() {
+        return this.instituition != null ? this.instituition.getCep() : null;
+    }
+
+    public String getInstituitionCityNameSafe() {
+        return this.instituition != null ? this.instituition.getCityName() : null;
+    }
+
+    public String getInstituitionAddressSafe() {
+        return this.instituition != null ? this.instituition.getAddress() : null;
+    }
+
+    public String getInstituitionPhoneSafe() {
+        return this.instituition != null ? this.instituition.getPhone() : null;
+    }
+
+    public String getInstituitionLinkLogoSafe() {
+        return this.instituition != null ? this.instituition.getLinkLogo() : null;
     }
 }

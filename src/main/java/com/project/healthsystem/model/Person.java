@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -89,5 +90,11 @@ public class Person extends BasicEntityAbstraction {
             roles.add(role.getRole().getLabel());
         }
         return roles;
+    }
+
+    public int getAge(){
+        if(this.birthday == null) return 0;
+
+        return Period.between(this.birthday, LocalDate.now()).getYears();
     }
 }

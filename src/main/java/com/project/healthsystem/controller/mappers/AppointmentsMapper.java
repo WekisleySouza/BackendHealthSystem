@@ -23,7 +23,7 @@ public abstract class AppointmentsMapper {
     @Mapping(target = "instituitionName", expression = "java(entity.getInstituitionName())")
     @Mapping(target = "patientName", expression = "java(entity.getPatientName())")
     @Mapping(target = "serviceTypeName", expression = "java(entity.getServiceTypeName())")
-    @Mapping(target = "serviceType", expression = "java(entity.getServiceType())")
+    @Mapping(target = "serviceType", expression = "java(entity.getServiceType().getType().getLabel())")
     @Mapping(target = "categoryGroupName", expression = "java(entity.getServiceTypeCategoryGroupName())")
     @Mapping(target = "status", expression = "java(entity.getStatus().getLabel())")
     @Mapping(target = "agreements", expression = "java(entity.getAgreements().getLabel())")

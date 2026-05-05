@@ -3,6 +3,7 @@ package com.project.healthsystem.controller;
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.*;
+import com.project.healthsystem.controller.dto.authorization_form.AuthorizationFormResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
@@ -566,4 +567,13 @@ public class AppointmentsController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("generate-authorization-form/{id}")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    public ResponseEntity<AuthorizationFormResponseDTO> countExamsByServiceType(
+        @PathVariable("id") long id
+    ){
+        return ResponseEntity.ok(
+            this.appointmentService.getAuthorizationForm(id)
+        );
+    }
 }

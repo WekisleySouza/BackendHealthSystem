@@ -3,6 +3,7 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
+import com.project.healthsystem.controller.dto.authorization_form.*;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
@@ -12,6 +13,8 @@ import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmen
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
 import com.project.healthsystem.controller.mappers.AppointmentsMapper;
+import com.project.healthsystem.exceptions.InvalidDataException;
+import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.*;
 import com.project.healthsystem.repository.custom.AppointmentRepositoryCustom;
@@ -27,8 +30,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -104,8 +109,8 @@ public class AppointmentService {
         ){
         String field = isSortedByName ? "serviceType.name" : "createdAt";
         Sort sort = Sort.by(
-                isDescending ? Sort.Direction.DESC : Sort.Direction.ASC,
-                field
+            isDescending ? Sort.Direction.DESC : Sort.Direction.ASC,
+            field
         );
 
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength, sort);
@@ -281,7 +286,7 @@ public class AppointmentService {
                 appointment.getRequestingProfessionalName(),
                 appointment.getPriorit().getLabel(),
                 appointment.getServiceTypeName(),
-                appointment.getServiceType()
+                appointment.getServiceType().getType().getLabel()
             ));
     }
 
@@ -356,5 +361,50 @@ public class AppointmentService {
             appointment.setStatus(Status.PRE_SCHEDULED);
             repository.save(appointment);
         }
+    }
+
+    public AuthorizationFormResponseDTO getAuthorizationForm(
+        Long appointmentId
+    ){
+        Appointment appointment = this.repository.findById(appointmentId)
+            .orElseThrow(() -> new NotFoundException("Agendamento não encontrado!"));
+        if(appointment.getScheduledAt() == null){
+            throw new InvalidDataException("Para gerar uma guia, é necessário uma data de agendamento!");
+        }
+        if(appointment.getInstituition() == null){
+            throw new InvalidDataException("Para gerar uma guia, é necessário definir a instituição de destino!");
+        }
+        return new AuthorizationFormResponseDTO(
+            new PatientDataResponseDTO(
+                appointment.getPatient().getPerson().getName(),
+                appointment.getPatient().getCns(),
+                appointment.getPatient().getPerson().getSex().getLabel(),
+                appointment.getPatient().getPerson().getBirthday(),
+                appointment.getPatient().getPerson().getAge(),
+                appointment.getPatient().getPerson().getAddress()
+            ),
+            new AuthorizationIndentifyingResponseDTO(
+                "Paiva/MG",
+                appointment.getInstituitionCityNameSafe(),
+                appointment.getScheduledAt(),
+                new InstituitionResponseDTO(
+                    appointment.getInstituitionNameSafe(),
+                    appointment.getInstituitionCepSafe(),
+                    appointment.getInstituitionCityNameSafe(),
+                    appointment.getInstituitionAddressSafe(),
+                    appointment.getInstituitionPhoneSafe(),
+                    appointment.getInstituitionLinkLogoSafe()
+                )
+            ),
+            new ProceduringDataResponseDTO(
+                appointment.getServiceTypeName(),
+                appointment.getServiceType().getType().getLabel(),
+                appointment.getServiceType().getSigtapCode(),
+                appointment.getServiceType().getCategoryGroupName()
+            ),
+            appointment.getNotes(),
+            appointment.getEmployeeName(),
+            LocalDate.now()
+        );
     }
 }
