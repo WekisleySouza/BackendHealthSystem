@@ -34,11 +34,9 @@ public class AgentValidator {
     }
 
     public Agent validateFindById(long id){
-        Optional<Agent> agentOptional = repository.findById(id);
-        if(agentOptional.isEmpty()){
-            throw new NotFoundException("Não foi encontrado um agent com este id!");
-        }
-        return agentOptional.get();
+        Agent agent = repository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Não foi encontrado um agent com este id!"));
+        return agent;
     }
 
     public Agent validateDelete(long id){

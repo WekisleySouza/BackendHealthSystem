@@ -3,6 +3,7 @@ package com.project.healthsystem.model;
 public enum Agreements {
     PRIVATE("Particular"),
     INTERN("Interno"),
+    SUS("SUS"),
     CISALV("CISALV"),
     UNDEFINED("Indefinido");
 

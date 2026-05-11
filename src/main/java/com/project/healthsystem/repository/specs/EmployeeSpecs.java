@@ -3,7 +3,6 @@ package com.project.healthsystem.repository.specs;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Sex;
-import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
