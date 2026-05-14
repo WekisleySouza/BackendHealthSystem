@@ -3,11 +3,16 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.basic_requests.LoginRequestDTO;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.LoginRepository;
+import com.project.healthsystem.repository.PasswordResetTokenRepository;
 import com.project.healthsystem.validator.LoginValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +22,8 @@ public class LoginService {
     private final RoleService roleService;
     private final LoginValidator loginValidator;
     private final PasswordEncoder passwordEncoder;
+
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Value("${app.default-admin.username}")
     private String DEFAULT_ADMIN_USERNAME;
@@ -83,5 +90,36 @@ public class LoginService {
     public void delete(long id){
         Login login = repository.getReferenceById(id);
         repository.delete(login);
+    }
+
+    @Transactional
+    public void forgotPassword(String email){
+        Login login = this.loginValidator.validateFindByEmail(email);
+        String token = UUID.randomUUID().toString();
+
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
+        passwordResetToken.setLogin(login);
+        passwordResetToken.setToken(token);
+        passwordResetToken.setExpiresAt(LocalDateTime.now().plusMinutes(30));
+
+        this.passwordResetTokenRepository.save(passwordResetToken);
+
+        // Serviço de email
+//        emailService.sendResetPasswordEmail(
+//            user.getEmail(),
+//            token
+//        );
+    }
+
+    public void resetPassword(String token, String newPassword){
+        PasswordResetToken passwordResetToken = loginValidator.validateFindPasswordResetTokenByToken(token);
+
+        Login login = passwordResetToken.getLogin();
+        login.setPassword(passwordEncoder.encode(newPassword));
+
+        this.repository.save(login);
+
+        passwordResetToken.setUsed(true);
+        passwordResetTokenRepository.save(passwordResetToken);
     }
 }

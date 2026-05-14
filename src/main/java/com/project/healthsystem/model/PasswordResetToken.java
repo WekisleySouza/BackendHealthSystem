@@ -5,11 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "password_reset_token")
+@Data
 public class PasswordResetToken extends IDAbstraction {
 
     @Column(nullable = false, unique = true)
