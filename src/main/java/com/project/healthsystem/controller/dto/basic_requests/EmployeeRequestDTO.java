@@ -46,6 +46,7 @@ public class EmployeeRequestDTO {
     @NotNull(message = "A data de nascimento é obrigatória!")
     private LocalDate birthday;
 
+    @NotBlank(message = "O e-mail é obrigatório!")
     @Email(message = "Formato de e-mail inválido!")
     @Size(max = 320, message = "O e-mail não pode ultrapassar 320 caracteres!")
     private String email;

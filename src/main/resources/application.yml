@@ -16,8 +16,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: wekisleysouza015@gmail.com
-    password: senha tal
+    username: ${EMAIL_SERVICE_USERNAME:user}
+    password: ${EMAIL_SERVICE_PASSWORD:password}
     properties:
       mail:
         smtp:
@@ -25,6 +25,7 @@ spring:
           starttls:
             enable: true
 app:
+  frontend-Url: ${FRONTEND_URL:none.com}
   default-admin:
     username: ${DEFAULT_ADMIN_USERNAME:admin}
     password: ${DEFAULT_ADMIN_PASSWORD:admin}

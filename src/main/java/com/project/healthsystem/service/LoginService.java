@@ -24,7 +24,7 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
-
+    private final EmailService emailService;
     @Value("${app.default-admin.username}")
     private String DEFAULT_ADMIN_USERNAME;
     @Value("${app.default-admin.password}")
@@ -94,6 +94,7 @@ public class LoginService {
 
     @Transactional
     public void forgotPassword(String email){
+
         Login login = this.loginValidator.validateFindByEmail(email);
         String token = UUID.randomUUID().toString();
 
@@ -104,11 +105,10 @@ public class LoginService {
 
         this.passwordResetTokenRepository.save(passwordResetToken);
 
-        // Serviço de email
-//        emailService.sendResetPasswordEmail(
-//            user.getEmail(),
-//            token
-//        );
+        emailService.sendResetPasswordEmail(
+            login.getPerson().getEmail(),
+            token
+        );
     }
 
     public void resetPassword(String token, String newPassword){
