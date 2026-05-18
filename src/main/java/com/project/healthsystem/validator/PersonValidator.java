@@ -1,5 +1,6 @@
 package com.project.healthsystem.validator;
 
+import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.PersonRepository;
@@ -11,6 +12,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PersonValidator {
     private final PersonRepository personRepository;
+
+    public void validateSave(Person person){
+        if(personRepository.existsByEmail(person.getEmail())){
+            throw new InvalidDataException("E-mail já cadastrado! Tente outro.");
+        }
+    }
 
     public Person validateFindByCpf(String cpf){
         return personRepository.findByCpf(cpf)

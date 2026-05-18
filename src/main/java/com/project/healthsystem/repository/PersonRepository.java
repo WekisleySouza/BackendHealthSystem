@@ -12,5 +12,7 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
 
     Optional<Person> getReferenceByCpf(String cpf);
 
+    boolean existsByEmail(String email);
+
     boolean existsByCpf(String cpf);
 }

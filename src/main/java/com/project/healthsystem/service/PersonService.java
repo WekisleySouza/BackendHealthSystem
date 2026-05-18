@@ -16,6 +16,7 @@ public class PersonService {
     private final PersonValidator personValidator;
 
     public Person save(Person person){
+        personValidator.validateSave(person);
         return personRepository.save(person);
     }
 
