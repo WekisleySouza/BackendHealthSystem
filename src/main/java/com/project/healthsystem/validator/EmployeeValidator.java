@@ -3,6 +3,7 @@ package com.project.healthsystem.validator;
 import com.project.healthsystem.controller.dto.basic_requests.EmployeeRequestDTO;
 import com.project.healthsystem.controller.mappers.EmployeeMapper;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
+import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Employee;
 import com.project.healthsystem.repository.EmployeeRepository;
@@ -19,12 +20,18 @@ public class EmployeeValidator {
         if (!employeeRequestDTO.getCpfNormalized().isBlank() && employeeRepository.existsByPersonCpf(employeeRequestDTO.getCpfNormalized())){
             throw new DuplicatedRegisterException("Cpf já cadastrado!");
         }
+        if (!employeeRequestDTO.getEmail().isBlank() && employeeRepository.existsByPersonEmail(employeeRequestDTO.getEmail())){
+            throw new InvalidDataException("E-mail já cadastrado!");
+        }
         return employeeMapper.toEntity(employeeRequestDTO);
     }
 
     public Employee validateUpdate(EmployeeRequestDTO employeeRequestDTO, long id){
         Employee employee = employeeRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Funcionário não encontrado!"));
+        if (!employeeRequestDTO.getEmail().isBlank() && employeeRepository.existsByPersonEmail(employeeRequestDTO.getEmail())){
+            throw new InvalidDataException("E-mail já cadastrado!");
+        }
         employee = employeeMapper.toEntityWhenHasId(employee, employeeRequestDTO);
         return employee;
     }
