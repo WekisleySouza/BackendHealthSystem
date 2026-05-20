@@ -4,7 +4,6 @@ import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.PersonRepository;
-import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
