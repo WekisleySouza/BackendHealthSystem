@@ -281,6 +281,7 @@ public class AppointmentService {
                 appointment.getPatient().getPerson().getName(),
                 appointment.getPatient().getMotherName(),
                 appointment.getScheduledAt(),
+                appointment.getCreatedAt(),
                 appointment.getStatus().getLabel(),
                 appointment.getResponsibleProfessionalName(),
                 appointment.getRequestingProfessionalName(),
@@ -299,16 +300,6 @@ public class AppointmentService {
         List<AppointmentStatusCountResponseDTO> appointmentStatusCountResponseDTOS = repository.countByStatus();
         return new ReportAppointmentByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
     }
-
-//    public Page<NumberAppointmentsByStatusAndProfessionalDTO> countAppointmentsByProfessional(
-//        Integer pageNumber,
-//        Integer pageLength
-//    ){
-//        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-//        return repository.countAppointmentsGroupedByProfessional(
-//            pageRequest
-//        );
-//    }
 
     public Page<NumberSpecialtiesByStatusDTO> countSpecialtiesByStatus(
         Integer pageNumber,

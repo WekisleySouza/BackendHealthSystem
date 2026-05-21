@@ -456,20 +456,6 @@ public class AppointmentsController {
         ));
     }
 
-//    @GetMapping("/test")
-//    @PreAuthorize(Permissions.PERMIT_ALL)
-//    @Operation(summary = "Teste", description = "Just to test.")
-//    public ResponseEntity<Page<TestDTO>> test(
-//            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-//            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
-//    ){
-//        Page<TestDTO> appointment = appointmentService.test(
-//            pageNumber,
-//            pageLength
-//        );
-//        return ResponseEntity.ok(appointment);
-//    }
-
     @DeleteMapping("{id}")
     @Operation(
             summary = "Delete",
