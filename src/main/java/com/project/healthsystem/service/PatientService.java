@@ -8,32 +8,45 @@ import com.project.healthsystem.controller.dto.simplified_info.PatientSimplified
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.*;
 import com.project.healthsystem.model.*;
+import com.project.healthsystem.repository.BackupControlRepository;
 import com.project.healthsystem.repository.PatientRepository;
 import com.project.healthsystem.repository.projections.PatientInfoAgentProjection;
 import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
 import com.project.healthsystem.repository.specs.PatientSpecs;
 import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
+import com.project.healthsystem.utils.PersonBackupInfo;
 import com.project.healthsystem.validator.PatientValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class PatientService {
+
+    @Autowired
+    @Qualifier("externalJdbcTemplate")
+    private JdbcTemplate externalJdbcTemplate;
 
     private final PatientRepository repository;
 
@@ -49,6 +62,8 @@ public class PatientService {
     private final AppointmentService appointmentService;
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final BackupControlRepository backupControlRepository;
 
     @Transactional
     public Patient save(PatientRequestDTO patientRequestDTO, String token){
@@ -374,7 +389,7 @@ public class PatientService {
                 patient.setCns(cns);
                 patient.setPerson(person);
 
-                List<Patient> patientByName = repository.findByPersonName(citizenName);
+                List<Patient> patientByName = repository.findByPersonNameIgnoreCase(citizenName);
                 List<Patient> patientByCpf = repository.findByPersonCpf(cpf);
                 List<Patient> patientByCns = repository.findByCns(cns);
 
@@ -446,5 +461,152 @@ public class PatientService {
     private boolean isEmpty(String value) {
         return value == null || value.trim().isEmpty();
     }
+
+    private List<Map<String, Object>> getAllPatientsFromExternalDB(){
+        return externalJdbcTemplate.queryForList("""
+            SELECT
+                dt_atualizado,
+                nu_micro_area,
+                nu_cns,
+                no_mae,
+                co_seq_cidadao,
+                co_unico_cidadao,
+                no_cidadao,
+                tp_orientacao_sexual,
+                no_sexo,
+                nu_cpf,
+                nu_telefone_celular,
+                nu_telefone_residencial,
+                nu_telefone_contato,
+                dt_nascimento,
+                ds_email,
+                CONCAT_WS(', ',
+                    ds_logradouro,
+                    nu_numero,
+                    no_bairro,
+                    ds_cep
+                ) AS address
+            FROM tb_cidadao
+        """);
+    }
+
+    private List<Map<String, Object>> getUpdatedPatientsFromExternalDB(LocalDateTime lastUpdate){
+        return externalJdbcTemplate.queryForList("""
+            SELECT
+                dt_atualizado,
+                nu_micro_area,
+                nu_cns,
+                no_mae,
+                co_seq_cidadao,
+                co_unico_cidadao,
+                no_cidadao,
+                tp_orientacao_sexual,
+                no_sexo,
+                nu_cpf,
+                nu_telefone_celular,
+                nu_telefone_residencial,
+                nu_telefone_contato,
+                dt_nascimento,
+                ds_email,
+                CONCAT_WS(', ',
+                    ds_logradouro,
+                    nu_numero,
+                    no_bairro,
+                    ds_cep
+                ) AS address
+            FROM tb_cidadao
+            WHERE dt_atualizado > ?
+            ORDER BY dt_atualizado
+        """, Timestamp.valueOf(lastUpdate));
+    }
+
+    private Long countUpdatedPatientsFromExternalDB(
+            LocalDateTime lastUpdate
+    ) {
+        return externalJdbcTemplate.queryForObject("""
+        SELECT COUNT(*)
+        FROM tb_cidadao
+        WHERE dt_atualizado >= ?
+    """,
+                Long.class,
+                Timestamp.valueOf(lastUpdate));
+    }
+
+    @Transactional
+    public void updatePatientsFromExternalDB(){
+        int newPatients = 0;
+        int patientsUpdatedById = 0;
+        int patientsUpdatedByCpf = 0;
+        int patientsUpdatedByCns = 0;
+        int patientsUpdatedByName = 0;
+        String nomes = "";
+        BackupControl backupControl = new BackupControl();
+        backupControl.startBackup();
+
+        List<Map<String, Object>> patientList;
+
+        if(backupControlRepository.existsBy()){ // Se existe backup.
+            BackupControl lastBackupData = backupControlRepository
+                .findTopByOrderByLastUpdateDesc()
+                .orElse(null);
+            Long newAT = countUpdatedPatientsFromExternalDB(lastBackupData.getLastUpdate());
+            System.out.println("Novos at: " + newAT);
+            patientList = this.getUpdatedPatientsFromExternalDB(lastBackupData.getLastUpdate());
+        } else {
+            System.out.println("Não tem!");
+            patientList = this.getAllPatientsFromExternalDB();
+        }
+
+        for(Map<String, Object> content : patientList){
+            PersonBackupInfo personBackupInfo = new PersonBackupInfo(content);
+
+            if(repository.existsByPersonPersonSequenceId(personBackupInfo.getCitizenSeqId())){ // Atualizar pelo id de sequência único
+                List<Patient> patients = repository.findByPersonPersonSequenceId(personBackupInfo.getCitizenSeqId());
+                Patient patient = personBackupInfo.getPersonToUpdate(patients);
+                personService.save(patient.getPerson());
+                repository.save(patient);
+                patientsUpdatedById++;
+
+            } else if(personBackupInfo.hasCpf() && repository.existsByPersonCpf(personBackupInfo.getCpf())){ // Atualizar pelo cpf
+                List<Patient> patients = repository.findByPersonCpf(personBackupInfo.getCpf());
+                Patient patient = personBackupInfo.getPersonToUpdate(patients);
+                personService.save(patient.getPerson());
+                repository.save(patient);
+                patientsUpdatedByCpf++;
+
+            } else if(personBackupInfo.hasCns() && repository.existsByCns(personBackupInfo.getCns())){ // Atualizar pelo cns
+                List<Patient> patients = repository.findByCns(personBackupInfo.getCns());
+                Patient patient = personBackupInfo.getPersonToUpdate(patients);
+                personService.save(patient.getPerson());
+                repository.save(patient);
+                patientsUpdatedByCns++;
+
+            } else if(repository.existsByPersonNameIgnoreCase(personBackupInfo.getPatientName()) && backupControlRepository.existsBy()){ // Atualizar pelo nome se for a primeira atualizaçao
+                List<Patient> patients = repository.findByPersonNameIgnoreCase(personBackupInfo.getCns());
+                Patient patient = personBackupInfo.getPersonToUpdate(patients);
+                personService.save(patient.getPerson());
+                repository.save(patient);
+                patientsUpdatedByName++;
+
+            } else { // Criar novo. Isso, no caso de não existir um registro.
+                Patient patient = personBackupInfo.getPersonToSave();
+                personService.save(patient.getPerson());
+                repository.save(patient);
+                newPatients++;
+            }
+        }
+
+        System.out.println("Novos pacientes: " + newPatients);
+        System.out.println("Atualizado por id: " + patientsUpdatedById);
+        System.out.println("Atualizado por CPF: " + patientsUpdatedByCpf);
+        System.out.println("Atualizado por CNS: " + patientsUpdatedByCns);
+        System.out.println("Atualizado por nome: " + patientsUpdatedByName);
+        backupControl.finishBackup();
+        backupControlRepository.save(backupControl);
+    }
 }
 
+// {dt_atualizado=2025-12-01 12:00:00.0, nu_micro_area=null, nu_cns=706908156230634, no_mae=ANA PAULA CAMPOS TOLEDO,
+// co_seq_cidadao=4043, co_unico_cidadao=8403a920-f370-4fbd-84e2-6c5e02d7dd40, no_cidadao=GAEL CAMPOS TOLEDO, tp_orientacao_sexual=HETEROSSEXUAL,
+// no_sexo=MASCULINO, nu_cpf=03963918691, nu_telefone_celular=32984777104,
+// nu_telefone_residencial=null, nu_telefone_contato=null, dt_nascimento=2025-05-04, ds_email=null, address=NOVA DO CRUZEIRO, S/N, CENTRO, 36195000}

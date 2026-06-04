@@ -37,10 +37,10 @@ public abstract class PatientMapper {
     public Patient toEntityWhenHasId(Patient entity, PatientRequestDTO dto){
         entity.setMotherName(dto.getMotherName());
         entity.setCns(dto.getCns());
-        entity.setTeamName(dto.getTeamName());
-        entity.setTeamINE(dto.getTeamINE());
-        entity.setMicroArea(dto.getMicroArea());
-        entity.setOrigin(dto.getOrigin());
+//        entity.setTeamName(dto.getTeamName());
+//        entity.setTeamINE(dto.getTeamINE());
+//        entity.setMicroArea(dto.getMicroArea());
+//        entity.setOrigin(dto.getOrigin());
         entity.getPerson().setCpf(dto.getCpf());
         entity.getPerson().setName(dto.getName());
         entity.getPerson().setGender(Gender.fromLabel(dto.getGender()));
@@ -59,7 +59,6 @@ public abstract class PatientMapper {
         person.setName(dto.getName());
         person.setGender(Gender.fromLabel(dto.getGender()));
         person.setCpf(dto.getCpfNormalized());
-        person.setAddress(dto.getAddress());
         person.setAddress(dto.getAddress());
         person.setSex(Sex.fromLabel(dto.getSex()));
         person.setCellPhone(dto.getCellPhone());

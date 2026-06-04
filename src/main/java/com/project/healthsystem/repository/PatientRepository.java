@@ -22,14 +22,19 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpec
 
     Optional<PatientInfoConditionsProjection> findConditionsById(long patientId);
 
-
     List<Patient> findByPersonCpf(String cpf);
 
     List<Patient> findByCns(String cns);
-    
-    List<Patient> findByPersonName(String name);
+
+    List<Patient> findByPersonNameIgnoreCase(String name);
+
+    List<Patient> findByPersonPersonSequenceId(String sequenceId);
+
+    boolean existsByPersonPersonSequenceId(String sequenceId);
 
     boolean existsByPersonCpf(String cpf);
 
+    boolean existsByCns(String cns);
 
+    boolean existsByPersonNameIgnoreCase(String name);
 }

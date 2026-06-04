@@ -1,6 +1,11 @@
 package com.project.healthsystem.controller.common;
 
 public final class Permissions {
+    public static final String ADMIN =
+        "hasAnyRole(" +
+            "T(com.project.healthsystem.model.Roles).ADMIN.getLabel()," +
+        ")";
+
     public static final String ADMIN_OR_MANAGER =
         "hasAnyRole(" +
             "T(com.project.healthsystem.model.Roles).ADMIN.getLabel()," +

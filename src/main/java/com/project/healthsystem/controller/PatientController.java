@@ -42,7 +42,7 @@ public class PatientController {
     private final JdbcTemplate externalJdbcTemplate;
 
     @PostMapping
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @PreAuthorize(Permissions.ADMIN)
     @Operation(
             summary = "Create patient",
             description = "Create a new patient.",
@@ -112,7 +112,7 @@ public class PatientController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @PreAuthorize(Permissions.ADMIN)
     @Operation(
             summary = "Update patient",
             description = "Update an existing patient.",
@@ -396,7 +396,7 @@ public class PatientController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @PreAuthorize(Permissions.ADMIN)
     @Operation(
             summary = "Delete patient",
             description = "Delete a patient by id."
@@ -434,136 +434,123 @@ public class PatientController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Import patients",
-            description = "Import patients from a CSV file (multipart/form-data).",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Imported successfully."
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid file or request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation during import.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    public ResponseEntity<String> importExcel(
-            @Parameter(
-                    description = "CSV file",
-                    required = true,
-                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
-            )
-            @RequestParam("file") MultipartFile file
-    ) {
-        patientService.importCsv(file);
-        return ResponseEntity.ok("Importado com sucesso");
-    }
+//
+//    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    @PreAuthorize(Permissions.ADMIN)
+//    @Operation(
+//            summary = "Import patients",
+//            description = "Import patients from a CSV file (multipart/form-data).",
+//            parameters = {
+//                    @Parameter(
+//                            name = "Authorization",
+//                            description = "Bearer access token",
+//                            required = true
+//                    )
+//            }
+//    )
+//    @ApiResponses({
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "Imported successfully."
+//            ),
+//            @ApiResponse(
+//                    responseCode = "400",
+//                    description = "Invalid file or request.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "401",
+//                    description = "Unauthorized.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "403",
+//                    description = "Forbidden.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "409",
+//                    description = "Conflict - integrity violation during import.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "500",
+//                    description = "Unexpected server error.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            )
+//    })
+//    public ResponseEntity<String> importExcel(
+//            @Parameter(
+//                    description = "CSV file",
+//                    required = true,
+//                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
+//            )
+//            @RequestParam("file") MultipartFile file
+//    ) {
+//        patientService.importCsv(file);
+//        return ResponseEntity.ok("Importado com sucesso");
+//    }
 
-    @PostMapping(value = "/import-esus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Import patients",
-            description = "Import patients from a CSV file (multipart/form-data).",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Imported successfully."
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid file or request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation during import.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    public ResponseEntity<String> importExcelESUS(
-            @Parameter(
-                    description = "CSV file",
-                    required = true,
-                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
-            )
-            @RequestParam("file") MultipartFile file
-    ) {
-        patientService.importESUSCsv(file);
-        return ResponseEntity.ok("Importado ESUS com sucesso");
-    }
+//    @PostMapping(value = "/import-esus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+//    @Operation(
+//            summary = "Import patients",
+//            description = "Import patients from a CSV file (multipart/form-data).",
+//            parameters = {
+//                    @Parameter(
+//                            name = "Authorization",
+//                            description = "Bearer access token",
+//                            required = true
+//                    )
+//            }
+//    )
+//    @ApiResponses({
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "Imported successfully."
+//            ),
+//            @ApiResponse(
+//                    responseCode = "400",
+//                    description = "Invalid file or request.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "401",
+//                    description = "Unauthorized.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "403",
+//                    description = "Forbidden.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "409",
+//                    description = "Conflict - integrity violation during import.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "500",
+//                    description = "Unexpected server error.",
+//                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+//            )
+//    })
+//    public ResponseEntity<String> importExcelESUS(
+//            @Parameter(
+//                    description = "CSV file",
+//                    required = true,
+//                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
+//            )
+//            @RequestParam("file") MultipartFile file
+//    ) {
+//        patientService.importESUSCsv(file);
+//        return ResponseEntity.ok("Importado ESUS com sucesso");
+//    }
 
-    @GetMapping("/external-db")
-    public ResponseEntity<Object> testExternalDb() {
-        try {
-
-            Integer result =
-                externalJdbcTemplate.queryForObject(
-                    "SELECT 1",
-                    Integer.class
-                );
-
-            return ResponseEntity.ok(result);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-            return ResponseEntity.internalServerError()
-                .body(e.getMessage());
-        }
+    @GetMapping("/force-update-patients")
+    @PreAuthorize(Permissions.PERMIT_ALL)
+    public ResponseEntity<Object> updatePatients(){
+        this.patientService.updatePatientsFromExternalDB();
+        return ResponseEntity.ok("Pacientes atualizados!");
     }
 }
