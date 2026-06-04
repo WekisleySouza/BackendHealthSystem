@@ -520,18 +520,6 @@ public class PatientService {
         """, Timestamp.valueOf(lastUpdate));
     }
 
-    private Long countUpdatedPatientsFromExternalDB(
-            LocalDateTime lastUpdate
-    ) {
-        return externalJdbcTemplate.queryForObject("""
-        SELECT COUNT(*)
-        FROM tb_cidadao
-        WHERE dt_atualizado >= ?
-    """,
-                Long.class,
-                Timestamp.valueOf(lastUpdate));
-    }
-
     @Transactional
     public void updatePatientsFromExternalDB(){
         int newPatients = 0;
@@ -539,7 +527,6 @@ public class PatientService {
         int patientsUpdatedByCpf = 0;
         int patientsUpdatedByCns = 0;
         int patientsUpdatedByName = 0;
-        String nomes = "";
         BackupControl backupControl = new BackupControl();
         backupControl.startBackup();
 
@@ -549,8 +536,6 @@ public class PatientService {
             BackupControl lastBackupData = backupControlRepository
                 .findTopByOrderByLastUpdateDesc()
                 .orElse(null);
-            Long newAT = countUpdatedPatientsFromExternalDB(lastBackupData.getLastUpdate());
-            System.out.println("Novos at: " + newAT);
             patientList = this.getUpdatedPatientsFromExternalDB(lastBackupData.getLastUpdate());
         } else {
             System.out.println("Não tem!");
