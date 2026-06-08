@@ -2,9 +2,13 @@ package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.utils.SpecificationsUtils;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppointmentSpecs {
 
@@ -152,13 +156,45 @@ public class AppointmentSpecs {
     }
 
     public static Specification<Appointment> serviceTypeNameLike(String name) {
-        return (root, query, cb) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
-                cb,
-                root.get("serviceType").get("name"),
-                name
+
+        return (root, query, cb) -> {
+
+            List<String> tokens = SpecsCommon.tokenize(name);
+
+            if (tokens.isEmpty()) {
+                return cb.conjunction();
+            }
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            Expression<String> normalizedField = cb.function(
+                    "unaccent",
+                    String.class,
+                    cb.upper(root.get("serviceType").get("name"))
             );
+
+            for (String token : tokens) {
+
+                predicates.add(
+                        cb.like(
+                                normalizedField,
+                                "%" + token.toUpperCase() + "%"
+                        )
+                );
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
     }
+
+//    public static Specification<Appointment> serviceTypeNameLike(String name) {
+//        return (root, query, cb) ->
+//            SpecsCommon.likeIgnoreCaseUnaccent(
+//                cb,
+//                root.get("serviceType").get("name"),
+//                name
+//            );
+//    }
 
     public static Specification<Appointment> instituitionNameLike(String name) {
         return (root, query, cb) ->

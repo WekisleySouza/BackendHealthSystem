@@ -6,6 +6,9 @@ import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SpecsCommon {
 
     public static  <T> Specification<T> addSpec(Specification<T> base, Specification<T> next) {
@@ -29,5 +32,17 @@ public class SpecsCommon {
             ),
             "%" + normalized + "%"
         );
+    }
+
+    public static List<String> tokenize(String text) {
+        if (text == null || text.isBlank()) {
+            return List.of();
+        }
+
+        return Arrays.stream(
+                SpecificationsUtils.normalize(text).split("\\s+")
+            )
+            .filter(token -> token.length() > 2)
+            .toList();
     }
 }

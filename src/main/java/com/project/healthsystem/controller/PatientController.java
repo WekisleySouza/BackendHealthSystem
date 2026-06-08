@@ -550,7 +550,7 @@ public class PatientController {
     @GetMapping("/force-update-patients")
     @PreAuthorize(Permissions.PERMIT_ALL)
     public ResponseEntity<Object> updatePatients(){
-        this.patientService.updatePatientsFromExternalDB();
+//        this.patientService.updatePatientsFromExternalDB();
         return ResponseEntity.ok("Pacientes atualizados!");
     }
 }

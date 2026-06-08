@@ -30,13 +30,45 @@ public class ServiceTypeSpecs {
             );
     }
 
+//    public static Specification<ServiceType> nameLike(String name) {
+//        return (root, query, cb) ->
+//            SpecsCommon.likeIgnoreCaseUnaccent(
+//                    cb,
+//                    root.get("name"),
+//                    name
+//            );
+//    }
+
     public static Specification<ServiceType> nameLike(String name) {
-        return (root, query, cb) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
-                    cb,
-                    root.get("name"),
-                    name
+
+        return (root, query, cb) -> {
+
+            List<String> tokens = SpecsCommon.tokenize(name);
+
+            if (tokens.isEmpty()) {
+                return cb.conjunction();
+            }
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            Expression<String> normalizedField = cb.function(
+                    "unaccent",
+                    String.class,
+                    cb.upper(root.get("name"))
             );
+
+            for (String token : tokens) {
+
+                predicates.add(
+                        cb.like(
+                                normalizedField,
+                                "%" + token.toUpperCase() + "%"
+                        )
+                );
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
     public static Specification<ServiceType> valueEqual(BigDecimal value) {
