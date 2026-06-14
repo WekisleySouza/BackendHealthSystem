@@ -7,6 +7,7 @@ import com.project.healthsystem.controller.dto.authorization_form.*;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.AppointmentSummaryDTO;
 import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
@@ -299,6 +300,16 @@ public class AppointmentService {
         Page<AppointmentReportResponseDTO> appointmentReportResponseDTOS = repository.findAppointmentReport(pageRequest);
         List<AppointmentStatusCountResponseDTO> appointmentStatusCountResponseDTOS = repository.countByStatus();
         return new ReportAppointmentByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
+    }
+
+    public Page<PatientAppointmentResponseDTO> getAllPatientAppointments(
+        String token,
+        Integer pageNumber,
+        Integer pageLength
+    ){
+        Person person = jwtTokenProvider.getPerson(token);
+        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
+        return repository.getAllAppointmentsOfPatient(person.getId(), pageRequest);
     }
 
     public Page<NumberSpecialtiesByStatusDTO> countSpecialtiesByStatus(

@@ -32,6 +32,7 @@ public class AuthService {
         );
 
         Login login = loginService.findByLogin(authRequestDTO.getLogin());
+
         String accessToken = jwtTokenProvider.generateToken(login.getLogin(), login.getPerson().getRoles());
         String refreshToken = refreshTokenService.createRefreshToken(login);
 

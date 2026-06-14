@@ -1,7 +1,7 @@
 package com.project.healthsystem.repository;
 
 import com.project.healthsystem.controller.dto.*;
-import com.project.healthsystem.controller.dto.reports_professional.NumberAppointmentsByStatusAndProfessionalDTO;
+import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
 import com.project.healthsystem.model.Appointment;
@@ -59,6 +59,43 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         ORDER BY a.scheduledAt DESC
     """)
     Page<AppointmentReportResponseDTO> findAppointmentReport(Pageable pageable);
+
+    @Query("""
+        SELECT new com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO(
+            a.notes,
+            a.priorit,
+            a.status,
+            a.agreements,
+            a.isReturn,
+            a.schedulingForecast,
+            a.scheduledAt,
+    
+            i.name,
+            i.cep,
+            i.cityName,
+            i.address,
+            i.phone,
+            i.linkLogo,
+    
+            st.name,
+            st.value,
+    
+            rpp.name,
+            respp.name
+        )
+        FROM Appointment a
+        JOIN a.instituition i
+        JOIN a.serviceType st
+        JOIN a.requestingProfessional rp
+        JOIN rp.person rpp
+        JOIN a.responsibleProfessional resp
+        JOIN resp.person respp
+        WHERE a.patient.person.id = :personId
+    """)
+    Page<PatientAppointmentResponseDTO> getAllAppointmentsOfPatient(
+        long personId,
+        Pageable pageable
+    );
 
     @Query("""
         SELECT new com.project.healthsystem.controller.dto.AppointmentStatusCountResponseDTO(

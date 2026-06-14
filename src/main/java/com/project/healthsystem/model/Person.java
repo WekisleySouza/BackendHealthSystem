@@ -65,6 +65,11 @@ public class Person extends BasicEntityAbstraction {
         return this;
     }
 
+    public Person addRole(Roles role){
+        roles.add(new Role(role));
+        return this;
+    }
+
     public void addRoles(List<Role> roles){
         for(Role r : roles){
             this.addRole(r);

@@ -8,6 +8,7 @@ import com.project.healthsystem.controller.dto.basic_responses.PatientResponseDT
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedInfoDTO;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.*;
+import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.BackupControlRepository;
 import com.project.healthsystem.repository.PatientRepository;
@@ -136,6 +137,7 @@ public class PatientService {
             loginService.updateLogin(patient.getPerson().getId(), patientCPFRequestDTO.getCpfNormalized());
         } else {
             loginService.createDefaultLoginTo(patient);
+            patient.getPerson().addRole(roleService.findByRole(Roles.PATIENT));
         }
 
         repository.save(patient);
@@ -594,6 +596,7 @@ public class PatientService {
                 newPatients++;
             }
 
+            patient.getPerson().addRole(roleService.findByRole(Roles.PATIENT));
             personService.save(patient.getPerson());
             repository.save(patient);
             loginService.createDefaultLoginTo(patient);

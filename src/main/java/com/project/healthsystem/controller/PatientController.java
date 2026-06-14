@@ -7,6 +7,7 @@ import com.project.healthsystem.controller.dto.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PatientCPFRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.PatientResponseDTO;
+import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedInfoDTO;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.model.Patient;

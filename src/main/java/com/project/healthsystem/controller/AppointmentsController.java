@@ -8,6 +8,7 @@ import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequest
 import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
@@ -560,6 +561,23 @@ public class AppointmentsController {
     ){
         return ResponseEntity.ok(
             this.appointmentService.getAuthorizationForm(id)
+        );
+    }
+
+    @GetMapping("/get-patient-appointments")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
+    public ResponseEntity<Page<PatientAppointmentResponseDTO>> updatePatients(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+        ){
+        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+        return ResponseEntity.ok(
+            this.appointmentService.getAllPatientAppointments(
+                accessToken,
+                pageNumber,
+                pageLength
+            )
         );
     }
 }

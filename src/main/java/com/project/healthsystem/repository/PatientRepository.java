@@ -30,6 +30,8 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpec
 
     List<Patient> findByPersonPersonSequenceId(String sequenceId);
 
+    Optional<Patient> findByPersonId(long personId);
+
     boolean existsByPersonPersonSequenceId(String sequenceId);
 
     boolean existsByPersonCpf(String cpf);
