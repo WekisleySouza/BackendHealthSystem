@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.basic_requests.LoginRequestDTO;
+import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.repository.PasswordResetTokenRepository;
@@ -62,14 +63,11 @@ public class LoginService {
     public void createDefaultLoginTo(Patient patient){
         if(!(patient.getPerson().getCpf().isEmpty() || repository.existsByLogin(patient.getPerson().getCpf()))) {
             String cpf = patient.getPerson().getCpf();
-            String cns = patient.getCns();
-            if(cpf != null || cns != null){
+
+            if(cpf != null && !cpf.isEmpty()){
                 Login login = new Login();
-                if(cpf != null && !cpf.isEmpty()){
-                    login.setLogin(cpf);
-                } else if(cns != null && !cns.isEmpty()){
-                    login.setLogin(cns);
-                }
+
+                login.setLogin(cpf);
                 login.setPassword(this.passwordEncoder.encode(this.DEFAULT_USER_PASSWORD));
                 login.setPerson(patient.getPerson());
 
@@ -80,6 +78,13 @@ public class LoginService {
 
     public void updatePassword(Login login, LoginRequestDTO loginRequestDTO){
         login.setPassword(passwordEncoder.encode(loginRequestDTO.getPassword()));
+        repository.save(login);
+    }
+
+    public void updateLogin(long personId, String newLogin){
+        Login login = this.repository.findByPersonId(personId)
+            .orElseThrow(() -> new NotFoundException("Login não existe!"));
+        login.setLogin(newLogin);
         repository.save(login);
     }
 
@@ -121,5 +126,9 @@ public class LoginService {
 
         passwordResetToken.setUsed(true);
         passwordResetTokenRepository.save(passwordResetToken);
+    }
+
+    public boolean hasLogin(Person person){
+        return repository.existsByPersonId(person.getId());
     }
 }

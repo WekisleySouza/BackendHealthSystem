@@ -1,6 +1,7 @@
 package com.project.healthsystem.service;
 
 import com.project.healthsystem.controller.dto.*;
+import com.project.healthsystem.controller.dto.basic_requests.PatientCPFRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.ConditionResponseDTO;
 import com.project.healthsystem.controller.dto.basic_responses.PatientResponseDTO;
@@ -117,6 +118,28 @@ public class PatientService {
 
         patient.setPerson(person);
         repository.save(patient);
+    }
+
+    @Transactional
+    public void updateCPF(PatientCPFRequestDTO patientCPFRequestDTO, String token){
+//        patientValidator.validateUpdateCPF(patientCPFRequestDTO.getCpfNormalized());
+        Patient patient = patientValidator.validateFindById(patientCPFRequestDTO.getPatientId());
+
+        // Auditory
+        Person person = jwtTokenProvider.getPerson(token);
+        patient.setLastModifiedBy(person);
+        patient.updatedNow();
+
+        patient.getPerson().setCpf(patientCPFRequestDTO.getCpfNormalized());
+
+        if(loginService.hasLogin(patient.getPerson())){
+            loginService.updateLogin(patient.getPerson().getId(), patientCPFRequestDTO.getCpfNormalized());
+        } else {
+            loginService.createDefaultLoginTo(patient);
+        }
+
+        repository.save(patient);
+        personService.save(person);
     }
 
     public PatientResponseDTO findById(long id){
@@ -538,47 +561,42 @@ public class PatientService {
                 .orElse(null);
             patientList = this.getUpdatedPatientsFromExternalDB(lastBackupData.getLastUpdate());
         } else {
-            System.out.println("Não tem!");
             patientList = this.getAllPatientsFromExternalDB();
         }
 
         for(Map<String, Object> content : patientList){
             PersonBackupInfo personBackupInfo = new PersonBackupInfo(content);
 
+            Patient patient;
+
             if(repository.existsByPersonPersonSequenceId(personBackupInfo.getCitizenSeqId())){ // Atualizar pelo id de sequência único
                 List<Patient> patients = repository.findByPersonPersonSequenceId(personBackupInfo.getCitizenSeqId());
-                Patient patient = personBackupInfo.getPersonToUpdate(patients);
-                personService.save(patient.getPerson());
-                repository.save(patient);
+                patient = personBackupInfo.getPersonToUpdate(patients);
                 patientsUpdatedById++;
 
             } else if(personBackupInfo.hasCpf() && repository.existsByPersonCpf(personBackupInfo.getCpf())){ // Atualizar pelo cpf
                 List<Patient> patients = repository.findByPersonCpf(personBackupInfo.getCpf());
-                Patient patient = personBackupInfo.getPersonToUpdate(patients);
-                personService.save(patient.getPerson());
-                repository.save(patient);
+                patient = personBackupInfo.getPersonToUpdate(patients);
                 patientsUpdatedByCpf++;
 
             } else if(personBackupInfo.hasCns() && repository.existsByCns(personBackupInfo.getCns())){ // Atualizar pelo cns
                 List<Patient> patients = repository.findByCns(personBackupInfo.getCns());
-                Patient patient = personBackupInfo.getPersonToUpdate(patients);
-                personService.save(patient.getPerson());
-                repository.save(patient);
+                patient = personBackupInfo.getPersonToUpdate(patients);
                 patientsUpdatedByCns++;
 
             } else if(repository.existsByPersonNameIgnoreCase(personBackupInfo.getPatientName()) && backupControlRepository.existsBy()){ // Atualizar pelo nome se for a primeira atualizaçao
                 List<Patient> patients = repository.findByPersonNameIgnoreCase(personBackupInfo.getCns());
-                Patient patient = personBackupInfo.getPersonToUpdate(patients);
-                personService.save(patient.getPerson());
-                repository.save(patient);
+                patient = personBackupInfo.getPersonToUpdate(patients);
                 patientsUpdatedByName++;
 
             } else { // Criar novo. Isso, no caso de não existir um registro.
-                Patient patient = personBackupInfo.getPersonToSave();
-                personService.save(patient.getPerson());
-                repository.save(patient);
+                patient = personBackupInfo.getPersonToSave();
                 newPatients++;
             }
+
+            personService.save(patient.getPerson());
+            repository.save(patient);
+            loginService.createDefaultLoginTo(patient);
         }
 
         System.out.println("Novos pacientes: " + newPatients);
@@ -586,6 +604,16 @@ public class PatientService {
         System.out.println("Atualizado por CPF: " + patientsUpdatedByCpf);
         System.out.println("Atualizado por CNS: " + patientsUpdatedByCns);
         System.out.println("Atualizado por nome: " + patientsUpdatedByName);
+
+        backupControl.setTotalCreated(Integer.toUnsignedLong(newPatients));
+        backupControl.setTotalUpdated(
+            Integer.toUnsignedLong(
+             patientsUpdatedByCns +
+                patientsUpdatedById +
+                patientsUpdatedByCpf +
+                patientsUpdatedByName
+            )
+        );
         backupControl.finishBackup();
         backupControlRepository.save(backupControl);
     }

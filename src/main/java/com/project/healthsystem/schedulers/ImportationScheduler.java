@@ -14,7 +14,7 @@ public class ImportationScheduler {
     public void runDailyImportation(){
         System.out.println("Iniciando importação de pacientes do PEC...");
 
-//        patientService.updatePatientsFromExternalDB();
+        patientService.updatePatientsFromExternalDB();
 
         System.out.println("Backup finalizado!");
     }

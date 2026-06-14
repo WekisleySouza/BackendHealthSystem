@@ -54,7 +54,7 @@ public class PatientValidator {
 
     public Patient validateUpdate(PatientRequestDTO patientRequestDTO, long id){
         Patient patient = patientRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Paciente não encontrada!"));
+                .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
         Agent agent = agentRepository.findById(patientRequestDTO.getAgentId())
                 .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
 
@@ -72,6 +72,9 @@ public class PatientValidator {
         }
 
         return patient;
+    }
+
+    public void validateUpdateCPF(String cpf) {
     }
 
     public Patient validateFindById(long id){

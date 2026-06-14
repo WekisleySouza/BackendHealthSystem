@@ -5,9 +5,13 @@ import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Professional;
 import com.project.healthsystem.model.Sex;
 import com.project.healthsystem.utils.SpecificationsUtils;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PatientSpecs {
     public static Specification<Patient> teamNameLike(String teamName) {
@@ -96,16 +100,35 @@ public class PatientSpecs {
     }
 
     public static Specification<Patient> nameLike(String name) {
-        if (name == null || name.isBlank()) return null;
 
-        String normalized = SpecificationsUtils.normalize(name);
+        return (root, query, cb) -> {
 
-        return (root, query, cb) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
-                    cb,
-                    root.get("person").get("name"),
-                    name
+            List<String> tokens = SpecsCommon.tokenize(name);
+
+            if (tokens.isEmpty()) {
+                return cb.conjunction();
+            }
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            Expression<String> normalizedField = cb.function(
+                    "unaccent",
+                    String.class,
+                    cb.upper(root.get("person").get("name"))
+            );
+
+            for (String token : tokens) {
+
+                predicates.add(
+                        cb.like(
+                                normalizedField,
+                                "%" + token.toUpperCase() + "%"
+                        )
                 );
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
     public static Specification<Patient> motherNameLike(String motherName) {

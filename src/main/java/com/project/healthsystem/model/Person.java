@@ -56,6 +56,10 @@ public class Person extends BasicEntityAbstraction {
     )
     private Set<Role> roles = new HashSet<>();
 
+    public boolean hasCPF(){
+        return !this.cpf.isBlank();
+    }
+
     public Person addRole(Role role){
         roles.add(role);
         return this;
