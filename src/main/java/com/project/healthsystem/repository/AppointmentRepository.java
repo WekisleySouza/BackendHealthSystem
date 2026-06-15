@@ -177,12 +177,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         UPDATE Appointment a
         SET a.status = com.project.healthsystem.model.Status.OVERDUE
         WHERE a.scheduledAt IS NOT NULL
-          AND a.status NOT IN (
-              com.project.healthsystem.model.Status.COMPLETED,
-              com.project.healthsystem.model.Status.PRE_SCHEDULED,
-              com.project.healthsystem.model.Status.NO_SHOW,
-              com.project.healthsystem.model.Status.CANCELED
-          )
+            AND a.status NOT IN (
+                com.project.healthsystem.model.Status.COMPLETED,
+                com.project.healthsystem.model.Status.PRE_SCHEDULED,
+                com.project.healthsystem.model.Status.NO_SHOW,
+                com.project.healthsystem.model.Status.CANCELED
+            )
           AND a.scheduledAt < :now
     """)
     void updateToOverdue(LocalDateTime now);
@@ -192,12 +192,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         UPDATE Appointment a
         SET a.status = com.project.healthsystem.model.Status.SCHEDULED
         WHERE a.scheduledAt IS NOT NULL
-          AND a.status NOT IN (
-              com.project.healthsystem.model.Status.COMPLETED,
-              com.project.healthsystem.model.Status.PRE_SCHEDULED,
-              com.project.healthsystem.model.Status.NO_SHOW,
-              com.project.healthsystem.model.Status.CANCELED
-          )
+            AND a.status NOT IN (
+                com.project.healthsystem.model.Status.COMPLETED,
+                com.project.healthsystem.model.Status.PRE_SCHEDULED,
+                com.project.healthsystem.model.Status.NO_SHOW,
+                com.project.healthsystem.model.Status.CANCELED
+            )
           AND a.scheduledAt > :now
     """)
     void updateToScheduled(LocalDateTime now);
@@ -208,12 +208,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         SET a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING
         WHERE a.scheduledAt IS NULL
             AND a.status NOT IN (
-                  com.project.healthsystem.model.Status.COMPLETED,
-              com.project.healthsystem.model.Status.PRE_SCHEDULED,
-                  com.project.healthsystem.model.Status.NO_SHOW,
-                  com.project.healthsystem.model.Status.CANCELED
+                com.project.healthsystem.model.Status.COMPLETED,
+                com.project.healthsystem.model.Status.PRE_SCHEDULED,
+                com.project.healthsystem.model.Status.NO_SHOW,
+                com.project.healthsystem.model.Status.CANCELED
             )
     """)
     void updateToPending();
-
 }

@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +17,9 @@ public class AppointmentStatusScheduler {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void updateStatuses(){
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(
+            ZoneId.of("America/Sao_Paulo")
+        );
 
         appointmentRepository.updateToOverdue(now);
         appointmentRepository.updateToScheduled(now);

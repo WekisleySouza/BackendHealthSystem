@@ -10,7 +10,10 @@ import org.springframework.stereotype.Component;
 public class ImportationScheduler {
     private final PatientService patientService;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(
+        cron = "0 0 0 * * *",
+        zone = "America/Sao_Paulo"
+    )
     public void runDailyImportation(){
         System.out.println("Iniciando importação de pacientes do PEC...");
 
