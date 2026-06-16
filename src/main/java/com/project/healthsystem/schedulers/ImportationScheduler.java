@@ -10,15 +10,19 @@ import org.springframework.stereotype.Component;
 public class ImportationScheduler {
     private final PatientService patientService;
 
-    @Scheduled(
-        cron = "0 0 0 * * *",
-        zone = "America/Sao_Paulo"
-    )
+//    @Scheduled(
+//        cron = "0 0 0 * * *",
+//        zone = "America/Sao_Paulo"
+//    )
+    @Scheduled(fixedRate = 120000)
     public void runDailyImportation(){
         System.out.println("Iniciando importação de pacientes do PEC...");
-
-        patientService.updatePatientsFromExternalDB();
-
-        System.out.println("Backup finalizado!");
+        
+        try {
+            patientService.updatePatientsFromExternalDB();
+            System.out.println("Backup finalizado!");
+        } catch (Exception e) {
+            System.out.println("Erro ao realizar o backup: " + e.getMessage());
+        }
     }
 }
