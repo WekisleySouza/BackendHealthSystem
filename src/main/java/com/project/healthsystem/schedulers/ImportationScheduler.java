@@ -17,7 +17,7 @@ public class ImportationScheduler {
     @Scheduled(fixedRate = 120000)
     public void runDailyImportation(){
         System.out.println("Iniciando importação de pacientes do PEC...");
-        
+
         try {
             patientService.updatePatientsFromExternalDB();
             System.out.println("Backup finalizado!");

@@ -28,7 +28,11 @@ public class PatientValidator {
     private final PatientMapper patientMapper;
 
     public Patient validateSave(PatientRequestDTO patientRequestDTO){
-        if (!(patientRequestDTO.getCpfNormalized().isEmpty()) && patientRepository.existsByPersonCpf(patientRequestDTO.getCpfNormalized())){
+        if (
+            patientRequestDTO.getCpfNormalized() != null &&
+            !(patientRequestDTO.getCpfNormalized().isEmpty()) &&
+            patientRepository.existsByPersonCpf(patientRequestDTO.getCpfNormalized()
+        )){
             throw new DuplicatedRegisterException("Cpf já cadastrado!");
         }
 
