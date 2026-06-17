@@ -20,6 +20,10 @@ public class PersonService {
         return personRepository.save(person);
     }
 
+    public Person findById(long id){
+        return personValidator.validateFindById(id);
+    }
+
     public Person findByCpf(String cpf){
         return personValidator.validateFindByCpf(cpf);
     }

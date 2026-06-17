@@ -59,12 +59,14 @@ public class PatientValidator {
     public Patient validateUpdate(PatientRequestDTO patientRequestDTO, long id){
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
-        Agent agent = agentRepository.findById(patientRequestDTO.getAgentId())
-                .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
 
         patient = patientMapper.toEntityWhenHasId(patient, patientRequestDTO);
-        patient.setAgent(agent);
 
+        if(patientRequestDTO.getAgentId() != null && patientRequestDTO.getAgentId() != -1){
+            Agent agent = agentRepository.findById(patientRequestDTO.getAgentId())
+                    .orElseThrow(() -> new InvalidDataException("Agent inválido!"));
+            patient.setAgent(agent);
+        }
         if(patientRequestDTO.getResponsibleId() != null){
             Patient responsible = patientRepository.findById(patientRequestDTO.getResponsibleId())
                     .orElse(null);

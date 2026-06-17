@@ -18,9 +18,14 @@ public class PersonValidator {
         }
     }
 
+    public Person validateFindById(long id){
+        return personRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
+    }
+
     public Person validateFindByCpf(String cpf){
         return personRepository.findByCpf(cpf)
-            .orElseThrow(() -> new NotFoundException("Não foi encontrado nenhum usuário com este cpf!"));
+                .orElseThrow(() -> new NotFoundException("Não foi encontrado nenhum usuário com este cpf!"));
     }
 
     public Person validateGetReferenceByCpf(String cpf){

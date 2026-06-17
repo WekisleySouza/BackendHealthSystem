@@ -14,7 +14,7 @@ public class ImportationScheduler {
 //        cron = "0 0 0 * * *",
 //        zone = "America/Sao_Paulo"
 //    )
-    @Scheduled(fixedRate = 120000)
+//    @Scheduled(fixedRate = 120000)
     public void runDailyImportation(){
         System.out.println("Iniciando importação de pacientes do PEC...");
 

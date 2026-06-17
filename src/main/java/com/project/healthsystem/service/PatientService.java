@@ -111,7 +111,7 @@ public class PatientService {
         patient.setLastModifiedBy(currentEditor);
 
         // Saving Person
-        Person person = personService.findByCpf(patientRequestDTO.getCpfNormalized());
+        Person person = personService.findById(patient.getPerson().getId());
         person = personMapper.updatePersonEntity(person, patientRequestDTO);
         person.updatedNow();
         person.setLastModifiedBy(currentEditor);
