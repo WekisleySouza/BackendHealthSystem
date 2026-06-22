@@ -44,6 +44,9 @@ public class DefaultInitializer implements ApplicationRunner {
     @Value("${app.default-admin.username}")
     private String DEFAULT_ADMIN_USERNAME;
 
+    @Value("${app.default-api.login}")
+    private String DEFAULT_API_LOGIN;
+
     private final String name = "ADMIN";
     private final String cpf = "12345678909";
     private final LocalDate birthday = LocalDate.now();
@@ -57,6 +60,19 @@ public class DefaultInitializer implements ApplicationRunner {
                 Role role = new Role(enumRole);
                 this.roleService.save(role);
             }
+        }
+
+        if(!loginRepository.existsByLogin(this.DEFAULT_API_LOGIN)){
+            Person personAPI = new Person();
+            personAPI.setName("API");
+            personAPI.setGender(Gender.MALE);
+            personAPI.setSex(Sex.MALE);
+            personAPI.setBirthday(this.birthday);
+            personAPI.setEmail(this.email);
+
+            loginService.createDefaultAPI(personAPI);
+
+            System.out.println("Acesso para API criado com sucesso!");
         }
 
         if(!loginRepository.existsByLogin(this.DEFAULT_ADMIN_USERNAME)){

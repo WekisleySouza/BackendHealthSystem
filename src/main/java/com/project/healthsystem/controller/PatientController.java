@@ -4,10 +4,13 @@ import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
 import com.project.healthsystem.controller.dto.PatientInfoResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.ConditionRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PatientCPFRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.PersonBackupInfoDTO;
 import com.project.healthsystem.controller.dto.basic_responses.PatientResponseDTO;
 import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.pec_sync.PersonsInfoList;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedInfoDTO;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.model.Patient;
@@ -19,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +48,7 @@ public class PatientController {
     private final JdbcTemplate externalJdbcTemplate;
 
     @PostMapping
-    @PreAuthorize(Permissions.ADMIN)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     @Operation(
             summary = "Create patient",
             description = "Create a new patient.",
@@ -114,7 +118,7 @@ public class PatientController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize(Permissions.ADMIN)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     @Operation(
             summary = "Update patient",
             description = "Update an existing patient.",
@@ -436,13 +440,6 @@ public class PatientController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/force-update-patients")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Object> updatePatients(){
-        this.patientService.updatePatientsFromExternalDB();
-        return ResponseEntity.ok("Pacientes atualizados!");
-    }
-
     @PatchMapping("/update-login")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> updatePatients(
@@ -452,5 +449,11 @@ public class PatientController {
         String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
         this.patientService.updateCPF(patientCPFRequestDTO, accessToken);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/sync-patients")
+    public ResponseEntity<Object> syncPECPatients(@RequestBody List<PersonBackupInfoDTO> personsInfoList){
+        this.patientService.syncExternalDataBase(personsInfoList);
+        return ResponseEntity.ok("Pacientes atualizados!");
     }
 }

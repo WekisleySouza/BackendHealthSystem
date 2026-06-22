@@ -1,6 +1,7 @@
 package com.project.healthsystem.model;
 
 public enum Roles {
+    API("API"),
     ADMIN("ADMIN"),
     MANAGER("MANAGER"),
     EMPLOYEE("EMPLOYEE"),

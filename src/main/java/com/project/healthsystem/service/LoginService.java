@@ -26,6 +26,10 @@ public class LoginService {
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final EmailService emailService;
+    @Value("${app.default-api.login}")
+    private String DEFAULT_API_LOGIN;
+    @Value("${app.default-api.password}")
+    private String DEFAULT_API_PASSWORD;
     @Value("${app.default-admin.username}")
     private String DEFAULT_ADMIN_USERNAME;
     @Value("${app.default-admin.password}")
@@ -34,6 +38,18 @@ public class LoginService {
     private String DEFAULT_EMPLOYEE_PASSWORD;
     @Value("${app.default-user-password}")
     private String DEFAULT_USER_PASSWORD;
+
+    public void createDefaultAPI(Person person){
+        Login login = new Login();
+        login.setLogin(DEFAULT_API_LOGIN);
+        login.setPassword(this.passwordEncoder.encode(DEFAULT_API_PASSWORD));
+
+        Role role = roleService.findByRole(Roles.API);
+        person.getRoles().add(role);
+
+        login.setPerson(person);
+        repository.save(login);
+    }
 
     public void createDefaultAdmin(Person person){
         if(!repository.existsByLogin(person.getCpf())) {

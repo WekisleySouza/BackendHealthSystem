@@ -29,14 +29,14 @@ spring:
           auth: true
           starttls:
             enable: true
-#logging:
-#  level:
-#    com.zaxxer.hikari: DEBUG
 app:
   frontend-Url: ${FRONTEND_URL:none.com}
   default-admin:
     username: ${DEFAULT_ADMIN_USERNAME:admin}
     password: ${DEFAULT_ADMIN_PASSWORD:admin}
+  default-api:
+    login: ${DEFAULT_API_LOGIN:api_login}
+    password: ${DEFAULT_API_PASSWORD:998010}
   default-user-password: ${DEFAULT_USER_PASSWORD:user}
   default-employee-password: ${DEFAULT_EMPLOYEE_PASSWORD:employee}
 security:
@@ -46,3 +46,7 @@ security:
     expiration: ${DEFAULT_ACCESS_TOKEN_TIME_EXPIRATION:900000}
 springdoc:
   override-with-generic-response: false
+#logging:
+#  level:
+#    org.springframework.security: TRACE
+#    org.springframework.security.web.access.intercept.AuthorizationFilter: TRACE

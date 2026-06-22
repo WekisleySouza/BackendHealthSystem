@@ -3,8 +3,10 @@ package com.project.healthsystem.service;
 import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.basic_requests.PatientCPFRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.PersonBackupInfoDTO;
 import com.project.healthsystem.controller.dto.basic_responses.ConditionResponseDTO;
 import com.project.healthsystem.controller.dto.basic_responses.PatientResponseDTO;
+import com.project.healthsystem.controller.dto.pec_sync.PersonsInfoList;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedInfoDTO;
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.controller.mappers.*;
@@ -616,6 +618,72 @@ public class PatientService {
                 patientsUpdatedByCpf +
                 patientsUpdatedByName
             )
+        );
+        backupControl.finishBackup();
+        backupControlRepository.save(backupControl);
+    }
+
+    public void syncExternalDataBase(List<PersonBackupInfoDTO> personsInfoList){
+        int receivedPatients = 0;
+        int newPatients = 0;
+        int patientsUpdatedById = 0;
+        int patientsUpdatedByCpf = 0;
+        int patientsUpdatedByCns = 0;
+        int patientsUpdatedByName = 0;
+
+        BackupControl backupControl = new BackupControl();
+        backupControl.startBackup();
+
+        for(PersonBackupInfoDTO personData :  personsInfoList){
+            receivedPatients++;
+            Patient patient;
+
+            if(repository.existsByPersonPersonSequenceId(personData.getCitizenSeqId())){ // Atualizar pelo id de sequência único
+                List<Patient> patients = repository.findByPersonPersonSequenceId(personData.getCitizenSeqId());
+                patient = personData.getPersonToUpdate(patients);
+                patientsUpdatedById++;
+
+            } else if(personData.hasCpf() && repository.existsByPersonCpf(personData.getCpf())){ // Atualizar pelo cpf
+                List<Patient> patients = repository.findByPersonCpf(personData.getCpf());
+                patient = personData.getPersonToUpdate(patients);
+                patientsUpdatedByCpf++;
+
+            } else if(personData.hasCns() && repository.existsByCns(personData.getCns())){ // Atualizar pelo cns
+                List<Patient> patients = repository.findByCns(personData.getCns());
+                patient = personData.getPersonToUpdate(patients);
+                patientsUpdatedByCns++;
+
+            } else if(repository.existsByPersonNameIgnoreCase(personData.getPatientName()) && backupControlRepository.existsBy()){ // Atualizar pelo nome se for a primeira atualizaçao
+                List<Patient> patients = repository.findByPersonNameIgnoreCase(personData.getCns());
+                patient = personData.getPersonToUpdate(patients);
+                patientsUpdatedByName++;
+
+            } else { // Criar novo. Isso, no caso de não existir um registro.
+                patient = personData.getPersonToSave();
+                newPatients++;
+            }
+
+            patient.getPerson().addRole(roleService.findByRole(Roles.PATIENT));
+            personService.save(patient.getPerson());
+            repository.save(patient);
+            loginService.createDefaultLoginTo(patient);
+        }
+
+        System.out.println("Pacientes recebidos: " + receivedPatients);
+        System.out.println("Novos pacientes: " + newPatients);
+        System.out.println("Atualizado por id: " + patientsUpdatedById);
+        System.out.println("Atualizado por CPF: " + patientsUpdatedByCpf);
+        System.out.println("Atualizado por CNS: " + patientsUpdatedByCns);
+        System.out.println("Atualizado por nome: " + patientsUpdatedByName);
+
+        backupControl.setTotalCreated(Integer.toUnsignedLong(newPatients));
+        backupControl.setTotalUpdated(
+                Integer.toUnsignedLong(
+                    patientsUpdatedByCns +
+                    patientsUpdatedById +
+                    patientsUpdatedByCpf +
+                    patientsUpdatedByName
+                )
         );
         backupControl.finishBackup();
         backupControlRepository.save(backupControl);
