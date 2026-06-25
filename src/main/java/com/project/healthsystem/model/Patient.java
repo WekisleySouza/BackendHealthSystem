@@ -73,4 +73,8 @@ public class Patient extends BasicEntityAbstraction {
         }
         return null;
     }
+
+    public boolean isFromPEC(){
+        return this.origin.equals("PEC");
+    }
 }

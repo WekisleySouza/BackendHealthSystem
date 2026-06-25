@@ -96,6 +96,7 @@ public class PatientService {
             patient.setPerson(savedPerson);
         }
 
+        patient.setOrigin("Vitalya");
         patient = repository.save(patient);
         loginService.createDefaultLoginTo(patient);
         return patient;

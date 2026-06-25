@@ -5,6 +5,7 @@ import com.project.healthsystem.controller.dto.appointment_get_by_id.*;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.PatientInfoResponseDTO;
 import com.project.healthsystem.controller.dto.authorization_form.*;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
+import com.project.healthsystem.controller.dto.basic_requests.NewCommonStatusDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
@@ -359,8 +360,20 @@ public class AppointmentService {
 
     public void setPreSchedulingTo(PreSchedulingRequestDTO preScheduling){
         for(Long id : preScheduling.getAppointmentsId()){
-            Appointment appointment = appointmentValidator.validateSetPreSchedulingTo(id);
+            Appointment appointment = appointmentValidator.validateSetNewStatusTo(id);
             appointment.setStatus(Status.PRE_SCHEDULED);
+            repository.save(appointment);
+        }
+    }
+
+    public void setNewStatusTo(NewCommonStatusDTO preScheduling){
+        Status newStatus = Status.fromLabel(preScheduling.getStatus());
+        if(newStatus.getLabel().equals(Status.PRE_SCHEDULED.getLabel())){
+            throw new InvalidDataException("Não é possível usar este status nesta rota!");
+        }
+        for(Long id : preScheduling.getAppointmentsId()){
+            Appointment appointment = appointmentValidator.validateSetNewStatusTo(id);
+            appointment.setStatus(newStatus);
             repository.save(appointment);
         }
     }

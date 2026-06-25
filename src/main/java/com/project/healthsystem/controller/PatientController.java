@@ -48,7 +48,7 @@ public class PatientController {
     private final JdbcTemplate externalJdbcTemplate;
 
     @PostMapping
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @PreAuthorize(Permissions.ADMIN)
     @Operation(
             summary = "Create patient",
             description = "Create a new patient.",
@@ -118,7 +118,7 @@ public class PatientController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @PreAuthorize(Permissions.ADMIN)
     @Operation(
             summary = "Update patient",
             description = "Update an existing patient.",

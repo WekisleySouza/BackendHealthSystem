@@ -7,5 +7,4 @@ import lombok.Data;
 public class PreSchedulingRequestDTO {
     @NotNull
     private Long[] appointmentsId;
-
 }

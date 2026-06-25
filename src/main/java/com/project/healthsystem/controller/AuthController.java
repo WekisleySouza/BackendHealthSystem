@@ -210,7 +210,7 @@ public class AuthController {
             )
     })
     public ResponseEntity<ProfileResponseDTO> profile(
-            @RequestHeader("Authorization") String authHeader
+        @RequestHeader("Authorization") String authHeader
     ){
         String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
         ProfileResponseDTO profileResponseDTO = authService.getMyProfile(accessToken);

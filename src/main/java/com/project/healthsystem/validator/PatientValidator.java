@@ -2,6 +2,7 @@ package com.project.healthsystem.validator;
 
 import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
 import com.project.healthsystem.controller.mappers.PatientMapper;
+import com.project.healthsystem.exceptions.AccessDeniedException;
 import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
@@ -59,6 +60,10 @@ public class PatientValidator {
     public Patient validateUpdate(PatientRequestDTO patientRequestDTO, long id){
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Paciente não encontrado!"));
+
+        if(patient.isFromPEC()){
+            throw new AccessDeniedException("Não é possível atualizar pacientes do PEC pelo sistema!");
+        }
 
         patient = patientMapper.toEntityWhenHasId(patient, patientRequestDTO);
 

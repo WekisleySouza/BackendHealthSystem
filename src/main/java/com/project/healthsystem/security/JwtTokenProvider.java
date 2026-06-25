@@ -2,6 +2,7 @@ package com.project.healthsystem.security;
 
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.service.LoginService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Component
@@ -49,9 +52,20 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String getRole(String token){
-        return Jwts.parserBuilder().setSigningKey(key).build()
-                .parseClaimsJws(token).getBody().get("role", String.class);
+    public List<String> getRole(String token){
+        List<Map<String, Object>> rolesList = (List<Map<String, Object>>) extractClaims(token).get("role");
+        return rolesList
+            .stream()
+            .map(item -> (String) item.get("role"))
+            .toList();
+    }
+
+    public Claims extractClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(this.key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public Person getPerson(String token){

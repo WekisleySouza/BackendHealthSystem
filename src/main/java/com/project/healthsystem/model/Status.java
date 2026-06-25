@@ -8,6 +8,8 @@ public enum Status {
     SCHEDULED("Agendado"),
     COMPLETED("Completo"),
     CANCELED("Cancelado"),
+    EXCUSED_ABSENSE("Falta justificada"),
+    UNJUSTIFIED_ABSENSE("Falta não justificada"),
     NO_SHOW("Paciente faltou"),
     OVERDUE("Atrasado");
 

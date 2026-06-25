@@ -6,6 +6,7 @@ import com.project.healthsystem.controller.dto.*;
 import com.project.healthsystem.controller.dto.authorization_form.AuthorizationFormResponseDTO;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.controller.dto.appointment_get_by_id.AppointmentGetByIdResponseDTO;
+import com.project.healthsystem.controller.dto.basic_requests.NewCommonStatusDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
@@ -496,7 +497,7 @@ public class AppointmentsController {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping()
+    @PatchMapping("/set-appointments-to-pre-scheduled")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     @Operation(
             summary = "Set appointments as pre scheduled",
@@ -551,6 +552,26 @@ public class AppointmentsController {
         @RequestBody @Valid PreSchedulingRequestDTO preSchedulingRequestDTO
     ){
         appointmentService.setPreSchedulingTo(preSchedulingRequestDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/set-appointments-to-new-status")
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+    @Operation(
+        summary = "Set appointments to commom status",
+        description = "Set appointments commom status.",
+        parameters = {
+            @Parameter(
+                name = "Authorization",
+                description = "Bearer access token",
+                required = true
+            )
+        }
+    )
+    public ResponseEntity<Object> setAppointmentsToOtherStatus(
+            @RequestBody @Valid NewCommonStatusDTO preSchedulingRequestDTO
+    ){
+        appointmentService.setNewStatusTo(preSchedulingRequestDTO);
         return ResponseEntity.noContent().build();
     }
 

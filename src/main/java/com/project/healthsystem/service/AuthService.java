@@ -10,6 +10,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -59,10 +61,10 @@ public class AuthService {
     }
 
     public ProfileResponseDTO getMyProfile(String token){
-        Roles role = Roles.fromLabel(jwtTokenProvider.getRole(token));
+        List<Roles> roles = Roles.fromLabel(jwtTokenProvider.getRole(token));
         ProfileResponseDTO profileResponseDTO = new ProfileResponseDTO();
         Person person = jwtTokenProvider.getPerson(token);
-        if(role == Roles.PATIENT){
+        if(Roles.containsRole(roles, Roles.PATIENT)){
             Patient patient = patientService.getByCpf(person.getCpf());
             profileResponseDTO.setName(patient.getPerson().getName());
             profileResponseDTO.setCpf(patient.getPerson().getCpf());

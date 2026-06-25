@@ -107,7 +107,7 @@ public class AppointmentValidator {
             .orElseThrow(() -> new NotFoundException("Não foi encontrado um appointment com este id!"));
     }
 
-    public Appointment validateSetPreSchedulingTo(long id){
+    public Appointment validateSetNewStatusTo(long id){
         return appointmentRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("Um dos exames/especialidades não foi encontrado!"));
     }
