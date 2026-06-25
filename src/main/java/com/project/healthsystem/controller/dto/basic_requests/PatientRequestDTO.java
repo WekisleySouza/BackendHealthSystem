@@ -26,8 +26,6 @@ public class PatientRequestDTO {
     private String teamINE;
     @Size(max = 50, message = "A microárea não pode ultrapassar 50 caracteres!")
     private String microArea;
-    @Size(max = 100, message = "A origem não pode ultrapassar 100 caracteres!")
-    private String origin;
 
     // System fields
     private Long agentId;
