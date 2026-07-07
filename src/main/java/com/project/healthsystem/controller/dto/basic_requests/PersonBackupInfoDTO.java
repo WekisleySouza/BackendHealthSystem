@@ -57,7 +57,6 @@ public class PersonBackupInfoDTO {
         setIfPresent(this.contactPhone, patient.getPerson()::setContactPhone);
         setIfPresent(this.residentialPhone, patient.getPerson()::setResidentialPhone);
         setIfPresent(this.cellphone, patient.getPerson()::setCellPhone);
-
         return patient;
     }
 
@@ -96,7 +95,7 @@ public class PersonBackupInfoDTO {
     public boolean hasCns(){ return !this.cns.isEmpty(); }
 
     @Schema(hidden = true)
-    public boolean hasCitizenSeqId(){ return !this.citizenSeqId.isEmpty(); }
+    public boolean hasCitizenSeqId(){ return this.citizenSeqId != null && !this.citizenSeqId.isEmpty(); }
 
     @Schema(hidden = true)
     private void setIfPresent(String value, Consumer<String> setter) {
