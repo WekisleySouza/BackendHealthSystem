@@ -1,35 +1,33 @@
 package com.project.healthsystem.service;
 
+import com.project.healthsystem.exceptions.NotFoundException;
 import com.project.healthsystem.model.Person;
 import com.project.healthsystem.repository.PersonRepository;
-import com.project.healthsystem.repository.projections.PatientInfoResponsibleProjection;
-import com.project.healthsystem.validator.PersonValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PersonService {
     private final PersonRepository personRepository;
-    private final PersonValidator personValidator;
 
     public Person save(Person person){
-//        personValidator.validateSave(person);
         return personRepository.save(person);
     }
 
     public Person findById(long id){
-        return personValidator.validateFindById(id);
+        return personRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
     }
 
     public Person findByCpf(String cpf){
-        return personValidator.validateFindByCpf(cpf);
+        return personRepository.findByCpf(cpf)
+            .orElseThrow(() -> new NotFoundException("Não foi encontrado nenhum usuário com este cpf!"));
     }
 
     public Person getReferenceByCpf(String cpf){
-        return personValidator.validateGetReferenceByCpf(cpf);
+        return personRepository.getReferenceByCpf(cpf)
+            .orElseThrow(() -> new NotFoundException("Não foi encontrado nenhum usuário com este cpf!"));
     }
 
     public boolean existsPersonByCpf(String cpf){

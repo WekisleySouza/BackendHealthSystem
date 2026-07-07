@@ -93,9 +93,10 @@ public class PersonBackupInfoDTO {
     }
 
     @Schema(hidden = true)
-    public boolean hasCns(){
-        return !this.cns.isEmpty();
-    }
+    public boolean hasCns(){ return !this.cns.isEmpty(); }
+
+    @Schema(hidden = true)
+    public boolean hasCitizenSeqId(){ return !this.citizenSeqId.isEmpty(); }
 
     @Schema(hidden = true)
     private void setIfPresent(String value, Consumer<String> setter) {

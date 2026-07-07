@@ -637,37 +637,39 @@ public class PatientService {
 
         for(PersonBackupInfoDTO personData :  personsInfoList){
             receivedPatients++;
-            Patient patient;
+            if (personData.hasCitizenSeqId()) {
+                Patient patient;
 
-            if(repository.existsByPersonPersonSequenceId(personData.getCitizenSeqId())){ // Atualizar pelo id de sequência único
-                List<Patient> patients = repository.findByPersonPersonSequenceId(personData.getCitizenSeqId());
-                patient = personData.getPersonToUpdate(patients);
-                patientsUpdatedById++;
+                if (repository.existsByPersonPersonSequenceId(personData.getCitizenSeqId())) { // Atualizar pelo id de sequência único
+                    List<Patient> patients = repository.findByPersonPersonSequenceId(personData.getCitizenSeqId());
+                    patient = personData.getPersonToUpdate(patients);
+                    patientsUpdatedById++;
 
-            } else if(personData.hasCpf() && repository.existsByPersonCpf(personData.getCpf())){ // Atualizar pelo cpf
-                List<Patient> patients = repository.findByPersonCpf(personData.getCpf());
-                patient = personData.getPersonToUpdate(patients);
-                patientsUpdatedByCpf++;
+                } else if (personData.hasCpf() && repository.existsByPersonCpf(personData.getCpf())) { // Atualizar pelo cpf
+                    List<Patient> patients = repository.findByPersonCpf(personData.getCpf());
+                    patient = personData.getPersonToUpdate(patients);
+                    patientsUpdatedByCpf++;
 
-            } else if(personData.hasCns() && repository.existsByCns(personData.getCns())){ // Atualizar pelo cns
-                List<Patient> patients = repository.findByCns(personData.getCns());
-                patient = personData.getPersonToUpdate(patients);
-                patientsUpdatedByCns++;
+                } else if (personData.hasCns() && repository.existsByCns(personData.getCns())) { // Atualizar pelo cns
+                    List<Patient> patients = repository.findByCns(personData.getCns());
+                    patient = personData.getPersonToUpdate(patients);
+                    patientsUpdatedByCns++;
 
-            } else if(repository.existsByPersonNameIgnoreCase(personData.getPatientName()) && backupControlRepository.existsBy()){ // Atualizar pelo nome se for a primeira atualizaçao
-                List<Patient> patients = repository.findByPersonNameIgnoreCase(personData.getCns());
-                patient = personData.getPersonToUpdate(patients);
-                patientsUpdatedByName++;
+                } else if (repository.existsByPersonNameIgnoreCase(personData.getPatientName()) && backupControlRepository.existsBy()) { // Atualizar pelo nome se for a primeira atualizaçao
+                    List<Patient> patients = repository.findByPersonNameIgnoreCase(personData.getCns());
+                    patient = personData.getPersonToUpdate(patients);
+                    patientsUpdatedByName++;
 
-            } else { // Criar novo. Isso, no caso de não existir um registro.
-                patient = personData.getPersonToSave();
-                newPatients++;
+                } else { // Criar novo. Isso, no caso de não existir um registro.
+                    patient = personData.getPersonToSave();
+                    newPatients++;
+                }
+
+                patient.getPerson().addRole(roleService.findByRole(Roles.PATIENT));
+                personService.save(patient.getPerson());
+                repository.save(patient);
+                loginService.createDefaultLoginTo(patient);
             }
-
-            patient.getPerson().addRole(roleService.findByRole(Roles.PATIENT));
-            personService.save(patient.getPerson());
-            repository.save(patient);
-            loginService.createDefaultLoginTo(patient);
         }
 
         System.out.println("Pacientes recebidos: " + receivedPatients);
