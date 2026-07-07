@@ -637,6 +637,7 @@ public class PatientService {
 
         for(PersonBackupInfoDTO personData :  personsInfoList){
             receivedPatients++;
+            System.out.println(personData);
             if (personData.hasCitizenSeqId()) {
                 Patient patient;
 

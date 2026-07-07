@@ -103,4 +103,51 @@ public class PersonBackupInfoDTO {
             setter.accept(value);
         }
     }
+    
+    @Schema(hidden = true)
+    @Override
+    public String toString() {
+        return """
+        PersonBackupInfo {
+            patientName='%s',
+            uniqueCitizenId='%s',
+            citizenSeqId='%s',
+            cpf='%s',
+
+            gender='%s',
+            sexualOrientation='%s',
+            birthDate=%s,
+            motherName='%s',
+
+            cns='%s',
+            microArea='%s',
+
+            cellphone='%s',
+            residentialPhone='%s',
+            contactPhone='%s',
+            email='%s',
+
+            address='%s',
+
+            lastUpdate=%s
+        }
+        """.formatted(
+                patientName,
+                uniqueCitizenId,
+                citizenSeqId,
+                cpf,
+                gender,
+                sexualOrientation,
+                birthDate,
+                motherName,
+                cns,
+                microArea,
+                cellphone,
+                residentialPhone,
+                contactPhone,
+                email,
+                address,
+                lastUpdate
+        );
+    }
 }
