@@ -16,4 +16,6 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
     boolean existsByLogin(String login);
 
     boolean existsByPersonId(long id);
+
+    boolean existsByPersonPersonSequenceId(String id);
 }

@@ -77,4 +77,9 @@ public class Patient extends BasicEntityAbstraction {
     public boolean isFromPEC(){
         return this.origin.equals("PEC");
     }
+
+    public boolean hasCPF(){
+        return this.person.hasCPF();
+    }
+
 }

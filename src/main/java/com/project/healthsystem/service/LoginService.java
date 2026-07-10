@@ -66,7 +66,7 @@ public class LoginService {
     }
 
     public void createDefaultLoginTo(Employee employee){
-        if(!(employee.getPerson().getCpf().isEmpty() || repository.existsByLogin(employee.getPerson().getCpf()))){
+        if(!(!employee.getPerson().hasCPF() || repository.existsByLogin(employee.getPerson().getCpf()))){
             Login login = new Login();
             login.setLogin(employee.getPerson().getCpf());
             login.setPassword(this.passwordEncoder.encode(this.DEFAULT_EMPLOYEE_PASSWORD));
@@ -77,10 +77,13 @@ public class LoginService {
     }
 
     public void createDefaultLoginTo(Patient patient){
-        if(!(patient.getPerson().getCpf().isEmpty() || repository.existsByLogin(patient.getPerson().getCpf()))) {
+        if(!(
+            !patient.hasCPF() ||
+            repository.existsByLogin(patient.getPerson().getCpf()) ||
+            repository.existsByPersonId(patient.getPerson().getId()) ||
+            repository.existsByPersonPersonSequenceId(patient.getPerson().getPersonSequenceId())
+        )) {
             String cpf = patient.getPerson().getCpf();
-
-            if(cpf != null && !cpf.isEmpty()){
                 Login login = new Login();
 
                 login.setLogin(cpf);
@@ -88,7 +91,6 @@ public class LoginService {
                 login.setPerson(patient.getPerson());
 
                 repository.save(login);
-            }
         }
     }
 

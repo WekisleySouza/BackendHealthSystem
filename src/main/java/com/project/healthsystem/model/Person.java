@@ -27,12 +27,10 @@ public class Person extends BasicEntityAbstraction {
     protected String uniquePersonId;
     @Column(name = "name", length = 100, nullable = false)
     protected String name;
-    @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 100)
-    protected Gender gender;
-    @Enumerated(EnumType.STRING)
+    protected String gender;
     @Column(name = "sex", length = 100)
-    protected Sex sex;
+    protected String sex;
     @Column(name = "cpf", length = 15)
     protected String cpf;
     @Column(name = "cell_phone")
@@ -57,7 +55,7 @@ public class Person extends BasicEntityAbstraction {
     private Set<Role> roles = new HashSet<>();
 
     public boolean hasCPF(){
-        return !this.cpf.isBlank();
+        return this.cpf != null && !this.cpf.isBlank();
     }
 
     public Person addRole(Role role){

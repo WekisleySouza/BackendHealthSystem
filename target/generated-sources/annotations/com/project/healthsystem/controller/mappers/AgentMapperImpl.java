@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-07-06T18:53:55-0300",
+    date = "2026-07-09T18:29:49-0300",
     comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.11 (Microsoft)"
 )
 @Component
@@ -39,8 +39,8 @@ public class AgentMapperImpl extends AgentMapper {
 
         agentResponseDTO.setCpf( agent.getPerson().getCpf() );
         agentResponseDTO.setName( agent.getPerson().getName() );
-        agentResponseDTO.setGender( agent.getPerson().getGender().getLabel() );
-        agentResponseDTO.setSex( agent.getPerson().getSex().getLabel() );
+        agentResponseDTO.setGender( agent.getPerson().getGender() );
+        agentResponseDTO.setSex( agent.getPerson().getSex() );
         agentResponseDTO.setCellPhone( agent.getPerson().getCellPhone() );
         agentResponseDTO.setResidentialPhone( agent.getPerson().getResidentialPhone() );
         agentResponseDTO.setContactPhone( agent.getPerson().getContactPhone() );

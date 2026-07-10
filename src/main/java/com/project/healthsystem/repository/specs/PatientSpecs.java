@@ -1,10 +1,6 @@
 package com.project.healthsystem.repository.specs;
 
-import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
-import com.project.healthsystem.model.Professional;
-import com.project.healthsystem.model.Sex;
-import com.project.healthsystem.utils.SpecificationsUtils;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
@@ -51,12 +47,12 @@ public class PatientSpecs {
     }
 
     public static Specification<Patient> sexEqual(String sexLabel) {
-        if (sexLabel == null || sexLabel.isBlank()) return null;
-
-        Sex sex = Sex.fromLabel(sexLabel);
-
-        return (root, query, cb) ->
-                cb.equal(root.get("person").get("sex"), sex);
+        return (root, query, criteriaBuilder) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        criteriaBuilder,
+                        root.get("person").get("sex"),
+                        sexLabel
+                );
     }
 
     public static Specification<Patient> cellPhoneLike(String cellPhone) {
@@ -141,12 +137,12 @@ public class PatientSpecs {
     }
 
     public static Specification<Patient> genderEqual(String genderLabel) {
-        if (genderLabel == null || genderLabel.isBlank()) return null;
-
-        Gender gender = Gender.fromLabel(genderLabel);
-
-        return (root, query, cb) ->
-                cb.equal(root.get("person").get("gender"), gender);
+        return (root, query, criteriaBuilder) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        criteriaBuilder,
+                        root.get("person").get("gender"),
+                        genderLabel
+                );
     }
 
     public static Specification<Patient> cpfLike(String cpf) {

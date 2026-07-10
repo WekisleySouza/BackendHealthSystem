@@ -1,9 +1,6 @@
 package com.project.healthsystem.repository.specs;
 
-import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Professional;
-import com.project.healthsystem.model.Sex;
-import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -49,12 +46,12 @@ public class ProfessionalSpecs {
     }
 
     public static Specification<Professional> sexEqual(String sexLabel) {
-        if (sexLabel == null || sexLabel.isBlank()) return null;
-
-        Sex sex = Sex.fromLabel(sexLabel);
-
-        return (root, query, cb) ->
-                cb.equal(root.get("sex"), sex);
+        return (root, query, criteriaBuilder) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        criteriaBuilder,
+                        root.get("person").get("sex"),
+                        sexLabel
+                );
     }
 
     public static Specification<Professional> cellPhoneLike(String cellPhone) {
@@ -97,12 +94,12 @@ public class ProfessionalSpecs {
     }
 
     public static Specification<Professional> genderEqual(String genderLabel) {
-        if (genderLabel == null || genderLabel.isBlank()) return null;
-
-        Gender gender = Gender.fromLabel(genderLabel);
-
-        return (root, query, cb) ->
-                cb.equal(root.get("person").get("gender"), gender);
+        return (root, query, criteriaBuilder) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        criteriaBuilder,
+                        root.get("person").get("gender"),
+                        genderLabel
+                );
     }
 
 

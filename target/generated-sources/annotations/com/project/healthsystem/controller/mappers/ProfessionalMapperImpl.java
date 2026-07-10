@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-07-06T18:53:55-0300",
+    date = "2026-07-09T18:29:49-0300",
     comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.11 (Microsoft)"
 )
 @Component
@@ -48,8 +48,8 @@ public class ProfessionalMapperImpl extends ProfessionalMapper {
 
         professionalResponseDTO.setCpf( entity.getPerson().getCpf() );
         professionalResponseDTO.setName( entity.getPerson().getName() );
-        professionalResponseDTO.setGender( entity.getPerson().getGender().getLabel() );
-        professionalResponseDTO.setSex( entity.getPerson().getSex().getLabel() );
+        professionalResponseDTO.setGender( entity.getPerson().getGender() );
+        professionalResponseDTO.setSex( entity.getPerson().getSex() );
         professionalResponseDTO.setCellPhone( entity.getPerson().getCellPhone() );
         professionalResponseDTO.setResidentialPhone( entity.getPerson().getResidentialPhone() );
         professionalResponseDTO.setContactPhone( entity.getPerson().getContactPhone() );

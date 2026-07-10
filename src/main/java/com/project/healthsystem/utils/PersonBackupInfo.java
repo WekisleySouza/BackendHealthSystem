@@ -1,9 +1,7 @@
 package com.project.healthsystem.utils;
 
-import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
-import com.project.healthsystem.model.Sex;
 import lombok.Data;
 
 import java.sql.Date;
@@ -26,8 +24,8 @@ public class PersonBackupInfo {
     private String uniqueCitizenId;
 
     private String patientName;
-    private Sex sexualOrientation;
-    private Gender gender;
+    private String sexualOrientation;
+    private String gender;
 
     private String cpf;
 
@@ -51,8 +49,8 @@ public class PersonBackupInfo {
         this.citizenSeqId = String.valueOf(content.get("co_seq_cidadao"));
         this.uniqueCitizenId = String.valueOf(content.get("co_unico_cidadao"));
         this.patientName = String.valueOf(content.get("no_cidadao"));
-        this.setSexualOrientationNormalized(String.valueOf(content.get("tp_orientacao_sexual")));
-        this.setGenderNormalized(String.valueOf(content.get("no_sexo")));
+        this.sexualOrientation =  String.valueOf(content.get("tp_orientacao_sexual"));
+        this.gender = String.valueOf(content.get("no_sexo"));
         this.cellphone = String.valueOf(content.get("nu_telefone_celular"));
         this.residentialPhone = String.valueOf(content.get("nu_telefone_residencial"));
         this.contactPhone = String.valueOf(content.get("nu_telefone_contato"));
@@ -117,32 +115,6 @@ public class PersonBackupInfo {
     private void setIfPresent(String value, Consumer<String> setter) {
         if (value != null && !value.isBlank()) {
             setter.accept(value);
-        }
-    }
-
-    private void setSexualOrientationNormalized(String sexLabel){
-        if(sexLabel.equals("FEMININO")){
-            this.setSexualOrientation(Sex.FEMALE);
-        } else if (sexLabel.equals("INDETERMINADO")) {
-            this.setSexualOrientation(Sex.UNKNOW);
-        } else {
-            this.setSexualOrientation(Sex.MALE);
-        }
-    }
-
-    private void setGenderNormalized(String genderLabel){
-        if(genderLabel.equals("BISSEXUAL")){
-            this.setGender(Gender.BISEXUAL);
-        } else if (genderLabel.equals("GAY")) {
-            this.setGender(Gender.HOMOSEXUAL);
-        } else if (genderLabel.equals("HETEROSSEXUAL")) {
-            this.setGender(Gender.MALE);
-        } else if (genderLabel.equals("HOMOSSEXUAL")) {
-            this.setGender(Gender.HOMOSEXUAL);
-        } else if (genderLabel.equals("LESBICA")) {
-            this.setGender(Gender.HOMOSEXUAL);
-        } else {
-            this.setGender(Gender.NOT_INFORMED);
         }
     }
 

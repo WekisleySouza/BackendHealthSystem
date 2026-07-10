@@ -1,9 +1,7 @@
 package com.project.healthsystem.controller.dto.basic_requests;
 
-import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
-import com.project.healthsystem.model.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -76,8 +74,8 @@ public class PersonBackupInfoDTO {
         person.setAddress(this.address);
         person.setBirthday(this.birthDate);
         person.setEmail(this.email);
-        person.setGender(Gender.fromLabel(this.gender));
-        person.setSex(Sex.fromLabel(this.sexualOrientation));
+        person.setGender(this.gender);
+        person.setSex(this.sexualOrientation);
         person.setContactPhone(this.contactPhone);
         person.setResidentialPhone(this.residentialPhone);
         person.setCellPhone(this.cellphone);
@@ -87,12 +85,10 @@ public class PersonBackupInfoDTO {
     }
 
     @Schema(hidden = true)
-    public boolean hasCpf(){
-        return !this.cpf.isEmpty();
-    }
+    public boolean hasCpf(){ return this.cpf != null && !this.cpf.isEmpty(); }
 
     @Schema(hidden = true)
-    public boolean hasCns(){ return !this.cns.isEmpty(); }
+    public boolean hasCns(){ return this.cns != null && !this.cns.isEmpty(); }
 
     @Schema(hidden = true)
     public boolean hasCitizenSeqId(){ return this.citizenSeqId != null && !this.citizenSeqId.isEmpty(); }
@@ -101,9 +97,11 @@ public class PersonBackupInfoDTO {
     private void setIfPresent(String value, Consumer<String> setter) {
         if (value != null && !value.isBlank()) {
             setter.accept(value);
+        } else {
+            setter.accept("");
         }
     }
-    
+
     @Schema(hidden = true)
     @Override
     public String toString() {

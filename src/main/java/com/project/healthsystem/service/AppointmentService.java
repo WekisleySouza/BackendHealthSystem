@@ -393,7 +393,7 @@ public class AppointmentService {
             new PatientDataResponseDTO(
                 appointment.getPatient().getPerson().getName(),
                 appointment.getPatient().getCns(),
-                appointment.getPatient().getPerson().getSex().getLabel(),
+                appointment.getPatient().getPerson().getSex(),
                 appointment.getPatient().getPerson().getBirthday(),
                 appointment.getPatient().getPerson().getAge(),
                 appointment.getPatient().getPerson().getAddress()

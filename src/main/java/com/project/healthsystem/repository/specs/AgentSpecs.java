@@ -1,9 +1,6 @@
 package com.project.healthsystem.repository.specs;
 
 import com.project.healthsystem.model.Agent;
-import com.project.healthsystem.model.Gender;
-import com.project.healthsystem.model.Sex;
-import com.project.healthsystem.utils.SpecificationsUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -11,12 +8,21 @@ import java.time.LocalDate;
 public class AgentSpecs {
 
     public static Specification<Agent> sexEqual(String sexLabel) {
-        if (sexLabel == null || sexLabel.isBlank()) return null;
+        return (root, query, criteriaBuilder) ->
+            SpecsCommon.likeIgnoreCaseUnaccent(
+                criteriaBuilder,
+                root.get("person").get("sex"),
+                sexLabel
+            );
+    }
 
-        Sex sex = Sex.fromLabel(sexLabel);
-
-        return (root, query, cb) ->
-                cb.equal(root.get("sex"), sex);
+    public static Specification<Agent> genderEqual(String genderLabel) {
+        return (root, query, criteriaBuilder) ->
+                SpecsCommon.likeIgnoreCaseUnaccent(
+                        criteriaBuilder,
+                        root.get("person").get("gender"),
+                        genderLabel
+                );
     }
 
     public static Specification<Agent> cellPhoneLike(String cellPhone) {
@@ -56,15 +62,6 @@ public class AgentSpecs {
                 root.get("person").get("name"),
                 name
             );
-    }
-
-    public static Specification<Agent> genderEqual(String genderLabel) {
-        if (genderLabel == null || genderLabel.isBlank()) return null;
-
-        Gender gender = Gender.fromLabel(genderLabel);
-
-        return (root, query, cb) ->
-                cb.equal(root.get("person").get("gender"), gender);
     }
 
     public static Specification<Agent> cpfLike(String cpf) {

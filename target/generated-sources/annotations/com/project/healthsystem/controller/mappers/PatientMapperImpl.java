@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-07-06T18:53:55-0300",
+    date = "2026-07-09T18:09:49-0300",
     comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.11 (Microsoft)"
 )
 @Component
@@ -60,10 +60,10 @@ public class PatientMapperImpl extends PatientMapper {
         patientResponseDTO.setOrigin( entity.getOrigin() );
         patientResponseDTO.setResponsibleId( entity.getResponsibleId() );
         patientResponseDTO.setName( entity.getPerson().getName() );
-        patientResponseDTO.setGender( entity.getPerson().getGender().getLabel() );
+        patientResponseDTO.setGender( entity.getPerson().getGender() );
         patientResponseDTO.setBirthday( entity.getPerson().getBirthday() );
         patientResponseDTO.setCpf( entity.getPerson().getCpf() );
-        patientResponseDTO.setSex( entity.getPerson().getSex().getLabel() );
+        patientResponseDTO.setSex( entity.getPerson().getSex() );
         patientResponseDTO.setCellPhone( entity.getPerson().getCellPhone() );
         patientResponseDTO.setResidentialPhone( entity.getPerson().getResidentialPhone() );
         patientResponseDTO.setContactPhone( entity.getPerson().getContactPhone() );

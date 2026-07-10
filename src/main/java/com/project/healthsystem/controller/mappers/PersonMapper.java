@@ -4,9 +4,7 @@ import com.project.healthsystem.controller.dto.basic_requests.AgentRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.EmployeeRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.PatientRequestDTO;
 import com.project.healthsystem.controller.dto.basic_requests.ProfessionalRequestDTO;
-import com.project.healthsystem.model.Gender;
 import com.project.healthsystem.model.Person;
-import com.project.healthsystem.model.Sex;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -14,11 +12,11 @@ public class PersonMapper {
     public Person toPersonEntity(AgentRequestDTO dto){
         Person person = new Person();
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());
@@ -28,11 +26,11 @@ public class PersonMapper {
 
     public Person updatePersonEntity(Person person, AgentRequestDTO dto){
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());
@@ -43,11 +41,11 @@ public class PersonMapper {
     public Person toPersonEntity(ProfessionalRequestDTO dto){
         Person person = new Person();
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());
@@ -57,11 +55,11 @@ public class PersonMapper {
 
     public Person updatePersonEntity(Person person, ProfessionalRequestDTO dto){
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());
@@ -72,11 +70,11 @@ public class PersonMapper {
     public Person toPersonEntity(PatientRequestDTO dto){
         Person person = new Person();
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());
@@ -86,11 +84,11 @@ public class PersonMapper {
 
     public Person updatePersonEntity(Person person, PatientRequestDTO dto){
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());
@@ -101,11 +99,11 @@ public class PersonMapper {
     public Person toPersonEntity(EmployeeRequestDTO dto){
         Person person = new Person();
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());
@@ -115,11 +113,11 @@ public class PersonMapper {
 
     public Person updatePersonEntity(Person person, EmployeeRequestDTO dto){
         person.setName(dto.getName());
-        person.setGender(Gender.fromLabel(dto.getGender()));
+        person.setGender(dto.getGender());
         person.setCpf(dto.getCpfNormalized());
         person.setBirthday(dto.getBirthday());
         person.setEmail(dto.getEmail());
-        person.setSex(Sex.fromLabel(dto.getSex()));
+        person.setSex(dto.getSex());
         person.setCellPhone(dto.getCellPhone());
         person.setContactPhone(dto.getContactPhone());
         person.setResidentialPhone(dto.getResidentialPhone());

@@ -65,8 +65,8 @@ public class DefaultInitializer implements ApplicationRunner {
         if(!loginRepository.existsByLogin(this.DEFAULT_API_LOGIN)){
             Person personAPI = new Person();
             personAPI.setName("API");
-            personAPI.setGender(Gender.MALE);
-            personAPI.setSex(Sex.MALE);
+            personAPI.setGender("Homem");
+            personAPI.setSex("Homem");
             personAPI.setBirthday(this.birthday);
             personAPI.setEmail(this.email);
 
@@ -78,8 +78,8 @@ public class DefaultInitializer implements ApplicationRunner {
         if(!loginRepository.existsByLogin(this.DEFAULT_ADMIN_USERNAME)){
             Person person = new Person();
             person.setName(this.name);
-            person.setGender(Gender.MALE);
-            person.setSex(Sex.MALE);
+            person.setGender("Homem");
+            person.setSex("Homem");
             person.setCpf(this.cpf);
             person.setBirthday(this.birthday);
             person.setEmail(this.email);
