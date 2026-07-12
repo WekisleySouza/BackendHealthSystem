@@ -49,6 +49,8 @@ public class PersonBackupInfoDTO {
         setIfPresent(this.citizenSeqId, patient.getPerson()::setPersonSequenceId);
         setIfPresent(this.uniqueCitizenId, patient.getPerson()::setUniquePersonId);
         setIfPresent(this.cpf, patient.getPerson()::setCpf);
+        setIfPresent(this.gender, patient.getPerson()::setGender);
+        setIfPresent(this.sexualOrientation, patient.getPerson()::setSex);
         setIfPresent(this.patientName, patient.getPerson()::setName);
         setIfPresent(this.address, patient.getPerson()::setAddress);
         setIfPresent(this.email, patient.getPerson()::setEmail);
