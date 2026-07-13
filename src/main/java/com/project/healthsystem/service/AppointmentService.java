@@ -234,11 +234,13 @@ public class AppointmentService {
         ReportAppointmentGraphResponseDTO dto =  new ReportAppointmentGraphResponseDTO();
         dto.setTotal(total);
         dto.setTotalPendingScheduling(map.getOrDefault(Status.PENDING_SCHEDULING, 0L));
-        dto.setTotalPreScheduled(map.getOrDefault(Status.PRE_SCHEDULED, 0L));
-        dto.setTotalScheduled(map.getOrDefault(Status.SCHEDULED, 0L));
         dto.setTotalCompleted(map.getOrDefault(Status.COMPLETED, 0L));
         dto.setTotalCanceled(map.getOrDefault(Status.CANCELED, 0L));
+        dto.setTotalExcusedAbsense(map.getOrDefault(Status.EXCUSED_ABSENSE, 0L));
+        dto.setTotalUnjustifiededAbsense(map.getOrDefault(Status.UNJUSTIFIED_ABSENSE, 0L));
         dto.setTotalNoShow(map.getOrDefault(Status.NO_SHOW, 0L));
+        dto.setTotalScheduled(map.getOrDefault(Status.SCHEDULED, 0L));
+        dto.setTotalPreScheduled(map.getOrDefault(Status.PRE_SCHEDULED, 0L));
         dto.setTotalOverdue(map.getOrDefault(Status.OVERDUE, 0L));
         return dto;
     }
@@ -293,16 +295,6 @@ public class AppointmentService {
             ));
     }
 
-    public ReportAppointmentByPatientResponseDTO getPatientReport(
-        Integer pageNumber,
-        Integer pageLength
-    ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-        Page<AppointmentReportResponseDTO> appointmentReportResponseDTOS = repository.findAppointmentReport(pageRequest);
-        List<AppointmentStatusCountResponseDTO> appointmentStatusCountResponseDTOS = repository.countByStatus();
-        return new ReportAppointmentByPatientResponseDTO(appointmentReportResponseDTOS, appointmentStatusCountResponseDTOS);
-    }
-
     public Page<PatientAppointmentResponseDTO> getAllPatientAppointments(
         String token,
         Integer pageNumber,
@@ -311,47 +303,6 @@ public class AppointmentService {
         Person person = jwtTokenProvider.getPerson(token);
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         return repository.getAllAppointmentsOfPatient(person.getId(), pageRequest);
-    }
-
-    public Page<NumberSpecialtiesByStatusDTO> countSpecialtiesByStatus(
-        Integer pageNumber,
-        Integer pageLength
-    ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-        return repository
-            .countSpecialtiesByStatus(pageRequest);
-    }
-
-    public Page<NumberExamsByStatusDTO> countExamsByStatus(
-            Integer pageNumber,
-            Integer pageLength
-    ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-        return repository
-                .countExamsByStatus(pageRequest);
-    }
-
-    public Page<TestDTO> test(
-        Integer pageNumber,
-        Integer pageLength
-    ){
-        Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
-        Specification<Appointment> specification = null;
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.appointmentReport());
-        return repository
-            .findAll(specification, pageRequest)
-            .map(AppointmentService::toReportDTO);
-    }
-
-    public static TestDTO toReportDTO(Appointment appointment) {
-        return new TestDTO(
-            appointment.getPatient().getPerson().getName(),
-            appointment.getPatient().getMotherName(),
-            appointment.getScheduledAt(),
-            appointment.getStatus(),
-            appointment.getResponsibleProfessional().getPerson().getName(),
-            appointment.getRequestingProfessional().getPerson().getName()
-        );
     }
 
     public List<PatientInfoAppointmentProjection> findAppointmentsByPatientId(long patientId){

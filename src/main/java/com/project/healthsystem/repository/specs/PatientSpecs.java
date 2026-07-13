@@ -12,7 +12,7 @@ import java.util.List;
 public class PatientSpecs {
     public static Specification<Patient> teamNameLike(String teamName) {
         return (root, query, cb) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeTokens(
                 cb,
                 root.get("teamName"),
                 teamName
@@ -48,7 +48,7 @@ public class PatientSpecs {
 
     public static Specification<Patient> sexEqual(String sexLabel) {
         return (root, query, criteriaBuilder) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+                SpecsCommon.likeTokens(
                         criteriaBuilder,
                         root.get("person").get("sex"),
                         sexLabel
@@ -96,40 +96,17 @@ public class PatientSpecs {
     }
 
     public static Specification<Patient> nameLike(String name) {
-
-        return (root, query, cb) -> {
-
-            List<String> tokens = SpecsCommon.tokenize(name);
-
-            if (tokens.isEmpty()) {
-                return cb.conjunction();
-            }
-
-            List<Predicate> predicates = new ArrayList<>();
-
-            Expression<String> normalizedField = cb.function(
-                    "unaccent",
-                    String.class,
-                    cb.upper(root.get("person").get("name"))
+        return (root, query, cb) ->
+            SpecsCommon.likeTokens(
+                cb,
+                root.get("person").get("name"),
+                name
             );
-
-            for (String token : tokens) {
-
-                predicates.add(
-                        cb.like(
-                                normalizedField,
-                                "%" + token.toUpperCase() + "%"
-                        )
-                );
-            }
-
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
     }
 
     public static Specification<Patient> motherNameLike(String motherName) {
         return (root, query, cb) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeTokens(
                 cb,
                 root.get("motherName"),
                 motherName
@@ -138,7 +115,7 @@ public class PatientSpecs {
 
     public static Specification<Patient> genderEqual(String genderLabel) {
         return (root, query, criteriaBuilder) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+                SpecsCommon.likeTokens(
                         criteriaBuilder,
                         root.get("person").get("gender"),
                         genderLabel

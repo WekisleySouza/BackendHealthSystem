@@ -38,7 +38,7 @@ public class ProfessionalSpecs {
 
     public static Specification<Professional> descriptionLike(String description) {
         return (root, query, cb) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeTokens(
                 cb,
                 root.get("description"),
                 description
@@ -47,7 +47,7 @@ public class ProfessionalSpecs {
 
     public static Specification<Professional> sexEqual(String sexLabel) {
         return (root, query, criteriaBuilder) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+                SpecsCommon.likeTokens(
                         criteriaBuilder,
                         root.get("person").get("sex"),
                         sexLabel
@@ -86,7 +86,7 @@ public class ProfessionalSpecs {
 
     public static Specification<Professional> nameLike(String name) {
         return (root, query, cb) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeTokens(
                 cb,
                 root.get("person").get("name"),
                 name
@@ -95,7 +95,7 @@ public class ProfessionalSpecs {
 
     public static Specification<Professional> genderEqual(String genderLabel) {
         return (root, query, criteriaBuilder) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+                SpecsCommon.likeTokens(
                         criteriaBuilder,
                         root.get("person").get("gender"),
                         genderLabel

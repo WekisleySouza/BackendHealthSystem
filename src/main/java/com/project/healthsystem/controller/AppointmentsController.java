@@ -298,86 +298,8 @@ public class AppointmentsController {
         return ResponseEntity.ok(AppointmentResponseDTOs);
     }
 
-    @GetMapping("/patients-report")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    @Operation(
-            summary = "Get Report",
-            description = "Get paginated appointment reports by patient."
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Report retrieved successfully.",
-                    content = @Content(schema = @Schema(implementation = ReportAppointmentByPatientResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    public ResponseEntity<ReportAppointmentByPatientResponseDTO> patientsReport(
-            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
-    ){
-        ReportAppointmentByPatientResponseDTO reportAppointmentByPatientResponseDTOs = appointmentService.getPatientReport(
-                pageNumber,
-                pageLength
-        );
-        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
-    }
-
-//    @GetMapping("/number-appointments-by-professional")
-//    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-//    public ResponseEntity<Page<NumberAppointmentsByStatusAndProfessionalDTO>> countAppointmentsByProfessional(
-//            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-//            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
-//    ){
-//        Page<NumberAppointmentsByStatusAndProfessionalDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countAppointmentsByProfessional(
-//                pageNumber,
-//                pageLength
-//        );
-//        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
-//    }
-
-    @GetMapping("/number-specialties-by-service-type")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Page<NumberSpecialtiesByStatusDTO>> countSpecialtiesByServiceType(
-            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
-    ){
-        Page<NumberSpecialtiesByStatusDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countSpecialtiesByStatus(
-                pageNumber,
-                pageLength
-        );
-        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
-    }
-
-    @GetMapping("/number-exams-by-service-type")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Page<NumberExamsByStatusDTO>> countExamsByServiceType(
-        @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-        @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
-    ){
-        Page<NumberExamsByStatusDTO> reportAppointmentByPatientResponseDTOs = appointmentService.countExamsByStatus(
-            pageNumber,
-            pageLength
-        );
-        return ResponseEntity.ok(reportAppointmentByPatientResponseDTOs);
-    }
-
     @GetMapping("/report-patients-graph")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<ReportAppointmentGraphResponseDTO> reportAppointmentsPatientGraph(
         @RequestParam(value = "patient-name", required = false) String patientName,
         @RequestParam(value = "mother-name", required = false) String patientMotherName,
@@ -417,7 +339,7 @@ public class AppointmentsController {
     }
 
     @GetMapping("/report-patients-page")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<PatientReportReponseDTO>> reportAppointmentsPatientPage(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,

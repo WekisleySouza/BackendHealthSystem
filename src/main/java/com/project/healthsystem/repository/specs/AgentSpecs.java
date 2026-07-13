@@ -9,7 +9,7 @@ public class AgentSpecs {
 
     public static Specification<Agent> sexEqual(String sexLabel) {
         return (root, query, criteriaBuilder) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeTokens(
                 criteriaBuilder,
                 root.get("person").get("sex"),
                 sexLabel
@@ -18,7 +18,7 @@ public class AgentSpecs {
 
     public static Specification<Agent> genderEqual(String genderLabel) {
         return (root, query, criteriaBuilder) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+                SpecsCommon.likeTokens(
                         criteriaBuilder,
                         root.get("person").get("gender"),
                         genderLabel
@@ -57,7 +57,7 @@ public class AgentSpecs {
 
     public static Specification<Agent> nameLike(String name) {
         return (root, query, criteriaBuilder) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeTokens(
                 criteriaBuilder,
                 root.get("person").get("name"),
                 name

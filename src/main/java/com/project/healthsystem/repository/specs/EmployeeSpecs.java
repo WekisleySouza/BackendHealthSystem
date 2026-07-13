@@ -9,7 +9,7 @@ public class EmployeeSpecs {
 
     public static Specification<Employee> sexEqual(String sexLabel) {
         return (root, query, criteriaBuilder) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+                SpecsCommon.likeTokens(
                         criteriaBuilder,
                         root.get("person").get("sex"),
                         sexLabel
@@ -48,7 +48,7 @@ public class EmployeeSpecs {
 
     public static Specification<Employee> nameLike(String name) {
         return (root, query, cb) ->
-            SpecsCommon.likeIgnoreCaseUnaccent(
+            SpecsCommon.likeTokens(
                 cb,
                 root.get("person").get("name"),
                 name
@@ -57,7 +57,7 @@ public class EmployeeSpecs {
 
     public static Specification<Employee> genderEqual(String genderLabel) {
         return (root, query, criteriaBuilder) ->
-                SpecsCommon.likeIgnoreCaseUnaccent(
+                SpecsCommon.likeTokens(
                         criteriaBuilder,
                         root.get("person").get("gender"),
                         genderLabel
