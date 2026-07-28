@@ -1,9 +1,6 @@
 package com.project.healthsystem.repository.projections;
 
-import com.project.healthsystem.model.Agreements;
-import com.project.healthsystem.model.Priority;
-import com.project.healthsystem.model.ServiceTypes;
-import com.project.healthsystem.model.Status;
+import com.project.healthsystem.model.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
@@ -12,7 +9,6 @@ public interface AppointmentGetByIdProjection {
 
     long getId();
     Status getStatus();
-    Agreements getAgreements();
     String getNotes();
     Priority getPriorit();
     boolean getIsReturn();
@@ -26,6 +22,7 @@ public interface AppointmentGetByIdProjection {
     InstituitionInfo getInstituition();
     EmployeeInfo getEmployee();
     PatientInfo getPatient();
+    AgreementInfo getAgreement();
 
     default Long getResponsibleProfessionalIdSafe(){
         return getResponsibleProfessional() != null
@@ -98,6 +95,10 @@ public interface AppointmentGetByIdProjection {
     }
 
     interface PersonInfo {
+        String getName();
+    }
+
+    interface AgreementInfo {
         String getName();
     }
 }

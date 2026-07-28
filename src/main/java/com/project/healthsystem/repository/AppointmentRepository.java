@@ -37,35 +37,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
     boolean existsByServiceTypeId(long id);
 
     @Query("""
-        SELECT new com.project.healthsystem.controller.dto.AppointmentReportResponseDTO(
-            p.person.name,
-            p.motherName,
-            a.scheduledAt,
-            a.agreements,
-            a.status,
-            rpProf.person.name,
-            rqProf.person.name,
-            inst.name,
-            a.priorit,
-            st.name,
-            st.type
-        )
-        FROM Appointment a
-        JOIN a.patient p
-        JOIN a.responsibleProfessional rpProf
-        JOIN a.requestingProfessional rqProf
-        JOIN a.instituition inst
-        JOIN a.serviceType st
-        ORDER BY a.scheduledAt DESC
-    """)
-    Page<AppointmentReportResponseDTO> findAppointmentReport(Pageable pageable);
-
-    @Query("""
         SELECT new com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO(
             a.notes,
             a.priorit,
             a.status,
-            a.agreements,
+            agr.name,
             a.isReturn,
             a.schedulingForecast,
             a.scheduledAt,
@@ -84,6 +60,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
             respp.name
         )
         FROM Appointment a
+        JOIN a.agreement agr
         JOIN a.instituition i
         JOIN a.serviceType st
         JOIN a.requestingProfessional rp

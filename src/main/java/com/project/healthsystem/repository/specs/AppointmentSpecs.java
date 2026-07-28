@@ -124,13 +124,13 @@ public class AppointmentSpecs {
                 );
     }
 
-    public static Specification<Appointment> agreementsLike(String agreements) {
-        if (agreements == null || agreements.isBlank()) return null;
+    public static Specification<Appointment> agreementsLike(String agreement) {
+        if (agreement == null || agreement.isBlank()) return null;
 
         return (root, query, cb) ->
             cb.like(
-                cb.upper(root.get("agreements").as(String.class)),
-                "%" + Agreements.fromLabel(agreements).name().trim().toUpperCase() + "%"
+                cb.upper(root.get("agreement").get("name")),
+                "%" + Agreements.fromLabel(agreement).name().trim().toUpperCase() + "%"
             );
     }
 

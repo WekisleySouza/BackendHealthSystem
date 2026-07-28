@@ -20,6 +20,7 @@ public class AppointmentValidator {
     private final EmployeeRepository employeeRepository;
     private final ProfessionalRepository professionalRepository;
     private final InstituitionRepository instituitionRepository;
+    private final AgreementRepository agreementRepository;
 
     private final AppointmentsMapper appointmentsMapper;
 
@@ -34,6 +35,8 @@ public class AppointmentValidator {
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
         Professional requestingProfessional = professionalRepository.findById(appointmentRequestDTO.getRequestingProfessionalId())
             .orElseThrow(() -> new InvalidDataException("Professional requisitante inválido!"));
+        Agreement agreement = agreementRepository.findById(appointmentRequestDTO.getAgreementId())
+            .orElseThrow(() -> new InvalidDataException("Agreement(convênio) inválida!"));
 
         if(appointmentRequestDTO.getResponsibleProfessionalId() != null &&
             appointmentRequestDTO.getResponsibleProfessionalId() != -1
@@ -55,6 +58,7 @@ public class AppointmentValidator {
         appointment.setServiceType(serviceType);
         appointment.setPatient(patient);
         appointment.setEmployee(employee);
+        appointment.setAgreement(agreement);
         appointment.createdNow();
 
         return appointment;
@@ -69,6 +73,8 @@ public class AppointmentValidator {
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
+        Agreement agreement = agreementRepository.findById(appointmentRequestDTO.getAgreementId())
+                .orElseThrow(() -> new InvalidDataException("Agreement(convênio) inválida!"));
 
         if(appointmentRequestDTO.getResponsibleProfessionalId() != null &&
             appointmentRequestDTO.getResponsibleProfessionalId() != -1
@@ -93,6 +99,7 @@ public class AppointmentValidator {
         appointment.setPatient(patient);
         appointment.setEmployee(employee);
         appointment.setRequestingProfessional(requestingProfessional);
+        appointment.setAgreement(agreement);
 
         return appointment;
     }

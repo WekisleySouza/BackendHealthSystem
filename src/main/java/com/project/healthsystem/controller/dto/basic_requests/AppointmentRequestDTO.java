@@ -21,6 +21,7 @@ public class AppointmentRequestDTO {
     @NotNull(message = "O funcionário responsável é obrigatório!")
     private Long employeeId;
     private Long instituitionId;
+    private Long agreementId;
 
     @NotNull(message = "O paciente é obrigatório!")
     private Long patientId;
@@ -28,9 +29,6 @@ public class AppointmentRequestDTO {
     @NotNull(message = "O status é obrigatório!")
     @Size(max = 30, message = "O status não pode ultrapassar 30 caracteres!")
     private String status;
-
-    @Size(max = 30, message = "O status não pode ultrapassar 30 caracteres!")
-    private String agreements;
 
     @NotNull(message = "O tipo de serviço é obrigatório!")
     private Long serviceTypeId;

@@ -42,7 +42,7 @@ public class PatientAppointmentResponseDTO {
             String notes,
             Priority priority,
             Status status,
-            Agreements agreement,
+            String agreement,
             boolean isReturn,
             LocalDateTime schedulingForecast,
             LocalDateTime scheduledAt,
@@ -70,9 +70,7 @@ public class PatientAppointmentResponseDTO {
                 ? status.getLabel()
                 : null;
 
-        this.agreements = agreement != null
-                ? agreement.getLabel()
-                : null;
+        this.agreements = agreement;
 
         this.isReturn = isReturn;
         this.schedulingForecast = schedulingForecast;

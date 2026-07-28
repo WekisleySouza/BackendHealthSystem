@@ -21,9 +21,6 @@ public class Appointment extends BasicEntityAbstraction {
     @Enumerated(EnumType.STRING)
     @Column(name="status")
     private Status status;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "agreement")
-    private Agreements agreements;
     @Column(name="is_return")
     private boolean isReturn;
     @Column(name = "scheduling_forecast")
@@ -31,6 +28,8 @@ public class Appointment extends BasicEntityAbstraction {
     @Column(name="scheduled_at")
     private LocalDateTime scheduledAt;
 
+    @ManyToOne
+    private Agreement agreement;
     @ManyToOne
     private Instituition instituition;
     @ManyToOne
@@ -43,6 +42,20 @@ public class Appointment extends BasicEntityAbstraction {
     private Employee employee;
     @ManyToOne
     private Patient patient;
+
+    public String getAgreementName(){
+        if(this.agreement != null){
+            return agreement.getName();
+        }
+        return "";
+    }
+
+    public Long getAgreementId(){
+        if(this.agreement != null){
+            return agreement.getId();
+        }
+        return null;
+    }
 
     public String getInstituitionName(){
         if(this.instituition != null){

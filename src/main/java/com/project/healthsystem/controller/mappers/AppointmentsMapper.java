@@ -13,7 +13,6 @@ import org.mapstruct.Mapping;
 public abstract class AppointmentsMapper {
 
     @Mapping(target = "status", expression = "java(com.project.healthsystem.model.Status.fromLabel(dto.getStatus()))")
-    @Mapping(target = "agreements", expression = "java(com.project.healthsystem.model.Agreements.fromLabel(dto.getAgreements()))")
     @Mapping(target = "priorit", expression = "java(com.project.healthsystem.model.Priority.fromLabel(dto.getPriority()))")
     public abstract Appointment toEntity(AppointmentRequestDTO dto);
 
@@ -26,13 +25,12 @@ public abstract class AppointmentsMapper {
     @Mapping(target = "serviceType", expression = "java(entity.getServiceType().getType().getLabel())")
     @Mapping(target = "categoryGroupName", expression = "java(entity.getServiceTypeCategoryGroupName())")
     @Mapping(target = "status", expression = "java(entity.getStatus().getLabel())")
-    @Mapping(target = "agreements", expression = "java(entity.getAgreements().getLabel())")
+    @Mapping(target = "agreementName", expression = "java(entity.getAgreementName())")
     @Mapping(target = "priority", expression = "java(entity.getPriorit().getLabel())")
     public abstract AppointmentResponseDTO toDto(Appointment entity);
 
     public Appointment toEntityWhenHasId(Appointment entity, AppointmentRequestDTO dto) {
         entity.setStatus(Status.fromLabel(dto.getStatus()));
-        entity.setAgreements(Agreements.fromLabel(dto.getAgreements()));
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setPriorit(Priority.fromLabel(dto.getPriority()));
         entity.setNotes(dto.getNotes());
