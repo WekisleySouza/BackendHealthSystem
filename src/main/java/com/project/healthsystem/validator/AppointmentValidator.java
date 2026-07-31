@@ -35,15 +35,15 @@ public class AppointmentValidator {
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
         Professional requestingProfessional = professionalRepository.findById(appointmentRequestDTO.getRequestingProfessionalId())
             .orElseThrow(() -> new InvalidDataException("Professional requisitante inválido!"));
-        
 
-
-if(appointmentRequestDTO.getAgreementId() != null &&
-appointmentRequestDTO.getAgreementId != -1){
-Agreement agreement = agreementRepository.findById(appointmentRequestDTO.getAgreementId())
-            .orElseThrow(() -> new InvalidDataException("Agreement(convênio) inválida!"));
-appointment.setAgreement(agreement);
-}
+        if(
+            appointmentRequestDTO.getAgreementId() != null &&
+            appointmentRequestDTO.getAgreementId() != -1
+        ){
+            Agreement agreement = agreementRepository.findById(appointmentRequestDTO.getAgreementId())
+                .orElseThrow(() -> new InvalidDataException("Agreement(convênio) inválida!"));
+            appointment.setAgreement(agreement);
+        }
 
         if(appointmentRequestDTO.getResponsibleProfessionalId() != null &&
             appointmentRequestDTO.getResponsibleProfessionalId() != -1
