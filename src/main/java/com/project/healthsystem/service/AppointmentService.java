@@ -175,7 +175,7 @@ public class AppointmentService {
                 appointmentProjection.getInstituitionNameSafe()
             ),
             appointmentProjection.getStatus().getLabel(),
-            appointmentProjection.getAgreement().getName(),
+            appointmentProjection.getAgreementNameSafe(),
             appointmentProjection.getNotes(),
             appointmentProjection.getPriorit().getLabel(),
             appointmentProjection.getIsReturn(),

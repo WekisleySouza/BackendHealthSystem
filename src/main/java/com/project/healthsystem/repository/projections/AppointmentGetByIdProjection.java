@@ -24,6 +24,12 @@ public interface AppointmentGetByIdProjection {
     PatientInfo getPatient();
     AgreementInfo getAgreement();
 
+    default String getAgreementNameSafe(){
+        return getAgreement() != null
+            ? getAgreement().getName()
+            : null;
+    }
+
     default Long getResponsibleProfessionalIdSafe(){
         return getResponsibleProfessional() != null
             ? getResponsibleProfessional().getId()
