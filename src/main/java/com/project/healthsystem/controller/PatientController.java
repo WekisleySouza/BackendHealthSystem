@@ -249,7 +249,7 @@ public class PatientController {
                     content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
             )
     })
-    public ResponseEntity<PatientInfoResponseDTO> getPatientInfo(@PathVariable("id") long id){
+    public ResponseEntity<PatientInfoResponseDTO> getPatientInfoById(@PathVariable("id") long id){
         PatientInfoResponseDTO patientInfoDTO = patientService.getPatientInfo(id);
         return ResponseEntity.ok(patientInfoDTO);
     }
@@ -285,7 +285,7 @@ public class PatientController {
                     content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
             )
     })
-    public ResponseEntity<List<PatientSimplifiedInfoDTO>> getPatientInfo(){
+    public ResponseEntity<List<PatientSimplifiedInfoDTO>> getAllPatientInfo(){
         List<PatientSimplifiedInfoDTO> patientSimplifiedInfoDTOS = patientService.getSimplifiedPatients();
         return ResponseEntity.ok(patientSimplifiedInfoDTOS);
     }
@@ -442,18 +442,12 @@ public class PatientController {
 
     @PatchMapping("/update-login")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Object> updatePatients(
+    public ResponseEntity<Object> updatePatientCPF(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody @Valid PatientCPFRequestDTO patientCPFRequestDTO
     ){
         String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
         this.patientService.updateCPF(patientCPFRequestDTO, accessToken);
         return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/sync-patients")
-    public ResponseEntity<Object> syncPECPatients(@RequestBody List<PersonBackupInfoDTO> personsInfoList){
-        this.patientService.syncExternalDataBase(personsInfoList);
-        return ResponseEntity.ok("Pacientes atualizados!");
     }
 }

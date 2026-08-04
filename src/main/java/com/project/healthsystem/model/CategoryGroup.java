@@ -16,8 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 public class CategoryGroup extends BasicEntityAbstraction {
 
-    @OneToMany(mappedBy = "categoryGroup")
-    private List<ServiceType> serviceTypes;
     @Column(name = "name")
     private String name;
 

@@ -13,8 +13,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ServiceType extends BasicEntityAbstraction {
-    @OneToMany(mappedBy = "serviceType")
-    private List<Appointment> appointment;
     @ManyToOne
     private CategoryGroup categoryGroup;
 

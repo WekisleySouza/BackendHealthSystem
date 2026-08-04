@@ -6,8 +6,10 @@ import com.project.healthsystem.controller.dto.basic_requests.*;
 import com.project.healthsystem.model.*;
 import com.project.healthsystem.repository.LoginRepository;
 import com.project.healthsystem.repository.PatientRepository;
+import com.project.healthsystem.repository.PersonRepository;
 import com.project.healthsystem.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -41,6 +43,9 @@ public class DefaultInitializer implements ApplicationRunner {
 
     private final PatientRepository patientRepository;
 
+    @Autowired
+    private PersonRepository personRepository;
+
     @Value("${app.default-admin.username}")
     private String DEFAULT_ADMIN_USERNAME;
 
@@ -65,10 +70,11 @@ public class DefaultInitializer implements ApplicationRunner {
         if(!loginRepository.existsByLogin(this.DEFAULT_API_LOGIN)){
             Person personAPI = new Person();
             personAPI.setName("API");
-            personAPI.setGender("Homem");
-            personAPI.setSex("Homem");
+            personAPI.setGender("Masculino");
+            personAPI.setSex("Masculino");
             personAPI.setBirthday(this.birthday);
             personAPI.setEmail(this.email);
+            personRepository.save(personAPI);
 
             loginService.createDefaultAPI(personAPI);
 
@@ -78,11 +84,12 @@ public class DefaultInitializer implements ApplicationRunner {
         if(!loginRepository.existsByLogin(this.DEFAULT_ADMIN_USERNAME)){
             Person person = new Person();
             person.setName(this.name);
-            person.setGender("Homem");
-            person.setSex("Homem");
+            person.setGender("Masculino");
+            person.setSex("Masculino");
             person.setCpf(this.cpf);
             person.setBirthday(this.birthday);
             person.setEmail(this.email);
+            personRepository.save(person);
 
             loginService.createDefaultAdmin(person);
 

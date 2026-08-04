@@ -12,11 +12,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Condition extends BasicEntityAbstraction {
-
     @Column(name="specification")
     private String specification;
-
-    @ManyToMany(mappedBy = "conditions")
-    private List<Patient> patients;
-
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Login extends BasicEntityAbstraction {
 
-    @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+    @OneToOne(optional = false)
     @JoinColumn(name = "person_id", nullable = false, unique = true)
     private Person person;
     @Column(name = "login", nullable = false, unique = true)
