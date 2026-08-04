@@ -1,12 +1,14 @@
 com\project\healthsystem\controller\dto\basic_responses\AuthResponseDTO.class
 com\project\healthsystem\repository\CategoryGroupRepository.class
 com\project\healthsystem\controller\dto\PatientInfoAgentResponseDTO.class
+com\project\healthsystem\repository\specs\AgreementSpecs.class
 com\project\healthsystem\repository\PersonRepository.class
 com\project\healthsystem\repository\projections\simplified_lists\PatientSimplifiedInfoProjection$PersonInfo.class
 com\project\healthsystem\controller\dto\basic_responses\ConditionResponseDTO.class
 com\project\healthsystem\controller\dto\ErrorResponseDTO.class
 com\project\healthsystem\controller\dto\basic_responses\SurgeryTypeResponseDTO.class
 com\project\healthsystem\repository\specs\ServiceTypeSpecs.class
+com\project\healthsystem\repository\projections\AppointmentGetByIdProjection$AgreementInfo.class
 com\project\healthsystem\service\LoginService.class
 com\project\healthsystem\controller\common\Permissions.class
 com\project\healthsystem\controller\dto\simplified_info\ProfessionalSimplifiedResponseDTO.class
@@ -63,6 +65,7 @@ com\project\healthsystem\schedulers\AppointmentStatusScheduler.class
 com\project\healthsystem\repository\AgentRepository.class
 com\project\healthsystem\service\SurgeryTypeService.class
 com\project\healthsystem\model\Roles.class
+com\project\healthsystem\model\Agreement.class
 com\project\healthsystem\repository\specs\InstituitionSpecs.class
 com\project\healthsystem\controller\mappers\LoginMapper.class
 com\project\healthsystem\controller\dto\basic_requests\PreSchedulingRequestDTO.class
@@ -138,13 +141,17 @@ com\project\healthsystem\controller\mappers\SurgeryTypeMapperImpl.class
 com\project\healthsystem\controller\dto\CategoryGroupResponseDTO.class
 com\project\healthsystem\config\SecurityConfiguration.class
 com\project\healthsystem\controller\InstituitionController.class
+com\project\healthsystem\controller\mappers\AgreementMapper.class
 com\project\healthsystem\validator\CategoryGroupValidator.class
 com\project\healthsystem\controller\dto\basic_requests\AgentRequestDTO.class
 com\project\healthsystem\repository\projections\PatientInfoConditionsProjection.class
 com\project\healthsystem\security\JwtTokenProvider.class
+com\project\healthsystem\controller\dto\basic_requests\AgreementRequestDTO.class
 com\project\healthsystem\controller\dto\basic_requests\PatientCPFRequestDTO.class
 com\project\healthsystem\controller\mappers\PersonMapper.class
+com\project\healthsystem\controller\dto\basic_responses\AgreementResponseDTO.class
 com\project\healthsystem\controller\dto\simplified_info\PatientSimplifiedResponseDTO.class
+com\project\healthsystem\controller\AgreementController.class
 com\project\healthsystem\model\Surgery.class
 com\project\healthsystem\controller\mappers\PatientMapperImpl.class
 com\project\healthsystem\repository\specs\PatientSpecs.class
@@ -190,6 +197,7 @@ com\project\healthsystem\exceptions\AccessDeniedException.class
 com\project\healthsystem\model\PasswordResetToken.class
 com\project\healthsystem\controller\dto\basic_requests\SurgeryTypeRequestDTO.class
 com\project\healthsystem\repository\projections\PatientSimplifiedInfoProjection.class
+com\project\healthsystem\service\AgreementService.class
 com\project\healthsystem\controller\dto\PatientInfoAppointmentResponseDTO.class
 com\project\healthsystem\controller\dto\reports_patients\ReportAppointmentGraphResponseDTO.class
 com\project\healthsystem\repository\RefreshTokenRepository.class
@@ -248,6 +256,8 @@ com\project\healthsystem\controller\mappers\InstituitionMapper.class
 com\project\healthsystem\controller\mappers\ProfessionalMapper.class
 com\project\healthsystem\security\JwtAuthenticationFilter.class
 com\project\healthsystem\controller\dto\simplified_info\PatientSimplifiedInfoDTO.class
+com\project\healthsystem\repository\AgreementRepository.class
+com\project\healthsystem\validator\AgreementValidator.class
 com\project\healthsystem\config\DefaultInitializer$6.class
 com\project\healthsystem\repository\AppointmentRepository.class
 com\project\healthsystem\controller\dto\authorization_form\InstituitionResponseDTO.class
@@ -260,6 +270,7 @@ com\project\healthsystem\repository\EmployeeRepository.class
 com\project\healthsystem\model\ServiceTypes.class
 com\project\healthsystem\controller\dto\basic_requests\ProfessionalRequestDTO.class
 com\project\healthsystem\model\RefreshToken.class
+com\project\healthsystem\controller\mappers\AgreementMapperImpl.class
 com\project\healthsystem\config\DefaultInitializer$7.class
 com\project\healthsystem\repository\projections\PatientInfoAppointmentProjection$ProfessionalInfo.class
 com\project\healthsystem\repository\specs\SurgeryTypeSpecs.class

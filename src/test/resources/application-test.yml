@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:tc:postgresql:16:///testdb
+    jdbc-url: jdbc:tc:postgresql:18:///testdb
     username: test
     password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
   jpa:
     hibernate:
