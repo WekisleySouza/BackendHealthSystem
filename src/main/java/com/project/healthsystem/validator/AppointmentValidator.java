@@ -79,8 +79,14 @@ public class AppointmentValidator {
             .orElseThrow(() -> new InvalidDataException("ServiceType inválido!"));
         Employee employee = employeeRepository.findById(appointmentRequestDTO.getEmployeeId())
             .orElseThrow(() -> new InvalidDataException("Employee inválido!"));
-        Agreement agreement = agreementRepository.findById(appointmentRequestDTO.getAgreementId())
-                .orElseThrow(() -> new InvalidDataException("Agreement(convênio) inválida!"));
+
+        if(appointmentRequestDTO.getAgreementId() != null &&
+            appointmentRequestDTO.getAgreementId() != -1
+        ){
+            Agreement agreement = agreementRepository.findById(appointmentRequestDTO.getAgreementId())
+                    .orElseThrow(() -> new InvalidDataException("Agreement(convênio) inválida!"));
+            appointment.setAgreement(agreement);
+        }
 
         if(appointmentRequestDTO.getResponsibleProfessionalId() != null &&
             appointmentRequestDTO.getResponsibleProfessionalId() != -1
@@ -105,7 +111,6 @@ public class AppointmentValidator {
         appointment.setPatient(patient);
         appointment.setEmployee(employee);
         appointment.setRequestingProfessional(requestingProfessional);
-        appointment.setAgreement(agreement);
 
         return appointment;
     }
