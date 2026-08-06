@@ -69,8 +69,8 @@ public class PatientRequestDTO {
     private String address;
 
     @Size(
-            max = 320,
-            message = "O e-mail não pode ultrapassar 320 caracteres!"
+        max = 320,
+        message = "O e-mail não pode ultrapassar 320 caracteres!"
     )
     @Email(message = "Formato de e-mail inválido!")
     private String email;

@@ -1,6 +1,7 @@
 package com.project.healthsystem.config;
 
 import com.project.healthsystem.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,9 +38,23 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-            .csrf(AbstractHttpConfigurer::disable)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+          .csrf(AbstractHttpConfigurer::disable)
+          
+          .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated()
+          )
+          
+          .exceptionHandling(exception -> exception
+            .authenticationEntryPoint((request, response, authException) ->
+              response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+            .accessDeniedHandler((request, response, accessDeniedException) ->
+              response.sendError(HttpServletResponse.SC_FORBIDDEN))
+          )
+          
+          .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+          
+          .build();
     }
 
     @Bean

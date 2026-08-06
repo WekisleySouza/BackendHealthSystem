@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.JsonNode;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Locale;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,16 +39,28 @@ public abstract class IntegrationTestBase extends DBTestConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    protected String token;
+    protected String adminToken;
+    protected String managerToken;
+    protected String employeeToken;
+    protected String patientToken;
     protected Long userId;
 
-    protected void login() throws Exception {
+    protected void loginConfig() throws Exception {
+        createLogins();
+
+        loginAdmin();
+        loginManager();
+        loginEmployee();
+        loginPatient();
+    }
+
+    private void loginAdmin() throws Exception {
         String response = mockMvc.perform(
             post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
-                        "login": "test",
+                        "login": "admin",
                         "password": "1234567"
                     }
             """)
@@ -60,51 +74,113 @@ public abstract class IntegrationTestBase extends DBTestConfig {
 
         JsonNode json = mapper.readTree(response);
 
-        this.token = json.get("access_token").asText();
+        this.adminToken = json.get("access_token").asText();
     }
 
-    protected void createLogin(){
+    private void loginManager() throws Exception {
+        String response = mockMvc.perform(
+                        post("/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                    {
+                        "login": "manager",
+                        "password": "1234567"
+                    }
+            """)
+                )
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode json = mapper.readTree(response);
+
+        this.managerToken = json.get("access_token").asText();
+    }
+    
+    private void loginEmployee() throws Exception {
+        String response = mockMvc.perform(
+            post("/auth/login")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content("""
+                    {
+                        "login": "employee",
+                        "password": "1234567"
+                    }
+            """)
+          )
+          .andExpect(status().isOk())
+          .andReturn()
+          .getResponse()
+          .getContentAsString();
+        
+        ObjectMapper mapper = new ObjectMapper();
+        
+        JsonNode json = mapper.readTree(response);
+        
+        this.employeeToken = json.get("access_token").asText();
+    }
+
+    private void loginPatient() throws Exception {
+        String response = mockMvc.perform(
+                        post("/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                    {
+                        "login": "patient",
+                        "password": "1234567"
+                    }
+            """)
+                )
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode json = mapper.readTree(response);
+
+        this.patientToken = json.get("access_token").asText();
+    }
+
+    private void createLogins(){
         this.initRoles();
 
-        Role roleAdmin = roleRepository
-            .findByRole(Roles.ADMIN)
+        createLogin(Roles.ADMIN);
+        createLogin(Roles.MANAGER);
+        createLogin(Roles.EMPLOYEE);
+        createLogin(Roles.PATIENT);
+    }
+
+    private void createLogin(Roles roleLabel){
+        Role role = roleRepository
+            .findByRole(roleLabel)
             .orElse(null);
 
         Person user = PersonBuilder.builder()
-                .name("Tester")
-                .roles(roleAdmin)
+                .name(roleLabel.getLabel().toLowerCase())
+                .roles(role)
                 .build();
 
         Person userSaved = personRepository.save(user);
         this.userId = userSaved.getId();
 
         Login login = LoginBuilder.builder()
-            .withLogin("test")
+            .withLogin(roleLabel.getLabel().toLowerCase())
             .withPassword(passwordEncoder.encode("1234567"))
             .withPerson(userSaved)
             .build();
         loginRepository.save(login);
     }
 
-    protected void initRoles(){
+    private void initRoles(){
         for(Roles role : Roles.values()){
             if(roleRepository.findByRole(role).isEmpty()){
                 roleRepository.save(new Role(role));
             }
         }
-    }
-
-    protected void changeRoleTo(Roles role){
-        Role newRole = roleRepository
-            .findByRole(role)
-            .orElse(null);
-
-        Person user = personRepository
-            .findById(this.userId)
-            .orElse(null);
-        user.removeAllRoles();
-        user.addRole(newRole);
-
-        personRepository.save(user);
     }
 }

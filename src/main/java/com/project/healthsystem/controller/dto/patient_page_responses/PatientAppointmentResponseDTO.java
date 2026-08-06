@@ -1,6 +1,5 @@
 package com.project.healthsystem.controller.dto.patient_page_responses;
 
-import com.project.healthsystem.model.Agreements;
 import com.project.healthsystem.model.Priority;
 import com.project.healthsystem.model.Status;
 import lombok.Data;

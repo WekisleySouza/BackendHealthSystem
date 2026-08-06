@@ -7,8 +7,11 @@ import com.project.healthsystem.exceptions.DuplicatedRegisterException;
 import com.project.healthsystem.exceptions.InvalidDataException;
 import com.project.healthsystem.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -19,12 +22,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.nio.file.AccessDeniedException;
 import java.security.SignatureException;
 import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -59,10 +62,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CantDeleteException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponseDTO handleCantDeleteException(CantDeleteException e){
         return new ErrorResponseDTO(
-            HttpStatus.BAD_REQUEST.value(),
+            HttpStatus.CONFLICT.value(),
             "Não foi possível excluir!",
             List.of());
     }
@@ -86,16 +89,16 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponseDTO handleAccesDeniedException(AccessDeniedException e){
         return new ErrorResponseDTO(
-            HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            HttpStatus.FORBIDDEN.value(),
             "Você não tem permissão para executar esta operação!",
             List.of());
     }
 
     @ExceptionHandler(AuthorizationDeniedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponseDTO handleAuthorizationDenied(AuthorizationDeniedException e){
         return new ErrorResponseDTO(
-            HttpStatus.UNAUTHORIZED.value(),
+            HttpStatus.FORBIDDEN.value(),
             "Autorização negada!",
             List.of()
         );
@@ -106,7 +109,7 @@ public class GlobalExceptionHandler {
     public ErrorResponseDTO handleAuthorizationDenied(SignatureException e){
         return new ErrorResponseDTO(
                 HttpStatus.UNAUTHORIZED.value(),
-                "Autorização negada!",
+                "Falha na autenticação!",
                 List.of()
         );
     }
@@ -121,20 +124,20 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InternalAuthenticationServiceException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponseDTO handleUnhandledErrorException(InternalAuthenticationServiceException e){
         return new ErrorResponseDTO(
-                HttpStatus.FORBIDDEN.value(),
+                HttpStatus.UNAUTHORIZED.value(),
                 "Credenciais inválidas, verifique se seu login e senha estão corretos!",
                 List.of());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponseDTO handleUnhandledErrorException(ConstraintViolationException e){
-        System.out.println("Erro inesperado: " + e);
+        log.error("Erro inesperado: " + e);
         return new ErrorResponseDTO(
-            HttpStatus.CONFLICT.value(),
+            HttpStatus.UNPROCESSABLE_ENTITY.value(),
             "Violação de restrição de dados!",
             List.of());
     }
@@ -142,7 +145,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponseDTO handleDataIntegrityViolationErrorException(DataIntegrityViolationException e){
-        System.out.println("Erro inesperado: " + e);
+        log.error("Erro inesperado: " + e);
         return new ErrorResponseDTO(
             HttpStatus.CONFLICT.value(),
             "Integridade de dados ameaçada! O recurso já existe ou viola uma restrição do banco.",
@@ -152,7 +155,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponseDTO handleUnhandledErrorException(RuntimeException e){
-        System.out.println("Erro inesperado: " + e);
+        log.error("Erro inesperado: " + e);
         return new ErrorResponseDTO(
             HttpStatus.INTERNAL_SERVER_ERROR.value(),
             "Ops! Houve um erro inesperado. Entre em contato com nossa equipe.",

@@ -20,6 +20,10 @@ public class AppointmentBuilder {
     private Employee employee;
     private Patient patient;
 
+    public static AppointmentBuilder builder(){
+        return new AppointmentBuilder();
+    }
+    
     public AppointmentBuilder withNotes(String notes) {
         this.notes = notes;
         return this;

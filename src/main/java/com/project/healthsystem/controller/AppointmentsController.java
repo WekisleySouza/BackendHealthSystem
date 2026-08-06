@@ -40,487 +40,487 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Tag(name = "Appointments", description = "Operations related to appointments management.")
 public class AppointmentsController {
-
-    private final AppointmentService appointmentService;
-
-    @PostMapping
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    @Operation(
-            summary = "Create appointment",
-            description = "Create a new appointment.",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
+  
+  private final AppointmentService appointmentService;
+  
+  @PostMapping
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(
+    summary = "Create appointment",
+    description = "Create a new appointment.",
+    parameters = {
+      @Parameter(
+        name = "Authorization",
+        description = "Bearer access token",
+        required = true
+      )
+    }
+  )
+  @ApiResponses({
+    @ApiResponse(responseCode = "201", description = "Created successfully."),
+    @ApiResponse(
+      responseCode = "400",
+      description = "Invalid data sent in the request.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "401",
+      description = "Unauthorized - invalid or missing credentials.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "403",
+      description = "Forbidden - user does not have permission.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "404",
+      description = "Related resource not found (patient, professional, etc.).",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "409",
+      description = "Conflict - duplicated register or integrity violation.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "422",
+      description = "Unprocessable Entity - validation errors on fields.",
+      content = @Content(
+        mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = ErrorResponseDTO.class))
+      )
+    ),
+    @ApiResponse(
+      responseCode = "500",
+      description = "Unexpected error.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Created successfully."),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid data sent in the request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Related resource not found (patient, professional, etc.).",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - duplicated register or integrity violation.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "422",
-                    description = "Unprocessable Entity - validation errors on fields.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ErrorResponseDTO.class))
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    public ResponseEntity<Void> save(
-            @RequestHeader("Authorization") String authHeader,
-            @RequestBody @Valid AppointmentRequestDTO appointmentRequestDTO
-    ){
-        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
-        Appointment appointment = appointmentService.save(appointmentRequestDTO, accessToken);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(appointment.getId())
-                .toUri();
-
-        return ResponseEntity.created(location).build();
+  })
+  public ResponseEntity<Void> save(
+    @RequestHeader("Authorization") String authHeader,
+    @RequestBody @Valid AppointmentRequestDTO appointmentRequestDTO
+  ) {
+    String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+    Appointment appointment = appointmentService.save(appointmentRequestDTO, accessToken);
+    
+    URI location = ServletUriComponentsBuilder
+      .fromCurrentRequest()
+      .path("/{id}")
+      .buildAndExpand(appointment.getId())
+      .toUri();
+    
+    return ResponseEntity.created(location).build();
+  }
+  
+  @PutMapping("{id}")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(
+    summary = "Update appointment",
+    description = "Update an existing appointment.",
+    parameters = {
+      @Parameter(
+        name = "Authorization",
+        description = "Bearer access token",
+        required = true
+      )
     }
-
-    @PutMapping("{id}")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    @Operation(
-            summary = "Update appointment",
-            description = "Update an existing appointment.",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
+  )
+  @ApiResponses({
+    @ApiResponse(responseCode = "204", description = "Updated successfully."),
+    @ApiResponse(
+      responseCode = "400",
+      description = "Invalid data sent in the request.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "401",
+      description = "Unauthorized - invalid or missing credentials.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "403",
+      description = "Forbidden - user does not have permission.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "404",
+      description = "Appointment not found.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "409",
+      description = "Conflict - integrity violation.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "422",
+      description = "Unprocessable Entity - validation errors on fields.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "500",
+      description = "Unexpected error.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Updated successfully."),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid data sent in the request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Appointment not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "422",
-                    description = "Unprocessable Entity - validation errors on fields.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    public ResponseEntity<Object> update(
-            @RequestHeader("Authorization") String authHeader,
-            @PathVariable("id") long id,
-            @RequestBody @Valid AppointmentRequestDTO appointmentRequestDTO
-    ){
-        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
-        appointmentService.update(appointmentRequestDTO, id, accessToken);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
-    @Operation(
-            summary = "Find by id",
-            description = "Find appointment by id."
+  })
+  public ResponseEntity<Object> update(
+    @RequestHeader("Authorization") String authHeader,
+    @PathVariable("id") long id,
+    @RequestBody @Valid AppointmentRequestDTO appointmentRequestDTO
+  ) {
+    String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+    appointmentService.update(appointmentRequestDTO, id, accessToken);
+    return ResponseEntity.noContent().build();
+  }
+  
+  @GetMapping("/{id}")
+  @Operation(
+    summary = "Find by id",
+    description = "Find appointment by id."
+  )
+  @ApiResponses({
+    @ApiResponse(
+      responseCode = "200",
+      description = "Appointment found successfully.",
+      content = @Content(schema = @Schema(implementation = AppointmentGetByIdResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "401",
+      description = "Unauthorized - invalid or missing credentials.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "403",
+      description = "Forbidden - user does not have permission.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "404",
+      description = "Appointment not found.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "500",
+      description = "Unexpected error.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Appointment found successfully.",
-                    content = @Content(schema = @Schema(implementation = AppointmentGetByIdResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Appointment not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<AppointmentGetByIdResponseDTO> read(@PathVariable("id") long id){
-        return ResponseEntity.ok(appointmentService.findById(id));
-    }
-
-    @GetMapping
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    @Operation(
-            summary = "Get all",
-            description = "Get all appointments with filters and pagination."
+  })
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  public ResponseEntity<AppointmentGetByIdResponseDTO> read(@PathVariable("id") long id) {
+    return ResponseEntity.ok(appointmentService.findById(id));
+  }
+  
+  @GetMapping
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(
+    summary = "Get all",
+    description = "Get all appointments with filters and pagination."
+  )
+  @ApiResponses({
+    @ApiResponse(
+      responseCode = "200",
+      description = "Appointments page retrieved successfully.",
+      content = @Content(schema = @Schema(implementation = AppointmentResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "401",
+      description = "Unauthorized - invalid or missing credentials.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "403",
+      description = "Forbidden - user does not have permission.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "500",
+      description = "Unexpected error.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Appointments page retrieved successfully.",
-                    content = @Content(schema = @Schema(implementation = AppointmentResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    public ResponseEntity<Page<AppointmentResponseDTO>> readAll(
-            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
-            @RequestParam(value = "notes", required = false) String notes,
-            @RequestParam(value = "scheduledAt", required = false) LocalDateTime scheduledAt,
-            @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
-            @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
-            @RequestParam(value = "createdAt", required = false) LocalDateTime createdAt,
-            @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
-            @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd,
-            @RequestParam(value = "scheduled-forecast", required = false) LocalDateTime scheduledForecast,
-            @RequestParam(value = "scheduled-forecast-start", required = false) LocalDateTime scheduledForecastStart,
-            @RequestParam(value = "scheduled-forecast-end", required = false) LocalDateTime scheduledForecastEnd,
-            @RequestParam(value = "priorit", required = false) String priorit,
-            @RequestParam(value = "agreement", required = false) String agreement,
-            @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
-            @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
-            @RequestParam(value = "employee-name", required = false) String employee,
-            @RequestParam(value = "patient-name", required = false) String patient,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "category-name", required = false) String categoryName,
-            @RequestParam(value = "service-type-name", required = false) String serviceTypeName,
-            @RequestParam(value = "instituition-name", required = false) String instituitionName,
-            @RequestParam(value = "is-sorted-by-name", required = false) boolean isSortedByName,
-            @RequestParam(value = "is-return", required = false) Boolean isReturn,
-            @RequestParam(value = "is-descending", required = false) boolean isDescending
-    ){
-        Page<AppointmentResponseDTO> AppointmentResponseDTOs = appointmentService.getAll(
-                type,
-                serviceTypeName,
-                categoryName,
-                pageNumber,
-                pageLength,
-                notes,
-                scheduledAt,
-                scheduledAtStart,
-                scheduledAtEnd,
-                createdAt,
-                createdAtStart,
-                createdAtEnd,
-                scheduledForecast,
-                scheduledForecastStart,
-                scheduledForecastEnd,
-                priorit,
-                status,
-                agreement,
-                responsibleProfessional,
-                requestingProfessional,
-                employee,
-                patient,
-                instituitionName,
-                isSortedByName,
-                isDescending,
-                isReturn
-        );
-        return ResponseEntity.ok(AppointmentResponseDTOs);
-    }
-
-    @GetMapping("/report-patients-graph")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<ReportAppointmentGraphResponseDTO> reportAppointmentsPatientGraph(
-        @RequestParam(value = "patient-name", required = false) String patientName,
-        @RequestParam(value = "mother-name", required = false) String patientMotherName,
-        @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
-        @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
-        @RequestParam(value = "status", required = false) String status,
-        @RequestParam(value = "agreement", required = false) String agreement,
-        @RequestParam(value = "priorit", required = false) String priorit,
-        @RequestParam(value = "type", required = false) String type,
-        @RequestParam(value = "service-name", required = false) String serviceName,
-        @RequestParam(value = "instituition-name", required = false) String instituitionName,
-        @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt,
-        @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
-        @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
-        @RequestParam(value = "created-at", required = false) LocalDateTime createdAt,
-        @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
-        @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd
-    ){
-        return ResponseEntity.ok(appointmentService.getPatientReportGraphInfo(
-            patientName,
-            patientMotherName,
-            responsibleProfessional,
-            requestingProfessional,
-            status,
-            agreement,
-            priorit,
-            type,
-            serviceName,
-            instituitionName,
-            scheduledAt,
-            scheduledAtStart,
-            scheduledAtEnd,
-            createdAt,
-            createdAtStart,
-            createdAtEnd
-        ));
-    }
-
-    @GetMapping("/report-patients-page")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Page<PatientReportReponseDTO>> reportAppointmentsPatientPage(
-            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
-            @RequestParam(value = "patient-name", required = false) String patientName,
-            @RequestParam(value = "mother-name", required = false) String patientMotherName,
-            @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
-            @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
-            @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "priorit", required = false) String priorit,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "service-name", required = false) String serviceName,
-            @RequestParam(value = "instituition-name", required = false) String instituitionName,
-            @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt,
-            @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
-            @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
-            @RequestParam(value = "created-at", required = false) LocalDateTime createdAt,
-            @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
-            @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd
-    ){
-        return ResponseEntity.ok(appointmentService.getPatientReportPages(
-                pageNumber,
-                pageLength,
-                patientName,
-                patientMotherName,
-                responsibleProfessional,
-                requestingProfessional,
-                status,
-                priorit,
-                type,
-                serviceName,
-                instituitionName,
-                scheduledAt,
-                scheduledAtStart,
-                scheduledAtEnd,
-                createdAt,
-                createdAtStart,
-                createdAtEnd
-        ));
-    }
-
-    @DeleteMapping("{id}")
-    @Operation(
-            summary = "Delete",
-            description = "Delete an appointment by id."
+  })
+  public ResponseEntity<Page<AppointmentResponseDTO>> readAll(
+    @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+    @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+    @RequestParam(value = "notes", required = false) String notes,
+    @RequestParam(value = "scheduledAt", required = false) LocalDateTime scheduledAt,
+    @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
+    @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
+    @RequestParam(value = "createdAt", required = false) LocalDateTime createdAt,
+    @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
+    @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd,
+    @RequestParam(value = "scheduled-forecast", required = false) LocalDateTime scheduledForecast,
+    @RequestParam(value = "scheduled-forecast-start", required = false) LocalDateTime scheduledForecastStart,
+    @RequestParam(value = "scheduled-forecast-end", required = false) LocalDateTime scheduledForecastEnd,
+    @RequestParam(value = "priorit", required = false) String priorit,
+    @RequestParam(value = "agreement", required = false) String agreement,
+    @RequestParam(value = "status", required = false) String status,
+    @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
+    @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
+    @RequestParam(value = "employee-name", required = false) String employee,
+    @RequestParam(value = "patient-name", required = false) String patient,
+    @RequestParam(value = "type", required = false) String type,
+    @RequestParam(value = "category-name", required = false) String categoryName,
+    @RequestParam(value = "service-type-name", required = false) String serviceTypeName,
+    @RequestParam(value = "instituition-name", required = false) String instituitionName,
+    @RequestParam(value = "is-sorted-by-name", required = false) boolean isSortedByName,
+    @RequestParam(value = "is-return", required = false) Boolean isReturn,
+    @RequestParam(value = "is-descending", required = false) boolean isDescending
+  ) {
+    Page<AppointmentResponseDTO> AppointmentResponseDTOs = appointmentService.getAll(
+      type,
+      serviceTypeName,
+      categoryName,
+      pageNumber,
+      pageLength,
+      notes,
+      scheduledAt,
+      scheduledAtStart,
+      scheduledAtEnd,
+      createdAt,
+      createdAtStart,
+      createdAtEnd,
+      scheduledForecast,
+      scheduledForecastStart,
+      scheduledForecastEnd,
+      priorit,
+      status,
+      agreement,
+      responsibleProfessional,
+      requestingProfessional,
+      employee,
+      patient,
+      instituitionName,
+      isSortedByName,
+      isDescending,
+      isReturn
+    );
+    return ResponseEntity.ok(AppointmentResponseDTOs);
+  }
+  
+  @GetMapping("/report-patients-graph")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  public ResponseEntity<ReportAppointmentGraphResponseDTO> reportAppointmentsPatientGraph(
+    @RequestParam(value = "patient-name", required = false) String patientName,
+    @RequestParam(value = "mother-name", required = false) String patientMotherName,
+    @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
+    @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
+    @RequestParam(value = "status", required = false) String status,
+    @RequestParam(value = "agreement", required = false) String agreement,
+    @RequestParam(value = "priorit", required = false) String priorit,
+    @RequestParam(value = "type", required = false) String type,
+    @RequestParam(value = "service-name", required = false) String serviceName,
+    @RequestParam(value = "instituition-name", required = false) String instituitionName,
+    @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt,
+    @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
+    @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
+    @RequestParam(value = "created-at", required = false) LocalDateTime createdAt,
+    @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
+    @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd
+  ) {
+    return ResponseEntity.ok(appointmentService.getPatientReportGraphInfo(
+      patientName,
+      patientMotherName,
+      responsibleProfessional,
+      requestingProfessional,
+      status,
+      agreement,
+      priorit,
+      type,
+      serviceName,
+      instituitionName,
+      scheduledAt,
+      scheduledAtStart,
+      scheduledAtEnd,
+      createdAt,
+      createdAtStart,
+      createdAtEnd
+    ));
+  }
+  
+  @GetMapping("/report-patients-page")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  public ResponseEntity<Page<PatientReportReponseDTO>> reportAppointmentsPatientPage(
+    @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+    @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
+    @RequestParam(value = "patient-name", required = false) String patientName,
+    @RequestParam(value = "mother-name", required = false) String patientMotherName,
+    @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
+    @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
+    @RequestParam(value = "status", required = false) String status,
+    @RequestParam(value = "priorit", required = false) String priorit,
+    @RequestParam(value = "type", required = false) String type,
+    @RequestParam(value = "service-name", required = false) String serviceName,
+    @RequestParam(value = "instituition-name", required = false) String instituitionName,
+    @RequestParam(value = "scheduled-at", required = false) LocalDateTime scheduledAt,
+    @RequestParam(value = "scheduled-at-start", required = false) LocalDateTime scheduledAtStart,
+    @RequestParam(value = "scheduled-at-end", required = false) LocalDateTime scheduledAtEnd,
+    @RequestParam(value = "created-at", required = false) LocalDateTime createdAt,
+    @RequestParam(value = "created-at-start", required = false) LocalDateTime createdAtStart,
+    @RequestParam(value = "created-at-end", required = false) LocalDateTime createdAtEnd
+  ) {
+    return ResponseEntity.ok(appointmentService.getPatientReportPages(
+      pageNumber,
+      pageLength,
+      patientName,
+      patientMotherName,
+      responsibleProfessional,
+      requestingProfessional,
+      status,
+      priorit,
+      type,
+      serviceName,
+      instituitionName,
+      scheduledAt,
+      scheduledAtStart,
+      scheduledAtEnd,
+      createdAt,
+      createdAtStart,
+      createdAtEnd
+    ));
+  }
+  
+  @DeleteMapping("{id}")
+  @Operation(
+    summary = "Delete",
+    description = "Delete an appointment by id."
+  )
+  @ApiResponses({
+    @ApiResponse(responseCode = "204", description = "Deleted successfully."),
+    @ApiResponse(
+      responseCode = "401",
+      description = "Unauthorized - invalid or missing credentials.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "403",
+      description = "Forbidden - user does not have permission.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "404",
+      description = "Appointment not found.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "409",
+      description = "Conflict - integrity violation.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "500",
+      description = "Unexpected error.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Deleted successfully."),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Appointment not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<Object> delete(@PathVariable("id") long id){
-        appointmentService.delete(id);
-        return ResponseEntity.notFound().build();
+  })
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  public ResponseEntity<Object> delete(@PathVariable("id") long id) {
+    appointmentService.delete(id);
+    return ResponseEntity.notFound().build();
+  }
+  
+  @PatchMapping("/set-appointments-to-pre-scheduled")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
+  @Operation(
+    summary = "Set appointments as pre scheduled",
+    description = "Set appointments to pre scheculed.",
+    parameters = {
+      @Parameter(
+        name = "Authorization",
+        description = "Bearer access token",
+        required = true
+      )
     }
-
-    @PatchMapping("/set-appointments-to-pre-scheduled")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Set appointments as pre scheduled",
-            description = "Set appointments to pre scheculed.",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
+  )
+  @ApiResponses({
+    @ApiResponse(responseCode = "204", description = "Updated successfully."),
+    @ApiResponse(
+      responseCode = "400",
+      description = "Invalid data sent in the request.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "401",
+      description = "Unauthorized - invalid or missing credentials.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "403",
+      description = "Forbidden - user does not have permission.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "404",
+      description = "Appointment not found.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "409",
+      description = "Conflict - integrity violation.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "422",
+      description = "Unprocessable Entity - validation errors on fields.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    ),
+    @ApiResponse(
+      responseCode = "500",
+      description = "Unexpected error.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Updated successfully."),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid data sent in the request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Appointment not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "422",
-                    description = "Unprocessable Entity - validation errors on fields.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
-    public ResponseEntity<Object> setAppointmentsToPreScheduled(
-        @RequestBody @Valid PreSchedulingRequestDTO preSchedulingRequestDTO
-    ){
-        appointmentService.setPreSchedulingTo(preSchedulingRequestDTO);
-        return ResponseEntity.noContent().build();
+  })
+  public ResponseEntity<Object> setAppointmentsToPreScheduled(
+    @RequestBody @Valid PreSchedulingRequestDTO preSchedulingRequestDTO
+  ) {
+    appointmentService.setPreSchedulingTo(preSchedulingRequestDTO);
+    return ResponseEntity.noContent().build();
+  }
+  
+  @PatchMapping("/set-appointments-to-new-status")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(
+    summary = "Set appointments to commom status",
+    description = "Set appointments commom status.",
+    parameters = {
+      @Parameter(
+        name = "Authorization",
+        description = "Bearer access token",
+        required = true
+      )
     }
-
-    @PatchMapping("/set-appointments-to-new-status")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    @Operation(
-        summary = "Set appointments to commom status",
-        description = "Set appointments commom status.",
-        parameters = {
-            @Parameter(
-                name = "Authorization",
-                description = "Bearer access token",
-                required = true
-            )
-        }
-    )
-    public ResponseEntity<Object> setAppointmentsToOtherStatus(
-            @RequestBody @Valid NewCommonStatusDTO preSchedulingRequestDTO
-    ){
-        appointmentService.setNewStatusTo(preSchedulingRequestDTO);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("generate-authorization-form/{id}")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    public ResponseEntity<AuthorizationFormResponseDTO> countExamsByServiceType(
-        @PathVariable("id") long id
-    ){
-        return ResponseEntity.ok(
-            this.appointmentService.getAuthorizationForm(id)
-        );
-    }
-
-    @GetMapping("/get-patient-appointments")
-    @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
-    public ResponseEntity<Page<PatientAppointmentResponseDTO>> updatePatients(
-            @RequestHeader("Authorization") String authHeader,
-            @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
-            @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
-        ){
-        String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
-        return ResponseEntity.ok(
-            this.appointmentService.getAllPatientAppointments(
-                accessToken,
-                pageNumber,
-                pageLength
-            )
-        );
-    }
+  )
+  public ResponseEntity<Object> setAppointmentsToOtherStatus(
+    @RequestBody @Valid NewCommonStatusDTO preSchedulingRequestDTO
+  ) {
+    appointmentService.setNewStatusTo(preSchedulingRequestDTO);
+    return ResponseEntity.noContent().build();
+  }
+  
+  @GetMapping("generate-authorization-form/{id}")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  public ResponseEntity<AuthorizationFormResponseDTO> countExamsByServiceType(
+    @PathVariable("id") long id
+  ) {
+    return ResponseEntity.ok(
+      this.appointmentService.getAuthorizationForm(id)
+    );
+  }
+  
+  @GetMapping("/get-patient-appointments")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE_OR_PATIENT)
+  public ResponseEntity<Page<PatientAppointmentResponseDTO>> updatePatients(
+    @RequestHeader("Authorization") String authHeader,
+    @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
+    @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
+  ) {
+    String accessToken = ControllerAuxFunctions.getTokenFrom(authHeader);
+    return ResponseEntity.ok(
+      this.appointmentService.getAllPatientAppointments(
+        accessToken,
+        pageNumber,
+        pageLength
+      )
+    );
+  }
 }
