@@ -1,5 +1,6 @@
 package builders;
 
+import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.model.*;
 
 import java.time.LocalDateTime;
@@ -106,5 +107,16 @@ public class AppointmentBuilder {
         appointment.setPatient(patient);
 
         return appointment;
+    }
+    
+    public static AppointmentRequestDTO createValidRequestDTO(){
+        AppointmentRequestDTO appointmentRequestDTO = new AppointmentRequestDTO();
+        appointmentRequestDTO.setRequestingProfessionalId(1L);
+        appointmentRequestDTO.setEmployeeId(1L);
+        appointmentRequestDTO.setPatientId(1L);
+        appointmentRequestDTO.setStatus(Status.COMPLETED.getLabel());
+        appointmentRequestDTO.setServiceTypeId(1L);
+        appointmentRequestDTO.setPriority(Priority.ELECTIVE.getLabel());
+        return appointmentRequestDTO;
     }
 }

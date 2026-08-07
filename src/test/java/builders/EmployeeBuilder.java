@@ -7,6 +7,10 @@ public class EmployeeBuilder {
 
     private Person person;
     private boolean active;
+    
+    public static EmployeeBuilder builder(){
+        return new EmployeeBuilder();
+    }
 
     public EmployeeBuilder withPerson(Person person) {
         this.person = person;

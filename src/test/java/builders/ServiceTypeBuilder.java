@@ -8,10 +8,14 @@ import java.math.BigDecimal;
 
 public class ServiceTypeBuilder {
     private CategoryGroup categoryGroup;
-    private String sigtapCode;
-    private String name;
-    private BigDecimal value;
-    private ServiceTypes type;
+    private String sigtapCode = "01230497123097109237";
+    private String name = "Endocrinologia";
+    private BigDecimal value = BigDecimal.valueOf(340.00);
+    private ServiceTypes type = ServiceTypes.EXAM;
+    
+    public static ServiceTypeBuilder builder(){
+        return new ServiceTypeBuilder();
+    }
 
     public ServiceTypeBuilder withCategoryGroup(CategoryGroup categoryGroup) {
         this.categoryGroup = categoryGroup;

@@ -416,7 +416,7 @@ public class AppointmentsController {
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
   public ResponseEntity<Object> delete(@PathVariable("id") long id) {
     appointmentService.delete(id);
-    return ResponseEntity.notFound().build();
+    return ResponseEntity.noContent().build();
   }
   
   @PatchMapping("/set-appointments-to-pre-scheduled")
