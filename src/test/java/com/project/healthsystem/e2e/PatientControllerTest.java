@@ -1,14 +1,12 @@
-package com.project.healthsystem.api_integration;
+package com.project.healthsystem.e2e;
 
 import builders.PatientBuilder;
 import builders.PersonBuilder;
 import com.project.healthsystem.IntegrationTestBase;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.model.Person;
-import com.project.healthsystem.model.Roles;
 import com.project.healthsystem.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;

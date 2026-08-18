@@ -1,4 +1,4 @@
-package com.project.healthsystem.api_integration;
+package com.project.healthsystem.e2e;
 
 import builders.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
