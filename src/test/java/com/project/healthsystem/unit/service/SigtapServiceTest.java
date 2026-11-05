@@ -1,141 +1,96 @@
 package com.project.healthsystem.unit.service;
 
+import com.project.healthsystem.service.datasus.*;
+import com.project.healthsystem.repository.datasus.SigtapVersionRepository;
 import com.project.healthsystem.model.datasus_data.sigtap.SigtapVersion;
-import com.project.healthsystem.repository.datasus.*;
-import com.project.healthsystem.service.datasus.SigtapFileProcessor;
-import com.project.healthsystem.service.datasus.SigtapService;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.io.IOException;
-import java.nio.file.Files;
+import com.project.healthsystem.controller.dto.basic_responses.SigtapImportResponseDTO;
+import com.project.healthsystem.exceptions.InvalidDataException;
+import org.junit.jupiter.api.*;
 import java.nio.file.Path;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.io.IOException;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.concurrent.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+class SigtapServiceTest {
+    SigtapVersionRepository versions = mock(SigtapVersionRepository.class);
+    SigtapFileProcessor files = mock(SigtapFileProcessor.class);
+    SigtapImportService importer = mock(SigtapImportService.class);
+    SigtapService service = new SigtapService(versions, files, importer);
+    String name = "TabelaUnificada_202611_v2611051200.zip";
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+    @BeforeEach void setup() throws Exception {
+        when(files.findLatestFileName()).thenReturn(name);
+        when(versions.findFirstByOrderByCompetenceDesc()).thenReturn(Optional.empty());
+    }
 
-@ExtendWith(MockitoExtension.class)
-public class SigtapServiceTest {
-  
-  private final SigtapFileProcessor fileProcessor = new SigtapFileProcessor();
-  
-  @Mock
-  private SigtapGroupRepository sigtapGroupRepository;
-  
-  @Mock
-  private SigtapSubGroupRepository sigtapSubGroupRepository;
-  
-  @Mock
-  private SigtapOrganizationRepository sigtapOrganizationRepository;
-  
-  @Mock
-  private SigtapProcedureRepository sigtapProcedureRepository;
-  
-  @Mock
-  private SigtapVersionRepository sigtapVersionRepository;
-  
-  @Mock
-  private SigtapFileProcessor sigtapFileProcessor;
-  
-  @Spy
-  @InjectMocks
-  private SigtapService sigtapService;
-  
-  
-  @Test
-  void shouldNotImportSigtapWhenCurrentCompetenceAlreadyExists()
-    throws IOException {
-    
-    String currentCompetence = YearMonth.now()
-      .format(DateTimeFormatter.ofPattern("yyyyMM"));
-    
-    when(sigtapVersionRepository.findFirstByOrderByCompetenceDesc())
-      .thenReturn(Optional.of(new SigtapVersion(currentCompetence)));
-    
-    sigtapService.importSigtapIfNecessary();
-    
-    verify(sigtapFileProcessor, never()).downloadLatest();
-    verify(sigtapVersionRepository, never()).save(any());
-  }
-  
-  
-  @Test
-  void shouldImportSigtapWhenCurrentCompetenceDoesNotExist()
-    throws IOException {
-    
-    String currentCompetence = YearMonth.now()
-      .format(DateTimeFormatter.ofPattern("yyyyMM"));
-    
-    doNothing()
-      .when(sigtapService)
-      .importSigtap();
-    
-    when(sigtapService.findLatestCompetence())
-      .thenReturn("202607");
-    
-    sigtapService.importSigtapIfNecessary();
-    
-    verify(sigtapService).importSigtap();
-  }
-  
-  @Test
-  void shouldDownloadFile() throws IOException {
-    Path file = fileProcessor.download("sigtap-setup-1.4.1703301403.exe");
-    
-    assertNotNull(file);
-    assertTrue(Files.exists(file));
-    assertTrue(Files.isRegularFile(file));
-    assertTrue(Files.size(file) > 0);
-  }
-  
-  @Test
-  void shouldDownloadProcedureTable() throws IOException {
-    Path file = fileProcessor.download("TabelaUnificada_202608_v2608141139.zip");
-    
-    assertTrue(Files.exists(file));
-    assertTrue(Files.isRegularFile(file));
-    assertTrue(Files.size(file) > 0);
-  }
-  
-  @Test
-  void shouldExtractSigtapTable() throws IOException {
-    
-    Path zip = Path.of(
-      "D:/Wekisley/Trabalho/APIs Saúde Pública/Testes/SIGTAP/TabelaUnificada_202608_v2608141139.zip"
-    );
-    
-    Path directory = fileProcessor.extract(zip);
-    
-    assertTrue(Files.exists(directory));
-    assertTrue(Files.isDirectory(directory));
-    
-    assertTrue(Files.exists(
-      directory.resolve("tb_procedimento.txt")
-    ));
-    
-    assertTrue(Files.exists(
-      directory.resolve("tb_grupo.txt")
-    ));
-    
-    assertTrue(Files.exists(
-      directory.resolve("tb_sub_grupo.txt")
-    ));
-  }
+    @Test void skipsSameFileWithoutDownload() throws Exception {
+        when(versions.findFirstByOrderByCompetenceDesc()).thenReturn(Optional.of(SigtapVersion.build(Path.of(name))));
+        assertFalse(service.importSigtapIfNecessary().imported());
+        verify(files, never()).download(anyString());
+        verifyNoInteractions(importer);
+    }
+
+    @Test void forceReimportsSameFile() throws Exception {
+        when(versions.findFirstByOrderByCompetenceDesc()).thenReturn(Optional.of(SigtapVersion.build(Path.of(name))));
+        prepare();
+        assertTrue(service.importSigtap().imported());
+        verify(importer).importData(eq(Path.of("extracted")), any(), eq(true));
+        verify(files).deleteZip(Path.of(name));
+        verify(files).deleteDirectory(Path.of("extracted"));
+    }
+
+    @Test void importsRevisionWithinSameCompetence() throws Exception {
+        when(versions.findFirstByOrderByCompetenceDesc()).thenReturn(Optional.of(
+            SigtapVersion.build(Path.of("TabelaUnificada_202611_v2611011200.zip"))));
+        prepare();
+        assertTrue(service.importSigtapIfNecessary().imported());
+        verify(importer).importData(eq(Path.of("extracted")), any(), eq(false));
+    }
+
+    @Test void initialLoadImports() throws Exception {
+        prepare();
+        assertTrue(service.importSigtapIfNecessary().imported());
+    }
+
+    @Test void rejectsDowngradeEvenWhenForced() {
+        when(versions.findFirstByOrderByCompetenceDesc()).thenReturn(Optional.of(new SigtapVersion("202612")));
+        assertThrows(InvalidDataException.class, service::importSigtap);
+        verifyNoInteractions(importer);
+    }
+
+    @Test void cleansFilesAndReleasesLockAfterFailure() throws Exception {
+        prepare();
+        when(importer.importData(any(), any(), anyBoolean())).thenThrow(new IOException("failed"));
+        assertThrows(IOException.class, service::importSigtap);
+        assertThrows(IOException.class, service::importSigtap);
+        verify(files, times(2)).deleteZip(Path.of(name));
+        verify(files, times(2)).deleteDirectory(Path.of("extracted"));
+    }
+
+    @Test void concurrentTriggerIsRejected() throws Exception {
+        CountDownLatch started = new CountDownLatch(1), release = new CountDownLatch(1);
+        when(files.findLatestFileName()).thenAnswer(inv -> {
+            started.countDown();
+            if (!release.await(5, TimeUnit.SECONDS)) throw new IOException("timeout");
+            return name;
+        });
+        when(versions.findFirstByOrderByCompetenceDesc()).thenReturn(Optional.of(SigtapVersion.build(Path.of(name))));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        try {
+            Future<?> task = executor.submit(() -> { try { service.importSigtapIfNecessary(); } catch (IOException e) { throw new RuntimeException(e); } });
+            assertTrue(started.await(5, TimeUnit.SECONDS));
+            assertThrows(InvalidDataException.class, service::importSigtap);
+            release.countDown();
+            task.get(5, TimeUnit.SECONDS);
+        } finally { release.countDown(); executor.shutdownNow(); }
+    }
+
+    void prepare() throws Exception {
+        when(files.download(name)).thenReturn(Path.of(name));
+        when(files.extract(Path.of(name))).thenReturn(Path.of("extracted"));
+        when(importer.importData(any(), any(), anyBoolean())).thenReturn(
+            new SigtapImportResponseDTO(true, "202611", name, 2, 2, 2, 2));
+    }
 }

@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface SigtapVersionRepository extends JpaRepository<SigtapVersion, Long>, JpaSpecificationExecutor<SigtapVersion> {
   
   Optional<SigtapVersion> findFirstByOrderByCompetenceDesc();
+  Optional<SigtapVersion> findByCompetence(String competence);
 }

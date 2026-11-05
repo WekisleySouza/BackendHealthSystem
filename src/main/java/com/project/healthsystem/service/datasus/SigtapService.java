@@ -1,163 +1,70 @@
 package com.project.healthsystem.service.datasus;
 
-import com.project.healthsystem.model.datasus_data.sigtap.*;
-import com.project.healthsystem.repository.datasus.*;
-import jakarta.transaction.Transactional;
+import com.project.healthsystem.controller.dto.basic_responses.SigtapImportResponseDTO;
+import com.project.healthsystem.exceptions.InvalidDataException;
+import com.project.healthsystem.model.datasus_data.sigtap.SigtapVersion;
+import com.project.healthsystem.repository.datasus.SigtapVersionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SigtapService {
-  
-  private final SigtapGroupRepository sigtapGroupRepository;
-  private final SigtapSubGroupRepository sigtapSubGroupRepository;
-  private final SigtapOrganizationRepository sigtapOrganizationRepository;
-  private final SigtapProcedureRepository sigtapProcedureRepository;
-  private final SigtapVersionRepository sigtapVersionRepository;
-  
-  private final SigtapFileProcessor sigtapFileProcessor;
-  
-  public void importSigtapIfNecessary() throws IOException {
-    String currentCompetence = YearMonth.now()
-      .format(DateTimeFormatter.ofPattern("yyyyMM"));
-    
-    String latestCompetence = this.findLatestCompetence();
-    
-    if(currentCompetence.equals(latestCompetence)) {
-      return;
+    private final SigtapVersionRepository versionRepository;
+    private final SigtapFileProcessor fileProcessor;
+    private final SigtapImportService importService;
+    private final ReentrantLock updateLock = new ReentrantLock();
+
+    public SigtapImportResponseDTO importSigtapIfNecessary() throws IOException {
+        return update(false);
     }
-    
-    importSigtap();
-  }
-  
-  @Transactional
-  public void importSigtap() throws IOException {
-    Path zip = sigtapFileProcessor.downloadLatest();
-    
-    Path directory = sigtapFileProcessor.extract(zip);
-    
-    // Delete old data(Don't invert to children after):
-    this.sigtapProcedureRepository.deleteAllInBatch();
-    this.sigtapOrganizationRepository.deleteAllInBatch();
-    this.sigtapSubGroupRepository.deleteAllInBatch();
-    this.sigtapGroupRepository.deleteAllInBatch();
-    
-    // Insert new data:
-    this.updateGroups(directory.resolve("tb_grupo.txt"));
-    this.updateSubGroups(directory.resolve("tb_sub_grupo.txt"));
-    this.updateOrganizations(directory.resolve("tb_forma_organizacao.txt"));
-    this.updateProcedures(directory.resolve("tb_procedimento.txt"));
-    
-    SigtapVersion sigtapVersion = SigtapVersion.build(zip);
-    this.sigtapVersionRepository.save(sigtapVersion);
-    
-    this.sigtapFileProcessor.deleteZip(zip);
-    this.sigtapFileProcessor.deleteDirectory(directory);
-  }
-  
-  public void updateGroups(Path path) throws IOException {
-    List<SigtapGroup> groups = SigtapFileReader.read(
-      path,
-      SigtapGroup::fromLine
-    );
-    
-    this.sigtapGroupRepository.saveAll(groups);
-  }
-  
-  public void updateSubGroups(Path path) throws IOException {
-    Map<String, SigtapGroup> groups =
-      sigtapGroupRepository.findAll()
-        .stream()
-        .collect(Collectors.toMap(
-          SigtapGroup::getCode,
-          Function.identity(),
-          (existing, duplicate) -> existing
-        ));
-    
-    List<SigtapSubGroup> subGroups = SigtapFileReader.read(
-      path,
-      SigtapSubGroup::fromLine
-    );
-    
-    subGroups.forEach(subGroup -> {
-      String code = subGroup.getGroup().getCode();
-      
-      subGroup.setGroup(
-        groups.get(code)
-      );
-    });
-    
-    this.sigtapSubGroupRepository.saveAll(subGroups);
-  }
-  
-  public void updateOrganizations(Path path) throws IOException {
-    Map<String, SigtapSubGroup> subGroups =
-      sigtapSubGroupRepository.findAll()
-        .stream()
-        .collect(Collectors.toMap(
-          SigtapSubGroup::getCode,
-          Function.identity(),
-          (existing, duplicate) -> existing
-        ));
-    
-    List<SigtapOrganization> organizations = SigtapFileReader.read(
-      path,
-      SigtapOrganization::fromLine
-    );
-    
-    organizations.forEach(organization -> {
-      System.out.println(organization.getCode());
-      String code = organization.getSubGroup().getCode();
-      
-      organization.setSubGroup(
-        subGroups.get(code)
-      );
-    });
-    
-    this.sigtapOrganizationRepository.saveAll(organizations);
-  }
-  
-  public void updateProcedures(Path path) throws IOException {
-    Map<String, SigtapOrganization> organizations =
-      sigtapOrganizationRepository.findAll()
-        .stream()
-        .collect(Collectors.toMap(
-          SigtapOrganization::getCode,
-          Function.identity(),
-          (existing, duplicate) -> existing
-        ));
-    
-    List<SigtapProcedure> procedures = SigtapFileReader.read(
-      path,
-      SigtapProcedure::fromLine
-    );
-    
-    procedures.forEach(procedure -> {
-      String code = procedure.getOrganization().getCode();
-      
-      procedure.setOrganization(
-        organizations.get(code)
-      );
-    });
-    
-    this.sigtapProcedureRepository.saveAll(procedures);
-  }
-  
-  public String findLatestCompetence() {
-    return sigtapVersionRepository
-      .findFirstByOrderByCompetenceDesc()
-      .map(SigtapVersion::getCompetence)
-      .orElse(null);
-  }
+
+    public SigtapImportResponseDTO importSigtap() throws IOException {
+        return update(true);
+    }
+
+    private SigtapImportResponseDTO update(boolean force) throws IOException {
+        if (!updateLock.tryLock()) {
+            throw new InvalidDataException("Já existe uma atualização do SIGTAP em andamento.");
+        }
+        Path zip = null;
+        Path directory = null;
+        try {
+            String fileName = fileProcessor.findLatestFileName();
+            SigtapVersion available = SigtapVersion.build(Path.of(fileName));
+            var current = versionRepository.findFirstByOrderByCompetenceDesc();
+            if (current.isPresent() && current.get().getCompetence().compareTo(available.getCompetence()) > 0) {
+                throw new InvalidDataException("O FTP oferece uma competência anterior à já importada.");
+            }
+            if (!force && current.isPresent() && fileName.equals(current.get().getFileName())) {
+                return new SigtapImportResponseDTO(false, available.getCompetence(), fileName, 0, 0, 0, 0);
+            }
+            zip = fileProcessor.download(fileName);
+            directory = fileProcessor.extract(zip);
+            return importService.importData(directory, available, force);
+        } finally {
+            try {
+                if (directory != null) fileProcessor.deleteDirectory(directory);
+            } catch (IOException e) {
+                log.warn("Não foi possível remover o diretório temporário do SIGTAP.", e);
+            }
+            try {
+                if (zip != null) fileProcessor.deleteZip(zip);
+            } catch (IOException e) {
+                log.warn("Não foi possível remover o ZIP temporário do SIGTAP.", e);
+            } finally {
+                updateLock.unlock();
+            }
+        }
+    }
+
+    public String findLatestCompetence() {
+        return versionRepository.findFirstByOrderByCompetenceDesc()
+            .map(SigtapVersion::getCompetence).orElse(null);
+    }
 }

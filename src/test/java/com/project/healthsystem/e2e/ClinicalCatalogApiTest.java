@@ -34,7 +34,7 @@ class ClinicalCatalogApiTest {
         var cid = new Cid10Service(cidRepository, Mappers.getMapper(Cid10Mapper.class));
         var ciap = new Ciap2Service(ciapRepository, Mappers.getMapper(Ciap2Mapper.class));
         mvc = MockMvcBuilders.standaloneSetup(
-            new DataSusController(mock(CnesService.class), cid, ciap))
+            new DataSusController(mock(CnesService.class), cid, ciap, mock(SigtapService.class)))
             .setControllerAdvice(new GlobalExceptionHandler()).build();
     }
 

@@ -2,6 +2,9 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.service.datasus.CnesService;
+import com.project.healthsystem.service.datasus.SigtapService;
+import com.project.healthsystem.controller.dto.basic_responses.SigtapImportResponseDTO;
+import java.io.IOException;
 import com.project.healthsystem.service.datasus.Cid10Service;
 import com.project.healthsystem.service.datasus.Ciap2Service;
 import com.project.healthsystem.controller.dto.basic_responses.Cid10ResponseDTO;
@@ -28,6 +31,18 @@ public class DataSusController {
   private final CnesService cnesService;
   private final Cid10Service cid10Service;
   private final Ciap2Service ciap2Service;
+  private final SigtapService sigtapService;
+
+  // Temporary endpoint for validating the SIGTAP import.
+  @PostMapping("/import-sigtap")
+  @PreAuthorize(Permissions.ADMIN)
+  @Operation(summary = "Force SIGTAP import (temporary test endpoint)",
+    description = "Downloads and imports the latest SIGTAP ZIP, even if already imported. "
+      + "Returns only after commit, with the file, competence and imported counts. Administrator only.")
+  public ResponseEntity<SigtapImportResponseDTO>
+      importSigtap() throws IOException {
+    return ResponseEntity.ok(sigtapService.importSigtap());
+  }
 
   @GetMapping("/cid10")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)

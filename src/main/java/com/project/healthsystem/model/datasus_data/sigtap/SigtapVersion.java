@@ -27,7 +27,7 @@ public class SigtapVersion extends IDAbstraction {
   private LocalDate importedAt;
   
   private static final Pattern SIGTAP_FILE_PATTERN =
-    Pattern.compile("TabelaUnificada_(\\d{6})_.*");
+    Pattern.compile("TabelaUnificada_(\\d{6})_v[0-9]+\\.zip");
   
   public SigtapVersion(String competence){
     this.competence = competence;
@@ -54,6 +54,13 @@ public class SigtapVersion extends IDAbstraction {
       );
     }
     
-    return matcher.group(1);
+    String value = matcher.group(1);
+    try {
+      java.time.YearMonth.of(Integer.parseInt(value.substring(0, 4)),
+          Integer.parseInt(value.substring(4, 6)));
+    } catch (java.time.DateTimeException e) {
+      throw new IllegalArgumentException("Competência SIGTAP inválida: " + value, e);
+    }
+    return value;
   }
 }
