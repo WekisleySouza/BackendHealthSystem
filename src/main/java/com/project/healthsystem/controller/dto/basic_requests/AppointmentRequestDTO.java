@@ -15,13 +15,28 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentRequestDTO {
+    @jakarta.validation.constraints.Size(max = 1000, message = "A justificativa não pode ultrapassar 1000 caracteres!")
+    private String statusChangeReason;
+
 
     private Long responsibleProfessionalId;
     private Long requestingProfessionalId;
     @NotNull(message = "O funcionário responsável é obrigatório!")
     private Long employeeId;
     private Long instituitionId;
+    private Long requestingInstituitionId;
+    private Long regulatingInstituitionId;
+    private Long authorInstituitionId;
+    private Long executingInstituitionId;
     private Long agreementId;
+
+    private String careModality;
+    private String requestCharacter;
+    private String clinicalReasonSystem;
+    private String clinicalReasonCode;
+    private LocalDateTime requestedAt;
+    private String executingCbo;
+
 
     @NotNull(message = "O paciente é obrigatório!")
     private Long patientId;

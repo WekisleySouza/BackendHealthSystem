@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.security.SignatureException;
 import java.util.List;
@@ -140,6 +141,16 @@ public class GlobalExceptionHandler {
             HttpStatus.UNPROCESSABLE_ENTITY.value(),
             "Violação de restrição de dados!",
             List.of());
+    }
+    
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
+    public ErrorResponseDTO handleDataIntegrityViolationErrorException(MaxUploadSizeExceededException e){
+        log.error("Erro inesperado: " + e);
+        return new ErrorResponseDTO(
+          HttpStatus.PAYLOAD_TOO_LARGE.value(),
+          "O arquivo enviado excede o tamanho máximo permitido!",
+          List.of());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

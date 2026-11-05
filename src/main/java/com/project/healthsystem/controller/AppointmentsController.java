@@ -10,6 +10,7 @@ import com.project.healthsystem.controller.dto.basic_requests.NewCommonStatusDTO
 import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
+import com.project.healthsystem.controller.dto.reports_patients.PatientReportFilterDTO;
 import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
@@ -24,16 +25,26 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/appointments")
@@ -42,6 +53,19 @@ import java.time.LocalDateTime;
 public class AppointmentsController {
   
   private final AppointmentService appointmentService;
+  private final com.project.healthsystem.service.AppointmentStatusHistoryService statusHistoryService;
+
+  @GetMapping("/{id}/status-history")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(summary = "Get appointment status history", description = "Returns status changes, newest first. Automatic changes identify the author as Sistema.")
+  public ResponseEntity<Page<com.project.healthsystem.controller.dto.basic_responses.AppointmentStatusHistoryResponseDTO>> getStatusHistory(
+    @PathVariable long id,
+    @RequestParam(defaultValue = "0") int pageNumber,
+    @RequestParam(defaultValue = "20") int pageLength
+  ) {
+    return ResponseEntity.ok(statusHistoryService.findByAppointment(id, pageNumber, pageLength));
+  }
+
   
   @PostMapping
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
@@ -348,6 +372,7 @@ public class AppointmentsController {
     @RequestParam(value = "responsible-professional-name", required = false) String responsibleProfessional,
     @RequestParam(value = "requesting-professional-name", required = false) String requestingProfessional,
     @RequestParam(value = "status", required = false) String status,
+    @RequestParam(value = "agreement", required = false) String agreement,
     @RequestParam(value = "priorit", required = false) String priorit,
     @RequestParam(value = "type", required = false) String type,
     @RequestParam(value = "service-name", required = false) String serviceName,
@@ -367,6 +392,7 @@ public class AppointmentsController {
       responsibleProfessional,
       requestingProfessional,
       status,
+      agreement,
       priorit,
       type,
       serviceName,
@@ -379,7 +405,42 @@ public class AppointmentsController {
       createdAtEnd
     ));
   }
-  
+
+  @GetMapping("/report-patients-pdf")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(
+    summary = "Generate patients report PDF",
+    description = "Generate a PDF with the appointments that match the filters. "
+      + "The 'fields' parameter chooses the columns (all when empty) and 'sort' uses the format field,asc|desc. "
+      + "Returns 400 when the number of records exceeds the configured limit."
+  )
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "PDF generated successfully.", content = @Content(mediaType = "application/pdf")),
+    @ApiResponse(
+      responseCode = "400",
+      description = "Invalid field, invalid sort or record limit exceeded.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
+    )
+  })
+  public void reportAppointmentsPatientPdf(
+    @ParameterObject PatientReportFilterDTO filter,
+    @RequestParam(value = "fields", required = false) List<String> fields,
+    @RequestParam(value = "sort", required = false) String sort,
+    HttpServletResponse response
+  ) throws IOException {
+    Consumer<OutputStream> pdfWriter = appointmentService.preparePatientReportPdf(filter, fields, sort);
+
+    response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+    response.setHeader(
+      HttpHeaders.CONTENT_DISPOSITION,
+      ContentDisposition.attachment()
+        .filename("relatorio-pacientes-" + LocalDate.now() + ".pdf")
+        .build()
+        .toString()
+    );
+    pdfWriter.accept(response.getOutputStream());
+  }
+
   @DeleteMapping("{id}")
   @Operation(
     summary = "Delete",
@@ -471,9 +532,10 @@ public class AppointmentsController {
     )
   })
   public ResponseEntity<Object> setAppointmentsToPreScheduled(
+    @RequestHeader("Authorization") String authHeader,
     @RequestBody @Valid PreSchedulingRequestDTO preSchedulingRequestDTO
   ) {
-    appointmentService.setPreSchedulingTo(preSchedulingRequestDTO);
+    appointmentService.setPreSchedulingTo(preSchedulingRequestDTO, ControllerAuxFunctions.getTokenFrom(authHeader));
     return ResponseEntity.noContent().build();
   }
   
@@ -491,9 +553,10 @@ public class AppointmentsController {
     }
   )
   public ResponseEntity<Object> setAppointmentsToOtherStatus(
+    @RequestHeader("Authorization") String authHeader,
     @RequestBody @Valid NewCommonStatusDTO preSchedulingRequestDTO
   ) {
-    appointmentService.setNewStatusTo(preSchedulingRequestDTO);
+    appointmentService.setNewStatusTo(preSchedulingRequestDTO, ControllerAuxFunctions.getTokenFrom(authHeader));
     return ResponseEntity.noContent().build();
   }
   

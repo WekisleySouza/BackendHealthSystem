@@ -25,4 +25,5 @@ public class InstituitionRequestDTO {
     private String phone;
     @Size(max = 2048, message = "O link não pode ultrapassar 2048 caracteres!")
     private String linkLogo;
+    private String cnes;
 }

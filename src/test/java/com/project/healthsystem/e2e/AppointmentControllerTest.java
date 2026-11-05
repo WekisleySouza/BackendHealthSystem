@@ -2,6 +2,8 @@ package com.project.healthsystem.e2e;
 
 import builders.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.parser.PdfTextExtractor;
 import com.project.healthsystem.IntegrationTestBase;
 import com.project.healthsystem.controller.dto.basic_requests.AppointmentRequestDTO;
 import com.project.healthsystem.model.*;
@@ -16,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -23,6 +27,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -213,6 +219,59 @@ public class AppointmentControllerTest extends IntegrationTestBase {
   
   }
   
+  @Test
+  void shouldGenerateReportAppointmentPatientsPdf() throws Exception {
+    MvcResult result = mockMvc.perform(
+        get("/appointments/report-patients-pdf")
+          .header("Authorization", "Bearer " + this.adminToken)
+          .param("fields", "patientName", "status", "agreement")
+          .param("sort", "patientName,asc")
+      )
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_PDF))
+      .andExpect(header().string("Content-Disposition", containsString("attachment")))
+      .andReturn();
+
+    byte[] pdf = result.getResponse().getContentAsByteArray();
+    assertTrue(new String(pdf, 0, 4, StandardCharsets.US_ASCII).equals("%PDF"));
+
+    // The appointment has no agreement nor responsible professional and must still be listed
+    PdfReader reader = new PdfReader(pdf);
+    String text = new PdfTextExtractor(reader).getTextFromPage(1);
+    reader.close();
+    assertTrue(text.contains("Paciente"));
+    assertTrue(text.contains("Wekisley"));
+    assertTrue(text.contains(Status.COMPLETED.getLabel()));
+  }
+
+  @Test
+  void shouldReturnBadRequestWhenReportPdfFieldIsInvalid() throws Exception {
+    mockMvc.perform(
+        get("/appointments/report-patients-pdf")
+          .header("Authorization", "Bearer " + this.adminToken)
+          .param("fields", "patientName", "invalidField")
+      )
+      .andExpect(status().isBadRequest())
+      .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+  }
+
+  @Test
+  void shouldReturnBadRequestWhenReportPdfSortIsInvalid() throws Exception {
+    mockMvc.perform(
+        get("/appointments/report-patients-pdf")
+          .header("Authorization", "Bearer " + this.adminToken)
+          .param("sort", "patientName,up")
+      )
+      .andExpect(status().isBadRequest());
+
+    mockMvc.perform(
+        get("/appointments/report-patients-pdf")
+          .header("Authorization", "Bearer " + this.adminToken)
+          .param("sort", "invalidField,asc")
+      )
+      .andExpect(status().isBadRequest());
+  }
+
   @Test
   void shouldDeleteAppointment() throws Exception {
     mockMvc.perform(

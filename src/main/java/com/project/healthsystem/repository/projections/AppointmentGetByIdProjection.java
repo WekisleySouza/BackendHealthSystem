@@ -8,6 +8,12 @@ import java.time.LocalDateTime;
 public interface AppointmentGetByIdProjection {
 
     long getId();
+    CareModality getCareModality();
+    RequestCharacter getRequestCharacter();
+    String getClinicalReasonSystem();
+    String getClinicalReasonCode();
+    LocalDateTime getRequestedAt();
+    String getExecutingCbo();
     Status getStatus();
     String getNotes();
     Priority getPriorit();
@@ -20,6 +26,10 @@ public interface AppointmentGetByIdProjection {
     ProfessionalInfo getResponsibleProfessional();
     ProfessionalInfo getRequestingProfessional();
     InstituitionInfo getInstituition();
+    InstituitionInfo getRequestingInstituition();
+    InstituitionInfo getRegulatingInstituition();
+    InstituitionInfo getAuthorInstituition();
+    InstituitionInfo getExecutingInstituition();
     EmployeeInfo getEmployee();
     PatientInfo getPatient();
     AgreementInfo getAgreement();
@@ -77,6 +87,12 @@ public interface AppointmentGetByIdProjection {
 
     interface ServiceTypeInfo {
         long getId();
+    CareModality getCareModality();
+    RequestCharacter getRequestCharacter();
+    String getClinicalReasonSystem();
+    String getClinicalReasonCode();
+    LocalDateTime getRequestedAt();
+    String getExecutingCbo();
         String getName();
         ServiceTypes getType();
         @Value("#{target.categoryGroup != null ? target.categoryGroup.id : null}")
@@ -87,16 +103,34 @@ public interface AppointmentGetByIdProjection {
 
     interface ProfessionalInfo {
         long getId();
+    CareModality getCareModality();
+    RequestCharacter getRequestCharacter();
+    String getClinicalReasonSystem();
+    String getClinicalReasonCode();
+    LocalDateTime getRequestedAt();
+    String getExecutingCbo();
         PersonInfo getPerson();
     }
 
     interface EmployeeInfo {
         long getId();
+    CareModality getCareModality();
+    RequestCharacter getRequestCharacter();
+    String getClinicalReasonSystem();
+    String getClinicalReasonCode();
+    LocalDateTime getRequestedAt();
+    String getExecutingCbo();
         PersonInfo getPerson();
     }
 
     interface PatientInfo {
         long getId();
+    CareModality getCareModality();
+    RequestCharacter getRequestCharacter();
+    String getClinicalReasonSystem();
+    String getClinicalReasonCode();
+    LocalDateTime getRequestedAt();
+    String getExecutingCbo();
         PersonInfo getPerson();
     }
 

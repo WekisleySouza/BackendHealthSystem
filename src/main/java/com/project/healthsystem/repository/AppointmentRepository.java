@@ -24,6 +24,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
 
     Optional<AppointmentGetByIdProjection> findAppointmentById(long id);
 
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT a FROM Appointment a WHERE a.id = :id")
+    Optional<Appointment> findByIdForUpdate(long id);
+
+
     @Modifying
     @Transactional
     @Query("""
@@ -31,8 +36,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
     SET a.serviceType.id = :newId
     WHERE a.serviceType.id = :oldId
 """)
-    int updateServiceTypeId(@Param("oldId") long oldId,
-                            @Param("newId") long newId);
+    int updateServiceTypeId(@Param("oldId") long oldId, @Param("newId") long newId);
 
     boolean existsByServiceTypeId(long id);
 
@@ -74,105 +78,20 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long>,
         Pageable pageable
     );
 
-    @Query("""
-        SELECT new com.project.healthsystem.controller.dto.AppointmentStatusCountResponseDTO(
-            a.status,
-            COUNT(a)
-        )
-        FROM Appointment a
-        GROUP BY a.status
-    """)
-    List<AppointmentStatusCountResponseDTO> countByStatus();
-
-    @Query("""
-        SELECT new com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO(
-            st.id,
-            st.name,
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.SCHEDULED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.COMPLETED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.CANCELED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.NO_SHOW THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.OVERDUE THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING THEN 1 ELSE 0 END),
-            COUNT(a)
-        )
-        FROM Appointment a
-        JOIN a.serviceType st
-        WHERE st.type = com.project.healthsystem.model.ServiceTypes.SPECIALTY
-        GROUP BY st.id, st.name
-        ORDER BY st.name
-    """)
-    Page<NumberSpecialtiesByStatusDTO> countSpecialtiesByStatus(Pageable pageable);
-
-    @Query("""
-        SELECT new com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO(
-            st.id,
-            st.name,
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.SCHEDULED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.COMPLETED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.CANCELED THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.NO_SHOW THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.OVERDUE THEN 1 ELSE 0 END),
-            SUM(CASE WHEN a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING THEN 1 ELSE 0 END),
-            COUNT(a)
-        )
-        FROM Appointment a
-        JOIN a.serviceType st
-        WHERE st.type = com.project.healthsystem.model.ServiceTypes.EXAM
-        GROUP BY st.id, st.name
-        ORDER BY st.name
-    """)
-    Page<NumberExamsByStatusDTO> countExamsByStatus(Pageable pageable);
-
     List<PatientInfoAppointmentProjection> findByPatient_Id(long patientId);
 
-    @Modifying
     @Query("""
-        UPDATE Appointment a
-        SET a.status = com.project.healthsystem.model.Status.OVERDUE
-        WHERE a.scheduledAt IS NOT NULL
-            AND a.status NOT IN (
-                com.project.healthsystem.model.Status.PRE_SCHEDULED,
-                com.project.healthsystem.model.Status.COMPLETED,
-                com.project.healthsystem.model.Status.CANCELED,
-                com.project.healthsystem.model.Status.EXCUSED_ABSENSE,
-                com.project.healthsystem.model.Status.UNJUSTIFIED_ABSENSE,
-                com.project.healthsystem.model.Status.NO_SHOW
-            )
-          AND a.scheduledAt < :now
-    """)
-    void updateToOverdue(LocalDateTime now);
-
-    @Modifying
-    @Query("""
-        UPDATE Appointment a
-        SET a.status = com.project.healthsystem.model.Status.SCHEDULED
-        WHERE a.scheduledAt IS NOT NULL
-            AND a.status NOT IN (
-                com.project.healthsystem.model.Status.PRE_SCHEDULED,
-                com.project.healthsystem.model.Status.COMPLETED,
-                com.project.healthsystem.model.Status.CANCELED,
-                com.project.healthsystem.model.Status.EXCUSED_ABSENSE,
-                com.project.healthsystem.model.Status.UNJUSTIFIED_ABSENSE,
-                com.project.healthsystem.model.Status.NO_SHOW
-            )
-          AND a.scheduledAt > :now
-    """)
-    void updateToScheduled(LocalDateTime now);
-
-    @Modifying
-    @Query("""
-        UPDATE Appointment a
-        SET a.status = com.project.healthsystem.model.Status.PENDING_SCHEDULING
-        WHERE a.scheduledAt IS NULL
-            AND a.status NOT IN (
-                com.project.healthsystem.model.Status.PRE_SCHEDULED,
-                com.project.healthsystem.model.Status.COMPLETED,
-                com.project.healthsystem.model.Status.CANCELED,
-                com.project.healthsystem.model.Status.EXCUSED_ABSENSE,
-                com.project.healthsystem.model.Status.UNJUSTIFIED_ABSENSE,
-                com.project.healthsystem.model.Status.NO_SHOW
-            )
-    """)
-    void updateToPending();
+        SELECT a.id FROM Appointment a
+        WHERE a.status IN (
+            com.project.healthsystem.model.Status.SCHEDULED,
+            com.project.healthsystem.model.Status.OVERDUE,
+            com.project.healthsystem.model.Status.PENDING_SCHEDULING
+        ) AND (
+            (a.scheduledAt IS NULL AND a.status <> com.project.healthsystem.model.Status.PENDING_SCHEDULING)
+            OR (a.scheduledAt < :now AND a.status <> com.project.healthsystem.model.Status.OVERDUE)
+            OR (a.scheduledAt > :now AND a.status <> com.project.healthsystem.model.Status.SCHEDULED)
+        )
+        ORDER BY a.id
+        """)
+    List<Long> findAutomaticStatusChangeIds(LocalDateTime now);
 }

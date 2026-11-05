@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -60,6 +61,9 @@ public class SigtapService {
     
     SigtapVersion sigtapVersion = SigtapVersion.build(zip);
     this.sigtapVersionRepository.save(sigtapVersion);
+    
+    this.sigtapFileProcessor.deleteZip(zip);
+    this.sigtapFileProcessor.deleteDirectory(directory);
   }
   
   public void updateGroups(Path path) throws IOException {

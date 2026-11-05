@@ -22,4 +22,6 @@ public class Instituition extends IDAbstraction {
     private String phone;
     @Column(name = "link_logo")
     private String linkLogo;
+    @Column(name = "cnes", length = 7)
+    private String cnes;
 }

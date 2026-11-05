@@ -31,10 +31,10 @@ public class PatientAppointmentResponseDTO {
     private String serviceTypeName;
     private BigDecimal value;
 
-    // Requesting Professional
+    // Requesting CnesProfessional
     private String requestingProfessionalName;
 
-    // Responsible Professional
+    // Responsible CnesProfessional
     private String responsibleProfessionalName;
 
     public PatientAppointmentResponseDTO(

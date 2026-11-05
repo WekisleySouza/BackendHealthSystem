@@ -21,5 +21,15 @@ public record AppointmentGetByIdResponseDTO (
 
     LocalDateTime scheduledAt,
     LocalDateTime createdAt,
-    LocalDateTime schedulingForecast
+    LocalDateTime schedulingForecast,
+    InstituitionInfoResponseDTO requestingInstituition,
+    InstituitionInfoResponseDTO regulatingInstituition,
+    InstituitionInfoResponseDTO authorInstituition,
+    InstituitionInfoResponseDTO executingInstituition,
+    String careModality,
+    String requestCharacter,
+    String clinicalReasonSystem,
+    String clinicalReasonCode,
+    LocalDateTime requestedAt,
+    String executingCbo
 ){}

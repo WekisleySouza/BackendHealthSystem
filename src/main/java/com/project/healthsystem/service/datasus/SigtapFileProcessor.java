@@ -4,16 +4,14 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -126,5 +124,28 @@ public class SigtapFileProcessor {
     }
     
     return destination;
+  }
+  
+  public void deleteZip(Path zipPath) throws IOException {
+    Files.deleteIfExists(zipPath);
+  }
+  
+  public void deleteDirectory(Path directory) throws IOException {
+    if(!Files.exists(directory)){
+      return;
+    }
+    
+    try(Stream<Path> paths = Files.walk(directory)){
+      paths.sorted(Comparator.reverseOrder())
+        .forEach(path -> {
+          try{
+            Files.delete(path);
+          } catch(IOException e){
+            throw new UncheckedIOException(e);
+          }
+        });
+    } catch(UncheckedIOException e){
+      throw e.getCause();
+    }
   }
 }

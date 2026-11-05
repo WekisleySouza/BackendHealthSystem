@@ -8,6 +8,12 @@ import java.time.LocalDateTime;
 public class AppointmentBuilder {
 
     private String notes;
+    private CareModality careModality;
+    private RequestCharacter requestCharacter;
+    private String clinicalReasonSystem;
+    private String clinicalReasonCode;
+    private LocalDateTime requestedAt;
+    private String executingCbo;
     private Priority priorit;
     private Status status;
     private boolean isReturn;
@@ -15,6 +21,10 @@ public class AppointmentBuilder {
     private LocalDateTime scheduledAt;
     private Agreement agreement;
     private Instituition instituition;
+    private Instituition requestingInstituition;
+    private Instituition regulatingInstituition;
+    private Instituition authorInstituition;
+    private Instituition executingInstituition;
     private ServiceType serviceType;
     private Professional requestingProfessional;
     private Professional responsibleProfessional;
@@ -65,6 +75,26 @@ public class AppointmentBuilder {
         return this;
     }
 
+    public AppointmentBuilder withRequestingInstituition(Instituition instituition) {
+        this.requestingInstituition = instituition;
+        return this;
+    }
+
+    public AppointmentBuilder withRegulatingInstituition(Instituition instituition) {
+        this.regulatingInstituition = instituition;
+        return this;
+    }
+
+    public AppointmentBuilder withAuthorInstituition(Instituition instituition) {
+        this.authorInstituition = instituition;
+        return this;
+    }
+
+    public AppointmentBuilder withExecutingInstituition(Instituition instituition) {
+        this.executingInstituition = instituition;
+        return this;
+    }
+
     public AppointmentBuilder withServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
         return this;
@@ -90,9 +120,45 @@ public class AppointmentBuilder {
         return this;
     }
 
+    public AppointmentBuilder withCareModality(CareModality value) {
+        this.careModality = value;
+        return this;
+    }
+
+    public AppointmentBuilder withRequestCharacter(RequestCharacter value) {
+        this.requestCharacter = value;
+        return this;
+    }
+
+    public AppointmentBuilder withClinicalReasonSystem(String value) {
+        this.clinicalReasonSystem = value;
+        return this;
+    }
+
+    public AppointmentBuilder withClinicalReasonCode(String value) {
+        this.clinicalReasonCode = value;
+        return this;
+    }
+
+    public AppointmentBuilder withRequestedAt(LocalDateTime value) {
+        this.requestedAt = value;
+        return this;
+    }
+
+    public AppointmentBuilder withExecutingCbo(String value) {
+        this.executingCbo = value;
+        return this;
+    }
+
     public Appointment build() {
         Appointment appointment = new Appointment();
         appointment.setNotes(notes);
+        appointment.setCareModality(careModality);
+        appointment.setRequestCharacter(requestCharacter);
+        appointment.setClinicalReasonSystem(clinicalReasonSystem);
+        appointment.setClinicalReasonCode(clinicalReasonCode);
+        appointment.setRequestedAt(requestedAt);
+        appointment.setExecutingCbo(executingCbo);
         appointment.setPriorit(priorit);
         appointment.setStatus(status);
         appointment.setReturn(isReturn);
@@ -100,6 +166,10 @@ public class AppointmentBuilder {
         appointment.setScheduledAt(scheduledAt);
         appointment.setAgreement(agreement);
         appointment.setInstituition(instituition);
+        appointment.setRequestingInstituition(requestingInstituition);
+        appointment.setRegulatingInstituition(regulatingInstituition);
+        appointment.setAuthorInstituition(authorInstituition);
+        appointment.setExecutingInstituition(executingInstituition);
         appointment.setServiceType(serviceType);
         appointment.setRequestingProfessional(requestingProfessional);
         appointment.setResponsibleProfessional(responsibleProfessional);

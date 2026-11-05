@@ -10,6 +10,8 @@ import com.project.healthsystem.controller.dto.basic_requests.PreSchedulingReque
 import com.project.healthsystem.controller.dto.basic_responses.AppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.patient_page_responses.PatientAppointmentResponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.AppointmentSummaryDTO;
+import com.project.healthsystem.controller.dto.reports_patients.PatientReportField;
+import com.project.healthsystem.controller.dto.reports_patients.PatientReportFilterDTO;
 import com.project.healthsystem.controller.dto.reports_patients.PatientReportReponseDTO;
 import com.project.healthsystem.controller.dto.reports_patients.ReportAppointmentGraphResponseDTO;
 import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsByStatusDTO;
@@ -27,6 +29,7 @@ import com.project.healthsystem.repository.specs.SpecsCommon;
 import com.project.healthsystem.security.JwtTokenProvider;
 import com.project.healthsystem.validator.AppointmentValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,11 +37,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.Arrays;
 
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,6 +60,15 @@ public class AppointmentService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final PatientReportPdfService patientReportPdfService;
+    private final AppointmentStatusHistoryService statusHistoryService;
+
+    private static final int REPORT_PDF_BATCH_SIZE = 500;
+
+    @Value("${app.reports.pdf.max-rows}")
+    private long reportPdfMaxRows;
+
+    @Transactional
     public Appointment save(AppointmentRequestDTO appointmentRequestDTO, String token){
         Appointment appointment = appointmentValidator.validateSave(appointmentRequestDTO);
 
@@ -66,19 +82,31 @@ public class AppointmentService {
         appointment.setCreatedBy(currentEditor);
         appointment.setLastModifiedBy(currentEditor);
 
-        return this.repository.save(appointment);
+        Appointment saved = repository.save(appointment);
+        statusHistoryService.record(saved, null, currentEditor, appointmentRequestDTO.getStatusChangeReason());
+        return saved;
     }
 
     public int switchServiceTypeId(long id, long newId){
         return repository.updateServiceTypeId(id, newId);
     }
 
+    @Transactional
     public Appointment update(AppointmentRequestDTO appointmentRequestDTO, long id, String token){
-        Appointment appointment = appointmentValidator.validateUpdate(appointmentRequestDTO, id);
+        Appointment appointment = findForUpdate(id);
+        Status previousStatus = appointment.getStatus();
+        appointment = appointmentValidator.validateUpdate(appointmentRequestDTO, appointment);
         Person currentEditor = jwtTokenProvider.getPerson(token);
-        currentEditor.setLastModifiedBy(currentEditor);
-        currentEditor.updatedNow();
-        return repository.save(appointment);
+        appointment.setLastModifiedBy(currentEditor);
+        appointment.updatedNow();
+        Appointment saved = repository.save(appointment);
+        statusHistoryService.record(saved, previousStatus, currentEditor, appointmentRequestDTO.getStatusChangeReason());
+        return saved;
+    }
+
+    private Appointment findForUpdate(long id) {
+        return repository.findByIdForUpdate(id)
+            .orElseThrow(() -> new NotFoundException("Atendimento não encontrado!"));
     }
 
     public Page<AppointmentResponseDTO> getAll(
@@ -182,13 +210,65 @@ public class AppointmentService {
 
             appointmentProjection.getScheduledAt(),
             appointmentProjection.getCreatedAt(),
-            appointmentProjection.getSchedulingForecast()
+            appointmentProjection.getSchedulingForecast(),
+            toInstituitionInfo(appointmentProjection.getRequestingInstituition()),
+            toInstituitionInfo(appointmentProjection.getRegulatingInstituition()),
+            toInstituitionInfo(appointmentProjection.getAuthorInstituition()),
+            toInstituitionInfo(appointmentProjection.getExecutingInstituition()),
+            appointmentProjection.getCareModality() == null ? null : appointmentProjection.getCareModality().getLabel(),
+            appointmentProjection.getRequestCharacter() == null ? null : appointmentProjection.getRequestCharacter().getLabel(),
+            appointmentProjection.getClinicalReasonSystem(),
+            appointmentProjection.getClinicalReasonCode(),
+            appointmentProjection.getRequestedAt(),
+            appointmentProjection.getExecutingCbo()
         );
     }
 
+    private InstituitionInfoResponseDTO toInstituitionInfo(AppointmentGetByIdProjection.InstituitionInfo instituition) {
+        return instituition == null ? null : new InstituitionInfoResponseDTO(instituition.getId(), instituition.getName());
+    }
+
+    @Transactional
     public void delete(long id){
-        Appointment apointment = appointmentValidator.validateDelete(id);
-        repository.delete(apointment);
+        Appointment appointment = findForUpdate(id);
+        statusHistoryService.deleteForAppointment(id);
+        repository.delete(appointment);
+    }
+    
+    private Specification<Appointment> getReportSpecs (
+      String patientName,
+      String patientMotherName,
+      String responsibleProfessionalName,
+      String requestingProfessionalName,
+      String status,
+      String agreement,
+      String priorit,
+      String type,
+      String serviceName,
+      String instituitionName,
+      LocalDateTime scheduledAt,
+      LocalDateTime scheduledAtStart,
+      LocalDateTime scheduledAtEnd,
+      LocalDateTime createdAt,
+      LocalDateTime createdAtStart,
+      LocalDateTime createdAtEnd
+    ){
+        Specification<Appointment> specification = null;
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientMotherNameLike(patientMotherName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.agreementsLike(agreement));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.instituitionNameLike(instituitionName));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
+        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtBetween(createdAtStart, createdAtEnd));
+        return specification;
     }
 
     public ReportAppointmentGraphResponseDTO getPatientReportGraphInfo(
@@ -209,21 +289,25 @@ public class AppointmentService {
         LocalDateTime createdAtStart,
         LocalDateTime createdAtEnd
     ){
-        Specification<Appointment> specification = null;
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientMotherNameLike(patientMotherName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.agreementsLike(agreement));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.instituitionNameLike(instituitionName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtBetween(createdAtStart, createdAtEnd));
+        Specification<Appointment> specification = this.getReportSpecs(
+          patientName,
+          patientMotherName,
+          responsibleProfessionalName,
+          requestingProfessionalName,
+          status,
+          agreement,
+          priorit,
+          type,
+          serviceName,
+          instituitionName,
+          scheduledAt,
+          scheduledAtStart,
+          scheduledAtEnd,
+          createdAt,
+          createdAtStart,
+          createdAtEnd
+        );
+        
         Long total = repository.count(specification);
         List<AppointmentSummaryDTO> summaryList = repositoryCustom.getSummary(specification);
         Map<Status, Long> map = summaryList.stream()
@@ -253,6 +337,7 @@ public class AppointmentService {
         String responsibleProfessionalName,
         String requestingProfessionalName,
         String status,
+        String agreement,
         String priorit,
         String type,
         String serviceName,
@@ -264,20 +349,26 @@ public class AppointmentService {
         LocalDateTime createdAtStart,
         LocalDateTime createdAtEnd
     ){
-        Specification<Appointment> specification = null;
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientNameLike(patientName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.patientMotherNameLike(patientMotherName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.responsibleProfessionalNameLike(responsibleProfessionalName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.requestingProfessionalNameLike(requestingProfessionalName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.statusLike(status));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.prioritLike(priorit));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeLike(type));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.serviceTypeNameLike(serviceName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.instituitionNameLike(instituitionName));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtEqual(scheduledAt));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.scheduledAtBetween(scheduledAtStart, scheduledAtEnd));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtEqual(createdAt));
-        specification = SpecsCommon.addSpec(specification, AppointmentSpecs.createdAtBetween(createdAtStart, createdAtEnd));
+        
+        Specification<Appointment> specification = this.getReportSpecs(
+          patientName,
+          patientMotherName,
+          responsibleProfessionalName,
+          requestingProfessionalName,
+          status,
+          agreement,
+          priorit,
+          type,
+          serviceName,
+          instituitionName,
+          scheduledAt,
+          scheduledAtStart,
+          scheduledAtEnd,
+          createdAt,
+          createdAtStart,
+          createdAtEnd
+        );
+        
         Pageable pageRequest = PageRequest.of(pageNumber, pageLength);
         return repository
             .findAll(specification, pageRequest)
@@ -295,6 +386,76 @@ public class AppointmentService {
             ));
     }
 
+    /**
+     * Validates the parameters and the row limit before anything is written,
+     * so errors can still be returned as JSON. The returned writer streams the PDF in batches.
+     */
+    public Consumer<OutputStream> preparePatientReportPdf(
+        PatientReportFilterDTO filter,
+        List<String> fields,
+        String sort
+    ){
+        List<PatientReportField> columns = PatientReportField.fromKeys(fields);
+
+        String[] sortParts = (sort == null || sort.isBlank() ? "scheduledAt,desc" : sort).split(",");
+        if (sortParts.length > 2) {
+            throw new InvalidDataException("Ordenação inválida: " + sort + ". Use o formato campo,asc ou campo,desc.");
+        }
+        PatientReportField sortField = PatientReportField.fromKey(sortParts[0]);
+        String direction = sortParts.length == 2 ? sortParts[1].trim() : "asc";
+        if (!direction.equalsIgnoreCase("asc") && !direction.equalsIgnoreCase("desc")) {
+            throw new InvalidDataException("Direção de ordenação inválida: " + direction + ". Use asc ou desc.");
+        }
+        boolean descending = direction.equalsIgnoreCase("desc");
+
+        Specification<Appointment> specification = this.getReportSpecs(filter);
+
+        long total = repository.count(specification);
+        if (total > reportPdfMaxRows) {
+            throw new InvalidDataException(String.format(
+                "A busca retornou %d registros e o limite para gerar o PDF é %d. Restrinja mais os filtros.",
+                total,
+                reportPdfMaxRows
+            ));
+        }
+
+        var statistics = repositoryCustom.findPatientReportStatistics(specification);
+
+        return outputStream -> patientReportPdfService.write(
+            outputStream,
+            columns,
+            statistics,
+            offset -> repositoryCustom.findPatientReportRows(
+                specification,
+                sortField,
+                descending,
+                offset,
+                REPORT_PDF_BATCH_SIZE
+            )
+        );
+    }
+
+    private Specification<Appointment> getReportSpecs(PatientReportFilterDTO filter){
+        return this.getReportSpecs(
+            filter.patientName(),
+            filter.patientMotherName(),
+            filter.responsibleProfessionalName(),
+            filter.requestingProfessionalName(),
+            filter.status(),
+            filter.agreement(),
+            filter.priorit(),
+            filter.type(),
+            filter.serviceName(),
+            filter.instituitionName(),
+            filter.scheduledAt(),
+            filter.scheduledAtStart(),
+            filter.scheduledAtEnd(),
+            filter.createdAt(),
+            filter.createdAtStart(),
+            filter.createdAtEnd()
+        );
+    }
+
     public Page<PatientAppointmentResponseDTO> getAllPatientAppointments(
         String token,
         Integer pageNumber,
@@ -309,23 +470,36 @@ public class AppointmentService {
         return repository.findByPatient_Id(patientId);
     }
 
-    public void setPreSchedulingTo(PreSchedulingRequestDTO preScheduling){
-        for(Long id : preScheduling.getAppointmentsId()){
-            Appointment appointment = appointmentValidator.validateSetNewStatusTo(id);
-            appointment.setStatus(Status.PRE_SCHEDULED);
-            repository.save(appointment);
-        }
+    @Transactional
+    public void setPreSchedulingTo(PreSchedulingRequestDTO preScheduling, String token){
+        changeStatuses(preScheduling.getAppointmentsId(), Status.PRE_SCHEDULED,
+            preScheduling.getStatusChangeReason(), jwtTokenProvider.getPerson(token));
     }
 
-    public void setNewStatusTo(NewCommonStatusDTO preScheduling){
+    @Transactional
+    public void setNewStatusTo(NewCommonStatusDTO preScheduling, String token){
         Status newStatus = Status.fromLabel(preScheduling.getStatus());
         if(newStatus.getLabel().equals(Status.PRE_SCHEDULED.getLabel())){
             throw new InvalidDataException("Não é possível usar este status nesta rota!");
         }
-        for(Long id : preScheduling.getAppointmentsId()){
-            Appointment appointment = appointmentValidator.validateSetNewStatusTo(id);
+        changeStatuses(preScheduling.getAppointmentsId(), newStatus,
+            preScheduling.getStatusChangeReason(), jwtTokenProvider.getPerson(token));
+    }
+
+    private void changeStatuses(Long[] ids, Status newStatus, String reason, Person editor) {
+        if (ids == null || Arrays.stream(ids).anyMatch(java.util.Objects::isNull)) {
+            throw new InvalidDataException("Informe os IDs dos atendimentos!");
+        }
+        // Stable lock order prevents deadlocks between overlapping batches.
+        for (Long id : Arrays.stream(ids).distinct().sorted().toList()) {
+            Appointment appointment = findForUpdate(id);
+            Status previousStatus = appointment.getStatus();
+            if (previousStatus == newStatus) continue;
             appointment.setStatus(newStatus);
+            appointment.setLastModifiedBy(editor);
+            appointment.updatedNow();
             repository.save(appointment);
+            statusHistoryService.record(appointment, previousStatus, editor, reason);
         }
     }
 

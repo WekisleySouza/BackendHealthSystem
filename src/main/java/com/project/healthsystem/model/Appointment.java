@@ -16,6 +16,17 @@ public class Appointment extends BasicEntityAbstraction {
     @Column(name = "notes")
     private String notes;
     @Enumerated(EnumType.STRING)
+    private CareModality careModality;
+    @Enumerated(EnumType.STRING)
+    private RequestCharacter requestCharacter;
+    @Column(length = 20)
+    private String clinicalReasonSystem;
+    @Column(length = 20)
+    private String clinicalReasonCode;
+    private LocalDateTime requestedAt;
+    @Column(length = 6)
+    private String executingCbo;
+    @Enumerated(EnumType.STRING)
     @Column(name="priorit")
     private Priority priorit;
     @Enumerated(EnumType.STRING)
@@ -32,6 +43,18 @@ public class Appointment extends BasicEntityAbstraction {
     private Agreement agreement;
     @ManyToOne
     private Instituition instituition;
+    @ManyToOne
+    @JoinColumn(name = "requesting_instituition_id")
+    private Instituition requestingInstituition;
+    @ManyToOne
+    @JoinColumn(name = "regulating_instituition_id")
+    private Instituition regulatingInstituition;
+    @ManyToOne
+    @JoinColumn(name = "author_instituition_id")
+    private Instituition authorInstituition;
+    @ManyToOne
+    @JoinColumn(name = "executing_instituition_id")
+    private Instituition executingInstituition;
     @ManyToOne
     private ServiceType serviceType;
     @ManyToOne

@@ -15,5 +15,6 @@ public class InstituitionResponseDTO{
     private String address;
     private String phone;
     private String linkLogo;
+    private String cnes;
 
 }

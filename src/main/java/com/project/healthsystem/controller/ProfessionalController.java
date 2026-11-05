@@ -131,7 +131,7 @@ public class ProfessionalController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Professional not found.",
+                    description = "CnesProfessional not found.",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
             ),
             @ApiResponse(
@@ -169,7 +169,7 @@ public class ProfessionalController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Professional found successfully.",
+                    description = "CnesProfessional found successfully.",
                     content = @Content(schema = @Schema(implementation = ProfessionalResponseDTO.class))
             ),
             @ApiResponse(
@@ -184,7 +184,7 @@ public class ProfessionalController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Professional not found.",
+                    description = "CnesProfessional not found.",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
             ),
             @ApiResponse(
@@ -319,7 +319,7 @@ public class ProfessionalController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Professional not found.",
+                    description = "CnesProfessional not found.",
                     content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
             ),
             @ApiResponse(

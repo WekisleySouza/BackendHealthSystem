@@ -3,6 +3,7 @@ package com.project.healthsystem.model.datasus_data.sigtap;
 import com.project.healthsystem.model.abstractions.IDAbstraction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
 
 @Entity
 @Data
+@Table(name = "tb_sigtap_version")
 @NoArgsConstructor
 @AllArgsConstructor
 public class SigtapVersion extends IDAbstraction {

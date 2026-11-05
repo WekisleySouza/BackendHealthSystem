@@ -449,4 +449,28 @@ public class PatientController {
     this.patientService.updateCPF(patientCPFRequestDTO, accessToken);
     return ResponseEntity.ok().build();
   }
+  @PostMapping("/sync-patients")
+  @PreAuthorize("hasRole('API')")
+  @Operation(
+    summary = "Synchronize patients from PEC",
+    description = "Create or update patients using data received from PEC.",
+    parameters = {
+      @Parameter(name = "Authorization", description = "Bearer access token", required = true)
+    }
+  )
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Patients synchronized successfully."),
+    @ApiResponse(responseCode = "400", description = "Invalid request body.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))),
+    @ApiResponse(responseCode = "401", description = "Unauthorized - invalid or missing credentials.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))),
+    @ApiResponse(responseCode = "403", description = "Forbidden - API role required.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))),
+    @ApiResponse(responseCode = "500", description = "Unexpected server error.",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+  })
+  public ResponseEntity<Void> syncPatients(@RequestBody @Valid List<PersonBackupInfoDTO> patients) {
+    patientService.syncExternalDataBase(patients);
+    return ResponseEntity.ok().build();
+  }
 }

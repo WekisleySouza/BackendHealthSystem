@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sigtap_groups")
+@Table(name = "tb_sigtap_groups")
 @Data
 @NoArgsConstructor
 public class SigtapGroup extends IDAbstraction {

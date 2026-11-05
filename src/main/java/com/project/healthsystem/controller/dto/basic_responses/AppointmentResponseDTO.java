@@ -12,6 +12,14 @@ import java.time.LocalDateTime;
 public class AppointmentResponseDTO {
     private long id;
 
+    private String careModality;
+    private String requestCharacter;
+    private String clinicalReasonSystem;
+    private String clinicalReasonCode;
+    private LocalDateTime requestedAt;
+    private String executingCbo;
+
+
     private String responsibleProfessionalName;
     private String requestingProfessionalName;
     private String employeeName;
@@ -20,6 +28,14 @@ public class AppointmentResponseDTO {
     private String serviceType;
     private String categoryGroupName;
     private String instituitionName;
+    private Long requestingInstituitionId;
+    private String requestingInstituitionName;
+    private Long regulatingInstituitionId;
+    private String regulatingInstituitionName;
+    private Long authorInstituitionId;
+    private String authorInstituitionName;
+    private Long executingInstituitionId;
+    private String executingInstituitionName;
     private String agreementName;
 
     private String status;

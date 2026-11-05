@@ -30,6 +30,7 @@ public class InstituitionService {
     }
 
     public void update(long id, InstituitionRequestDTO instituitionRequestDTO){
+        this.instituitionValidator.validateCnes(instituitionRequestDTO.getCnes());
         Instituition instituition = this.instituitionValidator.validateUpdate(id);
         instituition = this.instituitionMapper.toEntityWhenHasId(instituition, instituitionRequestDTO);
         this.instituitionRepository.save(instituition);

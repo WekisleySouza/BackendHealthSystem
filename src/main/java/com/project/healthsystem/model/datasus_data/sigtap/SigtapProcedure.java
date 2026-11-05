@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sigtap_procedures")
+@Table(name = "tb_sigtap_procedures")
 @Data
 @NoArgsConstructor
 public class SigtapProcedure extends IDAbstraction {

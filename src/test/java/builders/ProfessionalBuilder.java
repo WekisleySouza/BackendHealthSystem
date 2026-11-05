@@ -8,7 +8,7 @@ public class ProfessionalBuilder {
     private String cns = "123456789";
     private String cbo = "225125";
     private String vinculation = "Permanent";
-    private String description = "Medical Professional";
+    private String description = "Medical CnesProfessional";
 
     private Person person = PersonBuilder.builder().build();
 
