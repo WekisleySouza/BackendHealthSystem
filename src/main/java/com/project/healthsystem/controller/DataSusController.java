@@ -3,6 +3,9 @@ package com.project.healthsystem.controller;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.service.datasus.CnesService;
 import com.project.healthsystem.service.datasus.SigtapService;
+import com.project.healthsystem.service.datasus.SigtapProcedureService;
+import com.project.healthsystem.controller.dto.basic_responses.SigtapProcedureResponseDTO;
+import org.springframework.web.bind.annotation.PathVariable;
 import com.project.healthsystem.controller.dto.basic_responses.SigtapImportResponseDTO;
 import java.io.IOException;
 import com.project.healthsystem.service.datasus.Cid10Service;
@@ -32,6 +35,28 @@ public class DataSusController {
   private final Cid10Service cid10Service;
   private final Ciap2Service ciap2Service;
   private final SigtapService sigtapService;
+  private final SigtapProcedureService sigtapProcedureService;
+
+  @GetMapping("/sigtap/procedures")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(summary = "Search SIGTAP procedures",
+    description = "Partial code or name search, ignoring case. Ordered by code. "
+      + "page-number starts at 0; page-length is 1 to 100 (default 10). Invalid pagination returns 400.")
+  public ResponseEntity<Page<SigtapProcedureResponseDTO>> findSigtapProcedures(
+      @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
+      @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
+      @RequestParam(value = "search", required = false) String search
+  ) {
+    return ResponseEntity.ok(sigtapProcedureService.findAll(pageNumber, pageLength, search));
+  }
+
+  @GetMapping("/sigtap/procedures/{id}")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(summary = "Find SIGTAP procedure",
+    description = "Returns the imported procedure and its hierarchy. Returns 404 when the ID does not exist.")
+  public ResponseEntity<SigtapProcedureResponseDTO> findSigtapProcedure(@PathVariable("id") long id) {
+    return ResponseEntity.ok(sigtapProcedureService.findById(id));
+  }
 
   // Temporary endpoint for validating the SIGTAP import.
   @PostMapping("/import-sigtap")

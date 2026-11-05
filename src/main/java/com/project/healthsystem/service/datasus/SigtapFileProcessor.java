@@ -70,10 +70,6 @@ public class SigtapFileProcessor {
         }
     }
 
-    public Path downloadLatest() throws IOException {
-        return download(findLatestFileName());
-    }
-
     public Path download(String fileName) throws IOException {
         SigtapVersion.build(Path.of(fileName));
         if (!Path.of(fileName).getFileName().toString().equals(fileName)) {
