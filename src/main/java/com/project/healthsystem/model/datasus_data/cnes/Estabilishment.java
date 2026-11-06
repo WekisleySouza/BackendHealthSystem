@@ -24,9 +24,9 @@ public class Estabilishment extends IDAbstraction {
   private String cnpj;
   private String address;
   
-  public static Estabilishment parseLine(String line) {
+  public static Estabilishment fromFields(String[] columns) {
     
-    String[] columns = line.split(";", -1);
+    if (columns.length != 11) throw new IllegalArgumentException("Expected 11 establishment fields.");
     
     Estabilishment estabilishment = new Estabilishment();
     

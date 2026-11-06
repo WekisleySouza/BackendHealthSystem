@@ -32,8 +32,8 @@ public class CnesProfessional extends IDAbstraction {
   private String employerBond;
   private String bondDetails;
   
-  public static CnesProfessional parseLine(String line) {
-    String[] fields = line.split(";", -1);
+  public static CnesProfessional fromFields(String[] fields) {
+
     
     if (fields.length != 17) {
       throw new IllegalArgumentException(
@@ -59,7 +59,7 @@ public class CnesProfessional extends IDAbstraction {
     professional.resident = "S".equalsIgnoreCase(fields[11].trim());
     professional.preceptor = "S".equalsIgnoreCase(fields[12].trim());
     
-    String management = fields[13].trim().toUpperCase();
+    String management = fields[13].trim();
     professional.management = switch (management) {
       case "M" -> "Municipal";
       case "E" -> "Estadual";

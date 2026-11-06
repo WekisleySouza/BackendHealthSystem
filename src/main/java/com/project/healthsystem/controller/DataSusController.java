@@ -8,6 +8,7 @@ import com.project.healthsystem.controller.dto.basic_responses.SigtapProcedureRe
 import org.springframework.web.bind.annotation.PathVariable;
 import com.project.healthsystem.controller.dto.basic_responses.SigtapImportResponseDTO;
 import java.io.IOException;
+import com.project.healthsystem.controller.dto.basic_responses.CnesImportResponseDTO;
 import com.project.healthsystem.service.datasus.Cid10Service;
 import com.project.healthsystem.service.datasus.Ciap2Service;
 import com.project.healthsystem.controller.dto.basic_responses.Cid10ResponseDTO;
@@ -97,11 +98,11 @@ public class DataSusController {
     return ResponseEntity.ok(ciap2Service.findAll(pageNumber, pageLength, search));
   }
   
-  @PostMapping("/import-cnes-estabilishments")
+  @PostMapping(value = "/import-cnes-estabilishments", consumes = "multipart/form-data")
   @PreAuthorize(Permissions.ADMIN)
   @Operation(
     summary = "Import estabilishments",
-    description = "Import estabilishments from CNES.",
+    description = "Replace the CNES establishment catalog using a UTF-8 CSV with the expected header and semicolon delimiter. Invalid files return 400 without replacing data. Returns importedRecords after commit.",
     parameters = {
       @Parameter(
         name = "Authorization",
@@ -110,16 +111,15 @@ public class DataSusController {
       )
     }
   )
-  public ResponseEntity<Void> importCnesEstabilishments(@RequestParam("file") MultipartFile file) {
-    this.cnesService.importDataEstabilishments(file);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<CnesImportResponseDTO> importCnesEstabilishments(@RequestParam("file") MultipartFile file) {
+    return ResponseEntity.ok(this.cnesService.importDataEstabilishments(file));
   }
   
-  @PostMapping("/import-cnes-professionals")
+  @PostMapping(value = "/import-cnes-professionals", consumes = "multipart/form-data")
   @PreAuthorize(Permissions.ADMIN)
   @Operation(
     summary = "Import professionals",
-    description = "Import professionals from CNES.",
+    description = "Replace CNES professional bonds using a UTF-8 CSV with the expected header and semicolon delimiter. Alphanumeric CBO and multiple CNS bonds are preserved. Invalid files return 400 without replacing data. Returns importedRecords after commit.",
     parameters = {
       @Parameter(
         name = "Authorization",
@@ -128,8 +128,7 @@ public class DataSusController {
       )
     }
   )
-  public ResponseEntity<Void> importCnesProfessionals(@RequestParam("file") MultipartFile file) {
-    this.cnesService.importDataProfessionals(file);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<CnesImportResponseDTO> importCnesProfessionals(@RequestParam("file") MultipartFile file) {
+    return ResponseEntity.ok(this.cnesService.importDataProfessionals(file));
   }
 }
