@@ -2,6 +2,10 @@ package com.project.healthsystem.controller;
 
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.service.datasus.CnesService;
+import com.project.healthsystem.service.datasus.CnesProfessionalService;
+import com.project.healthsystem.service.datasus.CnesEstabilishmentService;
+import com.project.healthsystem.controller.dto.basic_responses.CnesProfessionalResponseDTO;
+import com.project.healthsystem.controller.dto.basic_responses.CnesEstabilishmentResponseDTO;
 import com.project.healthsystem.service.datasus.SigtapService;
 import com.project.healthsystem.service.datasus.SigtapProcedureService;
 import com.project.healthsystem.controller.dto.basic_responses.SigtapProcedureResponseDTO;
@@ -37,6 +41,8 @@ public class DataSusController {
   private final Ciap2Service ciap2Service;
   private final SigtapService sigtapService;
   private final SigtapProcedureService sigtapProcedureService;
+  private final CnesProfessionalService cnesProfessionalService;
+  private final CnesEstabilishmentService cnesEstabilishmentService;
 
   @GetMapping("/sigtap/procedures")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
@@ -130,5 +136,49 @@ public class DataSusController {
   )
   public ResponseEntity<CnesImportResponseDTO> importCnesProfessionals(@RequestParam("file") MultipartFile file) {
     return ResponseEntity.ok(this.cnesService.importDataProfessionals(file));
+  }
+
+  @GetMapping("/cnes/professionals")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(summary = "Search CNES professionals",
+    description = "Partial name or CNS search; exact CNES and CBO filters (combined with AND). Each row is a professional bond. "
+      + "Search ignores case. Ordered by name and id. page-number starts at 0; page-length is 1 to 100 (default 10).")
+  public ResponseEntity<Page<CnesProfessionalResponseDTO>> findProfessionals(
+      @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
+      @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
+      @RequestParam(value = "search", required = false) String search,
+      @RequestParam(value = "cnes", required = false) String cnes,
+      @RequestParam(value = "cbo", required = false) String cbo
+  ) {
+    return ResponseEntity.ok(cnesProfessionalService.findAll(pageNumber, pageLength, search, cnes, cbo));
+  }
+
+  @GetMapping("/cnes/professionals/{id}")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(summary = "Find CNES professional bond",
+    description = "Returns 404 when the imported catalog ID does not exist.")
+  public ResponseEntity<CnesProfessionalResponseDTO> findProfessional(@PathVariable("id") long id) {
+    return ResponseEntity.ok(cnesProfessionalService.findById(id));
+  }
+
+  @GetMapping("/cnes/estabilishments")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(summary = "Search CNES estabilishments",
+    description = "Partial legal/trade name, CNES or CNPJ search. "
+      + "Search ignores case. Ordered by tradeName and id. page-number starts at 0; page-length is 1 to 100 (default 10).")
+  public ResponseEntity<Page<CnesEstabilishmentResponseDTO>> findEstabilishments(
+      @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
+      @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
+      @RequestParam(value = "search", required = false) String search
+  ) {
+    return ResponseEntity.ok(cnesEstabilishmentService.findAll(pageNumber, pageLength, search));
+  }
+
+  @GetMapping("/cnes/estabilishments/{id}")
+  @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
+  @Operation(summary = "Find CNES establishment",
+    description = "Returns 404 when the imported catalog ID does not exist.")
+  public ResponseEntity<CnesEstabilishmentResponseDTO> findEstabilishment(@PathVariable("id") long id) {
+    return ResponseEntity.ok(cnesEstabilishmentService.findById(id));
   }
 }

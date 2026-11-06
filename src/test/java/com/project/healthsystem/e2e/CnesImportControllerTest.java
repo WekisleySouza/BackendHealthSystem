@@ -33,7 +33,7 @@ class CnesImportControllerTest {
         @Bean CnesService service(CnesImportService importer) { return new CnesService(new CnesCsvReader(),importer); }
         @Bean DataSusController controller(CnesService service) {
             return new DataSusController(service,mock(Cid10Service.class),mock(Ciap2Service.class),
-                mock(SigtapService.class),mock(SigtapProcedureService.class));
+                mock(SigtapService.class),mock(SigtapProcedureService.class), mock(CnesProfessionalService.class), mock(CnesEstabilishmentService.class));
         }
     }
     @Autowired DataSusController controller;

@@ -24,7 +24,7 @@ class SigtapProcedureApiTest {
     @BeforeEach void setup() {
         var service = new SigtapProcedureService(repository, Mappers.getMapper(SigtapProcedureMapper.class));
         mvc = MockMvcBuilders.standaloneSetup(new DataSusController(mock(CnesService.class),
-            mock(Cid10Service.class), mock(Ciap2Service.class), mock(SigtapService.class), service))
+            mock(Cid10Service.class), mock(Ciap2Service.class), mock(SigtapService.class), service, mock(CnesProfessionalService.class), mock(CnesEstabilishmentService.class)))
             .setControllerAdvice(new GlobalExceptionHandler()).build();
     }
 

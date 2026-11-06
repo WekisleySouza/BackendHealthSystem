@@ -26,7 +26,7 @@ class SigtapControllerTest {
         @Bean SigtapService sigtapService() { return mock(SigtapService.class); }
         @Bean DataSusController controller(SigtapService service) {
             return new DataSusController(mock(CnesService.class), mock(Cid10Service.class),
-                mock(Ciap2Service.class), service, mock(SigtapProcedureService.class));
+                mock(Ciap2Service.class), service, mock(SigtapProcedureService.class), mock(CnesProfessionalService.class), mock(CnesEstabilishmentService.class));
         }
     }
     @Autowired DataSusController controller;
