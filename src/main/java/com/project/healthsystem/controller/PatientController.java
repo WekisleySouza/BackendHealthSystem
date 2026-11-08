@@ -1,5 +1,7 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.docs.PatientApiDocs;
+
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
@@ -15,15 +17,6 @@ import com.project.healthsystem.controller.dto.simplified_info.PatientSimplified
 import com.project.healthsystem.controller.dto.simplified_info.PatientSimplifiedResponseDTO;
 import com.project.healthsystem.model.Patient;
 import com.project.healthsystem.service.PatientService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,64 +35,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/patients")
 @RequiredArgsConstructor
-@Tag(name = "Patients", description = "Operations related to patients management.")
-public class PatientController {
+
+public class PatientController implements PatientApiDocs {
   private final PatientService patientService;
   
   @PostMapping
   @PreAuthorize(Permissions.ADMIN)
-  @Operation(
-    summary = "Create patient",
-    description = "Create a new patient.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "201", description = "Created successfully."),
-    @ApiResponse(
-      responseCode = "400",
-      description = "Invalid data sent in the request.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Related resource not found (responsible, etc.).",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "409",
-      description = "Conflict - duplicated register or integrity violation.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "422",
-      description = "Unprocessable Entity - validation errors on fields.",
-      content = @Content(
-        mediaType = "application/json",
-        array = @ArraySchema(schema = @Schema(implementation = ErrorResponseDTO.class))
-      )
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Void> save(
     @RequestHeader("Authorization") String authHeader,
     @RequestBody @Valid PatientRequestDTO person
@@ -118,55 +60,7 @@ public class PatientController {
   
   @PutMapping("{id}")
   @PreAuthorize(Permissions.ADMIN)
-  @Operation(
-    summary = "Update patient",
-    description = "Update an existing patient.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "204", description = "Updated successfully."),
-    @ApiResponse(
-      responseCode = "400",
-      description = "Invalid data sent in the request.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Patient not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "409",
-      description = "Conflict - integrity violation.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "422",
-      description = "Unprocessable Entity - validation errors on fields.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Object> update(
     @RequestHeader("Authorization") String authHeader,
     @PathVariable("id") long id,
@@ -179,37 +73,7 @@ public class PatientController {
   
   @GetMapping("{id}")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Find by id",
-    description = "Find a patient by id."
-  )
-  @ApiResponses({
-    @ApiResponse(
-      responseCode = "200",
-      description = "Patient found successfully.",
-      content = @Content(schema = @Schema(implementation = PatientResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Patient not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<PatientResponseDTO> read(@PathVariable("id") long id) {
     PatientResponseDTO patientResponseDTO = patientService.findById(id);
     return ResponseEntity.ok(patientResponseDTO);
@@ -217,37 +81,7 @@ public class PatientController {
   
   @GetMapping("/info-patient/{id}")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Get patient info",
-    description = "Get patient detailed info by id."
-  )
-  @ApiResponses({
-    @ApiResponse(
-      responseCode = "200",
-      description = "Patient info retrieved successfully.",
-      content = @Content(schema = @Schema(implementation = PatientInfoResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Patient not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<PatientInfoResponseDTO> getPatientInfoById(@PathVariable("id") long id) {
     PatientInfoResponseDTO patientInfoDTO = patientService.getPatientInfo(id);
     return ResponseEntity.ok(patientInfoDTO);
@@ -255,35 +89,7 @@ public class PatientController {
   
   @GetMapping("/simplified-list")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Get patients simplified list",
-    description = "Get patients list containing only id, name, cpf, and mother name."
-  )
-  @ApiResponses({
-    @ApiResponse(
-      responseCode = "200",
-      description = "Patients simplified list retrieved successfully.",
-      content = @Content(
-        mediaType = "application/json",
-        array = @ArraySchema(schema = @Schema(implementation = PatientSimplifiedInfoDTO.class))
-      )
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<List<PatientSimplifiedInfoDTO>> getAllPatientInfo() {
     List<PatientSimplifiedInfoDTO> patientSimplifiedInfoDTOS = patientService.getSimplifiedPatients();
     return ResponseEntity.ok(patientSimplifiedInfoDTOS);
@@ -291,32 +97,7 @@ public class PatientController {
   
   @GetMapping("/get-all-simplified")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Get all patients simplified",
-    description = "Get paginated patients with simplified information."
-  )
-  @ApiResponses({
-    @ApiResponse(
-      responseCode = "200",
-      description = "Patients page (simplified) retrieved successfully.",
-      content = @Content(schema = @Schema(implementation = PatientSimplifiedResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Page<PatientSimplifiedResponseDTO>> readAllSimplified(
     @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
     @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
@@ -329,32 +110,7 @@ public class PatientController {
   
   @GetMapping
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Get all patients",
-    description = "Get paginated patients with optional filters."
-  )
-  @ApiResponses({
-    @ApiResponse(
-      responseCode = "200",
-      description = "Patients page retrieved successfully.",
-      content = @Content(schema = @Schema(implementation = PatientResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Page<PatientResponseDTO>> readAll(
     @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
     @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -402,38 +158,7 @@ public class PatientController {
   
   @DeleteMapping("{id}")
   @PreAuthorize(Permissions.ADMIN)
-  @Operation(
-    summary = "Delete patient",
-    description = "Delete a patient by id."
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "204", description = "Deleted successfully."),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Patient not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "409",
-      description = "Conflict - integrity violation (patient in use, for example).",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Object> delete(@PathVariable("id") long id) {
     patientService.delete(id);
     return ResponseEntity.noContent().build();
@@ -451,24 +176,7 @@ public class PatientController {
   }
   @PostMapping("/sync-patients")
   @PreAuthorize("hasRole('API')")
-  @Operation(
-    summary = "Synchronize patients from PEC",
-    description = "Create or update patients using data received from PEC.",
-    parameters = {
-      @Parameter(name = "Authorization", description = "Bearer access token", required = true)
-    }
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "Patients synchronized successfully."),
-    @ApiResponse(responseCode = "400", description = "Invalid request body.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))),
-    @ApiResponse(responseCode = "401", description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))),
-    @ApiResponse(responseCode = "403", description = "Forbidden - API role required.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))),
-    @ApiResponse(responseCode = "500", description = "Unexpected server error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
-  })
+
   public ResponseEntity<Void> syncPatients(@RequestBody @Valid List<PersonBackupInfoDTO> patients) {
     patientService.syncExternalDataBase(patients);
     return ResponseEntity.ok().build();

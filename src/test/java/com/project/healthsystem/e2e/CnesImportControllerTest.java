@@ -27,7 +27,7 @@ import static builders.CnesFixtures.*;
 
 @SpringJUnitConfig(CnesImportControllerTest.Config.class)
 class CnesImportControllerTest {
-    @Configuration @EnableMethodSecurity
+    @Configuration @EnableMethodSecurity(proxyTargetClass = true)
     static class Config {
         @Bean CnesImportService importer() { return mock(CnesImportService.class); }
         @Bean CnesService service(CnesImportService importer) { return new CnesService(new CnesCsvReader(),importer); }

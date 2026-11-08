@@ -1,5 +1,7 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.docs.DataSusApiDocs;
+
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.service.datasus.CnesService;
 import com.project.healthsystem.service.datasus.CnesProfessionalService;
@@ -19,9 +21,6 @@ import com.project.healthsystem.controller.dto.basic_responses.Cid10ResponseDTO;
 import com.project.healthsystem.controller.dto.basic_responses.Ciap2ResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,8 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/datasus")
 @RequiredArgsConstructor
-@Tag(name = "DATASUS Endpoints", description = "Operations related to DATASUS syncing.")
-public class DataSusController {
+
+public class DataSusController implements DataSusApiDocs {
   private final CnesService cnesService;
   private final Cid10Service cid10Service;
   private final Ciap2Service ciap2Service;
@@ -46,9 +45,7 @@ public class DataSusController {
 
   @GetMapping("/sigtap/procedures")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Search SIGTAP procedures",
-    description = "Partial code or name search, ignoring case. Ordered by code. "
-      + "page-number starts at 0; page-length is 1 to 100 (default 10). Invalid pagination returns 400.")
+  
   public ResponseEntity<Page<SigtapProcedureResponseDTO>> findSigtapProcedures(
       @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
       @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
@@ -59,8 +56,7 @@ public class DataSusController {
 
   @GetMapping("/sigtap/procedures/{id}")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Find SIGTAP procedure",
-    description = "Returns the imported procedure and its hierarchy. Returns 404 when the ID does not exist.")
+  
   public ResponseEntity<SigtapProcedureResponseDTO> findSigtapProcedure(@PathVariable("id") long id) {
     return ResponseEntity.ok(sigtapProcedureService.findById(id));
   }
@@ -68,9 +64,7 @@ public class DataSusController {
   // Temporary endpoint for validating the SIGTAP import.
   @PostMapping("/import-sigtap")
   @PreAuthorize(Permissions.ADMIN)
-  @Operation(summary = "Force SIGTAP import (temporary test endpoint)",
-    description = "Downloads and imports the latest SIGTAP ZIP, even if already imported. "
-      + "Returns only after commit, with the file, competence and imported counts. Administrator only.")
+  
   public ResponseEntity<SigtapImportResponseDTO>
       importSigtap() throws IOException {
     return ResponseEntity.ok(sigtapService.importSigtap());
@@ -78,10 +72,7 @@ public class DataSusController {
 
   @GetMapping("/cid10")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Search CID-10 catalog",
-    description = "Search by partial code or description, ignoring case. Ordered by code. "
-      + "page-number starts at 0; page-length must be between 1 and 100. "
-      + "Includes inactive PEC entries. Invalid pagination returns 400.")
+  
   public ResponseEntity<Page<Cid10ResponseDTO>> findCid10(
       @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
       @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
@@ -92,10 +83,7 @@ public class DataSusController {
 
   @GetMapping("/ciap2")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Search CIAP-2 catalog",
-    description = "Search by partial code or description, ignoring case. Ordered by code. "
-      + "page-number starts at 0; page-length must be between 1 and 100. "
-      + "Includes all imported codes, without asserting RNDS eligibility. Invalid pagination returns 400.")
+  
   public ResponseEntity<Page<Ciap2ResponseDTO>> findCiap2(
       @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
       @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
@@ -106,43 +94,21 @@ public class DataSusController {
   
   @PostMapping(value = "/import-cnes-estabilishments", consumes = "multipart/form-data")
   @PreAuthorize(Permissions.ADMIN)
-  @Operation(
-    summary = "Import estabilishments",
-    description = "Replace the CNES establishment catalog using a UTF-8 CSV with the expected header and semicolon delimiter. Invalid files return 400 without replacing data. Returns importedRecords after commit.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
+  
   public ResponseEntity<CnesImportResponseDTO> importCnesEstabilishments(@RequestParam("file") MultipartFile file) {
     return ResponseEntity.ok(this.cnesService.importDataEstabilishments(file));
   }
   
   @PostMapping(value = "/import-cnes-professionals", consumes = "multipart/form-data")
   @PreAuthorize(Permissions.ADMIN)
-  @Operation(
-    summary = "Import professionals",
-    description = "Replace CNES professional bonds using a UTF-8 CSV with the expected header and semicolon delimiter. Alphanumeric CBO and multiple CNS bonds are preserved. Invalid files return 400 without replacing data. Returns importedRecords after commit.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
+  
   public ResponseEntity<CnesImportResponseDTO> importCnesProfessionals(@RequestParam("file") MultipartFile file) {
     return ResponseEntity.ok(this.cnesService.importDataProfessionals(file));
   }
 
   @GetMapping("/cnes/professionals")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Search CNES professionals",
-    description = "Partial name or CNS search; exact CNES and CBO filters (combined with AND). Each row is a professional bond. "
-      + "Search ignores case. Ordered by name and id. page-number starts at 0; page-length is 1 to 100 (default 10).")
+  
   public ResponseEntity<Page<CnesProfessionalResponseDTO>> findProfessionals(
       @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
       @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
@@ -155,17 +121,14 @@ public class DataSusController {
 
   @GetMapping("/cnes/professionals/{id}")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Find CNES professional bond",
-    description = "Returns 404 when the imported catalog ID does not exist.")
+  
   public ResponseEntity<CnesProfessionalResponseDTO> findProfessional(@PathVariable("id") long id) {
     return ResponseEntity.ok(cnesProfessionalService.findById(id));
   }
 
   @GetMapping("/cnes/estabilishments")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Search CNES estabilishments",
-    description = "Partial legal/trade name, CNES or CNPJ search. "
-      + "Search ignores case. Ordered by tradeName and id. page-number starts at 0; page-length is 1 to 100 (default 10).")
+  
   public ResponseEntity<Page<CnesEstabilishmentResponseDTO>> findEstabilishments(
       @RequestParam(value = "page-number", defaultValue = "0") int pageNumber,
       @RequestParam(value = "page-length", defaultValue = "10") int pageLength,
@@ -176,8 +139,7 @@ public class DataSusController {
 
   @GetMapping("/cnes/estabilishments/{id}")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Find CNES establishment",
-    description = "Returns 404 when the imported catalog ID does not exist.")
+  
   public ResponseEntity<CnesEstabilishmentResponseDTO> findEstabilishment(@PathVariable("id") long id) {
     return ResponseEntity.ok(cnesEstabilishmentService.findById(id));
   }

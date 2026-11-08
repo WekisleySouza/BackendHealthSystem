@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringJUnitConfig(SigtapControllerTest.Config.class)
 class SigtapControllerTest {
-    @Configuration @EnableMethodSecurity
+    @Configuration @EnableMethodSecurity(proxyTargetClass = true)
     static class Config {
         @Bean SigtapService sigtapService() { return mock(SigtapService.class); }
         @Bean DataSusController controller(SigtapService service) {

@@ -1,5 +1,7 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.docs.ServiceTypeApiDocs;
+
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.ErrorResponseDTO;
@@ -8,14 +10,6 @@ import com.project.healthsystem.controller.dto.basic_responses.ServiceTypeRespon
 import com.project.healthsystem.controller.dto.simplified_info.ServiceTypeSimplifiedResponseDTO;
 import com.project.healthsystem.model.ServiceType;
 import com.project.healthsystem.service.ServiceTypeService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,59 +26,13 @@ import java.net.URI;
 @RestController
 @RequestMapping("/service-types")
 @RequiredArgsConstructor
-@Tag(name = "Service Types", description = "Operations related to service types management.")
-public class ServiceTypeController {
+
+public class ServiceTypeController implements ServiceTypeApiDocs {
     private final ServiceTypeService serviceTypeService;
 
     @PostMapping
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Create service type",
-            description = "Create a new service type.",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Created successfully."),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid data sent in the request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - duplicated register or integrity violation.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "422",
-                    description = "Unprocessable Entity - validation errors on fields.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ErrorResponseDTO.class))
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     public ResponseEntity<Void> save(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody @Valid ServiceTypeRequestDTO serviceTypeRequestDTO
@@ -103,55 +51,7 @@ public class ServiceTypeController {
 
     @PutMapping("{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Update service type",
-            description = "Update an existing service type.",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Updated successfully."),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid data sent in the request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized - invalid or missing credentials.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden - user does not have permission.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Service type not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "422",
-                    description = "Unprocessable Entity - validation errors on fields.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     public ResponseEntity<Object> update(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable("id") long id,
@@ -164,69 +64,14 @@ public class ServiceTypeController {
 
     @GetMapping("/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    @Operation(
-            summary = "Find by id",
-            description = "Find a service type by id."
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Service type found successfully.",
-                    content = @Content(schema = @Schema(implementation = ServiceTypeResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Service type not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     public ResponseEntity<Object> read(@PathVariable("id") long id){
         return ResponseEntity.ok(serviceTypeService.findById(id));
     }
 
     @GetMapping("/get-all-simplified")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-    @Operation(
-            summary = "Get all simplified",
-            description = "Get paginated service types with simplified information."
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Service types page (simplified) retrieved successfully.",
-                    content = @Content(schema = @Schema(implementation = ServiceTypeSimplifiedResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     public ResponseEntity<Page<ServiceTypeSimplifiedResponseDTO>> readAllSimplified(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
             @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength
@@ -238,32 +83,7 @@ public class ServiceTypeController {
     }
 
     @GetMapping
-    @Operation(
-            summary = "Get all service types",
-            description = "Get paginated service types with optional filters."
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Service types page retrieved successfully.",
-                    content = @Content(schema = @Schema(implementation = ServiceTypeResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<ServiceTypeResponseDTO>> readAll(
             @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
@@ -287,38 +107,7 @@ public class ServiceTypeController {
 
     @DeleteMapping("delete-replace-with-new/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Delete service type",
-            description = "Delete a service type by id.  Returns the number of service types updated."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Deleted successfully."),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Service type not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation (service type in use, for example).",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     public ResponseEntity<Object> deleteWhenNewServiceType(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable("id") long id,
@@ -329,38 +118,6 @@ public class ServiceTypeController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(
-            summary = "Delete service type",
-            description = "Delete a service type by id. Returns the number of service types updated."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Deleted successfully."),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Service type not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation (service type in use, for example).",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
     @DeleteMapping("delete-replace-with/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<Integer> deleteWhenInnered(
@@ -371,42 +128,9 @@ public class ServiceTypeController {
         return ResponseEntity.ok(replacedNumber);
     }
 
-
-
     @DeleteMapping("{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Delete service type",
-            description = "Delete a service type by id."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Deleted successfully."),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Service type not found.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation (service type in use, for example).",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     public ResponseEntity<Object> delete(@PathVariable("id") long id){
         serviceTypeService.delete(id);
         return ResponseEntity.noContent().build();
@@ -414,54 +138,9 @@ public class ServiceTypeController {
 
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-    @Operation(
-            summary = "Import patients",
-            description = "Import patients from a CSV file (multipart/form-data).",
-            parameters = {
-                    @Parameter(
-                            name = "Authorization",
-                            description = "Bearer access token",
-                            required = true
-                    )
-            }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Imported successfully."
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid file or request.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Conflict - integrity violation during import.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Unexpected server error.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-            )
-    })
+
     public ResponseEntity<String> importExcel(
-        @Parameter(
-            description = "CSV file",
-            required = true,
-            content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
-        )
+        
         @RequestParam("file") MultipartFile file
     ){
         serviceTypeService.importCsv(file);

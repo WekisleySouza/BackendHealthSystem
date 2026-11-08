@@ -1,7 +1,12 @@
 package com.project.healthsystem.controller.dto.simplified_info;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(name = "AgentSimplifiedResponseDTO", description = "Dados retornados pela API. AgentSimplifiedResponseDTO.")
 public record AgentSimplifiedResponseDTO (
-        long id,
-        String name
+    @Schema(description = "Identificador interno do registro no Vitalya; não é o código do catálogo externo.")
+    long id,
+    @Schema(description = "Nome de exibição do registro.")
+    String name
 ){
 }

@@ -1,11 +1,11 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.docs.InstituitionApiDocs;
+
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.basic_requests.InstituitionRequestDTO;
 import com.project.healthsystem.controller.dto.basic_responses.InstituitionResponseDTO;
 import com.project.healthsystem.service.InstituitionService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +18,10 @@ import java.net.URI;
 @RestController
 @RequestMapping("/instituition")
 @RequiredArgsConstructor
-@Tag(
-    name = "Instituition",
-    description = "Operations related to instituitions management."
-)
-public class InstituitionController {
+
+public class InstituitionController implements InstituitionApiDocs {
     private final InstituitionService instituitionService;
 
-    @Operation(
-        summary = "Create instituition",
-        description = "Create a new instituition"
-    )
     @PostMapping
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<InstituitionResponseDTO> save(@RequestBody InstituitionRequestDTO instituitionRequestDTO){
@@ -41,10 +34,6 @@ public class InstituitionController {
         return ResponseEntity.created(location).build();
     }
 
-    @Operation(
-            summary = "Update instituition",
-            description = "Update instituition"
-    )
     @PutMapping("/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Object> update(
@@ -55,10 +44,6 @@ public class InstituitionController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(
-            summary = "Find instituition",
-            description = "Find an instituition by id"
-    )
     @GetMapping("/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<InstituitionResponseDTO> findById(
@@ -69,10 +54,6 @@ public class InstituitionController {
         );
     }
 
-    @Operation(
-            summary = "Find all instituitions",
-            description = "Find all instituitions"
-    )
     @GetMapping
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
     public ResponseEntity<Page<InstituitionResponseDTO>> findAll(
@@ -97,10 +78,6 @@ public class InstituitionController {
         );
     }
 
-    @Operation(
-        summary = "Delete instituition",
-        description = "Delete an instituition by id"
-    )
     @DeleteMapping("/{id}")
     @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
     public ResponseEntity<InstituitionResponseDTO> delete(

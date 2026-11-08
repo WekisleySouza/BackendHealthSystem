@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringJUnitConfig(PatientSyncControllerTest.Config.class)
 class PatientSyncControllerTest {
   @Configuration
-  @EnableMethodSecurity
+  @EnableMethodSecurity(proxyTargetClass = true)
   static class Config {
 
     @Bean

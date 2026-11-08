@@ -1,5 +1,7 @@
 package com.project.healthsystem.controller;
 
+import com.project.healthsystem.controller.docs.AppointmentsApiDocs;
+
 import com.project.healthsystem.controller.common.ControllerAuxFunctions;
 import com.project.healthsystem.controller.common.Permissions;
 import com.project.healthsystem.controller.dto.*;
@@ -17,14 +19,6 @@ import com.project.healthsystem.controller.dto.reports_specialties.NumberExamsBy
 import com.project.healthsystem.controller.dto.reports_specialties.NumberSpecialtiesByStatusDTO;
 import com.project.healthsystem.model.Appointment;
 import com.project.healthsystem.service.AppointmentService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,15 +43,15 @@ import java.util.function.Consumer;
 @RestController
 @RequestMapping("/appointments")
 @RequiredArgsConstructor
-@Tag(name = "Appointments", description = "Operations related to appointments management.")
-public class AppointmentsController {
+
+public class AppointmentsController implements AppointmentsApiDocs {
   
   private final AppointmentService appointmentService;
   private final com.project.healthsystem.service.AppointmentStatusHistoryService statusHistoryService;
 
   @GetMapping("/{id}/status-history")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(summary = "Get appointment status history", description = "Returns status changes, newest first. Automatic changes identify the author as Sistema.")
+  
   public ResponseEntity<Page<com.project.healthsystem.controller.dto.basic_responses.AppointmentStatusHistoryResponseDTO>> getStatusHistory(
     @PathVariable long id,
     @RequestParam(defaultValue = "0") int pageNumber,
@@ -66,61 +60,9 @@ public class AppointmentsController {
     return ResponseEntity.ok(statusHistoryService.findByAppointment(id, pageNumber, pageLength));
   }
 
-  
   @PostMapping
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Create appointment",
-    description = "Create a new appointment.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "201", description = "Created successfully."),
-    @ApiResponse(
-      responseCode = "400",
-      description = "Invalid data sent in the request.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Related resource not found (patient, professional, etc.).",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "409",
-      description = "Conflict - duplicated register or integrity violation.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "422",
-      description = "Unprocessable Entity - validation errors on fields.",
-      content = @Content(
-        mediaType = "application/json",
-        array = @ArraySchema(schema = @Schema(implementation = ErrorResponseDTO.class))
-      )
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Void> save(
     @RequestHeader("Authorization") String authHeader,
     @RequestBody @Valid AppointmentRequestDTO appointmentRequestDTO
@@ -139,55 +81,7 @@ public class AppointmentsController {
   
   @PutMapping("{id}")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Update appointment",
-    description = "Update an existing appointment.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "204", description = "Updated successfully."),
-    @ApiResponse(
-      responseCode = "400",
-      description = "Invalid data sent in the request.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Appointment not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "409",
-      description = "Conflict - integrity violation.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "422",
-      description = "Unprocessable Entity - validation errors on fields.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Object> update(
     @RequestHeader("Authorization") String authHeader,
     @PathVariable("id") long id,
@@ -199,37 +93,7 @@ public class AppointmentsController {
   }
   
   @GetMapping("/{id}")
-  @Operation(
-    summary = "Find by id",
-    description = "Find appointment by id."
-  )
-  @ApiResponses({
-    @ApiResponse(
-      responseCode = "200",
-      description = "Appointment found successfully.",
-      content = @Content(schema = @Schema(implementation = AppointmentGetByIdResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Appointment not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
   public ResponseEntity<AppointmentGetByIdResponseDTO> read(@PathVariable("id") long id) {
     return ResponseEntity.ok(appointmentService.findById(id));
@@ -237,32 +101,7 @@ public class AppointmentsController {
   
   @GetMapping
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Get all",
-    description = "Get all appointments with filters and pagination."
-  )
-  @ApiResponses({
-    @ApiResponse(
-      responseCode = "200",
-      description = "Appointments page retrieved successfully.",
-      content = @Content(schema = @Schema(implementation = AppointmentResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Page<AppointmentResponseDTO>> readAll(
     @RequestParam(value = "page-number", defaultValue = "0") Integer pageNumber,
     @RequestParam(value = "page-length", defaultValue = "10") Integer pageLength,
@@ -408,20 +247,7 @@ public class AppointmentsController {
 
   @GetMapping("/report-patients-pdf")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Generate patients report PDF",
-    description = "Generate a PDF with the appointments that match the filters. "
-      + "The 'fields' parameter chooses the columns (all when empty) and 'sort' uses the format field,asc|desc. "
-      + "Returns 400 when the number of records exceeds the configured limit."
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "PDF generated successfully.", content = @Content(mediaType = "application/pdf")),
-    @ApiResponse(
-      responseCode = "400",
-      description = "Invalid field, invalid sort or record limit exceeded.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public void reportAppointmentsPatientPdf(
     @ParameterObject PatientReportFilterDTO filter,
     @RequestParam(value = "fields", required = false) List<String> fields,
@@ -442,38 +268,7 @@ public class AppointmentsController {
   }
 
   @DeleteMapping("{id}")
-  @Operation(
-    summary = "Delete",
-    description = "Delete an appointment by id."
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "204", description = "Deleted successfully."),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Appointment not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "409",
-      description = "Conflict - integrity violation.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
   public ResponseEntity<Object> delete(@PathVariable("id") long id) {
     appointmentService.delete(id);
@@ -482,55 +277,7 @@ public class AppointmentsController {
   
   @PatchMapping("/set-appointments-to-pre-scheduled")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER)
-  @Operation(
-    summary = "Set appointments as pre scheduled",
-    description = "Set appointments to pre scheculed.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
-  @ApiResponses({
-    @ApiResponse(responseCode = "204", description = "Updated successfully."),
-    @ApiResponse(
-      responseCode = "400",
-      description = "Invalid data sent in the request.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "401",
-      description = "Unauthorized - invalid or missing credentials.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "403",
-      description = "Forbidden - user does not have permission.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "404",
-      description = "Appointment not found.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "409",
-      description = "Conflict - integrity violation.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "422",
-      description = "Unprocessable Entity - validation errors on fields.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    ),
-    @ApiResponse(
-      responseCode = "500",
-      description = "Unexpected error.",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class))
-    )
-  })
+
   public ResponseEntity<Object> setAppointmentsToPreScheduled(
     @RequestHeader("Authorization") String authHeader,
     @RequestBody @Valid PreSchedulingRequestDTO preSchedulingRequestDTO
@@ -541,17 +288,7 @@ public class AppointmentsController {
   
   @PatchMapping("/set-appointments-to-new-status")
   @PreAuthorize(Permissions.ADMIN_OR_MANAGER_OR_EMPLOYEE)
-  @Operation(
-    summary = "Set appointments to commom status",
-    description = "Set appointments commom status.",
-    parameters = {
-      @Parameter(
-        name = "Authorization",
-        description = "Bearer access token",
-        required = true
-      )
-    }
-  )
+  
   public ResponseEntity<Object> setAppointmentsToOtherStatus(
     @RequestHeader("Authorization") String authHeader,
     @RequestBody @Valid NewCommonStatusDTO preSchedulingRequestDTO

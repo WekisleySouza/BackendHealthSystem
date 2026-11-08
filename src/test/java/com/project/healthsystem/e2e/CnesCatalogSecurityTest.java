@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(CnesCatalogSecurityTest.Config.class)
 class CnesCatalogSecurityTest {
-    @Configuration @EnableMethodSecurity
+    @Configuration @EnableMethodSecurity(proxyTargetClass = true)
     static class Config {
         @Bean CnesProfessionalService professionals() { return mock(CnesProfessionalService.class); }
         @Bean CnesEstabilishmentService establishments() { return mock(CnesEstabilishmentService.class); }

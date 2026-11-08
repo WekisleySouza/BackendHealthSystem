@@ -13,31 +13,48 @@ import java.util.function.Consumer;
 
 @Data
 @NoArgsConstructor
+@Schema(name = "PersonBackupInfoDTO", description = "Dados enviados pelo frontend. PersonBackupInfoDTO.")
 public class PersonBackupInfoDTO {
 
+    @Schema(description = "Data e hora da última atualização na origem PEC. Formato AAAA-MM-DDTHH:mm:ss, sem offset/fuso, por exemplo 2026-11-08T09:30:00.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, type = "string", example = "2026-11-08T09:30:00", nullable = true)
     private LocalDateTime lastUpdate;
 
+    @Schema(description = "Identificação da microárea de acompanhamento.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String microArea;
+    @Schema(description = "Número do Cartão Nacional de Saúde como texto; preserve zeros à esquerda.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "000000000000001", nullable = true)
     private String cns;
+    @Schema(description = "Nome da mãe do paciente.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String motherName;
 
+    @Schema(description = "Identificador sequencial do cidadão no PEC, como texto.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String citizenSeqId;
+    @Schema(description = "Identificador único do cidadão na origem PEC.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String uniqueCitizenId;
 
+    @Schema(description = "Nome do paciente.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String patientName;
+    @Schema(description = "Campo recebido do PEC que a implementação atual copia para sex; verifique a semântica na origem.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String sexualOrientation;
+    @Schema(description = "Identidade de gênero informada no cadastro. Campo textual; não é um enum do Vitalya.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String gender;
 
+    @Schema(description = "CPF como texto; preserve zeros à esquerda. No cadastro é validado e normalizado pelo backend.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String cpf;
 
+    @Schema(description = "Telefone celular recebido do PEC.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String cellphone;
+    @Schema(description = "Telefone residencial.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String residentialPhone;
+    @Schema(description = "Telefone de contato alternativo.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String contactPhone;
 
+    @Schema(description = "Data de nascimento recebida do PEC. Formato AAAA-MM-DD, por exemplo 2026-11-08.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, type = "string", format = "date", example = "1990-05-20", nullable = true)
     private LocalDate birthDate;
 
+    @Schema(description = "Endereço de e-mail de contato.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "usuario@example.com", format = "email", nullable = true)
     private String email;
 
+    @Schema(description = "Endereço completo informado no cadastro.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
     private String address;
 
     @Schema(hidden = true)

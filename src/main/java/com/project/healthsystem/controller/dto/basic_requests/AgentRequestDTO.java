@@ -12,38 +12,53 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @NoArgsConstructor
-@Schema(name="Agente")
+
+@Schema(name = "AgentRequestDTO", description = "Dados enviados pelo frontend. AgentRequestDTO.")
 public class AgentRequestDTO {
 
     @NotBlank(message = "O nome é obrigatório!")
     @Size(max = 150, message = "O nome não pode ultrapassar 150 caracteres!")
-    @Schema(name = "name")
+
+    @Schema(description = "Nome de exibição do registro.", requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 150)
     private String name;
 
     @NotBlank(message = "O sexo é obrigatório!")
     @Size(max = 20, message = "O sexo não pode ultrapassar 20 caracteres!")
-    @Schema(name = "sex")
+
+    @Schema(description = "Sexo informado no cadastro ou na fonte de origem. Campo textual; não é um enum do Vitalya.", requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 20)
     private String sex;
     @NotBlank(message = "O gênero é obrigatório!")
     @Size(max = 50, message = "O gênero não pode ultrapassar 50 caracteres!")
-    @Schema(name = "gender")
+
+    @Schema(description = "Identidade de gênero informada no cadastro. Campo textual; não é um enum do Vitalya.", requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 50)
     private String gender;
     @Size(max = 20, message = "O telefone celular não pode ultrapassar 20 caracteres!")
+    
+    @Schema(description = "Telefone celular de contato.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, maxLength = 20, nullable = true)
     private String cellPhone;
     @Size(max = 20, message = "O telefone residencial não pode ultrapassar 20 caracteres!")
+    
+    @Schema(description = "Telefone residencial.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, maxLength = 20, nullable = true)
     private String residentialPhone;
     @Size(max = 20, message = "O telefone de contato não pode ultrapassar 20 caracteres!")
+    
+    @Schema(description = "Telefone de contato alternativo.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, maxLength = 20, nullable = true)
     private String contactPhone;
-
 
     @NotBlank(message = "O CPF é obrigatório!")
     @Size(max = 14, message = "O CPF deve ter no máximo 14 caracteres!")
     @CPF(message = "CPF inválido!")
+    
+    @Schema(description = "CPF como texto; preserve zeros à esquerda. No cadastro é validado e normalizado pelo backend.", requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 14)
     private String cpf;
     @Size(max = 255, message = "O endereço não pode ultrapassar 255 caracteres!")
+    
+    @Schema(description = "Endereço completo informado no cadastro.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, maxLength = 255, nullable = true)
     private String address;
 
     @NotNull(message = "A data de nascimento é obrigatória!")
+    
+    @Schema(description = "Data de nascimento. Formato AAAA-MM-DD, por exemplo 2026-11-08.", requiredMode = Schema.RequiredMode.REQUIRED, type = "string", format = "date", example = "1990-05-20")
     private LocalDate birthday;
 
     @Size(
@@ -51,13 +66,11 @@ public class AgentRequestDTO {
         message = "O e-mail não pode ultrapassar 320 caracteres!"
     )
     @Email(message = "Formato de e-mail inválido!")
-    @Schema(
-        name = "email",
-        maxLength = 320,
-        description = "Email do agente."
-    )
+
+    @Schema(description = "Endereço de e-mail de contato.", requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "usuario@example.com", format = "email", maxLength = 320, nullable = true)
     private String email;
 
+    @Schema(description = "CPF normalizado calculado pelo backend; não envie este campo.", accessMode = Schema.AccessMode.READ_ONLY)
     public String getCpfNormalized() {
         return cpf == null ? null : cpf.replaceAll("\\D", "");
     }
